@@ -18,4 +18,4 @@ The peer dependencies included from any npm packages does not automatically get 
 
 react-native link
 
-
+npm install redux react-redux --save
