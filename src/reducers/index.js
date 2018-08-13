@@ -1,6 +1,9 @@
 import {combineReducers} from 'redux';
-import countReducer from './countReducer.js';
+import splashReducer from './SplashReducer';
+
 const allReducers= combineReducers({
-    count: countReducer,
+    splash: splashReducer
 });
+
+
 export default allReducers;

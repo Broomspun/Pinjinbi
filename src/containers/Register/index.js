@@ -59,7 +59,7 @@ class Register extends Component {
                         <ListItem style={{marginLeft:10}}>
                             <CheckBox checked={true} color="black" />
                             <Body>
-                            <Text>记住密码</Text>
+                            <Text>我已阅读并同意《拼金币用户协议》</Text>
                             </Body>
                         </ListItem>
                         <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'}}>

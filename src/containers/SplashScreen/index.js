@@ -2,32 +2,25 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {NavigationActions} from 'react-navigation';
 import {connect} from 'react-redux';
-
+import {Actions} from 'react-native-router-flux';
+import {drawSplashScreen} from "./../../actions"
+import Timer from 'react-timer-mixin';
 import {Images, Constants} from '@common';
-import {View, Text, Image, StyleSheet, Platform, UIManager} from 'react-native';
-
-let prepared = false;
+import {View, Text, Image, Platform, UIManager} from 'react-native';
 
 class SplashScreen extends Component {
-
     constructor(props) {
         super(props);
-        this.state = {
-        };
-        // this.prepareData = this.prepareData.bind(this);
 
         if (Platform.OS === 'android') {
-            //noinspection JSUnresolvedFunction
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
     }
-
     componentDidMount() {
-        // setTimeout(this.props.navigation.navigate("Login"), Constants.SplashScreen.Duration);
-        // setTimeout('', 2000);
+        Timer.setTimeout(() => {
+            Actions.auth()
+        }, Constants.SplashScreen.Duration);
     }
 
     render() {
@@ -81,4 +74,10 @@ const styles ={
         height: null
     }
 };
-export default SplashScreen;
+
+const mapStoretoProps = (state) => {
+    const {loading} = state.splash;
+    return { loading };
+};
+
+export default connect(mapStoretoProps, {drawSplashScreen})(SplashScreen);

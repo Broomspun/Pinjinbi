@@ -3,8 +3,7 @@
  */
 import React, {Component} from 'react'
 
-// import {Images, Constants} from '@common';
-import {View, UIManager, TextInput} from 'react-native';
+
 import {
     Container, Content, Item, Input, Form, Label, Icon,
     Button, Text, CheckBox, ListItem, Body, Card, CardItem, Header, Footer,Left, Title, Right, FooterTab
