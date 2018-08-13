@@ -8,12 +8,13 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                <Scene key="splash" hideNavBar>
-                    <Scene key="splashscreen" component={SplashScreen}  timeout={2000}  nextScene={'auth'}  />
-                </Scene>
                 <Scene key="auth">
                     <Scene key="login" component ={Login} title="欢迎来到拼金币" titleStyle={styles.navigationBarTitleStyle} initial />
                     <Scene key="register" component ={Register} title="欢迎注册拼金币" titleStyle={styles.navigationBarTitleStyle} />
+                </Scene>
+
+                <Scene key="splash" hideNavBar>
+                    <Scene key="splashscreen" component={SplashScreen}  timeout={2000}  nextScene={'auth'}  />
                 </Scene>
             </Stack>
         </Router>

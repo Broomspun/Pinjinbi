@@ -3,8 +3,9 @@
  */
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
-import {loginParameterUpdated} from './../../actions'
-
+import {Spinner} from '@components';
+import {loginParameterUpdated, loginUser} from './../../actions'
+import {View} from 'react-native';
 import {
     Container, Content, Item, Input, Form, Icon,
     Button, Text, CheckBox, ListItem, Body, Card, CardItem
@@ -12,6 +13,32 @@ import {
 
 
 class Login extends Component {
+    onButtonPress() {
+        const {phone, password} = this.props;
+        this.props.loginUser({phone, password});
+    }
+    renderError() {
+        if(this.props.error) {
+            return (
+                <View style={{backgroundColor: 'white'}}>
+                    <Text style={styles.errorTextStyle}>{this.props.error}</Text>
+                </View>
+            )
+        }
+    }
+
+    renderButton() {
+        if(this.props.loading) {
+            return <Spinner size="large" />
+        }
+
+        return (
+            <Button block style={styles.buttonStyle} onPress = {this.onButtonPress.bind(this)}>
+                <Text style={{fontSize: 20}}>登录</Text>
+            </Button>
+        );
+    }
+
 
     render() {
         return (
@@ -46,9 +73,8 @@ class Login extends Component {
                                 <Text>记住密码</Text>
                             </Body>
                         </ListItem>
-                        <Button block style={styles.buttonStyle}>
-                            <Text style={{fontSize: 20}}>登录</Text>
-                        </Button>
+                        {this.renderError()}
+                        { this.renderButton() }
                     </Form>
                     <Card transparent >
                         <CardItem style={{backgroundColor: '#f8f8f8'}}>
@@ -80,11 +106,16 @@ const styles ={
     },
     buttonStyle: {
         marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
+    },
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
     }
 } ;
 
 const mapStateToProps = (state) => {
-    const {phone, password, remember} = state.loginForm;
-    return {phone, password, remember};
+    const {phone, password, remember, loading, error} = state.loginForm;
+    return {phone, password, remember, loading, error};
 };
-export default connect(mapStateToProps, {loginParameterUpdated})(Login);
+export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(Login);
