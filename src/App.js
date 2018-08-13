@@ -5,11 +5,10 @@ import {Provider} from 'react-redux';
 import Router from './routers'
 import { YellowBox } from 'react-native'
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
-// import {SplashNavigator} from './routes/SplashRoute';
 
-const store = createStore(allReducers);
 export default class App extends Component{
     render(){
+        const store = createStore(allReducers);
         return(
             <Provider store= {store}>
                 <Router />

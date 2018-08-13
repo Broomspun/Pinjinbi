@@ -8,3 +8,6 @@ export const SplashScreen = _SplashScreen;
 
 import _LoginForm from './Login';
 export const Login = _LoginForm;
+
+import _RegisterForm from './Register';
+export const Register = _RegisterForm;
