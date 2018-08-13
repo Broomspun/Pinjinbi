@@ -17,7 +17,7 @@ const dataArray = [
     { title: "Second Element", content: "Lorem ipsum dolor sit amet" },
     { title: "Third Element", content: "Lorem ipsum dolor sit amet" }
 ];
-
+import {SplashScreen} from "@containers";
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -28,34 +28,11 @@ export default class App extends Component<Props> {
   render() {
       return (
           <Container>
-              <Header>
-                  <Left>
-                      <Button transparent>
-                          <Icon name='menu' />
-                      </Button>
-                  </Left>
-                  <Body>
-                  <Title>Header123</Title>
-                  </Body>
-                  <Right />
-              </Header>
+              <Header />
               <Content>
-                  <Text>
-                      This is Content Section
-                  </Text>
-                  <Accordion
-                      dataArray={dataArray}
-                      headerStyle={{ backgroundColor: "#b7daf8" }}
-                      contentStyle={{ backgroundColor: "#ddecf8" }}
-                  />
+                  <SplashScreen />
               </Content>
-              <Footer>
-                  <FooterTab>
-                      <Button full>
-                          <Text>Footer</Text>
-                      </Button>
-                  </FooterTab>
-              </Footer>
+              <Footer />
           </Container>
       );
   }

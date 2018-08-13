@@ -8,13 +8,13 @@ class Counter extends Component{
     render(){
         console.log(this.props.count);
         return(
-            <Container>
+            <Container >
                 <Header>
                     <Body>
                     <Title>Redux Counter</Title>
                     </Body>
                 </Header>
-                <Content padder>
+                <Content padder >
                     <Card>
                         <CardItem>
                             <Text>
