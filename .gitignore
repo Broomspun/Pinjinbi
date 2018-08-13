@@ -27,6 +27,7 @@ project.xcworkspace
 android/
 ios/
 *.lock
+package-lock.json
 build/
 .idea
 .gradle
