@@ -4,11 +4,23 @@ import {
     FORGOTTEN_VERIFY_SUCCESS
 } from "./../actions/types";
 
+generatorCaptchaCode = (length) => {
+    let result = [];
+    let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+        let char = possible.charAt(Math.floor(Math.random() * possible.length));
+        result.push(char);
+    }
+
+    console.log('result', result.join(''));
+    return result.join('')
+};
 
 const INITIAL_STATE = {
     fv_phone: '13612345678',
-    fv_recaptcha: '',
+    fv_recaptchaMatch: '',
     fv_verifycode: '',
+    fv_recaptchaCode: generatorCaptchaCode(4),
     loading: false,
     error: '',
 };

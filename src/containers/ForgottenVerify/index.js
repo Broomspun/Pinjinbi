@@ -24,6 +24,7 @@ class ForgottenVerify extends Component {
     }
 
     render() {
+        console.log('forgotten',this);
         return(
             <Container>
                 <Content padder style={styles.contentStyle}>
@@ -42,10 +43,10 @@ class ForgottenVerify extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入图形验证码"
-                                value = {this.props.fv_recaptcha}
-                                onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptcha', value})}
+                                value = {this.props.fv_recaptchaMatch}
+                                onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptchaMatch', value})}
                             />
-                            <ReactCaptchaGenerator />
+                            <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
                         </Item>
                         <View style={{borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
                             <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0, alignItems: 'center'}}>
@@ -90,8 +91,8 @@ const styles ={
 };
 
 const mapStateToProps = (state) => {
-    const {fv_phone, fv_recaptcha, fv_verifycode, loading, error} = state.forgottenVerifyForm;
-    return  {fv_phone, fv_recaptcha, fv_verifycode, loading, error};
+    const {fv_phone, fv_recaptchaMatch, fv_verifycode, fv_recaptchaCode,loading, error} = state.forgottenVerifyForm;
+    return  {fv_phone, fv_recaptchaMatch, fv_verifycode, fv_recaptchaCode,loading, error};
 };
 
 export default connect(mapStateToProps, {forgottenVerifyParameterUpdated})(ForgottenVerify);
