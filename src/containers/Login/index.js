@@ -4,6 +4,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
+import {Actions} from 'react-native-router-flux'
 import {loginParameterUpdated, loginUser} from './../../actions'
 import {View} from 'react-native';
 import {
@@ -79,11 +80,11 @@ class Login extends Component {
                     <Card transparent >
                         <CardItem style={{backgroundColor: '#f8f8f8'}}>
                             <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
-                            <Button transparent >
+                            <Button transparent onPress = {()=>{Actions.forgottenverify()}}>
                                 <Text style={{color: '#000', fontSize: 18}}>忘记密码</Text>
                             </Button>
                             <Text style={{marginTop: 10, color: '#000', fontSize: 18}}>还没有账号</Text>
-                            <Button transparent>
+                            <Button transparent onPress={()=> {Actions.register()}}>
                                 <Text style={{ color: 'red', fontSize: 18}}>立即注册</Text>
                             </Button>
                             </Body>

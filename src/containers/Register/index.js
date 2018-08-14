@@ -4,7 +4,7 @@
 import React, {Component} from 'react'
 
 import {Images, Constants} from '@common';
-import {Image, View, UIManager} from 'react-native';
+import {Image, View, UIManager, TouchableOpacity} from 'react-native';
 import {
     Container, Content, Item, Input, Form, Label, Icon,
     Button, Text, CheckBox, ListItem, Body, Card, CardItem,
@@ -29,14 +29,14 @@ class Register extends Component {
                         </Item>
                         <View style={{borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
                             <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0}}>
-                                <View style={{flex: 2, flexDirection: 'row', borderTopWidth: 0}}>
-                                    <Icon name='commenting-o' type="FontAwesome" style={{marginTop: 10, marginLeft: 10, color: '#ccc', fontSize: 22, paddingTop: 3}}/>
+                                <View style={{flex: 3, flexDirection: 'row', borderTopWidth: 0, alignItems: 'center'}}>
+                                    <Icon name='commenting-o' type="FontAwesome" style={{marginLeft: 10, color: '#ccc', fontSize: 22}}/>
                                     <Input placeholderTextColor='#ccc' placeholder="请输入图像验证码" />
                                 </View>
-                                <View style={{flex: 1, alignItems: 'flex-end', backgroundColor:'#6ccf8d'}}>
-                                    <Button transparent style={{borderTopStartRadius:0,  borderBottomStartRadius: 0}}>
-                                        <Text style={{paddingTop: 5, color: 'white'}}>获取验证码</Text>
-                                    </Button>
+                                <View style={{flex: 1, backgroundColor:'#6ccf8d', flexDirection: 'column'}}>
+                                    <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        <Text style={{color: 'white', paddingLeft: 10}}>获取验证码</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
@@ -88,7 +88,7 @@ const styles ={
         paddingLeft: 0, paddingRight: 0, backgroundColor:'#f8f8f8'
     },
     itemStyle: {
-       borderRadius: 5, marginTop: 10, backgroundColor: 'white'
+        borderRadius: 5, marginTop: 10, backgroundColor: 'white'
     }
 };
 export default Register;

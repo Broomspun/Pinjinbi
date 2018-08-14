@@ -11,3 +11,12 @@ export const Login = _LoginForm;
 
 import _RegisterForm from './Register';
 export const Register = _RegisterForm;
+
+import _Home from './Home';
+export const Home = _Home;
+
+import _ForgottenVerify from './ForgottenVerify';
+export const ForgottenVerify = _ForgottenVerify;
+
+import _ForgottenPassword from './ForgottenPassword';
+export const ForgottenPassword = _ForgottenPassword;
