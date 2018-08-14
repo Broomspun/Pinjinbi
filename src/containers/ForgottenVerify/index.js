@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Platform, UIManager, Image, View,TouchableOpacity} from "react-native";
+import {Spinner} from "../../components";
+import {ReactCaptchaGenerator} from "../../components";
+
 import {Images} from "../../common";
 import { Container, Form, Item, Content, Input, Button, Icon, Text } from 'native-base';
-import {Platform, UIManager, Image, View,TouchableOpacity} from "react-native";
+import {forgottenVerifyParameterUpdated} from "../../actions";
 
 class ForgottenVerify extends Component {
     constructor(props) {
@@ -37,9 +42,10 @@ class ForgottenVerify extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入图形验证码"
-                                value = {this.props.password}
+                                value = {this.props.fv_recaptcha}
                                 onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptcha', value})}
                             />
+                            <ReactCaptchaGenerator />
                         </Item>
                         <View style={{borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
                             <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0, alignItems: 'center'}}>
@@ -82,4 +88,11 @@ const styles ={
         marginTop: 20, borderRadius: 5, backgroundColor: '#5c91f0'
     },
 };
-export default ForgottenVerify;
+
+const mapStateToProps = (state) => {
+    const {fv_phone, fv_recaptcha, fv_verifycode, loading, error} = state.forgottenVerifyForm;
+    return  {fv_phone, fv_recaptcha, fv_verifycode, loading, error};
+};
+
+export default connect(mapStateToProps, {forgottenVerifyParameterUpdated})(ForgottenVerify);
+
