@@ -15,8 +15,6 @@ class ForgottenVerify extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
-
-        console.log(props);
     }
 
     onButtonPress(){
@@ -24,7 +22,6 @@ class ForgottenVerify extends Component {
     }
 
     render() {
-        console.log('forgotten',this);
         return(
             <Container>
                 <Content padder style={styles.contentStyle}>
@@ -38,17 +35,26 @@ class ForgottenVerify extends Component {
                                 onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_phone', value})}
                             />
                         </Item>
-                        <Item regular style={styles.itemStyle}>
-                            <Image style={{marginLeft: 10, width: 20, height: 20}} source={Images.imageIcon} />
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="请输入图形验证码"
-                                value = {this.props.fv_recaptchaMatch}
-                                onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptchaMatch', value})}
-                            />
-                            <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
-                        </Item>
-                        <View style={{borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
+                        <View style={styles.cardStyle}>
+                            <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0, alignItems: 'center'}}>
+                                <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
+                                    <Image style={{marginLeft: 10, width: 20, height: 20, justifyContent: 'center' }} source={Images.imageIcon} />
+                                    <Input
+                                        placeholderTextColor='#ccc'
+                                        placeholder="请输入图形验证码"
+                                        value = {this.props.fv_recaptchaMatch}
+                                        onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptchaMatch', value})}
+                                    />
+                                </View>
+                                <View style={{flex: 1, flexDirection: 'column'}}>
+                                    <Image style={{position: 'absolute'}} source={Images.captchBackground} />
+                                    <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={styles.cardStyle}>
                             <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0, alignItems: 'center'}}>
                                 <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
                                     <Image style={{marginLeft: 10, width: 20, height: 20}} source={Images.verifyCodeIcon} />
@@ -88,6 +94,11 @@ const styles ={
     buttonStyle: {
         marginTop: 20, borderRadius: 5, backgroundColor: '#5c91f0'
     },
+    captchaStyle: {
+        borderRadius: 5, marginTop: 10, backgroundColor: 'white',flex: 1, flexDirection: 'row',
+        justifyContent: 'center', borderColor: '#ccc',borderWidth: 1
+    },
+    cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}
 };
 
 const mapStateToProps = (state) => {

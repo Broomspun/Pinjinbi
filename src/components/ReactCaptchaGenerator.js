@@ -41,7 +41,6 @@ class ReactCaptchaGenerator extends Component {
 
 
     setData() {
-        console.log('setDta', this.props)
         const text = this.props.captchaCode;
         let length = this.props.captchaCode.length;
         if (text != '') {
@@ -75,7 +74,7 @@ class ReactCaptchaGenerator extends Component {
 
     render() {
         return (
-        <View style={{flexDirection: 'row', flex: 1, justifyContent:'flex-end', paddingRight: 5}}>
+        <View style={{flexDirection: 'row', height: null, justifyContent:'flex-end', paddingRight: 5}}>
             {this.state.captchas.map(captcha =>
             <Text style={captcha.captchaStyle} key={captcha.key}>{captcha.character}</Text>)}
         </View>
