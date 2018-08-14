@@ -15,7 +15,7 @@ class ReactCaptchaGenerator extends Component {
             paddingTop: props.paddingTop,
             length: props.length,
             background: props.background,
-            captchaCode: props.fv_captchaCode
+            captchaCode: props.captchaCode,
         };
         this.setData = this.setData.bind(this);
     }
@@ -24,11 +24,16 @@ class ReactCaptchaGenerator extends Component {
         this.setData();
     }
 
-    componentWillReceiveProps({toggleRefresh}) {
-        if (toggleRefresh != this.props.toggleRefresh) {
+    componentWillReceiveProps(nextProps) {
+        // console.log(nextProps.captchaCode);
+        // console.log(this.props.captchaCode);
+        this.props  = nextProps;
+        // this.setState({captchaCode: nextProps.captchaCode});
+        // if (nextProps.captchaCode == this.props.captchaCode) {
             this.setData();
-        }
+        // }
     }
+
 
     getRandomColor() {
         let letters = '0123456789ABCDEF';
@@ -69,7 +74,7 @@ class ReactCaptchaGenerator extends Component {
             this.originText.push(char);
         }
 
-        this.setState({captchaCode: this.originText.join(''), captchas: this.text});
+        this.setState({captchaCode: text, captchas: this.text});
     }
 
     render() {

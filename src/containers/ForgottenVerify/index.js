@@ -6,7 +6,7 @@ import {ReactCaptchaGenerator} from "../../components";
 
 import {Images} from "../../common";
 import { Container, Form, Item, Content, Input, Button, Icon, Text } from 'native-base';
-import {forgottenVerifyParameterUpdated} from "../../actions";
+import {forgottenVerifyParameterUpdated, regenerateRecaptchaCode} from "../../actions";
 
 class ForgottenVerify extends Component {
     constructor(props) {
@@ -15,6 +15,10 @@ class ForgottenVerify extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+    }
+
+    onRegenerateRecaptcahaCode() {
+        this.props.regenerateRecaptchaCode();
     }
 
     onButtonPress(){
@@ -47,8 +51,8 @@ class ForgottenVerify extends Component {
                                     />
                                 </View>
                                 <View style={{flex: 1, flexDirection: 'column'}}>
-                                    <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                    <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                    <TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        <Image style={{position: 'absolute'}} source={Images.captchBackground} />
                                         <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
                                     </TouchableOpacity>
                                 </View>
@@ -106,5 +110,5 @@ const mapStateToProps = (state) => {
     return  {fv_phone, fv_recaptchaMatch, fv_verifycode, fv_recaptchaCode,loading, error};
 };
 
-export default connect(mapStateToProps, {forgottenVerifyParameterUpdated})(ForgottenVerify);
+export default connect(mapStateToProps, {forgottenVerifyParameterUpdated, regenerateRecaptchaCode})(ForgottenVerify);
 

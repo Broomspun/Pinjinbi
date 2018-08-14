@@ -1,7 +1,8 @@
 import {
     FORGOTTEN_VERIFY_PARAMETER_UPDATED,
     FORGOTTEN_VERIFY_FAIL,
-    FORGOTTEN_VERIFY_SUCCESS
+    FORGOTTEN_VERIFY_SUCCESS,
+    REGENERATE_CAPTCHACODE
 } from "./../actions/types";
 
 generatorCaptchaCode = (length) => {
@@ -12,9 +13,9 @@ generatorCaptchaCode = (length) => {
         result.push(char);
     }
 
-    console.log('result', result.join(''));
     return result.join('')
 };
+
 
 const INITIAL_STATE = {
     fv_phone: '13612345678',
@@ -26,10 +27,11 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action.payload);
     switch (action.type) {
         case FORGOTTEN_VERIFY_PARAMETER_UPDATED:
-            return {...state, [action.payload.prop]: action.payload.value }
+            return {...state, [action.payload.prop]: action.payload.value };
+        case REGENERATE_CAPTCHACODE:
+            return {...state, fv_recaptchaCode: action.payload.value};
         default:
             return state;
     }

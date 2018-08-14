@@ -6,8 +6,10 @@ import {
 } from './../actions/types';
 
 const INITIAL_STATE = {
-    phone: '13612345678',
-    password: '123456',
+    phone: '18641568923',
+    // phone: '13612345678',
+    password: 'password123',
+    // password: '123456',
     remember: true,
     loading: false,
     error: '',

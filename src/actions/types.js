@@ -10,4 +10,5 @@ export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
 export const FORGOTTEN_VERIFY_PARAMETER_UPDATED = 'forgotten_verify_parameter_updated';
 export const FORGOTTEN_VERIFY_SUCCESS = 'forgotten_verify_success';
 export const FORGOTTEN_VERIFY_FAIL = 'forgotten_verify_fail';
+export const REGENERATE_CAPTCHACODE = 'regenerate_recaptcha_code';
 
