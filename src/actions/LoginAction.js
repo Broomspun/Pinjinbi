@@ -19,10 +19,16 @@ export const loginUser = ({phone, password}) => {
     return (dispatch) => {
         dispatch ({type: LOGIN_USER_ATTEMPTING});//For Spinner
 
-        const params = new URLSearchParams();
-        params.append('Mobile', phone);
-        params.append('PassWord', password);
-        axios.post('http://pjbapi.wtvxin.com/api/Login/LoginByMobile', params)
+        // const params = new URLSearchParams();
+        // params.append('Mobile', phone);
+        // params.append('PassWord', password);
+
+        let instance = axios.create({
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        });
+        instance.post('http://pjbapi.wtvxin.com/api/Login/LoginByMobile',
+            `Mobile=${phone}&PassWord=${password}`
+        )
             .then(user =>{
                 console.log(user);
                 if(user.data.errcode ===0) {
