@@ -15,6 +15,7 @@ const INITIAL_STATE = {
     rg_captcha_match: '',
     rg_captcha_code: generatorCaptchaCode(4),
     rg_verify_code: '',
+    rg_invite_code: '',
     rg_verified: null,
     rg_qq_code: '',
     rg_qq_group: '',

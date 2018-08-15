@@ -20,6 +20,7 @@ import {ReactCaptchaGenerator} from "../../components";
 
 import getTheme from './../../../native-base-theme/components';
 import platform from './../../../native-base-theme/variables/platform';
+import {generatorCaptchaCode} from "../../Helper";
 
 
 class Register extends Component {
@@ -53,7 +54,7 @@ class Register extends Component {
                     <Text style={{color: 'white'}}>拼金币用户注册协议</Text>
                 </View>
                 <View style={{position: 'absolute', right: 5}}>
-                    <Button transparent onPress={()=> this.setState({visibleModal: null})}>
+                    <Button transparent onPress={()=> this.setState({visibleModal: null, bTerm: true})}>
                         <Icon style={{color: 'white'}} name='close' />
                     </Button>
                 </View>
@@ -106,6 +107,31 @@ class Register extends Component {
 
         if(rg_phone && rg_captcha_match === rg_captcha_code)
             this.props.requestVerifyCode_register({rg_phone,  rg_captcha_match});
+    }
+
+    registerUser() {
+        const {bTerm} = this.state;
+        const {rg_phone,rg_password,rg_captcha_match,rg_captcha_code,rg_verify_code,rg_qq_code,rg_qq_group} = this.props;
+
+        if(!bTerm) {
+            Toast.show({
+                text: "点击 “立即注册” 表示同意",
+                buttonText: "是",
+                type: "warning",
+                duration: 2000
+            });
+            return;
+        }
+
+        if(rg_captcha_code !== rg_captcha_match) {
+            Toast.show({
+                text: "Incorrect captcha code",
+                buttonText: "是",
+                type: "warning",
+                duration: 2000
+            });
+            return;
+        }
     }
 
     render() {
@@ -224,14 +250,14 @@ class Register extends Component {
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',alignItems: 'center', justifyContent: 'flex-start', marginTop: 10}}>
                                 <View>
-                                    <CheckBox checked={this.state.bTerm} color="white" style={{borderColor: '#ccc' }} onPress={()=> this.setState({bTerm: !this.state.bTerm})} />
+                                    <CheckBox checked={this.state.bTerm} color="white" style={{borderColor: '#ccc' }} /*onPress={()=> this.setState({bTerm: !this.state.bTerm})}*/ />
                                 </View>
                                 <View style={{marginLeft: 20, flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style={{fontSize: 14}}>点击 “立即注册” 表示同意</Text>
                                     <Button transparent light onPress={()=>this.setState({visibleModal: 1})}><Text style={{color: 'red'}}>《用户协议》</Text></Button>
                                 </View>
                             </View>
-                            <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0', height: 42}}>
+                            <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0', height: 42}} onPress={this.registerUser.bind(this)}>
                                 <Text style={{fontSize: 18}}>立即注册</Text>
                             </Button>
                         </Form>
@@ -320,10 +346,10 @@ const styles ={
 
 
 const mapStateToProps = (state) => {
-    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,
+    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,rg_invite_code,
         rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading} = state.registerForm;
 
-    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,
+    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_invite_code,
         rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading};
 };
 export default connect(mapStateToProps,
