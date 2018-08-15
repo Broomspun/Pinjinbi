@@ -178,8 +178,9 @@ class Register extends Component {
                             <View>
                                 <CheckBox checked={true} color="black" style={{}} />
                             </View>
-                            <View style={{marginLeft: 20}}>
-                                <Text style={{fontSize: 14}}>点击 “立即注册” 表示同意《用户协议》</Text>
+                            <View style={{marginLeft: 20, flexDirection: 'row', alignItems: 'center'}}>
+                                <Text style={{fontSize: 14}}>点击 “立即注册” 表示同意</Text>
+                                <Button transparent light><Text style={{color: 'red'}}>《用户协议》</Text></Button>
                             </View>
                         </View>
                         <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0', height: 42}}>

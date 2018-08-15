@@ -23,7 +23,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-    console.log('state', state);
     switch (action.type) {
         case REGISTER_PARAMETER_UPDATED:
             return {...state, [action.payload.prop]: action.payload.value};

@@ -61,7 +61,8 @@ class ReactCaptchaGenerator extends Component {
                         paddingLeft: 5,
                         fontFamily: this.state.fontFamily,
                         fontSize: 22,
-                        fontWeight: 'bold',
+                        textShadowColor: 'black',
+                        textShadowOffset:  { width: 1, height: 1 },
                         color: `${this.props.textColor ? this.props.textColor : this.getRandomColor()}`,
                         transform: [{rotate: `${Math.random() * 0 + 0}rad`}]
                     },
@@ -71,6 +72,7 @@ class ReactCaptchaGenerator extends Component {
             );
             this.originText.push(char);
         }
+        console.log(this.text);
 
         this.setState({captchaCode: text, captchas: this.text});
     }
