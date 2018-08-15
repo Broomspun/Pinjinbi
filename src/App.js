@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Root } from "native-base";
 import allReducers from './reducers/index.js';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
@@ -13,7 +14,9 @@ export default class App extends Component{
         const store = createStore(allReducers, {}, applyMiddleware(ReduxThunk));//{} ->Initial State
         return(
             <Provider store= {store}>
+                <Root>
                 <Router />
+                </Root>
             </Provider>
         );
     }

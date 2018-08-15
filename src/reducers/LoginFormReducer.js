@@ -13,10 +13,12 @@ const INITIAL_STATE = {
     remember: true,
     loading: false,
     error: '',
+    user: null
 };
 let remember_status = INITIAL_STATE.remember;
 
 export default (state = INITIAL_STATE, action) => {
+    console.log(action);
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
             console.log(action.payload.prop);
@@ -29,9 +31,9 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_ATTEMPTING:
             return {...state, loading: true, error: ''};
         case LOGIN_USER_SUCCESS:
-            return {...state, ...INITIAL_STATE };
+            return {...state, ...INITIAL_STATE, user: action.payload.user, msg: action.payload.msg };
         case LOGIN_USER_FAIL:
-            return {...state, error: action.payload, loading: false};
+            return {...state, error: action.payload, loading: false, user: null};
         default:
             return state;
     }

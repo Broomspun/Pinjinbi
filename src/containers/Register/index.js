@@ -2,81 +2,137 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {Actions} from 'react-native-router-flux'
 
 import {Images, Constants} from '@common';
 import {Image, View, UIManager, TouchableOpacity} from 'react-native';
 import {
     Container, Content, Item, Input, Form, Label, Icon,
-    Button, Text, CheckBox, ListItem, Body, Card, CardItem,
-    Left, Right
+    Button, Text, CheckBox, Toast
+
 } from 'native-base';
 
+import {registerParameterUpdated, generateCaptchaCode_register} from './../../actions'
+
+import {ReactCaptchaGenerator} from "../../components";
 
 class Register extends Component {
+
+    onRegenerateRecaptcahaCode() {
+        this.props.generateCaptchaCode_register();
+        Toast.show({
+            text: "Captcha code changed!",
+            buttonText: "是",
+            type: "success"
+        });
+    }
 
     render() {
         return (
             <Container>
                 <Content padder style={styles.contentStyle}>
-                    <Form >
-                        <Item regular style={{borderRadius: 5, backgroundColor: 'white'}}>
-                            <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
-                            <Input placeholderTextColor='#ccc'  style={{padding: 0,  margin: 0}} placeholder="请输入手机号码，用于登录和找回密码" />
-                        </Item>
+                    <View style={styles.logoStyle}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Image style={{width: 36, height: 50}} source={Images.splashScreen}/>
+                            <View style={{flexDirection: 'column'}}>
+                                <Text style={styles.textLarge}>拼金币</Text>
+                                <Text style={styles.textSmall}>www.pinjinbi.com</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <Form style={{marginBottom: 0}}>
                         <Item regular style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} name='file-image-o' type="FontAwesome" />
-                            <Input placeholderTextColor='#ccc' placeholder="请输入图像验证码" />
+                            <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
+                            <Input
+                                placeholderTextColor='#ccc'
+                                style={styles.inputStyle}
+                                placeholder="请输入手机号码，用于登录和找回密码"
+                                value = {this.props.rg_phone}
+                                onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_phone', value})}
+                            />
                         </Item>
-                        <View style={{borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
+                        <View style={styles.cardStyle}>
+                            <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0, alignItems: 'center'}}>
+                                <View style={{flex: 3, flexDirection: 'row', alignItems: 'center'}}>
+                                    <Image style={{marginLeft: 10, width: 16, height: 16, justifyContent: 'center' }} source={Images.imageIcon} />
+                                    <Input
+                                        style={styles.inputStyle}
+                                        placeholderTextColor='#ccc'
+                                        placeholder="请输入图形验证码"
+                                        value = {this.props.rg_captcha_match}
+                                        onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_captcha_match', value})}
+                                    />
+                                </View>
+                                <View style={{flex: 1, flexDirection: 'column'}}>
+                                    <TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        <Image style={{position: 'absolute'}} source={Images.captchBackground} />
+                                        <ReactCaptchaGenerator captchaCode={this.props.rg_captcha_code} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{height: 37, borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff'}}>
                             <View style={{flex: 1, flexDirection: 'row', paddingBottom: 0, marginBottom: 0}}>
                                 <View style={{flex: 3, flexDirection: 'row', borderTopWidth: 0, alignItems: 'center'}}>
-                                    <Icon name='commenting-o' type="FontAwesome" style={{marginLeft: 10, color: '#ccc', fontSize: 22}}/>
-                                    <Input placeholderTextColor='#ccc' placeholder="请输入图像验证码" />
+                                    <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.smsIcon}/>
+                                    <Input
+                                        style={styles.inputStyle}
+                                        placeholderTextColor='#ccc'
+                                        placeholder="请输入图像验证码"
+                                        value = {this.props.rg_verify_code}
+                                        onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_verify_code', value})}
+                                    />
                                 </View>
                                 <View style={{flex: 1, backgroundColor:'#6ccf8d', flexDirection: 'column'}}>
                                     <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }}>
-                                        <Text style={{color: 'white', paddingLeft: 10}}>获取验证码</Text>
+                                        <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>获取验证码</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                         <Item regular style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} name='lock'  />
-                            <Input placeholderTextColor='#ccc' placeholder="请输入6到16位数字、字母组合登录密码" />
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
+                            <Input
+                                style={styles.inputStyle}
+                                placeholderTextColor='#ccc'
+                                placeholder="请输入6到16位数字、字母组合登录密码"
+                                secureTextEntry
+                                value = {this.props.rg_password}
+                                onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_password', value})}
+                            />
                         </Item>
                         <Item regular style={styles.itemStyle}>
-                            <Image style={{marginLeft: 5, width: 20, height: 20}} source={Images.qqIcon}/>
-                            <Input placeholderTextColor='#ccc' placeholder="请输入QQ号" />
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.qqIcon}/>
+                            <Input style={styles.inputStyle} placeholderTextColor='#ccc' placeholder="请输入QQ号" />
                         </Item>
                         <Item regular style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} name='envelope-o' type="FontAwesome" />
-                            <Input placeholderTextColor='#ccc' placeholder="请输入邮箱" />
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.handIcon}/>
+                            <Input style={styles.inputStyle} placeholderTextColor='#ccc' placeholder="没有邀请人不用填写" />
                         </Item>
                         <Item regular style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} name='lock'  />
-                            <Input placeholderTextColor='#ccc' placeholder="请输入邀请码" />
+                            <Input style={styles.inputStyle1} placeholderTextColor='#606060' placeholder="官方新人QQ群" />
                         </Item>
-                        <ListItem style={{marginLeft:10}}>
-                            <CheckBox checked={true} color="black" />
-                            <Body>
-                            <Text>我已阅读并同意《拼金币用户协议》</Text>
-                            </Body>
-                        </ListItem>
-                        <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'}}>
-                            <Text style={{fontSize: 20}}>登录</Text>
+                        <View style={{flex: 1, flexDirection: 'row',alignItems: 'center', justifyContent: 'flex-start', marginTop: 10}}>
+                            <View>
+                                <CheckBox checked={true} color="black" style={{}} />
+                            </View>
+                            <View style={{marginLeft: 20}}>
+                                <Text style={{fontSize: 14}}>点击 “立即注册” 表示同意《用户协议》</Text>
+                            </View>
+                        </View>
+                        <Button block style={{ marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0', height: 42}}>
+                            <Text style={{fontSize: 18}}>立即注册</Text>
                         </Button>
-
                     </Form>
-                    <Card transparent>
-                        <CardItem>
-                            <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
-                            <Text style={{marginTop: 10, color: '#000', fontSize: 18}}>已有账号?</Text>
-                            <Button transparent>
-                                <Text style={{ color: 'red', fontSize: 18}}>立即注册</Text>
-                            </Button>
-                            </Body>
-                        </CardItem>
-                    </Card>
+                    <View style={{flex:1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row', marginTop: 10}}>
+                        <View>
+                            <Text style={{ color: '#000', fontSize: 16}}>已有账号?</Text>
+                        </View>
+                        <Button transparent>
+                            <Text style={{ color: 'red', fontSize: 16}}>立即登录</Text>
+                        </Button>
+                    </View>
                 </Content>
             </Container>
         );
@@ -88,7 +144,46 @@ const styles ={
         paddingLeft: 0, paddingRight: 0, backgroundColor:'#f8f8f8'
     },
     itemStyle: {
-        borderRadius: 5, marginTop: 10, backgroundColor: 'white'
-    }
+        borderRadius: 5, marginTop: 10, backgroundColor: 'white', padding:0, height: 38
+    },
+    textLarge: {
+        marginLeft: 5,
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#5c91f0'
+    },
+    textSmall: {
+        marginLeft: 5,
+        fontSize: 12,
+        fontWeight: 'bold',
+        color: '#9b9b9b'
+    },
+    logoStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'center',
+        paddingTop: 30,
+        paddingBottom: 30,
+        backgroundColor: 'white'
+    },
+    inputStyle:{
+        height: 37, padding: 0,  margin:0, fontSize: 14
+    },
+    inputStyle1:{
+        height: 37, padding: 0,  margin:10, fontSize: 14
+    },
+    cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff', height: 36}
+
 };
-export default Register;
+
+
+const mapStateToProps = (state) => {
+    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_verify_code} = state.registerForm;
+    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_verify_code};
+};
+export default connect(mapStateToProps,
+    {
+        registerParameterUpdated,
+        generateCaptchaCode_register
+    })(Register);

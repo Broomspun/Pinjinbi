@@ -25,13 +25,10 @@ class ReactCaptchaGenerator extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log(nextProps.captchaCode);
-        // console.log(this.props.captchaCode);
-        this.props  = nextProps;
-        // this.setState({captchaCode: nextProps.captchaCode});
-        // if (nextProps.captchaCode == this.props.captchaCode) {
+        if (nextProps.captchaCode !== this.props.captchaCode) {
+            this.props  = nextProps;
             this.setData();
-        // }
+        }
     }
 
 
@@ -63,9 +60,9 @@ class ReactCaptchaGenerator extends Component {
                     captchaStyle: {
                         paddingLeft: 5,
                         fontFamily: this.state.fontFamily,
-                        fontSize: 26,
+                        fontSize: 22,
                         color: `${this.props.textColor ? this.props.textColor : this.getRandomColor()}`,
-                        transform: [{rotate: `${Math.random() * 1.57 + 0}rad`}]
+                        transform: [{rotate: `${Math.random() * 0 + 0}rad`}]
                     },
                     character: `${char}`,
                     key: i

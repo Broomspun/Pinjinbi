@@ -1,11 +1,12 @@
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
+import {generatorCaptchaCode} from './../Helper'
 
 import {
     FORGOTTEN_VERIFY_PARAMETER_UPDATED,
     FORGOTTEN_VERIFY_FAIL,
     FORGOTTEN_VERIFY_SUCCESS,
-    REGENERATE_CAPTCHACODE
+    REGENERATE_CAPTCHACODE, LOGIN_USER_SUCCESS
 } from "./types";
 
 export const forgottenVerifyParameterUpdated = ({ prop, value }) => {
@@ -14,20 +15,46 @@ export const forgottenVerifyParameterUpdated = ({ prop, value }) => {
         payload: {prop, value}
     }
 };
-generatorCaptchaCode = (length) => {
-    let result = [];
-    let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < length; i++) {
-        let char = possible.charAt(Math.floor(Math.random() * possible.length));
-        result.push(char);
-    }
-
-    return result.join('')
-};
 
 export const regenerateRecaptchaCode = () => {
     return {
         type: REGENERATE_CAPTCHACODE,
         payload: {value: generatorCaptchaCode(4)}
     }
+};
+
+export const requestVerifyCode = ({fv_phone,  fv_recaptchaCode}) =>{
+  return (dispatch) =>{
+
+      let instance = axios.create({
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      });
+
+      instance.post('http://pjbapi.wtvxin.com/api/Login/GetUserSms',
+          `Mobile=${fv_phone}&VerifyType=${fv_recaptchaCode}`)
+          .then (res=> {
+              console.log(res);
+              console.log(res.data.errcode);
+              if(res.data.errcode===0){
+                  requestSuccess(dispatch, res.data.msg)
+              } else {
+                  requestFail(dispatch, res.data.msg);
+              }
+          })
+          .catch(()=> requestFail(dispatch, 'failed'))
+  }
+};
+
+const requestSuccess = (dispatch) => {
+    dispatch({
+        type: FORGOTTEN_VERIFY_SUCCESS,
+        payload: msg
+    });
+};
+
+const requestFail = (dispatch, msg) => {
+  dispatch({
+      type: FORGOTTEN_VERIFY_FAIL,
+      payload: msg
+  });
 };

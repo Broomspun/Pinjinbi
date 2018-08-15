@@ -1,5 +1,6 @@
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
+import Timer from 'react-timer-mixin';
 
 import {
     LOGIN_PARAMETER_UPDATED,
@@ -19,10 +20,6 @@ export const loginUser = ({phone, password}) => {
     return (dispatch) => {
         dispatch ({type: LOGIN_USER_ATTEMPTING});//For Spinner
 
-        // const params = new URLSearchParams();
-        // params.append('Mobile', phone);
-        // params.append('PassWord', password);
-
         let instance = axios.create({
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
         });
@@ -32,7 +29,7 @@ export const loginUser = ({phone, password}) => {
             .then(user =>{
                 console.log(user);
                 if(user.data.errcode ===0) {
-                    loginUserSuccess(dispatch, user.data.obj)
+                    loginUserSuccess(dispatch, user.data.obj, user.data.msg)
                 } else {
                     loginUserFail(dispatch, user.data.msg);
                 }
@@ -48,11 +45,12 @@ const loginUserFail = (dispatch, msg)=>{
     })
 };
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = (dispatch, user, msg) => {
     dispatch({
         type: LOGIN_USER_SUCCESS,
-        payload: user
+        payload: {user: user, msg: msg}
     });
-
-    Actions.main();
+    Timer.setTimeout(() => {
+        Actions.main();
+    }, 2000);
 };
