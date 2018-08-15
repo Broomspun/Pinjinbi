@@ -6,7 +6,7 @@ import {
     FORGOTTEN_VERIFY_PARAMETER_UPDATED,
     FORGOTTEN_VERIFY_FAIL,
     FORGOTTEN_VERIFY_SUCCESS,
-    REGENERATE_CAPTCHACODE, LOGIN_USER_SUCCESS
+    REGENERATE_CAPTCHACODE
 } from "./types";
 
 export const forgottenVerifyParameterUpdated = ({ prop, value }) => {

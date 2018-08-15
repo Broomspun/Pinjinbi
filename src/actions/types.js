@@ -18,5 +18,6 @@ export const REGISTER_PARAMETER_UPDATED = 'register_parameter_updated';
 export const REGISTER_SUCCESS = 'register_success';
 export const REGISTER_FAIL = 'register_fail';
 export const REGISTER_VERIFY_FAIL = 'register_verify_fail';
+export const REGISTER_VERIFY = 'register_verify';
 export const REGISTER_VERIFY_SUCCESS = 'register_verify_success';
 export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code';

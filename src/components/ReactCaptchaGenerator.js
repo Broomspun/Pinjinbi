@@ -61,6 +61,7 @@ class ReactCaptchaGenerator extends Component {
                         paddingLeft: 5,
                         fontFamily: this.state.fontFamily,
                         fontSize: 22,
+                        fontWeight: 'bold',
                         color: `${this.props.textColor ? this.props.textColor : this.getRandomColor()}`,
                         transform: [{rotate: `${Math.random() * 0 + 0}rad`}]
                     },

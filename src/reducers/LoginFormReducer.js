@@ -18,10 +18,8 @@ const INITIAL_STATE = {
 let remember_status = INITIAL_STATE.remember;
 
 export default (state = INITIAL_STATE, action) => {
-    console.log(action);
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
-            console.log(action.payload.prop);
             if(action.payload.prop==='remember') {
                 remember_status = !remember_status;
                 return {...state, [action.payload.prop]: remember_status};

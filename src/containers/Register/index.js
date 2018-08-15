@@ -13,11 +13,32 @@ import {
 
 } from 'native-base';
 
-import {registerParameterUpdated, generateCaptchaCode_register} from './../../actions'
+import {Spinner, Spinner1} from "../../components";
+import {registerParameterUpdated, generateCaptchaCode_register, requestVerifyCode_register} from './../../actions'
 
 import {ReactCaptchaGenerator} from "../../components";
 
+
 class Register extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentWillMount() {
+
+    }
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps);
+        if(nextProps.rg_verified !=null) {
+            Toast.show({
+                text: nextProps.rg_verify_msg,
+                buttonText: "是",
+                type: nextProps.rg_verified ? "success": "danger",
+                duration: 1000
+            });
+        }
+    }
+
 
     onRegenerateRecaptcahaCode() {
         this.props.generateCaptchaCode_register();
@@ -28,7 +49,25 @@ class Register extends Component {
         });
     }
 
+    getUserSMSVerifyCode() {
+        const { rg_phone, rg_captcha_match, rg_captcha_code} = this.props;
+
+        if(rg_captcha_match !== rg_captcha_code) {
+            Toast.show({
+                text: "Captcha code incorrect!",
+                buttonText: "是",
+                type: "danger"
+            });
+            return
+        }
+
+        if(rg_phone && rg_captcha_match === rg_captcha_code)
+            this.props.requestVerifyCode_register({rg_phone,  rg_captcha_match});
+    }
+
     render() {
+
+        console.log(this.props);
         return (
             <Container>
                 <Content padder style={styles.contentStyle}>
@@ -85,7 +124,10 @@ class Register extends Component {
                                     />
                                 </View>
                                 <View style={{flex: 1, backgroundColor:'#6ccf8d', flexDirection: 'column'}}>
-                                    <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                    <TouchableOpacity
+                                        style={{flex: 1, height: null, justifyContent: 'center' }}
+                                        onPress={this.getUserSMSVerifyCode.bind(this)}
+                                    >
                                         <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>获取验证码</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -104,15 +146,34 @@ class Register extends Component {
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.qqIcon}/>
-                            <Input style={styles.inputStyle} placeholderTextColor='#ccc' placeholder="请输入QQ号" />
+                            <Input
+                                style={styles.inputStyle}
+                                placeholderTextColor='#ccc'
+                                placeholder="请输入QQ号"
+                                value = {this.props.rg_qq_code}
+                                onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_qq_code', value})}
+
+                            />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.handIcon}/>
                             <Input style={styles.inputStyle} placeholderTextColor='#ccc' placeholder="没有邀请人不用填写" />
                         </Item>
-                        <Item regular style={styles.itemStyle}>
-                            <Input style={styles.inputStyle1} placeholderTextColor='#606060' placeholder="官方新人QQ群" />
-                        </Item>
+                        <View regular style={styles.itemQQStyle} >
+                            <Input
+                                style={styles.inputStyle1}
+                                placeholderTextColor='#606060'
+                                placeholder="官方新人QQ群"
+                                value = {this.props.rg_qq_group}
+                                onChangeText = { value => this.props.registerParameterUpdated({ prop: 'rg_qq_group', value})}
+                            />
+                            <Button rounded style={styles.qqGroupStyle}>
+                                <View style={{borderRightWidth: 1, borderColor: 'white', paddingRight: 10 }}>
+                                <Image style={{ marginLeft: 10, width: 16, height: 16 }} source={Images.qqIcon_white}/>
+                                </View>
+                                <Text style={{justifyContent: 'flex-start', marginLeft: 0, paddingLeft: 10}}>加入QQ群</Text>
+                            </Button>
+                        </View>
                         <View style={{flex: 1, flexDirection: 'row',alignItems: 'center', justifyContent: 'flex-start', marginTop: 10}}>
                             <View>
                                 <CheckBox checked={true} color="black" style={{}} />
@@ -134,6 +195,7 @@ class Register extends Component {
                         </Button>
                     </View>
                 </Content>
+                {this.props.rg_verify_loading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
         );
     }
@@ -145,6 +207,11 @@ const styles ={
     },
     itemStyle: {
         borderRadius: 5, marginTop: 10, backgroundColor: 'white', padding:0, height: 38
+    },
+    itemQQStyle: {
+        flex: 1, flexDirection: 'row',
+        borderRadius: 5, marginTop: 10, backgroundColor: 'white', padding:0, height: 38,
+        alignItems: 'center', borderWidth: 1, borderColor: '#ccc'
     },
     textLarge: {
         marginLeft: 5,
@@ -171,19 +238,27 @@ const styles ={
         height: 37, padding: 0,  margin:0, fontSize: 14
     },
     inputStyle1:{
-        height: 37, padding: 0,  margin:10, fontSize: 14
+        height: 37, padding: 0,  margin:10, fontSize: 14, flex: 2
     },
-    cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff', height: 36}
+    cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff', height: 36},
+    qqGroupStyle: {
+        flexDirection: 'row',
+        height: 30, marginRight: 10, backgroundColor: '#76a7ff', marginTop: 3
+    }
 
 };
 
 
 const mapStateToProps = (state) => {
-    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_verify_code} = state.registerForm;
-    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_verify_code};
+    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,
+        rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading} = state.registerForm;
+
+    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,
+        rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading};
 };
 export default connect(mapStateToProps,
     {
         registerParameterUpdated,
-        generateCaptchaCode_register
+        generateCaptchaCode_register,
+        requestVerifyCode_register
     })(Register);
