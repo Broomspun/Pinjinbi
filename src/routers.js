@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         // centering for Android
         flex: 1,
         textAlign: 'center',
-        // height: 40
     }
 });
 
