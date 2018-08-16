@@ -15,12 +15,11 @@ import {
 } from 'native-base';
 
 import {Spinner, Spinner1} from "../../components";
-import {registerParameterUpdated, generateCaptchaCode_register, requestVerifyCode_register} from './../../actions'
+import {registerParameterUpdated, generateCaptchaCode_register, requestVerifyCode_register, registerUser} from './../../actions'
 import {ReactCaptchaGenerator} from "../../components";
 
 import getTheme from './../../../native-base-theme/components';
 import platform from './../../../native-base-theme/variables/platform';
-import {generatorCaptchaCode} from "../../Helper";
 
 
 class Register extends Component {
@@ -36,12 +35,19 @@ class Register extends Component {
 
     }
     componentWillReceiveProps(nextProps){
-        console.log(nextProps);
         if(nextProps.rg_verified !=null) {
             Toast.show({
                 text: nextProps.rg_verify_msg,
                 buttonText: "是",
                 type: nextProps.rg_verified ? "success": "danger",
+                duration: 1000
+            });
+        }
+        if(nextProps.rg_registered != null) {
+            Toast.show({
+                text: nextProps.rg_register_msg,
+                buttonText: "是",
+                type: nextProps.rg_registered ? "success": "danger",
                 duration: 1000
             });
         }
@@ -111,7 +117,7 @@ class Register extends Component {
 
     registerUser() {
         const {bTerm} = this.state;
-        const {rg_phone,rg_password,rg_captcha_match,rg_captcha_code,rg_verify_code,rg_qq_code,rg_qq_group} = this.props;
+        const {rg_phone,rg_password,rg_captcha_match,rg_captcha_code,rg_verify_code, rg_invite_code, rg_qq_code,rg_qq_group} = this.props;
 
         if(!bTerm) {
             Toast.show({
@@ -132,11 +138,40 @@ class Register extends Component {
             });
             return;
         }
+
+        if(rg_verify_code==='') {
+            Toast.show({
+                text: "Please enter verify code from your phone",
+                buttonText: "是",
+                type: "warning",
+                duration: 2000
+            });
+            return;
+        }
+
+        if(rg_phone==='') {
+            Toast.show({
+                text: "Please enter phone number",
+                buttonText: "是",
+                type: "danger",
+                duration: 2000
+            });
+            return;
+        }
+        if(rg_password ==='') {
+            Toast.show({
+                text: "Please enter password",
+                buttonText: "是",
+                type: "danger",
+                duration: 2000
+            });
+            return;
+        }
+
+        this.props.registerUser( {rg_phone, rg_verify_code, rg_password, rg_invite_code } );
     }
 
     render() {
-
-        console.log(this.props);
         return (
             <StyleProvider style={getTheme(platform)}>
                 <Container>
@@ -346,15 +381,16 @@ const styles ={
 
 
 const mapStateToProps = (state) => {
-    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,rg_invite_code,
+    const {rg_phone, rg_password, rg_captcha_match, rg_captcha_code,rg_invite_code,rg_register_msg, rg_registered,
         rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading} = state.registerForm;
 
-    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_invite_code,
+    return {rg_phone, rg_password, rg_captcha_match, rg_captcha_code, rg_invite_code,rg_register_msg,rg_registered,
         rg_verify_code,rg_qq_code, rg_qq_group, rg_verified, rg_verify_msg,rg_verify_loading};
 };
 export default connect(mapStateToProps,
     {
         registerParameterUpdated,
         generateCaptchaCode_register,
-        requestVerifyCode_register
+        requestVerifyCode_register,
+        registerUser
     })(Register);

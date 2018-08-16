@@ -27,7 +27,6 @@ export const loginUser = ({phone, password}) => {
             `Mobile=${phone}&PassWord=${password}`
         )
             .then(user =>{
-                console.log(user);
                 if(user.data.errcode ===0) {
                     loginUserSuccess(dispatch, user.data.obj, user.data.msg)
                 } else {
@@ -50,7 +49,9 @@ const loginUserSuccess = (dispatch, user, msg) => {
         type: LOGIN_USER_SUCCESS,
         payload: {user: user, msg: msg}
     });
-    Timer.setTimeout(() => {
-        Actions.main();
-    }, 2000);
+    if(user) {
+        Timer.setTimeout(() => {
+            Actions.main({user: user});
+        }, 2000);
+    }
 };

@@ -33,7 +33,6 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(nextProps);
         if(nextProps.error) {
             Toast.show({
                 text: `${nextProps.error}`,
@@ -64,7 +63,7 @@ class Login extends Component {
         }
 
         return (
-            <Button block style={styles.buttonStyle} onPress = {this.onButtonPress.bind(this)}>
+            <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ onPress = {this.onButtonPress.bind(this)} >
                 <Text style={{fontSize: 20}}>登录</Text>
             </Button>
         );
