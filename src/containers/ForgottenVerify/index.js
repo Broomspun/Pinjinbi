@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, UIManager, Image, View,TouchableOpacity} from "react-native";
+import {Actions} from 'react-native-router-flux';
 import {Spinner} from "../../components";
 import {ReactCaptchaGenerator} from "../../components";
 
@@ -21,7 +22,6 @@ class ForgottenVerify extends Component {
         }
     }
     componentWillReceiveProps(nextProps){
-        console.log(nextProps);
         if(nextProps.fv_phone==='') {
             Toast.show({
                 text: "Please type phone number!",
@@ -67,10 +67,6 @@ class ForgottenVerify extends Component {
 
     }
 
-    onButtonPress(){
-
-    }
-
     render() {
         return(
             <Container>
@@ -99,6 +95,7 @@ class ForgottenVerify extends Component {
                                 <View style={{flex: 1, flexDirection: 'column'}}>
                                     <TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>
                                         <Image style={{position: 'absolute'}} source={Images.captchBackground} />
+                                        {/*<Image style={{position: 'absolute'}} source={{uri:'http://pjbapi.wtvxin.com/api/Member/GetImageCode'}}  style={{ width: null, height: 30}}/>*/}
                                         <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
                                     </TouchableOpacity>
                                 </View>
@@ -124,7 +121,7 @@ class ForgottenVerify extends Component {
                                 </View>
                             </View>
                         </View>
-                        <Button block style={styles.buttonStyle} onPress = {this.onButtonPress.bind(this)}>
+                        <Button block style={styles.buttonStyle} onPress = {()=> Actions.forgottenpassword()}>
                             <Text style={{fontSize: 18}}>下一步</Text>
                         </Button>
                     </Form>

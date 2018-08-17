@@ -8,7 +8,7 @@ import {
 import {generatorCaptchaCode} from './../Helper'
 
 const INITIAL_STATE = {
-    fv_phone: '13612345678',
+    fv_phone: '18641568923',
     fv_recaptchaMatch: '',
     fv_verifycode: '',
     fv_recaptchaCode: generatorCaptchaCode(4),

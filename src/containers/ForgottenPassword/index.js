@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
+import {Platform, UIManager, Image} from "react-native";
+import { Container, Form, Content, Button, Input, Item, Icon, Text} from 'native-base';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import {Platform, UIManager} from "react-native";
-
+import {Spinner,Spinner1} from "../../components";
+import {Images} from "@common";
 class ForgottenPassword extends Component {
+    state = {
+        fv_phone: '',
+        fp_password: '',
+        fp_repeat_password: '',
+    };
     constructor(props) {
         super(props);
 
@@ -13,53 +19,79 @@ class ForgottenPassword extends Component {
 
         console.log(props);
     }
+
+    renderButton() {
+        if(this.props.loading) {
+            return <Spinner size="large" />
+        }
+
+        return (
+            <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ >
+                <Text style={{fontSize: 20}}>完成</Text>
+            </Button>
+        );
+    }
+
+    renderError() {
+
+    }
+
     render() {
         return(
             <Container>
-                <Content>
+                <Content padder>
                     <Form>
-                        <Item regular underline={false} style={{borderRadius: 5, backgroundColor: 'white'}}>
+                        <Item regular underline={false} style={styles.itemStyle}>
                             <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入手机号码"
-                                value = {this.props.phone}
-                                onChangeText = {value => this.props.loginParameterUpdated({prop: 'phone', value})}
+                                value = {this.state.fv_phone}
+                                onChangeText = {value => this.setState({fv_phone: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} name='lock' />
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
                             <Input
                                 placeholderTextColor='#ccc'
-                                secureTextEntry placeholder="请输入密码"
-                                value = {this.props.password}
-                                onChangeText = {value => this.props.loginParameterUpdated({prop: 'password', value})}
+                                secureTextEntry placeholder="请输入6-12位密码"
+                                value = {this.state.fp_password}
+                                onChangeText = {value => this.setState({fp_password: value})}
                             />
                         </Item>
-                        <ListItem style={{marginLeft:10}}>
-                            <CheckBox
-                                checked={this.props.remember}
-                                color="black"
-                                onPress = {value => this.props.loginParameterUpdated({prop: 'remember', value})}
+                        <Item regular style={styles.itemStyle}>
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
+                            <Input
+                                placeholderTextColor='#ccc'
+                                secureTextEntry placeholder="请再次输入新密码"
+                                value = {this.state.fp_repeat_password}
+                                onChangeText = {value => this.setState({fp_repeat_password: value})}
                             />
-                            <Body>
-                            <Text>记住密码</Text>
-                            </Body>
-                        </ListItem>
-                        {this.renderError()}
+                        </Item>
+                         {this.renderError()}
                         { this.renderButton() }
                     </Form>
                 </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button full>
-                            <Text>Footer</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
         );
     }
 }
 
+const styles = {
+    contentStyle: {
+        backgroundColor:'#f8f8f8',
+        flex:1
+    },
+    itemStyle: {
+        borderRadius: 5, backgroundColor: 'white', marginTop: 10, height: 37
+    },
+    buttonStyle: {
+        marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
+    },
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    }
+};
 export default ForgottenPassword;

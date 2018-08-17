@@ -33,6 +33,7 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+
         if(nextProps.error) {
             Toast.show({
                 text: `${nextProps.error}`,

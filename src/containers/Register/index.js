@@ -285,7 +285,7 @@ class Register extends Component {
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',alignItems: 'center', justifyContent: 'flex-start', marginTop: 10}}>
                                 <View>
-                                    <CheckBox checked={this.state.bTerm} color="white" style={{borderColor: '#ccc' }} /*onPress={()=> this.setState({bTerm: !this.state.bTerm})}*/ />
+                                    <CheckBox checked={this.state.bTerm} color="white" style={{borderColor: '#ccc' }} onPress={()=> this.setState({bTerm: !this.state.bTerm})} />
                                 </View>
                                 <View style={{marginLeft: 20, flexDirection: 'row', alignItems: 'center'}}>
                                     <Text style={{fontSize: 14}}>点击 “立即注册” 表示同意</Text>
