@@ -8,8 +8,8 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword}
 
 const renderBadge = ()=> {
     return (
-        <Button transparent>
-            <Image source={Images.noticeIcon} style={{width: 24, height: 22, marginTop: 10, marginRight: 10}} />
+        <Button light rounded style={{flexDirection: 'column', marginRight: 10, height: 30,width: 30, marginTop: 14, alignItems: 'center'}}>
+            <Image source={Images.noticeIcon} style={{width: 24, height: 24}} />
         </Button>
     )
 };
@@ -24,11 +24,11 @@ const RouterComponent = () => {
                 <Scene key="auth">
                     <Scene key="login" component ={Login} title="欢迎来到拼金币"  titleStyle={styles.navigationBarTitleStyle} initial />
                     <Scene key="register" component ={Register} title="注册账号" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
-                    <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} renderRightButton={<View></View>} />
+                    <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
                     <Scene key="forgottenpassword" component ={ForgottenPassword} title="忘记密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}}/>
                 </Scene>
                 <Scene key="main">
-                    <Scene key="home" component ={Home} title="首页" titleStyle={styles.navigationBarTitleStyle} renderLeftButton={<View></View>} renderRightButton={renderBadge()} initial />
+                    <Scene key="home" component ={Home} title="首页" titleStyle={styles.navigationBarTitleStyle} leftTitle=" " onLeft={() => {}} renderRightButton={renderBadge()} initial />
                 </Scene>
 
             </Stack>
