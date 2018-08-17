@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux'
 import Modal from 'react-native-modal'
 
-import {Images, Constants, Ca} from '@common';
+import {Images, Constants} from '@common';
 import {Image, View, UIManager, TouchableOpacity} from 'react-native';
 import {
     Container, Content, Item, Input, Form, Icon,

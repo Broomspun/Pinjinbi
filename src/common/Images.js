@@ -30,6 +30,7 @@ const Images = {
     preorderIconActive: require('./../assets/img/home/pre-order-active-icon.png'),
     taskIcon: require('./../assets/img/home/task-icon.png'),
     taskIconActive: require('./../assets/img/home/task-icon-active.png'),
+    noticeIcon: require('./../assets/img/home/notice.png'),
 };
 
 export default Images;
