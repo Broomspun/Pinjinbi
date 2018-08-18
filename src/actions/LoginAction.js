@@ -52,6 +52,7 @@ const loginUserSuccess = (dispatch, user, msg) => {
     if(user) {
         Timer.setTimeout(() => {
             Actions.main({user: user});
-        }, 2000);
+            // Actions.main();
+        }, 500);
     }
 };

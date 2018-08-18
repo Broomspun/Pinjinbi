@@ -9,7 +9,7 @@ const Constants = {
     fontHeader: 'Baloo',
     fontHeaderAndroid: 'Baloo',
     SplashScreen: {
-        Duration: 2000,
+        Duration: 500,
     },
     AsyncCode: {
         Intro: 'async.intro',

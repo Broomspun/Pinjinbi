@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Image, View, TouchableOpacity} from 'react-native'
 import {Platform, UIManager, ScrollView} from "react-native";
 
-import { Container, Content, Footer, FooterTab, Button, Text,Icon } from 'native-base';
+import { FooterTab, Button, Text,Icon } from 'native-base';
 import {Images, Constants} from '@common';
 
 
@@ -21,13 +21,14 @@ class Home extends Component {
         axios.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
             .then((res) => {
                 if(res.data.errcode===0) {
-                    this.setState({user: {...res.data.obj, ...this.state.user}});
-                    console.log(this.state);
+                    // this.setState({user: {...res.data.obj, ...this.state.user}});
+                    this.setState({user: res.data.obj});
                 }
             })
             .catch(()=>{
             })
     }
+
     render() {
         return(
             <View style={{flex: 1}}>
@@ -120,18 +121,25 @@ class Home extends Component {
                             <Text style={{color:'#606060'}}>每日任务</Text>
                         </View>
                         <View style={{flex: 1, width: null, flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
-                            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={Images.wodedingdanIcon} style={{width: 35, height: 35}}/>
-                                <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>签到领积分</Text>
+                            <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-start', alignItems: 'center'}}>
+                                <TouchableOpacity  activeOpacity={.8} transparent style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}} >
+                                    <Image source={Images.wodedingdanIcon} style={{width: 35, height: 35, marginRight: 0}}/>
+                                    <Text style={{marginLeft: 0, fontSize: 14, color: '#606060'}}>签到领积分</Text>
+                                </TouchableOpacity>
                             </View>
-                            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={Images.prizeIcon} style={{width: 35, height: 35}} />
-                                <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>积分抽奖</Text>
+                            <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <Image source={Images.prizeIcon} style={{width: 35, height: 35}} />
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>积分抽奖</Text>
+                                </TouchableOpacity>
                             </View>
-                            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                                <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
-                                <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>邀请好友</Text>
+                            <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'center'}}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>邀请好友</Text>
+                                </TouchableOpacity>
                             </View>
+
                         </View>
                     </View>
                     <View style={{marginTop: 10, marginBottom: 10}}>

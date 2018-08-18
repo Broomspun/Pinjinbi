@@ -20,3 +20,10 @@ export const ForgottenVerify = _ForgottenVerify;
 
 import _ForgottenPassword from './ForgottenPassword';
 export const ForgottenPassword = _ForgottenPassword;
+
+import _NewsList from './NewsList';
+export const NewsList = _NewsList;
+
+import _NewsDetail from './NewsDetail';
+export const NewsDetail = _NewsDetail;
+

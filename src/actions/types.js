@@ -21,3 +21,6 @@ export const REGISTER_VERIFY_FAIL = 'register_verify_fail';
 export const REGISTER_VERIFY = 'register_verify';
 export const REGISTER_VERIFY_SUCCESS = 'register_verify_success';
 export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code';
+
+//News List
+export const GET_NEWS_LIST = 'get_news_list';

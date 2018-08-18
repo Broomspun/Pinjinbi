@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, Image} from "react-native";
 import { Container, Form, Content, Button, Input, Item, Icon, Text} from 'native-base';
-
+import {Actions} from 'react-native-router-flux';
 import {Spinner,Spinner1} from "../../components";
 import {Images} from "@common";
 class ForgottenPassword extends Component {
@@ -26,7 +26,7 @@ class ForgottenPassword extends Component {
         }
 
         return (
-            <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ >
+            <Button block style={styles.buttonStyle} onPress = {()=> Actions.newslist()} >
                 <Text style={{fontSize: 20}}>完成</Text>
             </Button>
         );
