@@ -21,8 +21,7 @@ class Home extends Component {
         axios.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
             .then((res) => {
                 if(res.data.errcode===0) {
-                    // this.setState({user: {...res.data.obj, ...this.state.user}});
-                    this.setState({user: res.data.obj});
+                    this.setState({user: {...res.data.obj, ...this.state.user}});
                 }
             })
             .catch(()=>{

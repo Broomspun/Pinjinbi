@@ -3,6 +3,8 @@ import {Text, Button} from 'native-base';
 import {StyleSheet, Image, View} from 'react-native';
 import {Stack, Scene, Router, Actions} from 'react-native-router-flux';
 import {Images} from '@common';
+import { fromLeft } from 'react-navigation-transitions';
+
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail} from "@containers";
 
@@ -28,7 +30,7 @@ const RouterComponent = () => {
                     <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
                     <Scene key="forgottenpassword" component ={ForgottenPassword} title="忘记密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}}/>
                 </Stack>
-                <Stack key="main">
+                <Stack key="main" >
                     <Scene key="home"
                            component ={Home}
                            title="首页"
@@ -38,9 +40,12 @@ const RouterComponent = () => {
                            renderRightButton={renderBadge()}
                            initial
                     />
-                    <Scene key="newslist" component ={NewsList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="newsdetail" component ={NewsDetail} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
+                <Stack back key="news" transitionConfig={() => fromLeft(500)}>
+                    <Scene key="newslist" component ={NewsList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="newsdetail"   component ={NewsDetail} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
+
             </Stack>
         </Router>
     );

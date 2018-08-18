@@ -30,8 +30,8 @@ export const requestVerifyCode = ({fv_phone,  fv_recaptchaCode}) =>{
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
       });
 
-      instance.post('http://pjbapi.wtvxin.com/api/Login/GetUserSms',
-          `Mobile=${fv_phone}&VerifyType=${fv_recaptchaCode}`)
+      instance.post('http://pjbapi.wtvxin.com/api/Member/GetSms',
+          `Mobile=${fv_phone}&VerifyType=2&ImgCode=${fv_recaptchaCode}`)
           .then (res=> {
               console.log(res);
               console.log(res.data.errcode);
