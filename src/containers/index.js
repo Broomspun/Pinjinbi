@@ -27,3 +27,10 @@ export const NewsList = _NewsList;
 import _NewsDetail from './NewsDetail';
 export const NewsDetail = _NewsDetail;
 
+import _NoticeList from './Notice/NoticeList';
+export const NoticeList = _NoticeList;
+
+import _NoticeDetail from './Notice/NoticeDetail';
+export const NoticeDetail = _NoticeDetail;
+
+

@@ -4,6 +4,7 @@ import loginReducer from './LoginFormReducer';
 import forgottenVerify from './ForgottenVerifyReducer';
 import registerReducer from './RegisterFormReducer';
 import newslistReducer from './NewsListReducer';
+import noticeListReducer from './NoticeListReducer';
 
 const allReducers= combineReducers({
     splash: splashReducer,
@@ -11,6 +12,7 @@ const allReducers= combineReducers({
     forgottenVerifyForm: forgottenVerify,
     registerForm: registerReducer,
     newslistsRaw: newslistReducer,
+    noticelistsRaw: noticeListReducer,
 });
 
 export default allReducers;

@@ -6,12 +6,14 @@ import {Images} from '@common';
 import { fromLeft } from 'react-navigation-transitions';
 
 
-import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail} from "@containers";
+import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
+NoticeList, NoticeDetail
+} from "@containers";
 
 const RouterComponent = () => {
     renderBadge = ()=> {
         return (
-            <Button light rounded onPress={()=> Actions.newslist()}
+            <Button light rounded onPress={()=> Actions.noticelist()}
                     style={{flexDirection: 'column', marginRight: 10, height: 30,width: 30, marginTop: 14, alignItems: 'center'}}>
                 <Image source={Images.noticeIcon} style={{width: 24, height: 24}} />
             </Button>
@@ -45,6 +47,12 @@ const RouterComponent = () => {
                     <Scene key="newslist" component ={NewsList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="newsdetail"   component ={NewsDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
+
+                <Stack back key="notice" transitionConfig={() => fromLeft(500)}>
+                    <Scene key="noticelist" component ={NoticeList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="noticedetail"   component ={NoticeDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
+
 
             </Stack>
         </Router>

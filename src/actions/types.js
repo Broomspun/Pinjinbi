@@ -24,3 +24,4 @@ export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code
 
 //News List
 export const GET_NEWS_LIST = 'get_news_list';
+export const GET_NOTICE_LIST = 'get_notice_list';
