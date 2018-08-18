@@ -30,16 +30,14 @@ export const generateCaptchaCode_register = () => {
 };
 
 
-export const requestVerifyCode_register = ({rg_phone,  rg_captcha_match}) =>{
+export const requestVerifyCode_register = ({rg_phone}) =>{
     return (dispatch) =>{
 
         dispatch({type: REGISTER_VERIFY}); //for Spinner;
 
         rinstance.post('http://pjbapi.wtvxin.com/api/Login/GetUserSms',
-            `Mobile=${rg_phone}&VerifyType=${rg_captcha_match}`)
+            `Mobile=${rg_phone}&VerifyType=0}`)
             .then (res=> {
-                console.log(res);
-                console.log(res.data.errcode);
                 if(res.data.errcode===0){
                     requestSuccess_register(dispatch, res.data.msg)
                 } else {
@@ -59,9 +57,6 @@ export const registerUser = ( {rg_phone, rg_verify_code, rg_password, rg_invite_
         rinstance.post('http://pjbapi.wtvxin.com/api/Login/MobileRegister',
             `Mobile=${rg_phone}&VerifyCode=${rg_verify_code}&Password=${rg_password}`)
             .then (res=> {
-                console.log('register result', res);
-                console.log(res.data.errcode);
-
                 if(res.data.errcode===0){
                     registerSuccess(dispatch, res.data.msg)
                 } else {

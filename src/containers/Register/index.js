@@ -112,7 +112,7 @@ class Register extends Component {
         }
 
         if(rg_phone && rg_captcha_match === rg_captcha_code)
-            this.props.requestVerifyCode_register({rg_phone,  rg_captcha_match});
+            this.props.requestVerifyCode_register({rg_phone});
     }
 
     registerUser() {
