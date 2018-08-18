@@ -5,6 +5,7 @@ import {Platform, UIManager, ScrollView} from "react-native";
 
 import { FooterTab, Button, Text,Icon } from 'native-base';
 import {Images, Constants} from '@common';
+import {Actions} from "react-native-router-flux";
 
 
 class Home extends Component {
@@ -84,15 +85,18 @@ class Home extends Component {
                             <Text style={{color: '#606060'}}>拼多多</Text>
                         </View>
                     </View>
-                    <View style={{...styles.moneyStyle, backgroundColor: '#fff', height: 60, ...styles.shadowStyle}}>
-                        <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                            <Text style={{color: '#606060'}}>微信：pin8002</Text>
-                            <Button bordered style={{height: 28, borderRadius: 14, borderColor: '#606060', marginLeft: 15}}>
-                                <Text style={{color: '#606060', fontSize: 18}}>复制</Text>
-                            </Button>
-                        </View>
-                        <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                            <Text style={{marginLeft: 20, color: '#606060'}}>工作时间  09:00-22:00</Text>
+                    <View style={{backgroundColor: '#fff', marginTop: 10, ...styles.shadowStyle}}>
+                        <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.newslist()}><Text>公告</Text></Button>
+                        <View style={{...styles.moneyStyle, paddingBottom: 10}}>
+                            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
+                                <Text style={{color: '#606060'}}>微信：pin8002</Text>
+                                <Button bordered style={{height: 28, borderRadius: 14, borderColor: '#606060', marginLeft: 15}}>
+                                    <Text style={{color: '#606060', fontSize: 18}}>复制</Text>
+                                </Button>
+                            </View>
+                            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
+                                <Text style={{marginLeft: 20, color: '#606060'}}>工作时间  09:00-22:00</Text>
+                            </View>
                         </View>
                     </View>
                     <View style={{...styles.thirdRowStyle, ...styles.shadowStyle}}>

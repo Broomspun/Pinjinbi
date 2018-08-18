@@ -31,24 +31,20 @@ class NewsDetail extends Component {
                             </View>
                             <View style={headerContentStyle}>
                                 <Text style={headerTextStyle}>{this.props.album.title}</Text>
-                                <Text>{this.props.album.artist}</Text>
+                                <Text>{this.props.album.author}, {this.props.album.publishedAt}</Text>
                             </View>
                         </CardSection>
                         <CardSection>
-                            <Image style={imageStyle} source={{uri: this.props.album.image}} />
+                            <Image style={imageStyle} source={{uri: this.props.album.urlToImage}} />
+                        </CardSection>
+                        <CardSection>
+                            <Text>{this.props.album.description}</Text>
                         </CardSection>
                         <View>
-                            <Button block onPress = {()=>Linking.openURL(this.props.album.url)}><Text style={{color: 'white'}}>Buy Now</Text></Button>
+                            <Button block onPress = {()=>Linking.openURL(this.props.album.url)}><Text style={{color: 'white'}}>Read More</Text></Button>
                         </View>
                     </Card>
                 </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button full>
-                            <Text>Footer</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
         );
     }

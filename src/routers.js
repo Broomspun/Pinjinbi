@@ -42,8 +42,8 @@ const RouterComponent = () => {
                     />
                 </Stack>
                 <Stack back key="news" transitionConfig={() => fromLeft(500)}>
-                    <Scene key="newslist" component ={NewsList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="newsdetail"   component ={NewsDetail} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="newslist" component ={NewsList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="newsdetail"   component ={NewsDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
             </Stack>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
-import {Platform, UIManager, FlatList} from "react-native";
+import {Platform, UIManager, FlatList, View} from "react-native";
 
 import { Container, Content, Footer, FooterTab, Button, Text, ListItem, Icon, Left, Right } from 'native-base';
 import {Images, Constants} from '@common';
@@ -33,12 +33,15 @@ class NewsList extends Component {
     renderRow = (news)=> {
         return (
             <ListItem onPress={()=>Actions.newsdetail({album: news.item})}>
-                <Left>
-                    <Text>{news.item.title}</Text>
-                </Left>
-                <Right>
-                    <Icon name="arrow-forward" />
-                </Right>
+                <View style={{flex: 1}}>
+                    <View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={{fontSize: 14, marginRight: 5}}>{news.item.title}</Text>
+                            <Button style={{height: 24}} info rounded onPress={()=>Actions.newsdetail({album: news.item})}><Text style={{fontSize: 12}}>New</Text></Button>
+                        </View>
+                        <Text style={{fontSize: 14, color:'#bbb', alignSelf:'flex-start'}}>{news.item.publishedAt}</Text>
+                    </View>
+                </View>
             </ListItem>
         );
     };
@@ -65,13 +68,6 @@ class NewsList extends Component {
                 <Content padder>
                     {this.renderLists()}
                 </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button full>
-                            <Text>Footer</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
             </Container>
         );
     }
