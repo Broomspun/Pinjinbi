@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, UIManager, FlatList, View} from "react-native";
 
-import { Container, Content, Footer, FooterTab, Button, Text, ListItem, Icon, Left, Right } from 'native-base';
-import {Images, Constants} from '@common';
+import { Text, ListItem, Container, Content } from 'native-base';
+import {Images, Constants, Color} from '@common';
 import { getNewsLists} from './../../actions'
 import {Actions} from 'react-native-router-flux';
 
@@ -32,15 +32,16 @@ class NewsList extends Component {
 
     renderRow = (news)=> {
         return (
-            <ListItem onPress={()=>Actions.newsdetail({album: news.item})}>
+            <ListItem onPress={()=>Actions.newsdetail({album: news.item})} style={{paddingTop:10, paddingBottom:10, borderBottomWidth: 1, borderColor: Color.borderNormal}}>
                 <View style={{flex: 1}}>
-                    <View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Text style={{fontSize: 14, marginRight: 5}}>{news.item.title}</Text>
-                            <Button style={{height: 24}} info rounded onPress={()=>Actions.newsdetail({album: news.item})}><Text style={{fontSize: 12}}>New</Text></Button>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{color: Color.textNormal, fontSize: 14, marginRight: 5}}>{news.item.title}</Text>
+                        {/*<Button style={{height: 24}} info rounded onPress={()=>Actions.newsdetail({album: news.item})}><Text style={{fontSize: 12}}>New</Text></Button>*/}
+                        <View style={{flexDirection: 'column',justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: Color.primary, paddingLeft: 10, paddingRight:10, marginLeft: 5, height: 20}}>
+                            <Text style={{fontSize: 10, color: 'white'}}>New</Text>
                         </View>
-                        <Text style={{fontSize: 14, color:'#bbb', alignSelf:'flex-start'}}>{news.item.publishedAt}</Text>
                     </View>
+                    <Text style={{fontSize: 12, color:Color.textLight, alignSelf:'flex-start'}}>{news.item.publishedAt}</Text>
                 </View>
             </ListItem>
         );
@@ -65,7 +66,7 @@ class NewsList extends Component {
     render() {
         return(
             <Container>
-                <Content padder>
+                <Content>
                     {this.renderLists()}
                 </Content>
             </Container>

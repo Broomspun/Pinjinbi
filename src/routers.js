@@ -7,7 +7,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
-NoticeList, NoticeDetail
+NoticeList, NoticeDetail, Promotion
 } from "@containers";
 
 const RouterComponent = () => {
@@ -42,6 +42,7 @@ const RouterComponent = () => {
                            renderRightButton={renderBadge()}
                            initial
                     />
+                    <Scene key="promotion" component ={Promotion} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
                 <Stack back key="news" transitionConfig={() => fromLeft(500)}>
                     <Scene key="newslist" component ={NewsList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />

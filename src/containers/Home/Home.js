@@ -137,7 +137,7 @@ class Home extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'center'}}>
-                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.promotion()}>
                                     <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
                                     <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>邀请好友</Text>
                                 </TouchableOpacity>

@@ -90,4 +90,9 @@ export default {
     textLight: '#a9a9a9',
     textNormal: '#5f5f5f',
     textDark: '#222222',
+    textInfoOrange: '#ff5d11',
+    textInfoBlue: '#5c91f0',
+
+    borderNormal: '#dfdfdf',
+    mainBackground:'#f8f8f8',
 }

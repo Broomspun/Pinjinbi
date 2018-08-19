@@ -12,7 +12,7 @@ export const Login = _LoginForm;
 import _RegisterForm from './Register';
 export const Register = _RegisterForm;
 
-import _Home from './Home';
+import _Home from './Home/Home';
 export const Home = _Home;
 
 import _ForgottenVerify from './ForgottenVerify';
@@ -33,4 +33,5 @@ export const NoticeList = _NoticeList;
 import _NoticeDetail from './Notice/NoticeDetail';
 export const NoticeDetail = _NoticeDetail;
 
-
+import _Promotion from './Home/Promotion';
+export const Promotion = _Promotion;
