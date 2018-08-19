@@ -5,7 +5,7 @@ export default {
 
     main: '#fff',
     primaryDark: '#0097A7',
-    primary: '#00BCD4',
+    primary: '#5c91ef',
     primaryLight: '#B2EBF2',
     accent: '#FFC107',
     accentLight: '#FFD54F',
@@ -56,11 +56,6 @@ export default {
 
     ViewBorder: '#bcbebb',
 
-    //Text
-    Text: '#333',
-    TextNormal: '#77a464',
-    TextLight: 'darkgray',
-    TextDark: '#000000',
 
     //sidemenu
     SideMenu: '#34BC99',
@@ -90,4 +85,9 @@ export default {
         blue: '#38B1E7',
         yellow: '#FDF12C',
     },
+    //Text
+    Text: '#333',
+    textLight: '#a9a9a9',
+    textNormal: '#5f5f5f',
+    textDark: '#222222',
 }

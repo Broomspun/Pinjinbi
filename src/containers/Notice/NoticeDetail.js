@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Platform, UIManager,Image, View, Linking, Text} from 'react-native'
 
 import { Container, Content, Button} from 'native-base';
-import {Images, Constants} from '@common';
+import {Images, Constants, Color} from '@common';
 import {Card, CardSection} from '@components'
 
 class NoticeDetail extends Component {
@@ -23,19 +23,21 @@ class NoticeDetail extends Component {
     render() {
         return(
             <Container>
-                <Content padder>
-                    <Card>
+                <Content padder style={{backgroundColor: '#f8f8f8'}}>
+                    <View>
                         <CardSection>
-                            <View style={thumbnailContainerStyle}>
-                                <Image style={thumbnailStyle} source={{uri: this.props.album.thumbnail_image}}/>
-                            </View>
                             <View style={headerContentStyle}>
-                                <Text style={headerTextStyle}>{this.props.album.title}</Text>
-                                <Text>{this.props.album.author}, {this.props.album.publishedAt}</Text>
+                                <Text style={{...headerTextStyle, color:Color.textDark}}>{this.props.album.title}</Text>
                             </View>
                         </CardSection>
                         <CardSection>
-                            <Image style={imageStyle} source={{uri: this.props.album.urlToImage}} />
+                            <View style={{flexDirection:'row', alignItems:'center'}}>
+                                <Text style={{color: Color.textLight, paddingTop: 5, paddingBottom: 5}}>拼金币, {this.props.album.publishedAt}</Text>
+                                <View style={{flexDirection: 'column',justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: Color.primary, paddingLeft: 10, paddingRight:10, marginLeft: 5, height: 20}}>
+                                    <Text style={{fontSize: 10, color: 'white'}}>公告</Text>
+                                </View>
+                            {/*<Image style={imageStyle} source={{uri: this.props.album.urlToImage}} />*/}
+                            </View>
                         </CardSection>
                         <CardSection>
                             <Text>{this.props.album.description}</Text>
@@ -43,7 +45,7 @@ class NoticeDetail extends Component {
                         <View>
                             <Button block onPress = {()=>Linking.openURL(this.props.album.url)}><Text style={{color: 'white'}}>Read More</Text></Button>
                         </View>
-                    </Card>
+                    </View>
                 </Content>
             </Container>
         );
