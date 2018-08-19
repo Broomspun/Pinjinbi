@@ -92,6 +92,10 @@ export default {
     textDark: '#222222',
     textInfoOrange: '#ff5d11',
     textInfoBlue: '#5c91f0',
+    LightBlue: '#5c91f0',
+    LightBlue1: '#7ca6f2',
+    DarkLightBlue: '#5d91ee',
+    LighterBlue: '#d6e3fb',
 
     borderNormal: '#dfdfdf',
     mainBackground:'#f8f8f8',

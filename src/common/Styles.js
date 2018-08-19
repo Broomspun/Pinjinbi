@@ -26,11 +26,25 @@ export default Styles ={
         elevation: 1,
         marginBottom: 10
     },
+    cardStyleEmpty: {
+        flexDirection:'column',
+        paddingLeft: 15,
+        paddingRight: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        elevation: 1,
+        marginBottom: 10,
+        backgroundColor: 'white'
+    },
+
     buttonStyle: {
         marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
     },
 
+    fontLarger: 22,
     fontLarge: 20,
     fontNormal: 16,
-    fontSmall: 14
+    fontSmall: 14,
+    fontSmaller: 12
 };

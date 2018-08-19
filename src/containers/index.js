@@ -35,3 +35,9 @@ export const NoticeDetail = _NoticeDetail;
 
 import _Promotion from './Home/Promotion';
 export const Promotion = _Promotion;
+
+import _Prize from './Home/Prize';
+export const Prize = _Prize;
+
+import _PrizeSplash from './Home/PrizeSplash';
+export const ProizeSplash = _PrizeSplash;

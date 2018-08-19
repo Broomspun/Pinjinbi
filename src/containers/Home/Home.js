@@ -131,7 +131,7 @@ class Home extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.prize()}>
                                     <Image source={Images.prizeIcon} style={{width: 35, height: 35}} />
                                     <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>积分抽奖</Text>
                                 </TouchableOpacity>

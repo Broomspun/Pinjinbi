@@ -32,6 +32,7 @@ const Images = {
     taskIconActive: require('./../assets/img/home/task-icon-active.png'),
     noticeIcon: require('./../assets/img/home/notice.png'),
     promotion: require('./../assets/img/home/promotion-1.png'),
+    prizeStack: require('./../assets/img/home/prizeStack.png'),
 };
 
 export default Images;
