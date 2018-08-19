@@ -39,5 +39,5 @@ export const Promotion = _Promotion;
 import _Prize from './Home/Prize';
 export const Prize = _Prize;
 
-import _PrizeSplash from './Home/PrizeSplash';
-export const ProizeSplash = _PrizeSplash;
+import _Loto from './Home/Loto';
+export const Loto = _Loto;

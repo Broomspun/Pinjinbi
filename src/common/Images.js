@@ -33,6 +33,10 @@ const Images = {
     noticeIcon: require('./../assets/img/home/notice.png'),
     promotion: require('./../assets/img/home/promotion-1.png'),
     prizeStack: require('./../assets/img/home/prizeStack.png'),
+    lotoBakcground: require('./../assets/img/home/lotoSplashBack.png'),
+    lotoBakcTop: require('./../assets/img/home/lotoSplashBack-top.png'),
+    lotoStart: require('./../assets/img/home/loto-start.png'),
+    smileFace: require('./../assets/img/home/smile-face.png'),
 };
 
 export default Images;

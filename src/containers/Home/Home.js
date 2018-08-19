@@ -125,13 +125,13 @@ class Home extends Component {
                         </View>
                         <View style={{flex: 1, width: null, flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-start', alignItems: 'center'}}>
-                                <TouchableOpacity  activeOpacity={.8} transparent style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}} >
+                                <TouchableOpacity  activeOpacity={.8} transparent style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}} onPress={()=>Actions.prize()}>
                                     <Image source={Images.wodedingdanIcon} style={{width: 35, height: 35, marginRight: 0}}/>
                                     <Text style={{marginLeft: 0, fontSize: 14, color: '#606060'}}>签到领积分</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.prize()}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.loto()}>
                                     <Image source={Images.prizeIcon} style={{width: 35, height: 35}} />
                                     <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>积分抽奖</Text>
                                 </TouchableOpacity>
