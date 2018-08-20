@@ -7,7 +7,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
-NoticeList, NoticeDetail, Promotion, Prize, Loto
+NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions
 } from "@containers";
 
 const RouterComponent = () => {
@@ -23,9 +23,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                <Stack key="lotomain" hideNavBar>
-                    <Scene key="loto" component={Loto}  />
-                </Stack>
+                {/*<Stack key="lotomain" hideNavBar>*/}
+                    {/*<Scene key="loto" component={Loto}  />*/}
+                {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -57,6 +57,10 @@ const RouterComponent = () => {
                 <Stack back key="notice" transitionConfig={() => fromLeft(500)}>
                     <Scene key="noticelist" component ={NoticeList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="noticedetail"   component ={NoticeDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
+
+                <Stack back key="missions">
+                    <Scene key="totalmissions" component ={TotalMissions} title="全部任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
 

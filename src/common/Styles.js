@@ -42,7 +42,12 @@ export default Styles ={
         marginBottom: 10,
         backgroundColor: 'white'
     },
-
+    shadowStyle: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        elevation: 1,
+    },
     buttonStyle: {
         marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
     },

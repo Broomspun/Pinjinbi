@@ -37,6 +37,13 @@ const Images = {
     lotoBakcTop: require('./../assets/img/home/lotoSplashBack-top.png'),
     lotoStart: require('./../assets/img/home/loto-start.png'),
     smileFace: require('./../assets/img/home/smile-face.png'),
+    mission_01: require('./../assets/img/mission/total-mission_01.png'),
+    mission_02: require('./../assets/img/mission/total-mission_02.png'),
+    mission_03: require('./../assets/img/mission/total-mission_03.png'),
+    mission_04: require('./../assets/img/mission/total-mission_04.png'),
+    mission_05: require('./../assets/img/mission/total-mission_05.png'),
+    mission_06: require('./../assets/img/mission/total-mission_06.png'),
+    mission_07: require('./../assets/img/mission/total-mission_07.png'),
 };
 
 export default Images;

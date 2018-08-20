@@ -3,8 +3,8 @@ import axios from 'axios';
 import {Image, View, TouchableOpacity} from 'react-native'
 import {Platform, UIManager, ScrollView} from "react-native";
 
-import { FooterTab, Button, Text,Icon } from 'native-base';
-import {Images, Constants} from '@common';
+import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native-base';
+import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
 
@@ -31,10 +31,10 @@ class Home extends Component {
 
     render() {
         return(
-            <View style={{flex: 1}}>
-                <ScrollView style={{backgroundColor: '#f6f6f6', paddingBottom: 10}}>
+            <Container style={{flex: 1}}>
+                <Content style={{backgroundColor: '#f6f6f6', paddingBottom: 10}}>
                     <Image source={Images.homeBackTop} style={{height: 180, width: null, flex: 1}}/>
-                    <View style={{...styles.moneyStyle,backgroundColor: '#fe9142',height: 60,...styles.shadowStyle}}>
+                    <View style={{...styles.moneyStyle,backgroundColor: '#fe9142',height: 60,...Styles.shadowStyle}}>
                         <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                             <Image source={Images.silcCardIcon} style={{width: 36, height: 30}}/>
                             <View style={{flexDirection: 'column'}}>
@@ -59,7 +59,7 @@ class Home extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={{...styles.secondViewStyle, height: 100, ...styles.shadowStyle}}>
+                    <View style={{...styles.secondViewStyle, height: 100, ...Styles.shadowStyle}}>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
@@ -85,7 +85,7 @@ class Home extends Component {
                             <Text style={{color: '#606060'}}>拼多多</Text>
                         </View>
                     </View>
-                    <View style={{backgroundColor: '#fff', marginTop: 10, ...styles.shadowStyle}}>
+                    <View style={{backgroundColor: '#fff', marginTop: 10, ...Styles.shadowStyle}}>
                         <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.newslist()}><Text>公告</Text></Button>
                         <View style={{...styles.moneyStyle, paddingBottom: 10}}>
                             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
@@ -99,7 +99,7 @@ class Home extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={{...styles.thirdRowStyle, ...styles.shadowStyle}}>
+                    <View style={{...styles.thirdRowStyle, ...Styles.shadowStyle}}>
                         <View style={{...styles.cardStyle,backgroundColor: '#03cea5' }}>
                             <View style={{...styles.iconWrapper1, }}>
                                 <Image source={Images.usersIcon} style={{width: 35, height: 35}} />
@@ -119,7 +119,7 @@ class Home extends Component {
                             <Text style={{color: '#fff'}}>常见问题</Text>
                         </View>
                     </View>
-                    <View style={{...styles.fourthRowStyle, ...styles.shadowStyle}}>
+                    <View style={{...styles.fourthRowStyle, ...Styles.shadowStyle}}>
                         <View style={{paddingBottom: 10, borderBottomWidth: 1, borderColor: '#efefef'}} >
                             <Text style={{color:'#606060'}}>每日任务</Text>
                         </View>
@@ -148,16 +148,18 @@ class Home extends Component {
                     <View style={{marginTop: 10, marginBottom: 10}}>
                         <Image source={Images.footerBackImage} style={{height: 120, width: null, flex: 1, alignItems: 'center'}} />
                     </View>
-                </ScrollView>
+                </Content>
                 <View style={{height: 60}}>
-                    <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-between', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
+                    <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-around', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
                         <View style={{alignItems: 'center', flex: 1}}>
                             <Image source={Images.homeIconActive} style={{width: 26, height: 26}} />
-                            <Text style={{fontSize:14, color:'#606060'}}>首页</Text>
+                            <Text style={{fontSize:14, color:Color.LightBlue1}}>首页</Text>
                         </View>
-                        <View style={{alignItems: 'center' , flex: 1}}>
-                            <Image source={Images.taskIcon} style={{width: 26, height: 26}}/>
-                            <Text style={{fontSize:14, color:'#606060'}}>全部任务</Text>
+                        <View style={{alignItems: 'center', flex: 1}}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions()}>
+                                <Image source={Images.taskIcon} style={{width: 26, height: 26}}/>
+                                <Text style={{fontSize:14, color: Color.textNormal}}>全部任务</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center' , flex: 1}}>
 
@@ -166,22 +168,22 @@ class Home extends Component {
 
                         <View  style={{alignItems: 'center' , flex: 1}}>
                             <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
-                            <Text style={{fontSize:14, color:'#606060'}}>已接任务 </Text>
+                            <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
                             <Image source={Images.profileIcon} style={{width: 26, height: 26}}/>
-                            <Text style={{fontSize:14, color:'#606060'}}>个人中心</Text>
+                            <Text style={{fontSize:14, color:Color.textNormal}}>个人中心</Text>
                         </View>
                     </FooterTab>
                 </View>
-                <View style={{alignItems: 'center', position: 'absolute', bottom: 25, zIndex: 99999, left: 0, right: 0}} >
+                <View style={{alignSelf: 'center', position: 'absolute', width: 60,bottom: 25, zIndex: 99999}} >
                     <View style={styles.footerCenterStyle}>
                         <View style={{backgroundColor: '#ff7a19', width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{fontSize:14,color: 'white'}}>接单</Text>
                         </View>
                     </View>
                 </View>
-            </View>
+            </Container>
         );
     }
 }
@@ -258,12 +260,6 @@ const styles = {
         paddingRight: 10,
         marginLeft: 5,
         marginRight: 5,
-    },
-    shadowStyle: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        elevation: 1,
     },
     footerCenterStyle:{
         backgroundColor: '#fff',
