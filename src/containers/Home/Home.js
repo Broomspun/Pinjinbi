@@ -67,11 +67,11 @@ class Home extends Component {
                             <Text style={{color: Color.textNormal}}>补单任务</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                        <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
-                            <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
-                        </View >
-                        <Text style={{color: Color.textNormal}}>浏览任务</Text>
-                    </View>
+                            <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
+                                <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
+                            </View >
+                            <Text style={{color: Color.textNormal}}>浏览任务</Text>
+                        </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#ff713a'}}>
                                 <Image source={Images.amoyIcon} style={{width: 25, height: 25}} />
@@ -162,13 +162,12 @@ class Home extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center' , flex: 1}}>
-
-
                         </View>
-
                         <View  style={{alignItems: 'center' , flex: 1}}>
-                            <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
-                            <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.preordermain()}>
+                                <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
+                                <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
                             <Image source={Images.profileIcon} style={{width: 26, height: 26}}/>

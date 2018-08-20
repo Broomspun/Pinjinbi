@@ -108,7 +108,7 @@ class TotalMissions extends Component {
                 <View>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween, marginTop: 10,
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <TouchableOpacity activeOpacity={.8} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
                             <Image source={Images.mission_01}  style={{width: 60, height:60}}/>
                             <Text style={{color: Color.textNormal}}>淘宝任务</Text>
                         </TouchableOpacity>
@@ -157,8 +157,10 @@ class TotalMissions extends Component {
                         </View>
 
                         <View  style={{alignItems: 'center' , flex: 1}}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.preordermain()}>
                             <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
                             <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
                             <Image source={Images.profileIcon} style={{width: 26, height: 26}}/>

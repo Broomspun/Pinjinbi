@@ -46,6 +46,9 @@ const Images = {
     mission_07: require('./../assets/img/mission/total-mission_07.png'),
     alarm_clock: require('./../assets/img/mission/alarm-clock.png'),
     gold_stack_plus: require('./../assets/img/mission/gold_stack_plus.png'),
+    preorders_01: require('./../assets/img/preorders/preorders_01.png'),
+    preorders_02: require('./../assets/img/preorders/preorders_02.png'),
+    preorders_03: require('./../assets/img/preorders/preorders_03.png'),
 };
 
 export default Images;

@@ -100,6 +100,7 @@ export default {
     LighterBlue: '#d6e3fb',
     LightGrayColor: '#f8f8f8',
     Border: '#c6c6c6',
+    LightBorder: '#d9d9d9',
 
 
     borderNormal: '#dfdfdf',

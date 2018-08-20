@@ -7,7 +7,8 @@ import { fromLeft } from 'react-navigation-transitions';
 
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
-NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask
+NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
+    PreOrderMain,
 } from "@containers";
 
 const RouterComponent = () => {
@@ -23,9 +24,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                {/*<Stack back key="missions123">*/}
-                    {/*<Scene key="browsetask1" component ={BrowseTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="打法师" onRight={() => {}} />*/}
-                {/*</Stack>*/}
+                <Stack back key="missions123">
+                    <Scene key="preordermain1" component ={PreOrderMain} title="已接任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -64,6 +65,9 @@ const RouterComponent = () => {
                     <Scene key="browsetask" component ={BrowseTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="打法师" onRight={() => {}} />
                 </Stack>
 
+                <Stack back key="preorders">
+                    <Scene key="preordermain" component ={PreOrderMain} title="已接任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
 
             </Stack>
         </Router>

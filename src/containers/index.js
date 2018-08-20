@@ -47,3 +47,6 @@ export const TotalMissions = _TotalMissions;
 
 import _BrowseTask from './Missions/BrowseTask';
 export const BrowseTask = _BrowseTask;
+
+import _PreOrderMain from './PreOrders/PreOrderMain';
+export const PreOrderMain = _PreOrderMain;
