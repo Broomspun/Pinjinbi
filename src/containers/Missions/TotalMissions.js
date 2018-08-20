@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
 
-
-import { Container, Content, Button, Tabs, Tab, Footer, FooterTab} from 'native-base';
+import { Container, Content, Button, Footer, FooterTab} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
 
@@ -66,10 +65,10 @@ class TotalMissions extends Component {
                 <View>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween, marginTop: 10,
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
                             <Image source={Images.mission_01}  style={{width: 60, height:60}}/>
                             <Text style={{color: Color.textNormal}}>淘宝任务</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
                             <Image source={Images.mission_02}  style={{width: 60, height:60}}/>
                             <Text style={{color: Color.textNormal}}>拼多多</Text>
@@ -109,10 +108,10 @@ class TotalMissions extends Component {
                 <View>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween, marginTop: 10,
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
+                        <TouchableOpacity activeOpacity={.8} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
                             <Image source={Images.mission_01}  style={{width: 60, height:60}}/>
                             <Text style={{color: Color.textNormal}}>淘宝任务</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
                             <Image source={Images.mission_02}  style={{width: 60, height:60}}/>
                             <Text style={{color: Color.textNormal}}>拼多多</Text>
