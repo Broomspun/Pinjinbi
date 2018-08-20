@@ -50,3 +50,6 @@ export const BrowseTask = _BrowseTask;
 
 import _PreOrderMain from './PreOrders/PreOrderMain';
 export const PreOrderMain = _PreOrderMain;
+
+import _PendingOperation from './PreOrders/PendingOperation';
+export const PendingOperation = _PendingOperation;

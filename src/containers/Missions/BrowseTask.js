@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, UIManager,Image, View, Text, Dimensions, TouchableOpacity} from 'react-native'
+import {Platform, UIManager, Dimensions} from 'react-native'
 
 import { Container, Content} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {MissionBlock} from '@components'
-
-import {Actions} from "react-native-router-flux/";
-
-
-let { width, height } = Dimensions.get('window');
 
 class BrowseTask extends Component {
     state = {};

@@ -172,5 +172,6 @@ export default Styles ={
         borderRightColor: 'transparent',
         borderTopColor: 'rgba(0,0,0,.4)'
     },
+    basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10}
 
 };

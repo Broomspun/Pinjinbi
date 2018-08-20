@@ -65,7 +65,7 @@ class PreOrderMain extends Component {
                     <Text style={{backgroundColor: 'white', marginLeft: 15, paddingVertical: 10, paddingRight: 15, borderBottomWidth:1, borderColor: Color.LightBorder}}>{title}</Text>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween,
                          padding: 10, flexWrap: 'wrap'}}>
-                    <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
+                    <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.unfinishedtask1()}>
                         <Image source={Images.preorders_01}  style={{width: 50, height:50}}/>
                         <Text style={{marginTop: 10, color: Color.textNormal}}>未完成</Text>
                     </TouchableOpacity>
@@ -86,7 +86,7 @@ class PreOrderMain extends Component {
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
-                <Content style={{marginTop: 10}}>
+                <Content>
                     {this._renderContent('垫付任务')}
                     {this._renderContent('浏览任务')}
                     <View><Text> </Text></View>
