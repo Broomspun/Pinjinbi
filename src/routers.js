@@ -23,9 +23,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                {/*<Stack key="lotomain" hideNavBar>*/}
-                    {/*<Scene key="loto" component={Loto}  />*/}
-                {/*</Stack>*/}
+                <Stack back key="missions">
+                    <Scene key="totalmissions1" component ={TotalMissions} title="全部任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>

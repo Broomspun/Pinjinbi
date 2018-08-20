@@ -87,6 +87,7 @@ export default {
     },
     //Text
     Text: '#333',
+
     textLight: '#a9a9a9',
     textNormal: '#5f5f5f',
     textDark: '#222222',
@@ -95,7 +96,11 @@ export default {
     LightBlue: '#5c91f0',
     LightBlue1: '#7ca6f2',
     DarkLightBlue: '#5d91ee',
+    DarkerLightBlue: '#5f96f9',
     LighterBlue: '#d6e3fb',
+    LightGrayColor: '#f8f8f8',
+    Border: '#c6c6c6',
+
 
     borderNormal: '#dfdfdf',
     mainBackground:'#f8f8f8',

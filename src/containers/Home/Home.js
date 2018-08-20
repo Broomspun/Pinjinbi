@@ -64,25 +64,25 @@ class Home extends Component {
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
                             </View>
-                            <Text style={{color: '#606060'}}>补单任务</Text>
+                            <Text style={{color: Color.textNormal}}>补单任务</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
                                 <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
                             </View >
-                            <Text style={{color: '#606060'}}>浏览任务</Text>
+                            <Text style={{color: Color.textNormal}}>浏览任务</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#ff713a'}}>
                                 <Image source={Images.amoyIcon} style={{width: 25, height: 25}} />
                             </View>
-                            <Text style={{color: '#606060'}}>淘宝</Text>
+                            <Text style={{color: Color.textNormal}}>淘宝</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#f42d2d'}}>
                                 <Image source={Images.flightLotIcon} style={{width: 25, height: 25}}/>
                             </View>
-                            <Text style={{color: '#606060'}}>拼多多</Text>
+                            <Text style={{color: Color.textNormal}}>拼多多</Text>
                         </View>
                     </View>
                     <View style={{backgroundColor: '#fff', marginTop: 10, ...Styles.shadowStyle}}>
