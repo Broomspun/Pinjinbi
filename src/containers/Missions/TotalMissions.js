@@ -145,11 +145,13 @@ class TotalMissions extends Component {
                 <Footer>
                     <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-around', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <Image source={Images.homeIcon} style={{width: 26, height: 26}} />
-                            <Text style={{fontSize:14, color:Color.textNormal}}>首页</Text>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.home()}>
+                                <Image source={Images.homeIcon} style={{width: 26, height: 26}} />
+                                <Text style={{fontSize:14, color:Color.textNormal}}>首页</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}}>
                                 <Image source={Images.taskIconActive} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color: Color.LightBlue1}}>全部任务</Text>
                             </TouchableOpacity>

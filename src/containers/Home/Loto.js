@@ -53,7 +53,7 @@ class Loto extends Component {
                     <Modal  isVisible={this.state.visibleLotaModal} style={{...Styles.ColumnCenter}}>
                         {this._renderLotoModal()}
                     </Modal>
-                    <View style={{flex:1, width: Styles.width,...Styles.ColumnCenter,backgroundColor: 'green' }}>
+                    <View style={{flex:1, width: Styles.width,...Styles.ColumnCenterBottom,backgroundColor: 'green' }}>
                         <Image source={Images.lotoBakcTop} style={{flex:1,width: Styles.width,height:null }}/>
                     </View>
                     <View style={{flex:1, width: Styles.width, backgroundColor:'#f8655e',...Styles.ColumnCenterBottom}}>

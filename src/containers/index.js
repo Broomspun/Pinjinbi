@@ -44,3 +44,6 @@ export const Loto = _Loto;
 
 import _TotalMissions from './Missions/TotalMissions';
 export const TotalMissions = _TotalMissions;
+
+import _BrowseTask from './Missions/BrowseTask';
+export const BrowseTask = _BrowseTask;

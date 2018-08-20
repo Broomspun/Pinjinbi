@@ -7,10 +7,8 @@ export default Styles ={
     cardStyle: {
         flexDirection:'row',
         backgroundColor: 'white',
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
         alignItems:'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -163,6 +161,16 @@ export default Styles ={
         "marginBottom": 12,
         "marginLeft": 8,
         "opacity": 0.8,
+    },
+    triangleCorner: {
+        width: 0,
+        height: 0,
+        backgroundColor: 'transparent',
+        borderStyle: 'solid',
+        borderRightWidth: 65,
+        borderTopWidth: 65,
+        borderRightColor: 'transparent',
+        borderTopColor: 'rgba(0,0,0,.4)'
     },
 
 };

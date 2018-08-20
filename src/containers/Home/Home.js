@@ -67,11 +67,11 @@ class Home extends Component {
                             <Text style={{color: Color.textNormal}}>补单任务</Text>
                         </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
-                            <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
-                                <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
-                            </View >
-                            <Text style={{color: Color.textNormal}}>浏览任务</Text>
-                        </View>
+                        <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
+                            <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
+                        </View >
+                        <Text style={{color: Color.textNormal}}>浏览任务</Text>
+                    </View>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#ff713a'}}>
                                 <Image source={Images.amoyIcon} style={{width: 25, height: 25}} />
