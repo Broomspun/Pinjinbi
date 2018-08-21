@@ -2,6 +2,7 @@ import {Dimensions, Platform} from 'react-native';
 const _height = Dimensions.get('window').height;
 const {height} = Dimensions.get('window');
 const {heightWindow} = Dimensions.get('window');
+import Color from './Color';
 
 export default Styles ={
     cardStyle: {
@@ -172,6 +173,8 @@ export default Styles ={
         borderRightColor: 'transparent',
         borderTopColor: 'rgba(0,0,0,.4)'
     },
-    basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10}
+    basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10},
+    basicNoMarginStyle:{paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 10},
+    bottomBorderStyle: {borderBottomWidth:1, borderColor: Color.LighterBorder}
 
 };

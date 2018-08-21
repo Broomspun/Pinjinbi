@@ -26,7 +26,7 @@ const RouterComponent = () => {
         <Router>
             <Stack key="root" hideNavBar>
                 {/*<Stack back key="missions123">*/}
-                    {/*<Scene key="completedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Scene key="bindinginfomain1" component ={BindingInfo} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
