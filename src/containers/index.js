@@ -59,3 +59,7 @@ export const CompletedTasks = _CompletedTasks;
 
 import _RevokedTasks from './PreOrders/RevokedTasks';
 export const RevokedTasks = _RevokedTasks;
+
+
+import _BindingInfo from './BindingInfo/BindingInfo';
+export const BindingInfo = _BindingInfo;

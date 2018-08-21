@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Timer from 'react-timer-mixin';
+import Modal from 'react-native-modal'
+
+
 import {Image, View, TouchableOpacity} from 'react-native'
 import {Platform, UIManager, ScrollView} from "react-native";
 
@@ -9,7 +13,9 @@ import {Actions} from "react-native-router-flux";
 
 
 class Home extends Component {
+    state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
     constructor(props) {
+
         super(props);
 
         if (Platform.OS === 'android') {
@@ -29,10 +35,40 @@ class Home extends Component {
             })
     }
 
+    componentDidUpdate() {
+    }
+
+    onStartBindingPress() {
+        this.setState({bShowStartOrderModal: false});
+        Actions.bindinginfomain();
+    }
+
+    _renderShowOrderStartModal = () => (
+        <View style={{borderRadius: 10, width: 300, height: 200, backgroundColor: 'white', paddingVertical: 30 }}>
+            <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center'}}>
+                <View style={{borderBottomWidth: 1, borderColor: Color.LightBorder, paddingBottom: 30}}>
+                    <Text style={{color:'#e84e40', fontSize: Styles.fontLarge, fontWeight: '700'}}>请先完成新手任务</Text>
+                </View>
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                    <Button onPress={()=>this.setState({bShowStartOrderModal: false})}
+                        style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                    </Button>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onStartBindingPress.bind(this)}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
+        </View>
+    );
+
     render() {
         return(
             <Container style={{flex: 1}}>
                 <Content style={{backgroundColor: '#f6f6f6', paddingBottom: 10}}>
+                    <Modal  isVisible={this.state.bShowStartOrderModal} style={{...Styles.ColumnCenter}}>
+                        {this._renderShowOrderStartModal()}
+                    </Modal>
                     <Image source={Images.homeBackTop} style={{height: 180, width: null, flex: 1}}/>
                     <View style={{...styles.moneyStyle,backgroundColor: '#fe9142',height: 60,...Styles.shadowStyle}}>
                         <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
@@ -177,9 +213,10 @@ class Home extends Component {
                 </View>
                 <View style={{alignSelf: 'center', position: 'absolute', width: 60,bottom: 25, zIndex: 99999}} >
                     <View style={styles.footerCenterStyle}>
-                        <View style={{backgroundColor: '#ff7a19', width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <TouchableOpacity  activeOpacity={.8} onPress={()=>this.setState({bShowStartOrderModal: true})}
+                                           style={{backgroundColor: '#ff7a19', width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{fontSize:14,color: 'white'}}>接单</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Container>

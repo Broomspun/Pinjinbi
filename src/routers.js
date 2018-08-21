@@ -8,7 +8,8 @@ import { fromLeft } from 'react-navigation-transitions';
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
-    PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks
+    PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
+    BindingInfo
 } from "@containers";
 
 const RouterComponent = () => {
@@ -71,6 +72,10 @@ const RouterComponent = () => {
                     <Scene key="completedtask" component ={CompletedTasks} title="已完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
+
+                <stack back key="bindinginfostack">
+                    <Scene key="bindinginfomain" component ={BindingInfo} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </stack>
 
             </Stack>
         </Router>
