@@ -52,6 +52,8 @@ const Images = {
     orange_head: require('./../assets/img/preorders/orange_head.png'),
     product: require('./../assets/img/preorders/product.png'),
     tab_2: require('./../assets/img/preorders/tab-2.png'),
+    delivery: require('./../assets/img/preorders/delivery.png'),
+    prendig_review: require('./../assets/img/preorders/prendig_review.png'),
 };
 
 export default Images;

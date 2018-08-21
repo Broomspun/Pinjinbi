@@ -98,10 +98,10 @@ class PendingOperation extends Component {
                             <Text>Tab2</Text>
                         </Tab>
                         <Tab  heading="发货中" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Text>Tab1</Text>
+                           <Tab4/>
                         </Tab>
                         <Tab heading="待追评" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Text>Tab1</Text>
+                            <Tab5/>
                         </Tab>
                     </Tabs>
                 </Content>

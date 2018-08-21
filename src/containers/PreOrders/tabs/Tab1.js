@@ -20,18 +20,18 @@ class Tab1 extends Component{
             <View style={{backgroundColor: Color.LightGrayColor}}>
                 <View style={{marginBottom: 10}}>
                     <View style={{...Styles.basicStyle, ...Styles.shadowStyle, flexDirection: 'row', flex:1, justifyContent:'space-around', alignItems: 'center'}}>
-                        <View style={{flex:1}}>
+                        <View style={{flex:1,flexDirection:'row', justifyContent: 'space-around', height: 80}}>
                             <Image source={Images.product} style={{ height: 80, width: 80, marginRight:10}}/>
-                        </View>
-                        <View style={{flex:1, flexDirection:'column', justifyContent: 'space-around', height: 80}}>
-                            <View style={{flexDirection:'row', ...Styles.RowCenterLeft}}>
-                                <Image source={Images.orange_head} style={{width: 15, height: 15, marginRight: 10}} />
-                                <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>最爱打法师</Text>
+                            <View style={{flex:1, justifyContent:'space-around'}}>
+                                <View style={{flexDirection:'row', ...Styles.RowCenterLeft}}>
+                                    <Image source={Images.orange_head} style={{width: 15, height: 15, marginRight: 10}} />
+                                    <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>最爱打法师</Text>
+                                </View>
+                                <Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>佣金：6.60</Text>
+                                <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>垫付129.00元</Text>
                             </View>
-                            <Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>佣金：6.60</Text>
-                            <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>垫付129.00元</Text>
                         </View>
-                        <View style={{flex:2}}>
+                        <View style={{flex:1}}>
                             <View style={{height: 80,  justifyContent:'space-around'}}>
                                 <Text style={{fontSize: Styles.fontSmall, alignSelf:'flex-end', color: Color.textNormal}}>  任务ID:286693</Text>
                                 <View style={{flexDirection:'row',...Styles.RowCenterRight}}>
