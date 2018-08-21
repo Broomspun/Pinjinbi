@@ -8,7 +8,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
-    PreOrderMain,PendingOperation
+    PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks
 } from "@containers";
 
 const RouterComponent = () => {
@@ -25,7 +25,7 @@ const RouterComponent = () => {
         <Router>
             <Stack key="root" hideNavBar>
                 {/*<Stack back key="missions123">*/}
-                    {/*<Scene key="unfinishedtask1" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Scene key="completedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
@@ -67,7 +67,9 @@ const RouterComponent = () => {
 
                 <Stack back key="preorders">
                     <Scene key="preordermain" component ={PreOrderMain} title="已接任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="unfinishedtask1" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="unfinishedtasks" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="completedtask" component ={CompletedTasks} title="已完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
             </Stack>

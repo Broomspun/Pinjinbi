@@ -53,3 +53,9 @@ export const PreOrderMain = _PreOrderMain;
 
 import _PendingOperation from './PreOrders/PendingOperation';
 export const PendingOperation = _PendingOperation;
+
+import _CompletedTasks from './PreOrders/CompletedTasks';
+export const CompletedTasks = _CompletedTasks;
+
+import _RevokedTasks from './PreOrders/RevokedTasks';
+export const RevokedTasks = _RevokedTasks;
