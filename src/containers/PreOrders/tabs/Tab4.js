@@ -31,7 +31,7 @@ class Tab4 extends Component{
                                 <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>垫付129.00元</Text>
                             </View>
                         </View>
-                        <View style={{flex:2}}>
+                        <View style={{flex:1}}>
                             <View style={{height: 80,  justifyContent:'space-around'}}>
                                 <Text style={{fontSize: Styles.fontSmall, alignSelf:'flex-end', color: Color.textNormal}}>  任务ID:286693</Text>
                                 <View style={{flexDirection:'row',...Styles.RowCenterRight}}>

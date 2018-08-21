@@ -24,9 +24,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                <Stack back key="missions123">
-                    <Scene key="unfinishedtask1" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                </Stack>
+                {/*<Stack back key="missions123">*/}
+                    {/*<Scene key="unfinishedtask1" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>

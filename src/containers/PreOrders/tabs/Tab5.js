@@ -27,8 +27,8 @@ class Tab5 extends Component{
                     <View style={{ flexDirection: 'row', flex:1, justifyContent:'space-around', alignItems: 'center',borderBottomWidth:1, borderColor: Color.LightBorder, paddingBottom: 10}}>
                         <View style={{flex:1, flexDirection:'row', ...Styles.RowCenterLeft}}>
                             <Image source={Images.product} style={{ height: 80, width: 80, marginRight:10}}/>
-                            <View style={{flex:1, ...Styles.ColumnCenterLeft, height: 80}}>
-                                <Text style={{flex: 1, color: Color.textNormal, fontSize:Styles.fontSmall}}>英国Vanow高档保温杯男士女316不锈钢便携水 杯子商务定制刻字茶杯</Text>
+                            <View style={{flex:1, alignItems: 'flex-start',justifyContent: 'space-between'}}>
+                                <Text style={{flex: 1, flexWrap: 'wrap',color: Color.textNormal, fontSize:Styles.fontSmall}}>英国Vanow高档保温杯男士女316不锈钢便携水 杯子商务定制刻字茶杯</Text>
                                 <Text style={{flex: 1, color: Color.orangeColor, fontSize:Styles.fontSmall}}>0.9</Text>
                                 <RowLeftRightBlock leftTitle='最爱打法师' rightTitle='最爱打法师'
                                       l_style={{color: Color.textNormal, fontSize:Styles.fontSmall}}
