@@ -5,7 +5,7 @@ import {Color} from '@common';
 const CardBlock = (props) => {
     return (
         <View style={{...Styles.cardStyle}}>
-            <View style={{flex: 4}} >
+            <View style={{flex: 3}} >
                 <Text style={{color: props.cardTitleColor}}>{props.cardTitle}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-end'}}>

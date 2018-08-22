@@ -123,15 +123,15 @@ class Home extends Component {
                     </View>
                     <View style={{backgroundColor: '#fff', marginTop: 10, ...Styles.shadowStyle}}>
                         <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.newslist()}><Text>公告</Text></Button>
-                        <View style={{...styles.moneyStyle, paddingBottom: 10}}>
+                        <View style={{...styles.moneyStyle, paddingBottom: 10,flexDirection: 'row', flex:1}}>
                             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                                 <Text style={{color: '#606060'}}>微信：pin8002</Text>
-                                <Button bordered style={{height: 28, borderRadius: 14, borderColor: '#606060', marginLeft: 15}}>
+                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1,paddingHorizontal:5, borderColor: '#606060', marginLeft: 5}}>
                                     <Text style={{color: '#606060', fontSize: 18}}>复制</Text>
-                                </Button>
+                                </TouchableOpacity>
                             </View>
-                            <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                                <Text style={{marginLeft: 20, color: '#606060'}}>工作时间  09:00-22:00</Text>
+                            <View style={{...Styles.RowCenterRight, flex: 1}}>
+                                <Text style={{color: '#606060',alignSelf: 'flex-end'}}>工作时间  09:00-22:00</Text>
                             </View>
                         </View>
                     </View>

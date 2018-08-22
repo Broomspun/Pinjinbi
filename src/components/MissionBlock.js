@@ -29,7 +29,7 @@ const MissionBlock = (props) => {
         <View style={{backgroundColor: 'white'}}>
             <View style={{flex: 1, backgroundColor: 'white', marginTop: 10, paddingHorizontal: 15, paddingTop: 20, paddingBottom:10,borderColor: Color.Border, borderWidth: 1}}>
                 <View style={{flex:1, flexDirection: 'row'}}>
-                    <View style={{flex:1,flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start'}}>
+                    <View style={{flex:2.5,flexDirection: 'row', alignItems:'center', justifyContent: 'flex-start'}}>
                         <Image source={Images.gold_stack_plus} style={{width: 24, height: 28, alignSelf: 'flex-start'}}/>
                         <Text style={{marginLeft:10, color: Color.textInfoOrange, fontWeight:'700', fontSize: Styles.fontLarge}}>{point}</Text>
                         <Text style={{marginLeft:5, color: Color.textInfoOrange, fontSize: Styles.fontNormal}}>浏览任务</Text>
@@ -41,7 +41,7 @@ const MissionBlock = (props) => {
                     </View>
                 </View>
                 <View style={{flex:1, flexDirection: 'row', ...Styles.ColumnCenter, marginTop: 10, position:'relative'}}>
-                    <View style={{flex:1,flexDirection: 'row', alignItems:'center'}}>
+                    <View style={{flex:2.5,flexDirection: 'row', alignItems:'center'}}>
                         <Text style={{color: Color.textLight, fontSize: Styles.fontSmall}}>ID:{id}</Text>
                     </View >
                     <View style={{flex:1}}>

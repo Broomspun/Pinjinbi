@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image} from 'react-native';
+import {Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants} from '@common';
@@ -26,28 +26,10 @@ import {
 } from 'native-base';
 
 
-class Login extends Component {
-    onButtonPress() {
-        const {phone, password} = this.props;
-        this.props.loginUser({phone, password});
-    }
+class VerifyCard extends Component {
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.error) {
-            Toast.show({
-                text: `${nextProps.error}`,
-                buttonText: "是",
-                type: "danger"
-            })
-        }
 
-        if(nextProps.user) {
-            Toast.show({
-                text: `${nextProps.msg}`,
-                buttonText: "是",
-                type: "success"
-            })
-        }
     }
 
     componentWillUpdate(){
@@ -107,15 +89,15 @@ class Login extends Component {
                     </Form>
                     <Card transparent >
                         <CardItem style={{backgroundColor: '#f8f8f8'}}>
-                            <View style={{flex: 1, ...Styles.RowCenter}}>
-                                <Button transparent onPress = {()=>{Actions.forgottenverify()}}>
-                                    <Text style={{color: '#000', fontSize: 16}}>忘记密码</Text>
-                                </Button>
-                                <Text style={{ color: '#000', fontSize: 16}}>还没有账号</Text>
-                                <Button transparent onPress={()=> {Actions.register()}}>
-                                    <Text style={{ color: 'red', fontSize: 16}}>立即注册</Text>
-                                </Button>
-                            </View>
+                            <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
+                            <Button transparent onPress = {()=>{Actions.forgottenverify()}}>
+                                <Text style={{color: '#000', fontSize: 16}}>忘记密码</Text>
+                            </Button>
+                            <Text style={{marginTop: 10, color: '#000', fontSize: 16}}>还没有账号</Text>
+                            <Button transparent onPress={()=> {Actions.register()}}>
+                                <Text style={{ color: 'red', fontSize: 16}}>立即注册</Text>
+                            </Button>
+                            </Body>
                         </CardItem>
                     </Card>
                 </Content>
@@ -142,8 +124,9 @@ const styles ={
     }
 } ;
 
-const mapStateToProps = (state) => {
-    const {phone, password, remember, loading, error, user, msg} = state.loginForm;
-    return {phone, password, remember, loading, error, user, msg};
-};
-export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(Login);
+// const mapStateToProps = (state) => {
+//     const {phone, password, remember, loading, error, user, msg} = state.loginForm;
+//     return {phone, password, remember, loading, error, user, msg};
+// };
+// export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(VerifyCard);
+export default VerifyCard;

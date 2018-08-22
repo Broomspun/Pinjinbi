@@ -36,11 +36,11 @@ class Promotion extends Component {
                             <Text style={{color: Color.textInfoOrange}}>10%</Text>
                         </View>
                         <View style={{flex: 1, flexDirection:'row'}}>
-                            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', paddingVertical: 24, paddingHorizontal: 60}}>
+                            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', paddingVertical: 24, paddingHorizontal: 10}}>
                                 <Text style={{fontSize: Styles.fontLarge, color: Color.textInfoOrange}}>0人</Text>
                                 <Text style={textBlockDownStyle}>已注册</Text>
                             </View>
-                            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', paddingVertical: 24, paddingHorizontal: 60}}>
+                            <View style={{flex: 1, flexDirection: 'column', alignItems: 'center', paddingVertical: 24, paddingHorizontal: 10}}>
                                 <Text style={{fontSize: Styles.fontLarge, color: Color.textInfoOrange}}>0人</Text>
                                 <Text style={textBlockDownStyle}>已注册</Text>
                             </View>
