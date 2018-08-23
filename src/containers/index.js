@@ -60,6 +60,10 @@ export const CompletedTasks = _CompletedTasks;
 import _RevokedTasks from './PreOrders/RevokedTasks';
 export const RevokedTasks = _RevokedTasks;
 
+import _VerifyMain from './Verify/VerifyMain';
+export const VerifyMain = _VerifyMain;
 
-import _BindingInfo from './BindingInfo/BindingInfo';
-export const BindingInfo = _BindingInfo;
+import _VerifyPassport from './Verify/Elements/VerifyPassport';
+export const VerifyPassport = _VerifyPassport;
+
+

@@ -22,8 +22,7 @@ export default Styles ={
         backgroundColor: 'white',
         paddingTop: 10,
         paddingBottom: 10,
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingHorizontal: 15,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
@@ -32,14 +31,26 @@ export default Styles ={
     },
     cardStyleEmpty: {
         flexDirection:'column',
-        paddingLeft: 15,
-        paddingRight: 15,
+        paddingHorizontal: 15,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         elevation: 1,
         marginBottom: 10,
         backgroundColor: 'white'
+    },
+
+    cardStyleColumn1: {
+        flexDirection:'column',
+        backgroundColor: 'white',
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingHorizontal: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        elevation: 1,
+        marginTop: 10
     },
     shadowStyle: {
         shadowColor: '#000',
@@ -172,6 +183,18 @@ export default Styles ={
         borderTopWidth: 65,
         borderRightColor: 'transparent',
         borderTopColor: 'rgba(0,0,0,.4)'
+    },
+    borderStyle:{
+        flex:1,
+        height: null,
+        aspectRatio: 1,
+        // marginVertical: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor:
+        Color.textLight,
+        borderWidth:1,
+        borderStyle: 'dashed'
     },
     basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10},
     basicNoMarginStyle:{paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 10},

@@ -9,7 +9,7 @@ import { fromLeft } from 'react-navigation-transitions';
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
-    BindingInfo
+    VerifyMain, VerifyPassport
 } from "@containers";
 
 const RouterComponent = () => {
@@ -25,9 +25,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root" hideNavBar>
-                {/*<Stack back key="missions123">*/}
-                    {/*<Scene key="bindinginfomain1" component ={BindingInfo} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
-                {/*</Stack>*/}
+                <Stack back key="missions123">
+                    <Scene key="verifypassport1" component ={VerifyPassport} title="身份证信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -73,8 +73,9 @@ const RouterComponent = () => {
                     <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
-                <stack back key="bindinginfostack">
-                    <Scene key="bindinginfomain" component ={BindingInfo} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                <stack back key="verifystack">
+                    <Scene key="verifymain" component ={VerifyMain} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="verifypassport" component ={VerifyPassport} title="身份证信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
             </Stack>

@@ -7,7 +7,7 @@ import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 
 
-class BindingInfo extends Component {
+class VerifyMain extends Component {
 
     constructor(props) {
         super(props);
@@ -139,4 +139,4 @@ class BindingInfo extends Component {
     }
 }
 
-export default BindingInfo;
+export default VerifyMain;

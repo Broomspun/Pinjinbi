@@ -40,7 +40,7 @@ class Home extends Component {
 
     onStartBindingPress() {
         this.setState({bShowStartOrderModal: false});
-        Actions.bindinginfomain();
+        Actions.verifymain();
     }
 
     _renderShowOrderStartModal = () => (
