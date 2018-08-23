@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View,Image,TouchableOpacity,PixelRatio} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -20,9 +20,72 @@ import {
     Text,
     Toast
 } from 'native-base';
+import ImagePicker from "react-native-image-picker";
 
 
 class VerifyPassport extends Component {
+
+    state={
+        id_card_front_photo: null,
+        id_card_back_photo: null,
+        id_card_hand_held1: null,
+        id_card_hand_held2: null
+    };
+
+    selectPhotoTapped(id) {
+        const options = {
+            quality: 1.0,
+            maxWidth: 500,
+            maxHeight: 500,
+            storageOptions: {
+                skipBackup: true
+            }
+        };
+
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                switch (id) {
+                    case 0:
+                        this.setState({
+                            id_card_front_photo: source
+                        });
+                        return;
+                    case 1:
+                        this.setState({
+                            id_card_back_photo: source
+                        });
+                        return;
+                    case 2:
+                        this.setState({
+                            id_card_hand_held1: source
+                        });
+                        return;
+                    case 3:
+                        this.setState({
+                            id_card_hand_held2: source
+                        });
+                         return;
+                }
+
+            }
+        });
+    }
 
     componentWillReceiveProps(nextProps){
 
@@ -50,18 +113,23 @@ class VerifyPassport extends Component {
 
                             />
                         </Item>
-                        <View style={Styles.cardStyleColumn1}>
+                        <View style={{...Styles.cardStyleColumn1, flex:1}}>
                             <Text style={{color:Color.redColor}}>请上传身份证(头像面) 截图</Text>
 
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}}>
-                                        <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(0)}>
+                                        { this.state.id_card_front_photo === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_front_photo} />
+                                        }
+
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}}>
-                                        <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(1)}>
+                                        { this.state.id_card_back_photo === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_back_photo} />
+                                        }
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginLeft: 3, marginRight:3}}>
@@ -72,10 +140,10 @@ class VerifyPassport extends Component {
 
                             <View style={{flex:1, ...Styles.RowCenter}}>
                                 <View style={{flex: 1}}>
-                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmall, color: Color.textNormal}}>身份证正面照</Text>
+                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmaller, color: Color.textNormal}}>身份证正面照</Text>
                                 </View>
                                 <View style={{flex:1}}>
-                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmall, color: Color.textNormal}}>身份证背面照</Text>
+                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmaller, color: Color.textNormal}}>身份证背面照</Text>
                                 </View>
                                 <View style={{flex:1}}>
                                 </View>
@@ -87,13 +155,17 @@ class VerifyPassport extends Component {
 
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}}>
-                                        <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
+                                        { this.state.id_card_hand_held1 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1} />
+                                        }
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}}>
-                                        <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
+                                        { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
+                                        }
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginLeft: 3, marginRight:3}}>
@@ -104,10 +176,10 @@ class VerifyPassport extends Component {
 
                             <View style={{flex:1, ...Styles.RowCenter}}>
                                 <View style={{flex: 1}}>
-                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmall, color: Color.textNormal}}>手持身份证照</Text>
+                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmaller, color: Color.textNormal}}>手持身份证照</Text>
                                 </View>
                                 <View style={{flex:1}}>
-                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmall, color: Color.textNormal}}>手持身份证照</Text>
+                                    <Text style={{alignSelf:'center',fontSize: Styles.fontSmaller, color: Color.textNormal}}>手持身份证照</Text>
                                 </View>
                                 <View style={{flex:1}}>
                                 </View>
