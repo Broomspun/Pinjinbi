@@ -34,6 +34,10 @@ class VerifyPassport extends Component {
 
     selectPhotoTapped(id) {
         const options = {
+            title:'选择一张照片',
+            takePhotoButtonTitle:'拍照',
+            chooseFromLibraryButtonTitle:'从相册选取',
+            cancelButtonTitle:'取消',
             quality: 1.0,
             maxWidth: 500,
             maxHeight: 500,
