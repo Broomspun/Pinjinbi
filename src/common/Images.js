@@ -1,4 +1,5 @@
 const Images = {
+    backButtonImg:require('./../assets/img/icons/back_chevron.png'),
     splashScreen: require('./../assets/img/logo.jpg'),
     qqIcon: require('./../assets/img/qq-icon.png'),
     qqIcon_white: require('./../assets/img/qq_Icon_white.png'),
@@ -58,6 +59,22 @@ const Images = {
     icon_qq_number: require('./../assets/img/icons/icon_qq_number.png'),
     icon_jd: require('./../assets/img/icons/icon_JD.png'),
     icon_bankcard: require('./../assets/img/icons/icon_bankcard.png'),
+    bank_01: require('./../assets/img/icons/banks/bank_01.png'),
+    bank_02: require('./../assets/img/icons/banks/bank_02.png'),
+    bank_03: require('./../assets/img/icons/banks/bank_03.png'),
+    bank_04: require('./../assets/img/icons/banks/bank_04.png'),
+    bank_05: require('./../assets/img/icons/banks/bank_05.png'),
+    bank_06: require('./../assets/img/icons/banks/bank_06.png'),
+    bank_07: require('./../assets/img/icons/banks/bank_07.png'),
+    bank_08: require('./../assets/img/icons/banks/bank_08.png'),
+    bank_09: require('./../assets/img/icons/banks/bank_09.png'),
+    bank_10: require('./../assets/img/icons/banks/bank_10.png'),
+    bank_11: require('./../assets/img/icons/banks/bank_11.png'),
+    bank_12: require('./../assets/img/icons/banks/bank_12.png'),
+    bank_13: require('./../assets/img/icons/banks/bank_13.png'),
+    bank_14: require('./../assets/img/icons/banks/bank_14.png'),
+    alarm_notice: require('./../assets/img/icons/alarm-notice.png'),
+
 
 };
 

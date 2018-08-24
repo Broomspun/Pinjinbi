@@ -4,7 +4,7 @@ import Timer from 'react-timer-mixin';
 import Modal from 'react-native-modal'
 
 
-import {Image, View, TouchableOpacity} from 'react-native'
+import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
 import {Platform, UIManager, ScrollView} from "react-native";
 
 import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native-base';
@@ -46,12 +46,12 @@ class Home extends Component {
     _renderShowOrderStartModal = () => (
         <View style={{borderRadius: 10, width: 300, height: 200, backgroundColor: 'white', paddingVertical: 30 }}>
             <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{borderBottomWidth: 1, borderColor: Color.LightBorder, paddingBottom: 30}}>
+                <View style={{borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.LightBorder, paddingBottom: 30}}>
                     <Text style={{color:'#e84e40', fontSize: Styles.fontLarge, fontWeight: '700'}}>请先完成新手任务</Text>
                 </View>
                 <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
                     <Button onPress={()=>this.setState({bShowStartOrderModal: false})}
-                        style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1}}>
+                        style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
                         <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
                     </Button>
                     <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onStartBindingPress.bind(this)}>
@@ -125,13 +125,13 @@ class Home extends Component {
                         <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.newslist()}><Text>公告</Text></Button>
                         <View style={{...styles.moneyStyle, paddingBottom: 10,flexDirection: 'row', flex:1}}>
                             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                                <Text style={{color: '#606060'}}>微信：pin8002</Text>
-                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1,paddingHorizontal:5, borderColor: '#606060', marginLeft: 5}}>
-                                    <Text style={{color: '#606060', fontSize: 18}}>复制</Text>
+                                <Text style={{color: Color.textNormal}}>微信：pin8002</Text>
+                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1/PixelRatio.get(),paddingHorizontal:5, borderColor: Color.textNormal, marginLeft: 5}}>
+                                    <Text style={{color: Color.textNormal, fontSize: 18}}>复制</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{...Styles.RowCenterRight, flex: 1}}>
-                                <Text style={{color: '#606060',alignSelf: 'flex-end'}}>工作时间  09:00-22:00</Text>
+                                <Text style={{color: Color.textNormal,alignSelf: 'flex-end'}}>工作时间  09:00-22:00</Text>
                             </View>
                         </View>
                     </View>
@@ -157,25 +157,25 @@ class Home extends Component {
                     </View>
                     <View style={{...styles.fourthRowStyle, ...Styles.shadowStyle}}>
                         <View style={{paddingBottom: 10, borderBottomWidth: 1, borderColor: '#efefef'}} >
-                            <Text style={{color:'#606060'}}>每日任务</Text>
+                            <Text style={{color:Color.textNormal}}>每日任务</Text>
                         </View>
                         <View style={{flex: 1, width: null, flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10}}>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-start', alignItems: 'center'}}>
                                 <TouchableOpacity  activeOpacity={.8} transparent style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}} onPress={()=>Actions.prize()}>
                                     <Image source={Images.wodedingdanIcon} style={{width: 35, height: 35, marginRight: 0}}/>
-                                    <Text style={{marginLeft: 0, fontSize: 14, color: '#606060'}}>签到领积分</Text>
+                                    <Text style={{marginLeft: 0, fontSize: 14, color: Color.textNormal}}>签到领积分</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                                 <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.loto()}>
                                     <Image source={Images.prizeIcon} style={{width: 35, height: 35}} />
-                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>积分抽奖</Text>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: Color.textNormal}}>积分抽奖</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'center'}}>
                                 <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.promotion()}>
                                     <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
-                                    <Text style={{marginLeft: 5, fontSize: 14, color: '#606060'}}>邀请好友</Text>
+                                    <Text style={{marginLeft: 5, fontSize: 14, color: Color.textNormal}}>邀请好友</Text>
                                 </TouchableOpacity>
                             </View>
 
@@ -259,7 +259,7 @@ const styles = {
     },
     buttonStyle: {
         borderWidth: 1,
-        borderColor: '#606060',
+        borderColor: Color.textNormal,
         borderRadius: 16,
         marginLeft: 10,
         height: 28,

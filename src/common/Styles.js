@@ -1,4 +1,4 @@
-import {Dimensions, Platform} from 'react-native';
+import {Dimensions, PixelRatio, Platform} from 'react-native';
 const _height = Dimensions.get('window').height;
 const {height} = Dimensions.get('window');
 const {heightWindow} = Dimensions.get('window');
@@ -198,6 +198,16 @@ export default Styles ={
     },
     basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10},
     basicNoMarginStyle:{paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 10},
-    bottomBorderStyle: {borderBottomWidth:1, borderColor: Color.LighterBorder}
+    bottomBorderStyle: {borderBottomWidth:1, borderColor: Color.LighterBorder},
+    bankSelectButtonStyle: {
+        marginHorizontal: 15,
+        paddingVertical: 8,
+        marginTop: 10,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderColor:
+        Color.LightBorder,
+        borderWidth: 1/PixelRatio.get()
+    }
 
 };

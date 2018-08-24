@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
-import {Platform, UIManager, FlatList, View} from "react-native";
+import {Platform, UIManager, FlatList, View, PixelRatio} from "react-native";
 
 import { Text, ListItem, Container, Content } from 'native-base';
 import {Images, Constants, Color} from '@common';
@@ -32,7 +32,7 @@ class NewsList extends Component {
 
     renderRow = (news)=> {
         return (
-            <ListItem onPress={()=>Actions.newsdetail({album: news.item})} style={{paddingTop:10, paddingBottom:10, borderBottomWidth: 1, borderColor: Color.borderNormal}}>
+            <ListItem onPress={()=>Actions.newsdetail({album: news.item})} style={{paddingTop:10, paddingBottom:10, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.borderNormal}}>
                 <View style={{flex: 1}}>
                     <View style={{flexDirection: 'row'}}>
                         <Text style={{color: Color.textNormal, fontSize: 14, marginRight: 5}}>{news.item.title}</Text>

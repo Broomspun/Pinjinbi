@@ -18,6 +18,7 @@ import {
     Input,
     Item,
     Text,
+    Picker,
     Toast
 } from 'native-base';
 import ImagePicker from "react-native-image-picker";
@@ -29,7 +30,7 @@ class VerifyPassport extends Component {
         id_card_front_photo: null,
         id_card_back_photo: null,
         id_card_hand_held1: null,
-        id_card_hand_held2: null
+        id_card_hand_held2: null,
     };
 
     selectPhotoTapped(id) {
