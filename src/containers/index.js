@@ -66,6 +66,8 @@ export const VerifyMain = _VerifyMain;
 import _VerifyPassport from './Verify/Elements/VerifyPassport';
 export const VerifyPassport = _VerifyPassport;
 
-
 import _VerifyBanks from './Verify/Elements/VerifyBanks';
 export const VerifyBanks = _VerifyBanks;
+
+import _VerifyQQ from './Verify/Elements/VerifyQQ';
+export const VerifyQQ = _VerifyQQ;

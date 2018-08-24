@@ -7,9 +7,25 @@ import {Actions} from 'react-native-router-flux';
 import {drawSplashScreen} from "./../../actions"
 import Timer from 'react-timer-mixin';
 import {Images, Constants} from '@common';
-import {View, Text, Image, Platform, UIManager} from 'react-native';
-
+import {View, Text, Image, Platform, UIManager,AsyncStorage} from 'react-native';
+import {_retrieveUserData} from './../../Helper'
 class SplashScreen extends Component {
+
+    retrieveUserData = async () => {
+        try {
+            let user = await AsyncStorage.getItem('pjinbi_auth_user');
+            if (user !== null) {
+                console.log('fetched user', user);
+                return user;
+            } else {
+                console.log('none user');
+                Actions.auth();
+            }
+        } catch (error) {
+            console.log('error');
+        }
+    };
+
     constructor(props) {
         super(props);
 
@@ -18,8 +34,14 @@ class SplashScreen extends Component {
         }
     }
     componentDidMount() {
-        Timer.setTimeout(() => {
-            Actions.auth()
+        Timer.setTimeout(async () => {
+            let user = await this.retrieveUserData();
+            console.log('user****',user);
+
+            if(user)
+                Actions.main({user: JSON.parse(user)});
+            else
+                Actions.auth();
         }, Constants.SplashScreen.Duration);
     }
 
@@ -76,8 +98,8 @@ const styles ={
 };
 
 const mapStoretoProps = (state) => {
-    const {loading} = state.splash;
-    return { loading };
+    const {user} = state.loginForm;
+    return { user };
 };
 
 export default connect(mapStoretoProps, {drawSplashScreen})(SplashScreen);

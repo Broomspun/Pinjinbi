@@ -9,9 +9,8 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Actions} from 'react-native-router-flux'
 
 import {
-    Button, Card,Container, Content, Form, Icon, Input,  Item, Text, Picker, Toast
+    Button, Card,Container, Content, Form, Icon, Input,  Item, Text
 } from 'native-base';
-import ImagePicker from "react-native-image-picker";
 
 
 class VerifyBanks extends Component {
@@ -23,7 +22,6 @@ class VerifyBanks extends Component {
     };
 
     componentDidUpdate(nextProps){
-        console.log(this.state);
 
     }
 

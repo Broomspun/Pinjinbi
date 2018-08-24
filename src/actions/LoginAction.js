@@ -1,5 +1,6 @@
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
+import {AsyncStorage} from 'react-native'
 import Timer from 'react-timer-mixin';
 
 import {
@@ -13,6 +14,14 @@ export const loginParameterUpdated = ({ prop, value }) => {
     return {
         type: LOGIN_PARAMETER_UPDATED,
         payload: {prop, value}
+    }
+};
+
+export const _storeUserAuthenticationData = async (user) => {
+    try {
+        await AsyncStorage.setItem('pjinbi_auth_user', JSON.stringify(user));
+    } catch (error) {
+        console.log('error',error);
     }
 };
 
@@ -49,6 +58,9 @@ const loginUserSuccess = (dispatch, user, msg) => {
         type: LOGIN_USER_SUCCESS,
         payload: {user: user, msg: msg}
     });
+
+    _storeUserAuthenticationData(user);
+
     if(user) {
         Timer.setTimeout(() => {
             Actions.main({user: user});

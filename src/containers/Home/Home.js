@@ -3,9 +3,9 @@ import axios from 'axios';
 import Timer from 'react-timer-mixin';
 import Modal from 'react-native-modal'
 
-
-import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
+import {Image, View, TouchableOpacity, PixelRatio,AsyncStorage } from 'react-native'
 import {Platform, UIManager, ScrollView} from "react-native";
+import {_retrieveUserData} from './../../Helper'
 
 import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
@@ -23,18 +23,28 @@ class Home extends Component {
         }
 
         this.state = {user: props.user};
+
         const {UserId, Token} = this.state.user;
+
+        console.log('url', `http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
 
         axios.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
             .then((res) => {
-                if(res.data.errcode===0) {
+                if (res.data.errcode === 0) {
+                    console.log('res', res.data.obj);
                     this.setState({user: {...res.data.obj, ...this.state.user}});
+                } else {
+                    Actions.auth();
                 }
             })
-            .catch(()=>{
+            .catch((error) => {
+                console.log(error)
             })
     }
 
+    componentWillMount() {
+
+    }
     componentDidUpdate() {
     }
 
@@ -51,7 +61,7 @@ class Home extends Component {
                 </View>
                 <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
                     <Button onPress={()=>this.setState({bShowStartOrderModal: false})}
-                        style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                            style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
                         <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
                     </Button>
                     <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onStartBindingPress.bind(this)}>
@@ -126,8 +136,8 @@ class Home extends Component {
                         <View style={{...styles.moneyStyle, paddingBottom: 10,flexDirection: 'row', flex:1}}>
                             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                                 <Text style={{color: Color.textNormal}}>微信：pin8002</Text>
-                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1/PixelRatio.get(),paddingHorizontal:5, borderColor: Color.textNormal, marginLeft: 5}}>
-                                    <Text style={{color: Color.textNormal, fontSize: 18}}>复制</Text>
+                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1/PixelRatio.get(),paddingHorizontal:5, borderColor: Color.textNormal, marginLeft: 5, justifyContent:'center'}}>
+                                    <Text style={{color: Color.textNormal, fontSize: Styles.fontSmall, }}>复制</Text>
                                 </TouchableOpacity>
                             </View>
                             <View style={{...Styles.RowCenterRight, flex: 1}}>

@@ -193,7 +193,7 @@ export default Styles ={
         alignItems: 'center',
         borderColor:
         Color.textLight,
-        borderWidth:1,
+        borderWidth:1/PixelRatio.get(),
         borderStyle: 'dashed'
     },
     basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10},
@@ -208,6 +208,20 @@ export default Styles ={
         borderColor:
         Color.LightBorder,
         borderWidth: 1/PixelRatio.get()
+    },
+    mt10: {
+        marginTop:10
+    },
+    mt20: {
+        marginTop:20
+    },
+    mb10: {
+        marginBottom:10
+    },
+    mb20: {
+        marginBottom:20
     }
+
+
 
 };

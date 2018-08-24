@@ -11,6 +11,5 @@ export const getNoticeLists = () => {
                     payload: res.data.articles
                 });
             });
-
     }
 };

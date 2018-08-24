@@ -9,7 +9,7 @@ import { fromLeft } from 'react-navigation-transitions';
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
-    VerifyMain, VerifyPassport,VerifyBanks
+    VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ
 } from "@containers";
 
 const RouterComponent = () => {
@@ -26,16 +26,10 @@ const RouterComponent = () => {
         <Router>
             <Stack key="root"  hideNavBar>
                 {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
-                    {/*<Scene key="verifybanks123" component ={VerifyBanks} title="绑定银行账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
-                </Stack>
-                <Stack key="auth" backButtonImage={Images.backButtonImg}>
-                    <Scene key="login" component ={Login} title="欢迎来到拼金币"  titleStyle={styles.navigationBarTitleStyle} initial />
-                    <Scene key="register" component ={Register} title="注册账号" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
-                    <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
-                    <Scene key="forgottenpassword" component ={ForgottenPassword} title="忘记密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}}/>
                 </Stack>
                 <Stack key="main" backButtonImage={Images.backButtonImg}>
                     <Scene key="home"
@@ -50,6 +44,12 @@ const RouterComponent = () => {
                     <Scene key="promotion" component ={Promotion} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="prize" component ={Prize} title="赚积分" titleStyle={styles.navigationBarTitleStyle}  rightTitle="积分记录" onRight={() => {}} />
                     <Scene key="loto" component ={Loto} title="积分抽奖" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
+                <Stack key="auth" backButtonImage={Images.backButtonImg}>
+                    <Scene key="login" component ={Login} title="欢迎来到拼金币"  titleStyle={styles.navigationBarTitleStyle} />
+                    <Scene key="register" component ={Register} title="注册账号" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
+                    <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
+                    <Scene key="forgottenpassword" component ={ForgottenPassword} title="忘记密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}}/>
                 </Stack>
                 <Stack back key="news" transitionConfig={() => fromLeft(500)} backButtonImage={Images.backButtonImg}>
                     <Scene key="newslist" component ={NewsList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
@@ -77,6 +77,7 @@ const RouterComponent = () => {
                     <Scene key="verifymain" component ={VerifyMain} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="verifypassport" component ={VerifyPassport} title="身份证信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="verifybanks" component ={VerifyBanks} title="绑定银行账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
             </Stack>
