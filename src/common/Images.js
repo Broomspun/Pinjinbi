@@ -80,6 +80,11 @@ const Images = {
     promo_top1: require('./../assets/img/promotion/top1.png'),
     promo_top2: require('./../assets/img/promotion/top2.png'),
     promo_top3: require('./../assets/img/promotion/top3.png'),
+    faq_icon_01: require('./../assets/img/FAQ/FAQ_icon_01.png'),
+    faq_icon_02: require('./../assets/img/FAQ/FAQ_icon_02.png'),
+    faq_icon_03: require('./../assets/img/FAQ/FAQ_icon_03.png'),
+    faq_icon_04: require('./../assets/img/FAQ/FAQ_icon_04.png'),
+    faq_chat_icon: require('./../assets/img/FAQ/FAQ_chat_icon.png'),
 
 
 };

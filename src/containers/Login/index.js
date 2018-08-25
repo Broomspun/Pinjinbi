@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 import {View,Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
-import {Images, Constants} from '@common';
+import {Images, Constants, Styles} from '@common';
 import {Actions} from 'react-native-router-flux'
 import {loginParameterUpdated, loginUser} from './../../actions'
 import {
@@ -64,7 +64,7 @@ class Login extends Component {
 
         return (
             <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ onPress = {this.onButtonPress.bind(this)} >
-                <Text style={{fontSize: 20}}>登录</Text>
+                <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
             </Button>
         );
     }

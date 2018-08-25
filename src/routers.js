@@ -9,7 +9,8 @@ import { fromLeft } from 'react-navigation-transitions';
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
-    VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ
+    VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
+    FaqMain, Faqs
 } from "@containers";
 
 const RouterComponent = () => {
@@ -25,9 +26,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root"  hideNavBar>
-                <Stack back key="missions123" backButtonImage={Images.backButtonImg}>
-                    <Scene key="promotionaward123" component ={PromotionAward} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                </Stack>
+                {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
+                    {/*<Scene key="faqmain123" component ={Faqs} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -81,6 +82,10 @@ const RouterComponent = () => {
                     <Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
+                <stack back key="faqstack" backButtonImage={Images.backButtonImg}>
+                    <Scene key="faqmain" component ={FaqMain} title="常见问题" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="faqs" component ={FaqMain} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </stack>
             </Stack>
         </Router>
     );

@@ -185,12 +185,12 @@ class Home extends Component {
                             </View >
                             <Text style={{color: '#fff'}}>推广奖励</Text>
                         </TouchableOpacity>
-                        <View style={{...styles.cardStyle,backgroundColor: '#fbce33' }}>
+                        <TouchableOpacity activeOpacity={.8} style={{...styles.cardStyle,backgroundColor: '#fbce33' }} onPress={()=>Actions.faqmain()}>
                             <View style={{...styles.iconWrapper1 }}>
                                 <Image source={Images.questionIcon} style={{width: 40, height: 35}} />
                             </View>
                             <Text style={{color: '#fff'}}>常见问题</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={{...styles.fourthRowStyle, ...Styles.shadowStyle}}>
                         <View style={{paddingBottom: 10, borderBottomWidth: 1, borderColor: '#efefef'}} >

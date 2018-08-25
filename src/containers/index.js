@@ -74,3 +74,9 @@ export const VerifyBanks = _VerifyBanks;
 
 import _VerifyQQ from './Verify/Elements/VerifyQQ';
 export const VerifyQQ = _VerifyQQ;
+
+import _FaqMain from './FAQ/FaqMain';
+export const FaqMain = _FaqMain;
+
+import _Faqs from './FAQ/Faqs';
+export const Faqs = _Faqs;
