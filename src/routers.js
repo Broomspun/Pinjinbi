@@ -7,7 +7,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
-NoticeList, NoticeDetail, Promotion, Prize, Loto, TotalMissions, BrowseTask,
+NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ
 } from "@containers";
@@ -25,9 +25,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root"  hideNavBar>
-                {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
-                    {/*<Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
-                {/*</Stack>*/}
+                <Stack back key="missions123" backButtonImage={Images.backButtonImg}>
+                    <Scene key="promotionaward123" component ={PromotionAward} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </Stack>
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -42,6 +42,7 @@ const RouterComponent = () => {
                            initial
                     />
                     <Scene key="promotion" component ={Promotion} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="promotionaward" component ={PromotionAward} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="prize" component ={Prize} title="赚积分" titleStyle={styles.navigationBarTitleStyle}  rightTitle="积分记录" onRight={() => {}} />
                     <Scene key="loto" component ={Loto} title="积分抽奖" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>

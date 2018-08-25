@@ -11,7 +11,11 @@ import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
+import PinjinbiAPI from './../../Services'
 
+const instance = axios.create({
+    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+});
 class Home extends Component {
     state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
     constructor(props) {
@@ -28,10 +32,9 @@ class Home extends Component {
 
         console.log('url', `http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
 
-        axios.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
+        instance.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
             .then((res) => {
                 if (res.data.errcode === 0) {
-                    console.log('res', res.data.obj);
                     this.setState({user: {...res.data.obj, ...this.state.user}});
                 } else {
                     Actions.auth();
@@ -40,14 +43,31 @@ class Home extends Component {
             .catch((error) => {
                 console.log(error)
             })
+
+        instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` )
+            .then( res =>{
+                if(res.data.errcode ===0) {
+                    console.log('bind info', res );
+                    this.setState({bindInfo: res.data.obj});
+
+                } else {
+                    return  {status: res.data.errcode, msg: res.data.msg};
+                }
+            })
+            .catch(() =>  console.log('failed!'));
     }
 
     componentWillMount() {
 
     }
     componentDidUpdate() {
+        // console.log(this.state);
     }
 
+    componentWillMount(){
+        console.log('willUnmount');
+
+    }
     onStartBindingPress() {
         this.setState({bShowStartOrderModal: false});
         Actions.verifymain();
@@ -71,6 +91,13 @@ class Home extends Component {
             </View>
         </View>
     );
+
+    getUserBindStatus =  () => {
+
+        if(this.state.bindInfo.IsAUT===0){
+            this.setState({bShowStartOrderModal: true});
+        }
+    };
 
     render() {
         return(
@@ -106,18 +133,18 @@ class Home extends Component {
                         </View>
                     </View>
                     <View style={{...styles.secondViewStyle, height: 100, ...Styles.shadowStyle}}>
-                        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
                             </View>
                             <Text style={{color: Color.textNormal}}>补单任务</Text>
-                        </View>
-                        <View style={{flexDirection: 'column', alignItems: 'center'}}>
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
                                 <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
                             </View >
                             <Text style={{color: Color.textNormal}}>浏览任务</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{flexDirection: 'column', alignItems: 'center'}}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#ff713a'}}>
                                 <Image source={Images.amoyIcon} style={{width: 25, height: 25}} />
@@ -152,12 +179,12 @@ class Home extends Component {
                             </View>
                             <Text style={{color: '#fff'}}>新手任务</Text>
                         </View>
-                        <View style={{...styles.cardStyle, backgroundColor: '#59a3ff'}}>
+                        <TouchableOpacity activeOpacity={.8} style={{...styles.cardStyle, backgroundColor: '#59a3ff'}} onPress={()=>Actions.promotion()}>
                             <View style={{...styles.iconWrapper1}}>
                                 <Image source={Images.promotionIcon} style={{width: 29, height: 35}} />
                             </View >
                             <Text style={{color: '#fff'}}>推广奖励</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{...styles.cardStyle,backgroundColor: '#fbce33' }}>
                             <View style={{...styles.iconWrapper1 }}>
                                 <Image source={Images.questionIcon} style={{width: 40, height: 35}} />
@@ -183,7 +210,7 @@ class Home extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'center'}}>
-                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.promotion()}>
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} >
                                     <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
                                     <Text style={{marginLeft: 5, fontSize: 14, color: Color.textNormal}}>邀请好友</Text>
                                 </TouchableOpacity>

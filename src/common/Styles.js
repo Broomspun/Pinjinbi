@@ -196,7 +196,12 @@ export default Styles ={
         borderWidth:1/PixelRatio.get(),
         borderStyle: 'dashed'
     },
-    basicStyle:{paddingHorizontal: 15, marginTop: 10, backgroundColor: 'white', paddingVertical: 10},
+    basicStyle:{
+        paddingHorizontal: 15,
+        marginTop: 10,
+        backgroundColor: 'white',
+        paddingVertical: 10
+    },
     basicNoMarginStyle:{paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 10},
     bottomBorderStyle: {borderBottomWidth:1, borderColor: Color.LighterBorder},
     bankSelectButtonStyle: {

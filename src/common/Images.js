@@ -74,6 +74,12 @@ const Images = {
     bank_13: require('./../assets/img/icons/banks/bank_13.png'),
     bank_14: require('./../assets/img/icons/banks/bank_14.png'),
     alarm_notice: require('./../assets/img/icons/alarm-notice.png'),
+    promo_back: require('./../assets/img/promotion/promotion.png'),
+    promo_icon1: require('./../assets/img/promotion/promotion_award1.png'),
+    promo_icon2: require('./../assets/img/promotion/promotion_award2.png'),
+    promo_top1: require('./../assets/img/promotion/top1.png'),
+    promo_top2: require('./../assets/img/promotion/top2.png'),
+    promo_top3: require('./../assets/img/promotion/top3.png'),
 
 
 };

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity} from 'react-native'
-import { Container, Content, Button, Text} from 'native-base';
+import {Platform, UIManager, View, Image, TouchableOpacity} from 'react-native'
+import { Text} from 'native-base';
 
 import {Images, Constants, Color, Styles} from '@common';
 

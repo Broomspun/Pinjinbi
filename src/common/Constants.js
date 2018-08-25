@@ -3,11 +3,7 @@ import {Dimensions} from 'react-native';
 const {width, height} = Dimensions.get("window");
 
 const Constants = {
-    RTL: false,
-    Language: 'China', // Arabic
-    fontFamily: 'OpenSans',
-    fontHeader: 'Baloo',
-    fontHeaderAndroid: 'Baloo',
+    BASE_API_URL: 'http://pjbapi.wtvxin.com/api',
     SplashScreen: {
         Duration: 2000,
     },
