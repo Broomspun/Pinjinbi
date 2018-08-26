@@ -38,7 +38,6 @@ export const getBindingInfo1 = async (userId, Token)=>{
       instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${userId}&Token=${Token}` )
         .then(res =>{
             if(res.data.errcode ===0) {
-                console.log('bind info123', res,`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${userId}&Token=${Token}` );
                 return  {status: 200, data:res.data.obj};
             } else {
                 return  {status: res.data.errcode, msg:res.data.msg};
@@ -47,10 +46,15 @@ export const getBindingInfo1 = async (userId, Token)=>{
         .catch(() =>  console.log('Failed'));
 
 };
-
-export const getBindingInfo = async (userId, Token)=>{
-
-    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${userId}&Token=${Token}` );
+/**
+ 3.4. 个人中心首页 (Personal Center Homepage)
+ http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?
+ GET
+ @UserId
+ @Token
+ **/
+export const getMemberInfo = async (UserId, Token)=>{
+    let res = await instance.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
 
     try {
         if(res.data.errcode ===0) {
@@ -61,6 +65,27 @@ export const getBindingInfo = async (userId, Token)=>{
     } catch (error) {
         return await {status: 404, data: null};
     }
+};
 
+/**
+ 5.4. 获取绑定信息页面的数据
+ http://pjbapi.wtvxin.com/api/Member/GetBindPageData
+ POST
+ @UserId
+ @Token
+**/
+
+export const getBindingInfo = async (UserId, Token)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
 };
 

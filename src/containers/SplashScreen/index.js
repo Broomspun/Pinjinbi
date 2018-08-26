@@ -21,12 +21,12 @@ class SplashScreen extends Component {
     }
     componentDidMount() {
         Timer.setTimeout(async () => {
-            let user = await _retrieveUserData();
-            console.log('user****',user);
+            // let user = await _retrieveUserData();
+            // console.log('user****',user);
 
-            if(user)
-                Actions.main({user: JSON.parse(user)});
-            else
+            // if(user)
+            //     Actions.main({user: JSON.parse(user)});
+            // else
                 Actions.auth();
         }, Constants.SplashScreen.Duration);
     }

@@ -11,7 +11,7 @@ import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
-import {getBindingInfo} from './../../Services'
+import {getBindingInfo,getMemberInfo} from './../../Services'
 
 const instance = axios.create({
     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -34,23 +34,19 @@ class Home extends Component {
 
         (async ()=>{
             bindInfo = await getBindingInfo(UserId, Token);
-            if(biddInfo.status===200)
+            if(bindInfo.status===200)
                 this.setState({bindInfo: bindInfo});
         })();
 
-        console.log('url', `http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
+        (async ()=>{
+            let memberInfo = await getMemberInfo(UserId, Token);
+            console.log('memberInfo', memberInfo);
+            if(memberInfo.status===200) {
+                this.setState({user: {...memberInfo.data, ...this.state.user}});
 
-        instance.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
-            .then((res) => {
-                if (res.data.errcode === 0) {
-                    this.setState({user: {...res.data.obj, ...this.state.user}});
-                } else {
-                    Actions.auth();
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            });
+                console.log('state', this.state);
+            }
+        })();
 
 
         // instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` )
