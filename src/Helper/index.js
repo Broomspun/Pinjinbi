@@ -12,17 +12,3 @@ export const generatorCaptchaCode = (length) => {
     return result.join('')
 };
 
-export const _retrieveUserData = async () => {
-    try {
-        let user = await AsyncStorage.getItem('pjinbi_auth_user');
-        if (user !== null) {
-            console.log('fetched user', user);
-            return user;
-        } else {
-            console.log('none user');
-            Actions.auth();
-        }
-    } catch (error) {
-        console.log('error');
-    }
-};

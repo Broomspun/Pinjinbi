@@ -8,23 +8,9 @@ import {drawSplashScreen} from "./../../actions"
 import Timer from 'react-timer-mixin';
 import {Images, Constants} from '@common';
 import {View, Text, Image, Platform, UIManager,AsyncStorage} from 'react-native';
-import {_retrieveUserData} from './../../Helper'
-class SplashScreen extends Component {
+import {_retrieveUserData} from './../../Services'
 
-    retrieveUserData = async () => {
-        try {
-            let user = await AsyncStorage.getItem('pjinbi_auth_user');
-            if (user !== null) {
-                console.log('fetched user', user);
-                return user;
-            } else {
-                console.log('none user');
-                Actions.auth();
-            }
-        } catch (error) {
-            console.log('error');
-        }
-    };
+class SplashScreen extends Component {
 
     constructor(props) {
         super(props);
@@ -35,7 +21,7 @@ class SplashScreen extends Component {
     }
     componentDidMount() {
         Timer.setTimeout(async () => {
-            let user = await this.retrieveUserData();
+            let user = await _retrieveUserData();
             console.log('user****',user);
 
             if(user)

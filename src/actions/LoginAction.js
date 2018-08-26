@@ -53,13 +53,13 @@ const loginUserFail = (dispatch, msg)=>{
     })
 };
 
-const loginUserSuccess = (dispatch, user, msg) => {
+const loginUserSuccess = async (dispatch, user, msg) => {
     dispatch({
         type: LOGIN_USER_SUCCESS,
         payload: {user: user, msg: msg}
     });
 
-    _storeUserAuthenticationData(user);
+    await _storeUserAuthenticationData(user);
 
     if(user) {
         Timer.setTimeout(() => {

@@ -11,7 +11,7 @@ import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
-import PinjinbiAPI from './../../Services'
+import {getBindingInfo} from './../../Services'
 
 const instance = axios.create({
     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -30,6 +30,14 @@ class Home extends Component {
 
         const {UserId, Token} = this.state.user;
 
+        let bindInfo = null;
+
+        (async ()=>{
+            bindInfo = await getBindingInfo(UserId, Token);
+            if(biddInfo.status===200)
+                this.setState({bindInfo: res.data.obj});
+        })();
+
         console.log('url', `http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
 
         instance.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`)
@@ -42,19 +50,20 @@ class Home extends Component {
             })
             .catch((error) => {
                 console.log(error)
-            })
+            });
 
-        instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` )
-            .then( res =>{
-                if(res.data.errcode ===0) {
-                    console.log('bind info', res );
-                    this.setState({bindInfo: res.data.obj});
 
-                } else {
-                    return  {status: res.data.errcode, msg: res.data.msg};
-                }
-            })
-            .catch(() =>  console.log('failed!'));
+        // instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` )
+        //     .then( res =>{
+        //         if(res.data.errcode ===0) {
+        //             console.log('bind info', res );
+        //             this.setState({bindInfo: res.data.obj});
+        //
+        //         } else {
+        //             return  {status: res.data.errcode, msg: res.data.msg};
+        //         }
+        //     })
+        //     .catch(() =>  console.log('failed!'));
     }
 
     componentWillMount() {
