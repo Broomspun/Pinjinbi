@@ -35,7 +35,7 @@ class Home extends Component {
         (async ()=>{
             bindInfo = await getBindingInfo(UserId, Token);
             if(bindInfo.status===200)
-                this.setState({bindInfo: bindInfo});
+                this.setState({bindInfo: bindInfo.data});
         })();
 
         (async ()=>{
@@ -66,12 +66,9 @@ class Home extends Component {
 
     }
     componentDidUpdate() {
-        // console.log(this.state);
     }
 
     componentWillMount(){
-        console.log('willUnmount');
-
     }
     onStartBindingPress() {
         this.setState({bShowStartOrderModal: false});

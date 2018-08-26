@@ -89,3 +89,4 @@ export const getBindingInfo = async (UserId, Token)=>{
     }
 };
 
+
