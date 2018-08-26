@@ -35,7 +35,7 @@ class Home extends Component {
         (async ()=>{
             bindInfo = await getBindingInfo(UserId, Token);
             if(biddInfo.status===200)
-                this.setState({bindInfo: res.data.obj});
+                this.setState({bindInfo: bindInfo});
         })();
 
         console.log('url', `http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
