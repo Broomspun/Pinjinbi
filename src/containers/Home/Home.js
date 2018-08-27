@@ -7,15 +7,12 @@ import {Image, View, TouchableOpacity, PixelRatio,AsyncStorage } from 'react-nat
 import {Platform, UIManager, ScrollView} from "react-native";
 import {_retrieveUserData} from './../../Helper'
 
-import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native-base';
+import { FooterTab, Button, Text,Icon, Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
-import {getBindingInfo,getMemberInfo,getQQInfo,requestInfo, runSimpletrip} from './../../Services'
+import {getBindingInfo,getMemberInfo,requestInfo} from './../../Services'
 
-const instance = axios.create({
-    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
-});
 class Home extends Component {
     state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
     constructor(props) {
@@ -34,6 +31,13 @@ class Home extends Component {
             let memberInfo = await getMemberInfo(UserId, Token);
             if(memberInfo.status===200) {
                 this.setState({user: {...memberInfo.data, ...this.state.user}});
+            }
+        })();
+
+        (async ()=>{
+            let bindInfo = await getBindingInfo(UserId, Token);
+            if(bindInfo.status===200) {
+                this.setState({bindInfo: bindInfo.data});
             }
         })();
 

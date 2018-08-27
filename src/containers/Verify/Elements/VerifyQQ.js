@@ -51,7 +51,7 @@ class VerifyQQ extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入QQ号码"
-                                value = {this.props.qq}
+                                value = {this.state.qq}
                                 style={{fontSize: Styles.fontSmall}}
                                 onChangeText = {(text)=>this.setState({qq: text})}
                             />
