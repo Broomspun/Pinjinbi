@@ -5,6 +5,7 @@ import forgottenVerify from './ForgottenVerifyReducer';
 import registerReducer from './RegisterFormReducer';
 import newslistReducer from './NewsListReducer';
 import noticeListReducer from './NoticeListReducer';
+import bindInfoReducer from './BindinfoReducer';
 
 const allReducers= combineReducers({
     splash: splashReducer,
@@ -13,6 +14,7 @@ const allReducers= combineReducers({
     registerForm: registerReducer,
     newslistsRaw: newslistReducer,
     noticelistsRaw: noticeListReducer,
+    bindInfoData: bindInfoReducer,
 });
 
 export default allReducers;

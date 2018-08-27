@@ -1,27 +1,28 @@
 import React, {Component} from 'react';
-import Timer from 'react-timer-mixin';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
-import Modal from 'react-native-modal'
-
+import {connect} from 'react-redux';
+import {Actions} from "react-native-router-flux";
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-
+import {get_bindInfo} from './../../actions'
 
 class VerifyMain extends Component {
 
     constructor(props) {
         super(props);
 
-
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+        this.state = {user: props.user};
+
+        const {UserId, Token} = this.state.user;
+        this.props.get_bindInfo(UserId, Token);
     }
     componentWillMount(){
-        console.log('loto state',this.state);
-
     }
-    componentDidUpdate() {
+    componentDidMount() {
+        // console.log('user', this.state.user);
 
     }
 
@@ -37,8 +38,8 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>绑定身份证</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifypassport({user: this.props.user})}>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.IsAUTStr:''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -49,8 +50,8 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>绑定银行卡</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifybanks({user: this.props.user})}>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.BankStr: ''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -61,8 +62,8 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>QQ号</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>123456789</Text>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifyqq({user: this.props.user})}>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.QQStr:''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -138,5 +139,9 @@ class VerifyMain extends Component {
         );
     }
 }
-
-export default VerifyMain;
+ const mapStateToProps = (state) => {
+     const {user} = state.loginForm;
+     const {bindInfo} = state.bindInfoData;
+     return {user,bindInfo};
+ };
+export default connect(mapStateToProps, {get_bindInfo})(VerifyMain);

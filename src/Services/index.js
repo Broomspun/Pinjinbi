@@ -7,18 +7,6 @@ const instance = axios.create({
     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
 });
 
-export const request = async (url, data = {}) => {
-    try {
-        console.log(url);
-        console.log(data);
-        const response = await fetch(url, data);
-        return await response.obj();
-    } catch (err) {
-        error(err);
-        return {error: err};
-    }
-};
-
 export const _retrieveUserData = async () => {
     try {
         let user = await AsyncStorage.getItem('pjinbi_auth_user');
@@ -68,13 +56,42 @@ export const getMemberInfo = async (UserId, Token)=>{
 };
 
 /**
+ 5.1. 会员QQ号绑定页面加载
+ http://pjbapi.wtvxin.com/api/Member/GetUserQQInfo
+ POST
+ @UserId
+ @Token
+ **/
+export const getQQInfo = async (UserId, Token)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetUserQQInfo`,`UserId=${UserId}&Token=${Token}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+/**
+ 5.2. 会员提交QQ号绑定
+ http://pjbapi.wtvxin.com/api/Member/BindUserQQ
+ POST
+ @UserId
+ @Token
+ @UserQQ
+ **/
+
+/**
  5.4. 获取绑定信息页面的数据
  http://pjbapi.wtvxin.com/api/Member/GetBindPageData
  POST
  @UserId
  @Token
 **/
-
 export const getBindingInfo = async (UserId, Token)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` );
 
@@ -89,4 +106,18 @@ export const getBindingInfo = async (UserId, Token)=>{
     }
 };
 
+
+export const requestInfo = async (url, UserId, Token) => {
+    let res = await instance.post(`${Constants.BASE_API_URL}/${url}`,`UserId=${UserId}&Token=${Token}` );
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (err) {
+        error(err);
+        return await {status: 404, data: null};
+    }
+};
 

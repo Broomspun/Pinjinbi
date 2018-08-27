@@ -11,7 +11,7 @@ import { FooterTab, Button, Text,Icon, Container, Content, Footer } from 'native
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
-import {getBindingInfo,getMemberInfo} from './../../Services'
+import {getBindingInfo,getMemberInfo,getQQInfo,requestInfo, runSimpletrip} from './../../Services'
 
 const instance = axios.create({
     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -30,21 +30,17 @@ class Home extends Component {
 
         const {UserId, Token} = this.state.user;
 
-        let bindInfo = null;
-
         (async ()=>{
-            bindInfo = await getBindingInfo(UserId, Token);
-            if(bindInfo.status===200)
-                this.setState({bindInfo: bindInfo.data});
+            let memberInfo = await getMemberInfo(UserId, Token);
+            if(memberInfo.status===200) {
+                this.setState({user: {...memberInfo.data, ...this.state.user}});
+            }
         })();
 
         (async ()=>{
-            let memberInfo = await getMemberInfo(UserId, Token);
-            console.log('memberInfo', memberInfo);
-            if(memberInfo.status===200) {
-                this.setState({user: {...memberInfo.data, ...this.state.user}});
-
-                console.log('state', this.state);
+            let qqInfo = await requestInfo('Member/GetUserQQInfo', UserId, Token);
+            if(qqInfo.status===200) {
+                this.setState({qq: qqInfo.data});
             }
         })();
 

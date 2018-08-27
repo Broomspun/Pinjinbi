@@ -22,6 +22,9 @@ export const REGISTER_VERIFY = 'register_verify';
 export const REGISTER_VERIFY_SUCCESS = 'register_verify_success';
 export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code';
 
+//BindInfo Action Constant
+export const GET_BIND_INFO = 'get_bind_info';
+
 //News List
 export const GET_NEWS_LIST = 'get_news_list';
 export const GET_NOTICE_LIST = 'get_notice_list';
