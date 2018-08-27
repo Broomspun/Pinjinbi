@@ -62,7 +62,7 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>QQ号</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifyqq({user: this.props.user})}>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifyqq({user: this.props.user, qq:this.props.bindInfo!==null ? this.props.bindInfo.QQStr:''})}>
                                     <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.QQStr:''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>

@@ -84,6 +84,20 @@ export const getQQInfo = async (UserId, Token)=>{
  @Token
  @UserQQ
  **/
+export const submitQQInfo_API = async (UserId, Token, UserQQ)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserQQ`,`UserId=${UserId}&Token=${Token}&UserQQ=${UserQQ}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
 
 /**
  5.4. 获取绑定信息页面的数据

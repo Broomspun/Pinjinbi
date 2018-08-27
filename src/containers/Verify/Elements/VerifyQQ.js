@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity,PixelRatio} from 'react-native';
+import {View,Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -11,9 +11,16 @@ import {Actions} from 'react-native-router-flux'
 import {
     Button, Card,Container, Content, Form, Icon, Input,  Item, Text
 } from 'native-base';
-
+import {submitQQInfo} from './../../../actions'
 
 class VerifyQQ extends Component {
+    state = {qq: ''};
+
+    constructor(props){
+        super(props);
+        this.state = {user: this.props.user, qq: this.props.qq};
+
+    }
 
     componentDidUpdate(nextProps){
 
@@ -21,6 +28,14 @@ class VerifyQQ extends Component {
 
     componentWillUpdate(){
     }
+
+    submitQQ = ()=>{
+
+        const {UserId, Token} = this.state.user;
+        const {qq} = this.state;
+        this.props.submitQQInfo(UserId, Token, qq);
+
+    };
 
     render() {
         return (
@@ -38,11 +53,12 @@ class VerifyQQ extends Component {
                                 placeholder="请输入QQ号码"
                                 value = {this.props.qq}
                                 style={{fontSize: Styles.fontSmall}}
+                                onChangeText = {(text)=>this.setState({qq: text})}
                             />
                         </Item>
                         <View style={Styles.mt10}/>
 
-                        <Button block style={styles.buttonStyle}>
+                        <Button block style={styles.buttonStyle} onPress={this.submitQQ.bind(this)}>
                             <Text style={{fontSize: Styles.fontLarge}}>提交</Text>
                         </Button>
                     </Form>
@@ -73,4 +89,8 @@ const styles ={
 } ;
 
 
-export default VerifyQQ;
+const mapStateToProps = (state) => {
+    const {qq_res} = state.bindInfoData;
+    return {qq_res};
+};
+export default connect(mapStateToProps, {submitQQInfo})(VerifyQQ);
