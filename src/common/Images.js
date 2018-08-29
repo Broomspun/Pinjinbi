@@ -97,6 +97,10 @@ const Images = {
     user_center_icon_08: require('./../assets/img/user-center/user-icons-08.png'),
     user_center_icon_09: require('./../assets/img/user-center/user-icons-09.png'),
     user_center_icon_10: require('./../assets/img/user-center/user-icons-10.png'),
+    user_info_icon_01: require('./../assets/img/user-center/user-info-icons_01.png'),
+    user_info_icon_02: require('./../assets/img/user-center/user-info-icons_02.png'),
+    user_info_icon_03: require('./../assets/img/user-center/user-info-icons_03.png'),
+    user_info_icon_04: require('./../assets/img/user-center/user-info-icons_04.png'),
 
 
 };

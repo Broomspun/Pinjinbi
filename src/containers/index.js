@@ -83,3 +83,6 @@ export const Faqs = _Faqs;
 
 import _UserCenterMain from './UserCenter/UserCenterMain';
 export const UserCenterMain = _UserCenterMain;
+
+import _UserInfo from './UserCenter/UserInfo/UserInfo';
+export const UserInfo = _UserInfo;

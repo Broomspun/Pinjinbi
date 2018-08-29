@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
+import {connect} from 'react-redux';
+import {Platform, UIManager,Image, View, Text, TouchableOpacity, AsyncStorage} from 'react-native'
 import { Container, Content, Button, Footer, FooterTab, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
@@ -12,10 +13,16 @@ class UserCenterMain extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+        console.log(props);
     }
     componentDidUpdate() {
 
     }
+
+    logOut = ()=> {
+        AsyncStorage.removeItem('pjinbi_auth_user');
+        Actions.auth()
+    };
 
     render() {
         return(
@@ -25,18 +32,20 @@ class UserCenterMain extends Component {
                         <Image source={Images.user_center_back} style={{ flex:1, position: 'absolute',bottom: 0, height: 150, width: '100%'}}/>
                         <View style={{flex:1,flexDirection: 'row', marginHorizontal: 15, marginTop: 20, justifyContent:'center'}}>
                             <View>
-                                <Image source={Images.user_center_avatar} style={{width: 60, height: 60}} />
+                                <TouchableOpacity onPress = {()=>Actions.usercenterinfo()}>
+                                    <Image source={Images.user_center_avatar} style={{width: 60, height: 60}} />
+                                </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, marginLeft: 20, paddingTop: 0}}>
                                 <View style={{flex:1}}>
-                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>ID：120537</Text>
-                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>用户名：18292389225</Text>
+                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>ID：{this.props.user.UserId}</Text>
+                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>用户名：{this.props.user.NickName!==''?this.props.user.NickName:'none' }</Text>
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         <View style={{flex:1}}>
-                                        <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
+                                            <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
                                         </View>
                                         <View style={{flex:1}}>
-                                        <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>我的夺宝 拷贝</Text>
+                                            <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>我的夺宝 拷贝</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -145,7 +154,7 @@ class UserCenterMain extends Component {
                     </View>
 
                     <View style={{...Styles.cardStyleEmpty}}>
-                        <Button transparent block onPress={()=>Actions.auth()}>
+                        <Button transparent block onPress={()=>this.logOut()}>
                             <Text style={{color: Color.textNormal, fontSize: Styles.fontLarge}}>退出登录</Text>
                             <Icon name='log-out' type='Entypo' style={{color: Color.textNormal}}/>
                         </Button>
@@ -184,5 +193,8 @@ class UserCenterMain extends Component {
         );
     }
 }
-
-export default UserCenterMain;
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    return {user};
+};
+export default connect(mapStateToProps, {})(UserCenterMain);
