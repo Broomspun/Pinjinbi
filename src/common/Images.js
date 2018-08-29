@@ -85,6 +85,18 @@ const Images = {
     faq_icon_03: require('./../assets/img/FAQ/FAQ_icon_03.png'),
     faq_icon_04: require('./../assets/img/FAQ/FAQ_icon_04.png'),
     faq_chat_icon: require('./../assets/img/FAQ/FAQ_chat_icon.png'),
+    user_center_back: require('./../assets/img/user-center/back.jpg'),
+    user_center_avatar: require('./../assets/img/user-center/avatar.png'),
+    user_center_icon_01: require('./../assets/img/user-center/user-icons-01.png'),
+    user_center_icon_02: require('./../assets/img/user-center/user-icons-02.png'),
+    user_center_icon_03: require('./../assets/img/user-center/user-icons-03.png'),
+    user_center_icon_04: require('./../assets/img/user-center/user-icons-04.png'),
+    user_center_icon_05: require('./../assets/img/user-center/user-icons-05.png'),
+    user_center_icon_06: require('./../assets/img/user-center/user-icons-06.png'),
+    user_center_icon_07: require('./../assets/img/user-center/user-icons-07.png'),
+    user_center_icon_08: require('./../assets/img/user-center/user-icons-08.png'),
+    user_center_icon_09: require('./../assets/img/user-center/user-icons-09.png'),
+    user_center_icon_10: require('./../assets/img/user-center/user-icons-10.png'),
 
 
 };

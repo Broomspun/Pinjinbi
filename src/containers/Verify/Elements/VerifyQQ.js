@@ -30,7 +30,6 @@ class VerifyQQ extends Component {
     }
 
     submitQQ = ()=>{
-
         const {UserId, Token} = this.state.user;
         const {qq} = this.state;
         this.props.submitQQInfo(UserId, Token, qq);

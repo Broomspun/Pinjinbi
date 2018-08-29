@@ -45,7 +45,8 @@ class Login extends Component {
             Toast.show({
                 text: `${nextProps.msg}`,
                 buttonText: "是",
-                type: "success"
+                type: "success",
+                duration: 100
             })
         }
     }

@@ -2,11 +2,11 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity,PixelRatio} from 'react-native';
+import {View,Image,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {Actions} from 'react-native-router-flux'
+import {submitIdCardInfo} from './../../../actions'
 
 import {
     Button,
@@ -14,11 +14,9 @@ import {
     Container,
     Content,
     Form,
-    Icon,
     Input,
     Item,
     Text,
-    Picker,
     Toast
 } from 'native-base';
 import ImagePicker from "react-native-image-picker";
@@ -26,12 +24,24 @@ import ImagePicker from "react-native-image-picker";
 
 class VerifyPassport extends Component {
 
-    state={
-        id_card_front_photo: null,
-        id_card_back_photo: null,
-        id_card_hand_held1: null,
-        id_card_hand_held2: null,
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            user: this.props.user,
+            id_card_front_photo: null,
+            id_card_back_photo: null,
+            id_card_hand_held1: null,
+            id_card_hand_held2: null,
+            id_card_front_photo_raw: null,
+            id_card_back_photo_raw: null,
+            id_card_hand_held1_raw: null,
+            id_card_hand_held2_raw: null,
+            username: '蓝色',
+            id_card:'450881199412087711'
+        };
+
+        console.log('passport', this.state);
+    }
 
     selectPhotoTapped(id) {
         const options = {
@@ -60,32 +70,32 @@ class VerifyPassport extends Component {
                 console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                let source = { uri: response.uri };
+                // let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
                 switch (id) {
                     case 0:
                         this.setState({
-                            id_card_front_photo: source
+                            id_card_front_photo: source, id_card_front_photo_raw: response.data
                         });
-                        return;
+                        break;
                     case 1:
                         this.setState({
-                            id_card_back_photo: source
+                            id_card_back_photo: source,id_card_back_photo_raw: response.data
                         });
-                        return;
+                        break;
                     case 2:
                         this.setState({
-                            id_card_hand_held1: source
+                            id_card_hand_held1: source,id_card_front_held1_raw: response.data
                         });
-                        return;
+                        break;
                     case 3:
                         this.setState({
-                            id_card_hand_held2: source
+                            id_card_hand_held2: source,id_card_front_held2_raw: response.data
                         });
-                         return;
+                         break;
                 }
 
             }
@@ -99,6 +109,20 @@ class VerifyPassport extends Component {
     componentWillUpdate(){
     }
 
+    submitIdCard = () => {
+        const {UserId, Token} = this.state.user;
+        const {username,id_card, id_card_front_photo_raw,id_card_back_photo_raw, id_card_hand_held1_raw} = this.state;
+
+        if(username==='') {
+            Toast.show({
+                text: `Please enter user name`, buttonText: "是", type: "danger"
+            });
+            return;
+        }
+
+        this.props.submitIdCardInfo(UserId, Token, username, id_card,id_card_front_photo_raw,id_card_back_photo_raw,id_card_hand_held1_raw);
+    };
+
     render() {
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
@@ -108,14 +132,16 @@ class VerifyPassport extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入您的真实姓名"
-                                value = {this.props.phone}
+                                value = {this.state.username}
+                                onChangeText={(value)=>this.setState({username: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入您的身份证号码"
-
+                                value = {this.state.id_card}
+                                onChangeText={(value)=>this.setState({id_card: value})}
                             />
                         </Item>
                         <View style={{...Styles.cardStyleColumn1, flex:1}}>
@@ -193,7 +219,7 @@ class VerifyPassport extends Component {
                             </View>
                         </View>
 
-                        <Button block style={styles.buttonStyle}>
+                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
                             <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
                         </Button>
                     </Form>
@@ -223,9 +249,9 @@ const styles ={
     }
 } ;
 
-// const mapStateToProps = (state) => {
-//     const {phone, password, remember, loading, error, user, msg} = state.loginForm;
-//     return {phone, password, remember, loading, error, user, msg};
-// };
-// export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(VerifyPassport);
-export default VerifyPassport;
+const mapStateToProps = (state) => {
+    const {id_res} = state.bindInfoData;
+    return {id_res};
+};
+export default connect(mapStateToProps, {submitIdCardInfo})(VerifyPassport);
+

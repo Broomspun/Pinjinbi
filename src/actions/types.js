@@ -25,6 +25,8 @@ export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code
 //BindInfo Action Constant
 export const GET_BIND_INFO = 'get_bind_info';
 export const QQ_SUBMIT_SUCCESS = 'qq_submit_success';
+export const ID_CARD_SUBMIT_SUCCESS = 'id_card_submit_success';
+export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
 
 //News List
 export const GET_NEWS_LIST = 'get_news_list';

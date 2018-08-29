@@ -73,9 +73,11 @@ class PreOrderMain extends Component {
                                 <Text style={{fontSize:14, color:Color.LightBlue1}}>已接任务 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{alignItems: 'center', flex: 1}}>
-                            <Image source={Images.profileIcon} style={{width: 26, height: 26}}/>
-                            <Text style={{fontSize:14, color:Color.textNormal}}>个人中心</Text>
+                        <View style={{alignItems: 'center', flex: 1}} >
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.usercentermain()}>
+                                <Image source={Images.profileIcon} style={{width: 26, height: 26}}/>
+                                <Text style={{fontSize:14, color:Color.textNormal}}>个人中心</Text>
+                            </TouchableOpacity>
                         </View>
                     </FooterTab>
 

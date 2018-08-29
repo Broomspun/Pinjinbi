@@ -6,50 +6,65 @@ import {View,Image,TouchableOpacity,PixelRatio} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {Actions} from 'react-native-router-flux'
+import {Button, Card,Container, Content, Form, Icon, Input,  Item, Text} from 'native-base';
 
-import {
-    Button, Card,Container, Content, Form, Icon, Input,  Item, Text
-} from 'native-base';
-
+import {submitBankInfo} from "../../../actions";
 
 class VerifyBanks extends Component {
 
     state={
         bankSelectedStatus: false,
         icon: 'chevron-small-right',
-        selectedValue:'请选择银行'
+        selectedValue:'请选择银行',
+        bankName: '',
+        cardName: '蓝色',
+        cardNo: '6217001210024455220',
+        city: '上海',
+        branch: '市建设银行分行'
     };
 
-    componentDidUpdate(nextProps){
+    constructor(props){
+        super(props);
 
+        this.state = {
+            user: this.props.user,
+            bankSelectedStatus: false,
+            icon: 'chevron-small-right',
+            selectedValue:'请选择银行',
+            bankName: '',
+            cardName: '蓝色',
+            cardNo: '6217001210024455220',
+            city: '上海',
+            branch: '市建设银行分行'
+        };
+    }
+    componentDidUpdate(nextProps){
     }
 
     componentWillUpdate(){
     }
 
     banks = [
-        {name:'中国工商银行',id:1, image:Images.bank_01},
-        {name:'中国农业银行',id:2, image:Images.bank_02},
-        {name:'浦发银行',id:3, image:Images.bank_03},
-        {name:'中国建设银行',id:4, image:Images.bank_04},
-        {name:'中国银行',id:5, image:Images.bank_05},
-        {name:'交通银行',id:6, image:Images.bank_06},
-        {name:'招商银行',id:7, image:Images.bank_07},
-        {name:'平安银行',id:8, image:Images.bank_08},
-        {name:'中信银行',id:9, image:Images.bank_09},
-        {name:'兴业银行',id:10, image:Images.bank_10},
-        {name:'民生银行',id:11, image:Images.bank_11},
-        {name:'光大银行',id:12, image:Images.bank_12},
-        {name:'广发银行',id:13, image:Images.bank_13},
-        {name:'华夏银行',id:14, image:Images.bank_14},
+        {name:'中国工商银行',id:1,  image:Images.bank_01},
+        {name:'中国农业银行',id:2,  image:Images.bank_02},
+        {name:'浦发银行'   ,id:3,  image:Images.bank_03},
+        {name:'中国建设银行',id:4,  image:Images.bank_04},
+        {name:'中国银行'   ,id:5,  image:Images.bank_05},
+        {name:'交通银行'   ,id:6,  image:Images.bank_06},
+        {name:'招商银行'   ,id:7,  image:Images.bank_07},
+        {name:'平安银行'   ,id:8,  image:Images.bank_08},
+        {name:'中信银行'   ,id:9,  image:Images.bank_09},
+        {name:'兴业银行'   ,id:10, image:Images.bank_10},
+        {name:'民生银行'   ,id:11, image:Images.bank_11},
+        {name:'光大银行'   ,id:12, image:Images.bank_12},
+        {name:'广发银行'   ,id:13, image:Images.bank_13},
+        {name:'华夏银行'   ,id:14, image:Images.bank_14},
     ];
     _renderBankLists = ()=> {
 
         if(this.state.bankSelectedStatus) {
             return this.banks.map(bank =>
-                <TouchableOpacity key={bank.id} onPress={()=>this.setState({selectedValue: bank.name,bankSelectedStatus: false, icon:this.state.bankSelectedStatus?'chevron-small-right':'chevron-small-down' })}
-
+                <TouchableOpacity key={bank.id} onPress={()=>this.setState({selectedValue: bank.name,bankName: bank.name, bankSelectedStatus: false, icon:this.state.bankSelectedStatus?'chevron-small-right':'chevron-small-down' })}
                   style={{
                     flexDirection: 'row',
                     borderBottomWidth: 1 / PixelRatio.get(),
@@ -73,6 +88,16 @@ class VerifyBanks extends Component {
         });
     };
 
+    onSubmit() {
+        const {UserId, Token} = this.state.user;
+        const {bankName,cardName,cardNo,city, branch} = this.state;
+
+        //Validation
+
+        let address = city+branch;
+        this.props.submitBankInfo(UserId, Token, bankName, cardNo, address, cardName);
+    }
+
     render() {
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
@@ -86,15 +111,18 @@ class VerifyBanks extends Component {
                         <Item regular underline={false} style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请输入持卡人姓名"
-                                value = {this.props.phone}
+                                placeholder="请输入持卡人姓名" //Card Name
+                                value = {this.state.cardName}
                                 style={{fontSize: Styles.fontSmall}}
+                                onChangeText = {(value)=>this.setState({cardName: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请输入卡号"
+                                placeholder="请输入卡号" //Card number
+                                value = {this.state.cardNo}
+                                onChangeText = {(value)=>this.setState({cardNo: value})}
                                 style={{fontSize: Styles.fontSmall}}
                             />
                         </Item>
@@ -106,19 +134,23 @@ class VerifyBanks extends Component {
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请选择所在城市"
+                                placeholder="请选择所在城市"  //City
+                                value={this.state.city}
                                 style={{fontSize: Styles.fontSmall}}
+                                onChangeText = {(value)=>this.setState({city: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请选择入户支行"
+                                value={this.state.branch}
+                                placeholder="请选择入户支行" //district,  branch name: city+branch
                                 style={{fontSize: Styles.fontSmall}}
+                                onChangeText = {(value)=>this.setState({branch: value})}
                             />
                         </Item>
 
-                        <Button block style={styles.buttonStyle}>
+                        <Button block style={styles.buttonStyle} onPress={()=>this.onSubmit()}>
                             <Text style={{fontSize: Styles.fontLarge}}>提交</Text>
                         </Button>
                     </Form>
@@ -148,5 +180,9 @@ const styles ={
     }
 } ;
 
+const mapStateToProps = (state) => {
+    const {bank_res} = state.bindInfoData;
+    return {bank_res};
+};
+export default connect(mapStateToProps, {submitBankInfo})(VerifyBanks);
 
-export default VerifyBanks;

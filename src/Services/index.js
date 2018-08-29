@@ -54,6 +54,87 @@ export const getMemberInfo = async (UserId, Token)=>{
         return await {status: 404, data: null};
     }
 };
+/**
+ * 4.6 Submit Member avatar
+ * This API allows Member to submit his avatar
+ * API: http://pjbapi.wtvxin.com/api/Member/EditHeadImage
+ *
+ *@UserID : Logged in User ID
+ *@Token :  Logged in User Token
+ *@Avatar : Avatar(base64 image)
+ *
+ */
+export const submitAvatar_API = async (UserId, Token, Avatar)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/EditHeadImage`,`UserId=${UserId}&Token=${Token}&Avatar=${Avatar}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+/**
+ * 4.8 Submit UserID Card Info for binding
+ * This API allows Member to submit User ID card Information for biding
+ * API: http://pjbapi.wtvxin.com/api/Member/BindUserIdCard
+ *
+ *@UserID : Logged in User ID
+ *@Token :  Logged in User Token
+ *@UserNmae : User name
+ *@Idcard : Card Number
+ *@IdCardImgOne: Front photo
+ *@IdCardImgTwo: Back photo
+ *@IdCardImgThree:
+ *
+ */
+export const submitIdCard_API = async (UserId,Token,UserName,Idcard, IdCardImgOne,IdCardImgTwo,IdCardImgThree)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserIdCard`,
+        `UserId=${UserId}&Token=${Token}&UserRName=${UserName}&Idcard=${Idcard}&IdCardImgOne=${IdCardImgOne}&IdCardImgTwo=${IdCardImgTwo}&IdCardImgThree=${IdCardImgThree}`);
+    try {
+        console.log('api response', res);
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+/**
+ * 5.0 Submit Bank Info for binding
+ * This API allows Member to submit User Bank Information for biding
+ * API: http://pjbapi.wtvxin.com/api/Member/BindUserBank
+ *
+ *@UserID : Logged in User ID
+ *@Token :  Logged in User Token
+ *@BankName : Card Number
+ *@BankCardNo: Front photo
+ *@BankAddress: Back photo
+ *@BankCardName: Back photo
+ *
+ */
+export const submitBankInfo_API = async (UserId,Token,BankName,BankCardNo, BankAddress,BankCardName)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserBank`,
+        `UserId=${UserId}&Token=${Token}&BankName=${BankName}&BankCardNo=${BankCardNo}&BankAddress=${BankAddress}&BankCardName=${BankCardName}`);
+    try {
+        console.log('api response', res);
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+
 
 /**
  5.1. 会员QQ号绑定页面加载

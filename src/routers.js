@@ -10,6 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
+    UserCenterMain,
     FaqMain, Faqs
 } from "@containers";
 
@@ -27,7 +28,7 @@ const RouterComponent = () => {
         <Router>
             <Stack key="root"  hideNavBar>
                 {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
-                    {/*<Scene key="faqmain123" component ={Faqs} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Scene key="usercentermain1" component ={UserCenterMain} title="我" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
@@ -39,7 +40,7 @@ const RouterComponent = () => {
                            titleStyle={styles.navigationBarTitleStyle}
                            leftTitle=" "
                            onLeft={() => {}}
-                           renderRightButton={renderBadge()}
+                           renderRightButton={this.renderBadge()}
                            initial
                     />
                     <Scene key="promotion" component ={Promotion} title="推广赚金" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
@@ -74,6 +75,9 @@ const RouterComponent = () => {
                     <Scene key="completedtask" component ={CompletedTasks} title="已完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
+                <stack back key="usercenterstack" backButtonImage={Images.backButtonImg}>
+                    <Scene key="usercentermain" component ={UserCenterMain} title="我" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>
                     <Scene key="verifymain" component ={VerifyMain} title="绑定信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />

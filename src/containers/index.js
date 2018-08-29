@@ -80,3 +80,6 @@ export const FaqMain = _FaqMain;
 
 import _Faqs from './FAQ/Faqs';
 export const Faqs = _Faqs;
+
+import _UserCenterMain from './UserCenter/UserCenterMain';
+export const UserCenterMain = _UserCenterMain;
