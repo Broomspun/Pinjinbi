@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    UserCenterMain,UserInfo,
+    UserCenterMain,UserInfo,UserAvatar,
     FaqMain, Faqs
 } from "@containers";
 
@@ -28,9 +28,9 @@ const RouterComponent = () => {
     return (
         <Router>
             <Stack key="root"  hideNavBar>
-                <Stack back key="missions123" backButtonImage={Images.backButtonImg}>
-                    <Scene key="usercenterinfo1" component ={UserInfo} title="账号信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                </Stack>
+                {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
+                    {/*<Scene key="UserAvatar123" component ={UserAvatar} title="头像" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
                 </Stack>
@@ -79,6 +79,7 @@ const RouterComponent = () => {
                 <stack back key="usercenterstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="usercentermain" component ={UserCenterMain} title="我" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="usercenterinfo" component ={UserInfo} title="账号信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="UserAvatar" component ={UserAvatar} title="头像" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

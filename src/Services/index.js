@@ -69,6 +69,7 @@ export const submitAvatar_API = async (UserId, Token, Avatar)=>{
 
     try {
         if(res.data.errcode ===0) {
+            console.log('avatar url', res.data.obj);
             return  await {status: 200, data:res.data.obj};
         } else {
             return  await {status: res.data.errcode, msg:res.data.msg};

@@ -33,7 +33,7 @@ class UserCenterMain extends Component {
                         <View style={{flex:1,flexDirection: 'row', marginHorizontal: 15, marginTop: 20, justifyContent:'center'}}>
                             <View>
                                 <TouchableOpacity onPress = {()=>Actions.usercenterinfo()}>
-                                    <Image source={Images.user_center_avatar} style={{width: 60, height: 60}} />
+                                    <Image source={{uri: 'http://pjbapi.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, marginLeft: 20, paddingTop: 0}}>

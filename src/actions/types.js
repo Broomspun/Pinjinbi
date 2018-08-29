@@ -31,3 +31,8 @@ export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
 //News List
 export const GET_NEWS_LIST = 'get_news_list';
 export const GET_NOTICE_LIST = 'get_notice_list';
+
+//My Account
+export const AVATAR_SUBMIT = 'avatar_submit';
+export const AVATAR_SUCCESS = 'avatar_success';
+

@@ -86,3 +86,6 @@ export const UserCenterMain = _UserCenterMain;
 
 import _UserInfo from './UserCenter/UserInfo/UserInfo';
 export const UserInfo = _UserInfo;
+
+import _UserAvatar from './UserCenter/UserInfo/UserAvatar';
+export const UserAvatar = _UserAvatar;

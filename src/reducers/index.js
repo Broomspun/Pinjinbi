@@ -6,6 +6,7 @@ import registerReducer from './RegisterFormReducer';
 import newslistReducer from './NewsListReducer';
 import noticeListReducer from './NoticeListReducer';
 import bindInfoReducer from './BindinfoReducer';
+import userInfoReducer from './UserInfoReducer';
 
 const allReducers= combineReducers({
     splash: splashReducer,
@@ -15,6 +16,7 @@ const allReducers= combineReducers({
     newslistsRaw: newslistReducer,
     noticelistsRaw: noticeListReducer,
     bindInfoData: bindInfoReducer,
+    userInfoReducer: userInfoReducer,
 });
 
 export default allReducers;

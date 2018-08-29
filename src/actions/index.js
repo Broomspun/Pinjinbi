@@ -5,3 +5,4 @@ export * from './registerAction';
 export * from './NewsListAction';
 export * from './NoticeListAction';
 export * from './VerifyActions';
+export * from './UserActions';

@@ -25,7 +25,7 @@ class UserInfo extends Component {
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content >
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10, marginTop: 10}}>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 5}} onPress={()=>Actions.UserAvatar()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_01} style={{width: 18, height: 20}} />
