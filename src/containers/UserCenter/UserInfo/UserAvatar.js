@@ -6,21 +6,10 @@ import {View,Image,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {submitAvatar} from './../../../actions'
+import {submitAvatar, changedAvatar} from './../../../actions'
 
-import {
-    Button,
-    Card,
-    Container,
-    Content,
-    Form,
-    Input,
-    Item,
-    Text,
-    Toast
-} from 'native-base';
+import { Button, Card, Container, Content, Form, Text, Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
-
 
 class UserAvatar extends Component {
 
@@ -28,11 +17,40 @@ class UserAvatar extends Component {
         super(props);
         this.state = {
             user: this.props.user,
-            userAvatar: props.userAvatar,
+            userAvatar:{uri: 'http://pjbapi.wtvxin.com'+ this.props.user.Avatar}
         };
 
-        console.log('sfdffsdfff',this.props);
+        console.log(this.state);
+        console.log(this.props);
     }
+
+    _renderAvatar = () => {
+        const {userAvatar, user} = this.props;
+        if(userAvatar==null && user.Avatar==='') {
+            return (
+                <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
+            )
+        }
+
+        if(this.state.userAvatar){
+            return (
+                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.userAvatar} />
+            )
+        }
+
+        if (userAvatar) {
+            return (
+                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={{uri: userAvatar}} />
+            )
+        }
+
+        if (userAvatar==null && user.Avatar!=='') {
+            return (
+                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={{uri: 'http://pjbapi.wtvxin.com'+user.Avatar}} />
+            )
+        }
+
+    };
 
     selectPhotoTapped() {
         const options = {
@@ -50,7 +68,6 @@ class UserAvatar extends Component {
 
         ImagePicker.showImagePicker(options, (response) => {
             console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled photo picker');
             }
@@ -62,21 +79,19 @@ class UserAvatar extends Component {
             }
             else {
                 // let source = { uri: response.uri };
-
-                // You can also display the image using data:
                 let source = { uri: `data:${response.type};base64,` + response.data };
 
                 this.setState({
-                    userAvatar: source
+                    userAvatar: source,
                 });
 
+                // this.props.changedAvatar(`data:${response.type};base64,` + response.data);
             }
         });
     }
 
     componentWillReceiveProps(nextProps){
-        console.log('next props',nextProps);
-
+        console.log(nextProps);
     }
 
     componentWillUpdate(){
@@ -107,14 +122,16 @@ class UserAvatar extends Component {
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
                                     <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped()}>
-                                        { this.state.userAvatar === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={ this.state.userAvatar} />
-                                        }
+                                        {/*{ this.state.userAvatar === '' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :*/}
+                                            {/*<Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.userAvatar} />*/}
+                                        {/*}*/}
+                                        {this._renderAvatar()}
+
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{flex:1, marginLeft: 3, marginRight:3}}></View>
-                                <View style={{flex:1, marginLeft: 3, marginRight:3}}></View>
-                                <View style={{flex:1, marginLeft: 3}}></View>
+                                <View style={{flex:1, marginLeft: 3, marginRight:3}}><Text/></View>
+                                <View style={{flex:1, marginLeft: 3, marginRight:3}}><Text/></View>
+                                <View style={{flex:1, marginLeft: 3}}><Text/></View>
                             </View>
                         </View>
 
@@ -153,5 +170,5 @@ const mapStateToProps = (state) => {
     const {userAvatar} = state.userInfoReducer;
     return {user,userAvatar};
 };
-export default connect(mapStateToProps, {submitAvatar})(UserAvatar);
+export default connect(mapStateToProps, {submitAvatar, changedAvatar})(UserAvatar);
 

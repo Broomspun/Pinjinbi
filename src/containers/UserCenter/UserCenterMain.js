@@ -13,7 +13,7 @@ class UserCenterMain extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
-        console.log(props);
+        console.log('user main info', props);
     }
     componentDidUpdate() {
 
@@ -22,6 +22,20 @@ class UserCenterMain extends Component {
     logOut = ()=> {
         AsyncStorage.removeItem('pjinbi_auth_user');
         Actions.auth()
+    };
+
+    _renderAvatar = ()=> {
+        const {userAvatar} = this.props;
+        if(userAvatar==null) {
+            return (
+                <Image source={{uri: 'http://pjbapi.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
+            )
+        } else {
+            return (
+                <Image source={{uri: this.props.userAvatar}} style={{width: 60, height: 60, borderRadius: 30}} />
+            )
+        }
+
     };
 
     render() {
@@ -33,7 +47,8 @@ class UserCenterMain extends Component {
                         <View style={{flex:1,flexDirection: 'row', marginHorizontal: 15, marginTop: 20, justifyContent:'center'}}>
                             <View>
                                 <TouchableOpacity onPress = {()=>Actions.usercenterinfo()}>
-                                    <Image source={{uri: 'http://pjbapi.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
+                                    {this._renderAvatar()}
+                                    {/*<Image source={{uri: 'http://pjbapi.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />*/}
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, marginLeft: 20, paddingTop: 0}}>
@@ -195,6 +210,7 @@ class UserCenterMain extends Component {
 }
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    return {user};
+    const {userAvatar} = state.userInfoReducer;
+    return {user, userAvatar};
 };
 export default connect(mapStateToProps, {})(UserCenterMain);

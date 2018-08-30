@@ -46,19 +46,6 @@ class Home extends Component {
                 this.setState({qq: qqInfo.data});
             }
         })();
-
-
-        // instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` )
-        //     .then( res =>{
-        //         if(res.data.errcode ===0) {
-        //             console.log('bind info', res );
-        //             this.setState({bindInfo: res.data.obj});
-        //
-        //         } else {
-        //             return  {status: res.data.errcode, msg: res.data.msg};
-        //         }
-        //     })
-        //     .catch(() =>  console.log('failed!'));
     }
 
     componentWillMount() {

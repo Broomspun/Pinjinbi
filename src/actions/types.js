@@ -35,4 +35,5 @@ export const GET_NOTICE_LIST = 'get_notice_list';
 //My Account
 export const AVATAR_SUBMIT = 'avatar_submit';
 export const AVATAR_SUCCESS = 'avatar_success';
+export const AVATAR_CHANGED = 'avatar_changed';
 

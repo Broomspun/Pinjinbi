@@ -2,9 +2,12 @@ import axios from 'axios';
 import {Constants} from "@common";
 import {AsyncStorage} from "react-native";
 import {Actions} from "react-native-router-flux";
+import qs from 'qs';
 
 const instance = axios.create({
-    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    maxContentLength: 2000000,
+
 });
 
 export const _retrieveUserData = async () => {
@@ -65,11 +68,25 @@ export const getMemberInfo = async (UserId, Token)=>{
  *
  */
 export const submitAvatar_API = async (UserId, Token, Avatar)=>{
-    let res = await instance.post(`${Constants.BASE_API_URL}/Member/EditHeadImage`,`UserId=${UserId}&Token=${Token}&Avatar=${Avatar}` );
 
+    const url = `${Constants.BASE_API_URL}/Member/EditHeadImage`;
+    const data = {
+        UserId: UserId,
+        Token:Token,
+        Avatar:Avatar
+    };
+
+    const options = {
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url,
+    };
+
+    let res = await axios(options);
     try {
         if(res.data.errcode ===0) {
-            console.log('avatar url', res.data.obj);
+            console.log('avatar url', res);
             return  await {status: 200, data:res.data.obj};
         } else {
             return  await {status: res.data.errcode, msg:res.data.msg};

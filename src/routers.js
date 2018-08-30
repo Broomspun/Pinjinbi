@@ -65,7 +65,7 @@ const RouterComponent = () => {
                     <Scene key="noticedetail"   component ={NoticeDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
-                <Stack back key="missions" backButtonImage={Images.backButtonImg}>
+                <Stack back key="missionsstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="totalmissions" component ={TotalMissions} title="全部任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="browsetask" component ={BrowseTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="打法师" onRight={() => {}} />
                 </Stack>
