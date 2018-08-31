@@ -44,3 +44,4 @@ export const OLD_PHONE_VERIFY_SUCCESS = 'old_phone_verify_success';
 export const NEW_PHONE_VERIFY_SUCCESS = 'new_phone_verify_success';
 export const MOBILE_CHANGE_SUCCESS = 'mobile_change_success';
 export const MOBILE_REQUSET_STATUS_RESET = 'mobile_request_status_reset';
+export const CHANGE_LOGIN_PASSWORD_SUCCESS = 'change_login_password_success';

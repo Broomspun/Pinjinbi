@@ -51,7 +51,7 @@ class UserInfo extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} >
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.changeloginpassword()} >
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_03} style={{width: 14, height: 18}} />

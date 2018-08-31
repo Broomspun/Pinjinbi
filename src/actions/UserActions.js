@@ -1,11 +1,11 @@
 import {AsyncStorage} from 'react-native'
-import {submitAvatar_API, getVerifySMSCode_API, VerifyMC_API, ChangeMP_API} from './../Services'
+import {submitAvatar_API, getVerifySMSCode_API, VerifyMC_API, ChangeMP_API,ChangePassword_API} from './../Services'
 import {Constants} from "@common";
 import {
     AVATAR_SUBMIT, AVATAR_SUCCESS, AVATAR_CHANGED,
     MOBILE_CHANGE_REGENERATE_CAPTCHACODE, OLD_PHONE_VERIFY_SMS_SUCCESS,NEW_PHONE_VERIFY_SMS_SUCCESS,
     OLD_PHONE_VERIFY_SUCCESS, NEW_PHONE_VERIFY_SUCCESS,
-    MOBILE_CHANGE_SUCCESS,
+    MOBILE_CHANGE_SUCCESS,CHANGE_LOGIN_PASSWORD_SUCCESS
 } from "./types";
 
 import {Actions} from 'react-native-router-flux';
@@ -126,4 +126,18 @@ export const resetRequestStatus = ()=>{
             type: AVATAR_SUBMIT,
         });
     }
+};
+
+export const changePassword = (UserId, Token, OldLoginPwd, NewLoginPwd)=> {
+    return (dispatch) => {
+        (async ()=>{
+            let res = await ChangePassword_API(UserId, Token, OldLoginPwd, NewLoginPwd);
+
+            if(res.status===200) {
+                dispatch({
+                    type: CHANGE_LOGIN_PASSWORD_SUCCESS,
+                });
+             }
+        })();
+    };
 };

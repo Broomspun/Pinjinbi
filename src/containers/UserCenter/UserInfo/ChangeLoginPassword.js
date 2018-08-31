@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, Image} from "react-native";
 import { Container, Form, Content, Button, Input, Item, Icon, Text} from 'native-base';
-import {Actions} from 'react-native-router-flux';
-import {Spinner,Spinner1} from "../../components";
+import {connect} from 'react-redux';
+
+import {Spinner,Spinner1} from "@components";
 import {Images} from "@common";
-class ChangePassword extends Component {
+import {changePassword} from "../../../actions";
+class ChangeLoginPassword extends Component {
     state = {
-        cp_phone: '',
+        cp_old_password: '',
         cp_password: '',
         cp_confirm_password: '',
     };
@@ -20,13 +22,31 @@ class ChangePassword extends Component {
         console.log(props);
     }
 
+    submitChangePassword () {
+        const { cp_old_password, cp_password, cp_confirm_password} = this.state;
+        const {UserId, Token} =  this.props.user;
+
+        if(cp_password!=='' && cp_confirm_password!=='') {
+            if (cp_old_password !== '' && cp_password === cp_confirm_password) {
+                this.props.changePassword(UserId, Token, cp_old_password, cp_password)
+            }
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.bChangedPassword){
+            //Logout with modal confirm
+        }
+    }
+
+
     renderButton() {
         if(this.props.loading) {
             return <Spinner size="large" />
         }
 
         return (
-            <Button block style={styles.buttonStyle}>
+            <Button block style={styles.buttonStyle} onPress={()=>this.submitChangePassword()}>
                 <Text style={{fontSize: 20}}>完成</Text>
             </Button>
         );
@@ -42,12 +62,13 @@ class ChangePassword extends Component {
                 <Content padder>
                     <Form>
                         <Item regular underline={false} style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
+                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="请输入旧密码"
-                                value = {this.state.cp_phone}
-                                onChangeText = {value => this.setState({cp_phone: value})}
+                                secureTextEntry
+                                value = {this.state.cp_old_password}
+                                onChangeText = {value => this.setState({cp_old_password: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
@@ -94,4 +115,11 @@ const styles = {
         color: 'red'
     }
 };
-export default ChangePassword;
+
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {bChangedPassword} = state.userInfoReducer;
+    return {user,bChangedPassword};
+};
+export default connect(mapStateToProps, {changePassword})(ChangeLoginPassword);
+

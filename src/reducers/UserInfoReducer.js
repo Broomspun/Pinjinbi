@@ -7,7 +7,7 @@ import {
     MOBILE_CHANGE_REGENERATE_CAPTCHACODE1,
     OLD_PHONE_VERIFY_SMS_SUCCESS,NEW_PHONE_VERIFY_SMS_SUCCESS,
     OLD_PHONE_VERIFY_SUCCESS,NEW_PHONE_VERIFY_SUCCESS,
-    MOBILE_CHANGE_SUCCESS
+    MOBILE_CHANGE_SUCCESS, CHANGE_LOGIN_PASSWORD_SUCCESS
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -19,7 +19,8 @@ const INITIAL_STATE = {
     mc_sms_msg1: '', //new phone sms: type: 7
     mc_msg_new:'',
     mc_captchaGenCode1: generatorCaptchaCode(4), //mc_: mobile change for new phone
-    bChangedMC: false //Mobile number changed flag
+    bChangedMC: false, //Mobile number changed flag
+    bChangedPassword: false //password changed flag
 };
 
 
@@ -46,6 +47,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, mc_msg_new: action.payload};
         case MOBILE_CHANGE_SUCCESS:
             return {...state, bChangedMC: true};
+        case CHANGE_LOGIN_PASSWORD_SUCCESS:
+            return {...state, bChangedPassword: true};
         default:
             return state;
     }

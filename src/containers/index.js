@@ -95,3 +95,6 @@ export const VerifyOldPhone = _VerifyOldPhone;
 
 import _ChangeOldToNewPhone from './UserCenter/UserInfo/ChangeOldToNewPhone';
 export const ChangeOldToNewPhone = _ChangeOldToNewPhone;
+
+import _ChangeLoginPassword from './UserCenter/UserInfo/ChangeLoginPassword';
+export const ChangeLoginPassword = _ChangeLoginPassword;

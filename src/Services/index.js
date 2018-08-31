@@ -134,6 +134,30 @@ export const ChangeMP_API = async (NewMobile, VerifyCode, UserId, Token)=>{
     }
 };
 /**
+ 3.9. 登录密码修改   (Change login password)
+ http://pjbapi.wtvxin.com/api/Member/SubmitModifyByPassword
+ POST
+ @UserId
+ @Token
+ @OldLoginPwd
+ @NewLoginPwd
+ **/
+export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/SubmitModifyByPassword`,
+        `UserId=${UserId}&Token=${Token}&OldLoginPwd=${OldLoginPwd}&NewLoginPwd=${NewLoginPwd}`);
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+
+/**
  * 4.6 Submit Member avatar
  * This API allows Member to submit his avatar
  * API: http://pjbapi.wtvxin.com/api/Member/EditHeadImage
