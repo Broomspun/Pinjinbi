@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    UserCenterMain,UserInfo,UserAvatar,
+    UserCenterMain,UserInfo,UserAvatar,UserRequestMobileChange,
     FaqMain, Faqs
 } from "@containers";
 
@@ -80,6 +80,7 @@ const RouterComponent = () => {
                     <Scene key="usercentermain" component ={UserCenterMain} title="我" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="usercenterinfo" component ={UserInfo} title="账号信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="UserAvatar" component ={UserAvatar} title="头像" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="UserMobileChange" component ={UserRequestMobileChange} title="头像" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

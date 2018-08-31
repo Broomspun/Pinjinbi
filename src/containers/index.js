@@ -89,3 +89,6 @@ export const UserInfo = _UserInfo;
 
 import _UserAvatar from './UserCenter/UserInfo/UserAvatar';
 export const UserAvatar = _UserAvatar;
+
+import _UserRequestMobileChange from './UserCenter/UserInfo/UserRequestMobileChange';
+export const UserRequestMobileChange = _UserRequestMobileChange;

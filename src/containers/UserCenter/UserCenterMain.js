@@ -112,7 +112,7 @@ class UserCenterMain extends Component {
 
                     </View>
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_05} style={{width: 18, height: 20}} />
                                 <Text style={{marginLeft: 10}}>绑定信息</Text>
@@ -121,46 +121,46 @@ class UserCenterMain extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_06} style={{width: 18, height: 18}} />
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>绑定信息</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>我的VIP</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_07} style={{width: 18, height: 18}} />
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>绑定信息</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>申诉中心</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_08} style={{width: 18, height: 18}} />
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>绑定信息</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>新手教学</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_09} style={{width: 18, height: 18}} />
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>绑定信息</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>版本信息</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_10} style={{width: 18, height: 18}} />
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>绑定信息</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>清除缓存</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />

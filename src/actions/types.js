@@ -36,4 +36,6 @@ export const GET_NOTICE_LIST = 'get_notice_list';
 export const AVATAR_SUBMIT = 'avatar_submit';
 export const AVATAR_SUCCESS = 'avatar_success';
 export const AVATAR_CHANGED = 'avatar_changed';
-
+export const MOBILE_CHANGE_REGENERATE_CAPTCHACODE = 'mobile_change_regenerate_catchacode';
+export const MOBILE_CHANGE_GET_VC_CODE_1ST_SUCCESS = 'mobile_change_get_verifycode_1st_success';
+export const MOBILE_CHANGE_GET_VC_CODE_2nd_SUCCESS = 'mobile_change_get_verifycode_2nd_success';

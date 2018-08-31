@@ -25,7 +25,7 @@ class UserInfo extends Component {
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content >
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10, marginTop: 10}}>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 5}} onPress={()=>Actions.UserAvatar()}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.UserAvatar()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_01} style={{width: 18, height: 20}} />
@@ -36,34 +36,34 @@ class UserInfo extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.UserMobileChange()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_02} style={{width: 11, height: 18}} />
                                 </View>
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>用户手机号</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>用户手机号</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_03} style={{width: 14, height: 18}} />
                                 </View>
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>用户密码</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>用户密码</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight, alignSelf:'flex-end'}} />
                             </View>
                         </TouchableOpacity>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 5}}>
+                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_04} style={{width: 18, height: 18}} />
                                 </View>
-                                <Text style={{fontSize: Styles.fontSmaller, marginLeft: 10}}>声音</Text>
+                                <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>声音</Text>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Switch  value={this.state.bSound} />

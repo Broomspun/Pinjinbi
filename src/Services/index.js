@@ -57,6 +57,31 @@ export const getMemberInfo = async (UserId, Token)=>{
         return await {status: 404, data: null};
     }
 };
+
+/**
+ 3.6. 验证、修改手机号获取验证码  (Verify and modify the mobile phone number to obtain the verification code.)
+ http://pjbapi.wtvxin.com/api/Member/GetSms
+ POST
+ @Mobile: Phone number
+ @ImgCode: Captcha code
+ @VerifyType: 2 - Forgot password verification and get verification code parameters
+              6 - phone number verification and get verification code parameters,
+              7 - Newly modify the phone number verification and get the verification code parameters
+ **/
+export const getVerifyCode_API = async (Mobile, VerifyCode, ImgCode)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetSms`, `Mobile=${Mobile}&VerifyType=${VerifyCode}&ImgCode=${ImgCode}`);
+console.log('api_result', res);
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
 /**
  * 4.6 Submit Member avatar
  * This API allows Member to submit his avatar
