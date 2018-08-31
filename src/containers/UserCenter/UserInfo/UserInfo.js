@@ -20,6 +20,10 @@ class UserInfo extends Component {
 
     }
 
+    _renderConfirmBlock = ()=> {
+
+    };
+
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
@@ -36,7 +40,7 @@ class UserInfo extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.UserMobileChange()}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.verifyoldphone()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_02} style={{width: 11, height: 18}} />
@@ -47,7 +51,7 @@ class UserInfo extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} >
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <View style={{width: 20, ...Styles.ColumnCenter}}>
                                     <Image source={Images.user_info_icon_03} style={{width: 14, height: 18}} />

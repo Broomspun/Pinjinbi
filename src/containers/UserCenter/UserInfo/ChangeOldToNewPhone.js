@@ -1,5 +1,6 @@
 /**
  * Created by Kim on 06/08/2018.
+ * Component to change Mobile Number
  */
 import React, {Component} from 'react'
 import {View, Image, TouchableOpacity} from 'react-native';
@@ -9,18 +10,18 @@ import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
 import {ReactCaptchaGenerator} from "../../../components";
 
-import {generateCaptchaCode_mc,getVerifyCode_mc} from './../../../actions'
+import {generateCaptchaCode_mc,getVerifySMSCode_mc,changeMobileNumber} from './../../../actions'
 
-class UserRequestMobileChange extends Component {
+class ChangeOldToNewPhone extends Component {
     state = {
-      phone: '',
-      verifyCode: '',
-      captchaCode: '',
+        phone: '',
+        verifyCode: '',
+        captchaCode: '',
     };
 
     onButtonPress() {
         const { captchaCode, phone,verifyCode} = this.state;
-        const { mc_captchaGenCode} = this.props;
+        const { mc_captchaGenCode1} = this.props;
 
         if(phone==='') {
             Toast.show({
@@ -32,7 +33,7 @@ class UserRequestMobileChange extends Component {
             return;
         }
 
-        if(captchaCode !== mc_captchaGenCode) {
+        if(captchaCode !== mc_captchaGenCode1) {
             Toast.show({
                 text: "Incorrect captcha code",
                 buttonText: "是",
@@ -51,8 +52,8 @@ class UserRequestMobileChange extends Component {
             });
             return;
         }
-
-        this.props.loginUser({phone, password});
+        const {UserId, Token} = this.props.user;
+        this.props.changeMobileNumber(phone, verifyCode, UserId, Token);
     }
 
     componentWillReceiveProps(nextProps){
@@ -88,7 +89,7 @@ class UserRequestMobileChange extends Component {
 
         return (
             <Button block style={styles.buttonStyle}  onPress = {this.onButtonPress.bind(this)} >
-                <Text style={{fontSize: Styles.fontLarge}}>下一步</Text>
+                <Text style={{fontSize: Styles.fontLarge}}>提交</Text>
             </Button>
         );
     }
@@ -105,9 +106,9 @@ class UserRequestMobileChange extends Component {
 
     getUserMCSMSVerifyCode() {
         const { captchaCode, phone} = this.state;
-        const { mc_captchaGenCode} = this.props;
+        const { mc_captchaGenCode1} = this.props;
 
-        if(captchaCode !== mc_captchaGenCode) {
+        if(captchaCode !== mc_captchaGenCode1) {
             Toast.show({
                 text: "Captcha code incorrect!",
                 buttonText: "是",
@@ -115,7 +116,7 @@ class UserRequestMobileChange extends Component {
             });
         }
         else {
-            this.props.getVerifyCode_mc(phone, 6, captchaCode);
+            this.props.getVerifySMSCode_mc(phone, 7, captchaCode);
         }
     }
     render() {
@@ -123,14 +124,14 @@ class UserRequestMobileChange extends Component {
             <Container>
                 <Content padder style={{backgroundColor:'#f8f8f8'}}>
                     <View style={{marginBottom: 10}}>
-                    <Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>原用户名可接受短信的用户可自主验证修改用户名，修改后原有 邀请关心不受影响，原用户无法接受短信的用户，需联系在线客 服验证后修</Text>
+                        <Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>原用户名可接受短信的用户可自主验证修改用户名，修改后原有 邀请关心不受影响，原用户无法接受短信的用户，需联系在线客 服验证后修</Text>
                     </View>
                     <Form>
                         <Item regular underline={false} style={styles.itemStyle}>
                             <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请输入手机号码"
+                                placeholder="新手机号   请输入手机号码"
                                 value = {this.state.phone}
                                 onChangeText = {value => this.setState({phone: value})}
                             />
@@ -142,7 +143,7 @@ class UserRequestMobileChange extends Component {
                                     <Input
                                         style={styles.inputStyle}
                                         placeholderTextColor='#ccc'
-                                        placeholder="请输入图形验证码"
+                                        placeholder="图片验证   请输入图片验证码"
                                         value = {this.state.captchaCode}
                                         onChangeText = { value => this.setState({ captchaCode: value})}
                                     />
@@ -150,7 +151,7 @@ class UserRequestMobileChange extends Component {
                                 <View style={{flex: 1, flexDirection: 'column'}}>
                                     <TouchableOpacity onPress={()=>this.onMCRecaptcahaGenCode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
                                         <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                        <ReactCaptchaGenerator captchaCode={this.props.mc_captchaGenCode} />
+                                        <ReactCaptchaGenerator captchaCode={this.props.mc_captchaGenCode1} />
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -162,7 +163,7 @@ class UserRequestMobileChange extends Component {
                                     <Input
                                         style={styles.inputStyle}
                                         placeholderTextColor='#ccc'
-                                        placeholder="请输入图像验证码"
+                                        placeholder="短信验证   请输入短信验证码"
                                         value = {this.props.verifyCode}
                                         onChangeText = { value => this.setState({ verifyCode: value})}
                                     />
@@ -172,7 +173,7 @@ class UserRequestMobileChange extends Component {
                                         style={{flex: 1, height: null, justifyContent: 'center' }}
                                         onPress={()=>this.getUserMCSMSVerifyCode()}
                                     >
-                                        <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>获取验证码</Text>
+                                        <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>短信验证码(50)</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -207,7 +208,7 @@ const styles ={
 
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {mc_captchaGenCode,mc_msg} = state.userInfoReducer;
-    return {user,mc_captchaGenCode,mc_msg};
+    const {mc_captchaGenCode1,mc_msg1,bChangedMC} = state.userInfoReducer;
+    return {user,mc_captchaGenCode1,mc_msg1,bChangedMC};
 };
-export default connect(mapStateToProps, {generateCaptchaCode_mc, getVerifyCode_mc})(UserRequestMobileChange);
+export default connect(mapStateToProps, {generateCaptchaCode_mc, getVerifySMSCode_mc,changeMobileNumber})(ChangeOldToNewPhone);

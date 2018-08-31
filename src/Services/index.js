@@ -59,17 +59,17 @@ export const getMemberInfo = async (UserId, Token)=>{
 };
 
 /**
- 3.6. 验证、修改手机号获取验证码  (Verify and modify the mobile phone number to obtain the verification code.)
+ 3.6. 验证、修改手机号获取验证码  (obtain the verification code to change the mobile phone number.)
  http://pjbapi.wtvxin.com/api/Member/GetSms
  POST
- @Mobile: Phone number
+ @Mobile: current Phone number
  @ImgCode: Captcha code
  @VerifyType: 2 - Forgot password verification and get verification code parameters
               6 - phone number verification and get verification code parameters,
               7 - Newly modify the phone number verification and get the verification code parameters
  **/
-export const getVerifyCode_API = async (Mobile, VerifyCode, ImgCode)=>{
-    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetSms`, `Mobile=${Mobile}&VerifyType=${VerifyCode}&ImgCode=${ImgCode}`);
+export const getVerifySMSCode_API = async (Mobile, VerifyType, ImgCode)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetSms`, `Mobile=${Mobile}&VerifyType=${VerifyType}&ImgCode=${ImgCode}`);
 console.log('api_result', res);
     try {
         if(res.data.errcode ===0) {
@@ -82,6 +82,57 @@ console.log('api_result', res);
     }
 };
 
+/**
+ 3.7. 验证码与手机号验证   (Verify verification code & Mobile number to change the mobile phone number.)
+ http://pjbapi.wtvxin.com/api/Member/VerificationMobile
+ POST
+ @Mobile: current Phone number
+ @VerifyType: 2 - Forgot password verification and get verification code parameters
+              6 - phone number verification and get verification code parameters,
+              7 - Newly modify the phone number verification and get the verification code parameters
+ @VerifyCode: Verify Code
+ @UserId
+ @Token
+ **/
+export const VerifyMC_API = async (Mobile, VerifyType, VerifyCode, UserId, Token)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/VerificationMobile`,
+        `Mobile=${Mobile}&VerifyType=${VerifyType}&VerifyCode=${VerifyCode}&UserId=${UserId}&Token=${Token}`);
+    console.log('api_result', res);
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+/**
+ 3.8. 提交手机号修改   (Change Mobile Phone number.)
+ http://pjbapi.wtvxin.com/api/Member/SubmitModifyByMobile
+ POST
+ @NewMobile: current Phone number
+ @VerifyType: 7 - Newly modify the phone number verification and get the verification code parameters
+ @VerifyCode: Verify Code
+ @UserId
+ @Token
+ **/
+export const ChangeMP_API = async (NewMobile, VerifyCode, UserId, Token)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Member/SubmitModifyByMobile`,
+        `NewMobile=${NewMobile}&VerifyType=7&VerifyCode=${VerifyCode}&UserId=${UserId}&Token=${Token}`);
+    console.log('api_result', res);
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
 /**
  * 4.6 Submit Member avatar
  * This API allows Member to submit his avatar

@@ -4,11 +4,11 @@ import { Container, Form, Content, Button, Input, Item, Icon, Text} from 'native
 import {Actions} from 'react-native-router-flux';
 import {Spinner,Spinner1} from "../../components";
 import {Images} from "@common";
-class ForgottenPassword extends Component {
+class ChangePassword extends Component {
     state = {
-        fv_phone: '',
-        fp_password: '',
-        fp_repeat_password: '',
+        cp_phone: '',
+        cp_password: '',
+        cp_confirm_password: '',
     };
     constructor(props) {
         super(props);
@@ -26,7 +26,7 @@ class ForgottenPassword extends Component {
         }
 
         return (
-            <Button block style={styles.buttonStyle}  >
+            <Button block style={styles.buttonStyle}>
                 <Text style={{fontSize: 20}}>完成</Text>
             </Button>
         );
@@ -45,30 +45,30 @@ class ForgottenPassword extends Component {
                             <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
                             <Input
                                 placeholderTextColor='#ccc'
-                                placeholder="请输入手机号码"
-                                value = {this.state.fv_phone}
-                                onChangeText = {value => this.setState({fv_phone: value})}
+                                placeholder="请输入旧密码"
+                                value = {this.state.cp_phone}
+                                onChangeText = {value => this.setState({cp_phone: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
                             <Input
                                 placeholderTextColor='#ccc'
-                                secureTextEntry placeholder="请输入6-12位密码"
-                                value = {this.state.fp_password}
-                                onChangeText = {value => this.setState({fp_password: value})}
+                                secureTextEntry placeholder="请输入新密码"
+                                value = {this.state.cp_password}
+                                onChangeText = {value => this.setState({cp_password: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
                             <Input
                                 placeholderTextColor='#ccc'
-                                secureTextEntry placeholder="请再次输入新密码"
-                                value = {this.state.fp_repeat_password}
-                                onChangeText = {value => this.setState({fp_repeat_password: value})}
+                                secureTextEntry placeholder="请确认新密码"
+                                value = {this.state.cp_confirm_password}
+                                onChangeText = {value => this.setState({cp_confirm_password: value})}
                             />
                         </Item>
-                         {this.renderError()}
+                        {this.renderError()}
                         { this.renderButton() }
                     </Form>
                 </Content>
@@ -94,4 +94,4 @@ const styles = {
         color: 'red'
     }
 };
-export default ForgottenPassword;
+export default ChangePassword;

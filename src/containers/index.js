@@ -90,5 +90,8 @@ export const UserInfo = _UserInfo;
 import _UserAvatar from './UserCenter/UserInfo/UserAvatar';
 export const UserAvatar = _UserAvatar;
 
-import _UserRequestMobileChange from './UserCenter/UserInfo/UserRequestMobileChange';
-export const UserRequestMobileChange = _UserRequestMobileChange;
+import _VerifyOldPhone from './UserCenter/UserInfo/VerifyOldPhone';
+export const VerifyOldPhone = _VerifyOldPhone;
+
+import _ChangeOldToNewPhone from './UserCenter/UserInfo/ChangeOldToNewPhone';
+export const ChangeOldToNewPhone = _ChangeOldToNewPhone;
