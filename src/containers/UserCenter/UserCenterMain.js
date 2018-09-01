@@ -59,9 +59,9 @@ class UserCenterMain extends Component {
                                         <View style={{flex:1}}>
                                             <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
                                         </View>
-                                        <View style={{flex:1}}>
+                                        <TouchableOpacity style={{flex:1}} onPress={()=>Actions.integralrule()}>
                                             <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>我的夺宝 拷贝</Text>
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>

@@ -1,5 +1,3 @@
-import {AsyncStorage} from "react-native";
-import {Actions} from "react-native-router-flux";
 
 export const generatorCaptchaCode = (length) => {
     let result = [];

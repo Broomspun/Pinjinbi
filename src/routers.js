@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,
+    UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     FaqMain, Faqs
 } from "@containers";
 
@@ -29,7 +29,7 @@ const RouterComponent = () => {
         <Router>
             <Stack key="root"  hideNavBar>
                 {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
-                    {/*<Scene key="UserAvatar123" component ={UserAvatar} title="头像" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Scene key="integralrule123" component ={IntegralRule} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
                 <Stack key="splash" hideNavBar>
                     <Scene key="splashscreen" component={SplashScreen}  />
@@ -83,6 +83,7 @@ const RouterComponent = () => {
                     <Scene key="verifyoldphone" component ={VerifyOldPhone} title="手机号修改" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="changeoldtonewphone" component ={ChangeOldToNewPhone} title="手机号修改" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="changeloginpassword" component ={ChangeLoginPassword} title="修改登录密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="integralrule" component ={IntegralRule} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

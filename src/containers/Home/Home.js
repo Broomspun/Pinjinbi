@@ -3,7 +3,6 @@ import Modal from 'react-native-modal'
 
 import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
 import {Platform, UIManager} from "react-native";
-import {_retrieveUserData} from './../../Helper'
 
 import { FooterTab, Button, Text,Icon, Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';

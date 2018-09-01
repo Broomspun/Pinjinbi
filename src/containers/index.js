@@ -98,3 +98,6 @@ export const ChangeOldToNewPhone = _ChangeOldToNewPhone;
 
 import _ChangeLoginPassword from './UserCenter/UserInfo/ChangeLoginPassword';
 export const ChangeLoginPassword = _ChangeLoginPassword;
+
+import _IntegralRule from './UserCenter/IntegralRule';
+export const IntegralRule = _IntegralRule;
