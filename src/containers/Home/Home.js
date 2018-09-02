@@ -23,18 +23,10 @@ class Home extends Component {
         }
 
         this.state = {user: props.user};
-        console.log('user',this.state.user);
 
         const {UserId, Token} = this.state.user;
 
         this.props.homeLoading(UserId, Token, this.state.user);
-
-        // (async ()=>{
-        //     let memberInfo = await getMemberInfo(UserId, Token);
-        //     if(memberInfo.status===200) {
-        //         this.setState({user: {...memberInfo.data, ...this.state.user}});
-        //     }
-        // })();
 
         (async ()=>{
             let bindInfo = await getBindingInfo(UserId, Token);
@@ -55,7 +47,6 @@ class Home extends Component {
 
     }
     componentDidUpdate() {
-        console.log('home', this.props);
     }
 
     componentWillMount(){

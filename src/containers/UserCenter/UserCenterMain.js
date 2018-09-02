@@ -71,11 +71,11 @@ class UserCenterMain extends Component {
                         <View style={{...Styles.RowCenter}}>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
                                 <Text style={{color: Color.textNormal}}>佣金收益（金）</Text>
-                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>23.50</Text>
+                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Amount}</Text>
                             </View>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
                                 <Text style={{color: Color.textNormal}}>本金总计（元）</Text>
-                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>100.50</Text>
+                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Wallet}</Text>
                             </View>
                         </View>
                     </View>

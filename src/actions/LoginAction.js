@@ -75,7 +75,6 @@ export const homeLoading = (UserId, Token, user)=> {
         (async ()=>{
             let memberInfo = await getMemberInfo(UserId, Token);
             if(memberInfo.status===200) {
-                console.log(memberInfo);
                 dispatch({
                     type: HOME_LOADING,
                     payload: {...memberInfo.data, ...user}
