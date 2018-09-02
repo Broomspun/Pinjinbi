@@ -102,6 +102,7 @@ const Images = {
     user_info_icon_03: require('./../assets/img/user-center/user-info-icons_03.png'),
     user_info_icon_04: require('./../assets/img/user-center/user-info-icons_04.png'),
     rule_back: require('./../assets/img/user-center/rule_back.png'),
+    commision_empty_icon: require('./../assets/img/user-center/commision_empty_icon.png'),
 
 
 };

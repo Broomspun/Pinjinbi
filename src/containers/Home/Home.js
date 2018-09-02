@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Modal from 'react-native-modal'
+import {connect} from 'react-redux';
 
 import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
 import {Platform, UIManager} from "react-native";
@@ -8,7 +9,8 @@ import { FooterTab, Button, Text,Icon, Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
-import {getBindingInfo,getMemberInfo,requestInfo} from './../../Services'
+import {getBindingInfo,requestInfo} from './../../Services'
+import {homeLoading} from "../../actions";
 
 class Home extends Component {
     state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
@@ -25,12 +27,14 @@ class Home extends Component {
 
         const {UserId, Token} = this.state.user;
 
-        (async ()=>{
-            let memberInfo = await getMemberInfo(UserId, Token);
-            if(memberInfo.status===200) {
-                this.setState({user: {...memberInfo.data, ...this.state.user}});
-            }
-        })();
+        this.props.homeLoading(UserId, Token, this.state.user);
+
+        // (async ()=>{
+        //     let memberInfo = await getMemberInfo(UserId, Token);
+        //     if(memberInfo.status===200) {
+        //         this.setState({user: {...memberInfo.data, ...this.state.user}});
+        //     }
+        // })();
 
         (async ()=>{
             let bindInfo = await getBindingInfo(UserId, Token);
@@ -51,6 +55,7 @@ class Home extends Component {
 
     }
     componentDidUpdate() {
+        console.log('home', this.props);
     }
 
     componentWillMount(){
@@ -102,7 +107,7 @@ class Home extends Component {
                                     佣金收益(金)
                                 </Text>
                                 <Text style={{marginLeft: 20, color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-                                    {this.state.user.Amount}
+                                    {this.props.user.Amount}
                                 </Text>
                             </View>
                         </View>
@@ -114,7 +119,7 @@ class Home extends Component {
                                     本金总计(元)
                                 </Text>
                                 <Text style={{marginLeft: 20, color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-                                    {this.state.user.Wallet}
+                                    {this.props.user.Wallet}
                                 </Text>
                             </View>
                         </View>
@@ -334,4 +339,8 @@ const styles = {
     }
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    return {user}
+};
+export default connect(mapStateToProps, {homeLoading})(Home);

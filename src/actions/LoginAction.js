@@ -7,8 +7,10 @@ import {
     LOGIN_PARAMETER_UPDATED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER_ATTEMPTING
+    LOGIN_USER_ATTEMPTING,
+    HOME_LOADING, CHANGE_LOGIN_PASSWORD_SUCCESS
 } from "./types";
+import {getMemberInfo} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -65,5 +67,20 @@ const loginUserSuccess = async (dispatch, user, msg) => {
         Timer.setTimeout(() => {
             Actions.main({user: user});
         }, 500);
+    }
+};
+
+export const homeLoading = (UserId, Token, user)=> {
+    return (dispatch) =>{
+        (async ()=>{
+            let memberInfo = await getMemberInfo(UserId, Token);
+            if(memberInfo.status===200) {
+                console.log(memberInfo);
+                dispatch({
+                    type: HOME_LOADING,
+                    payload: {...memberInfo.data, ...user}
+                });
+            }
+        })();
     }
 };

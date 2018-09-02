@@ -2,7 +2,8 @@ import {
     LOGIN_PARAMETER_UPDATED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_ATTEMPTING,
-    LOGIN_USER_FAIL
+    LOGIN_USER_FAIL,
+    HOME_LOADING
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,7 @@ const INITIAL_STATE = {
 let remember_status = INITIAL_STATE.remember;
 
 export default (state = INITIAL_STATE, action) => {
+    console.log(action);
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
             if(action.payload.prop==='remember') {
@@ -32,6 +34,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, ...INITIAL_STATE, user: action.payload.user, msg: action.payload.msg };
         case LOGIN_USER_FAIL:
             return {...state, error: action.payload, loading: false, user: null};
+        case HOME_LOADING:
+            return {...state, user: action.payload};
         default:
             return state;
     }
