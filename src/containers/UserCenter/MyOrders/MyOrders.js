@@ -19,26 +19,27 @@ class MyOrders extends Component {
         console.log('tab event',this.state);
     }
 
-    _renderContent(title) {
+    _renderContent(title, orderType) {
+        //orderType: 1-Advanced, 2-Browse
         return (
             <View style={{marginTop: 10}}>
                 <View style={{backgroundColor: 'white', ...Styles.shadowStyle}}>
                     <Text style={{backgroundColor: 'white', marginLeft: 15, paddingVertical: 10, paddingRight: 15, borderBottomWidth:1, borderColor: Color.LightBorder}}>{title}</Text>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween,
                         padding: 10, flexWrap: 'wrap'}}>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.unfinishedtasks()}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
                             <Image source={Images.preorders_01}  style={{width: 50, height:50}}/>
                             <Text style={{marginTop: 10, color: Color.textNormal}}>未完成</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.completedtask()}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
                             <Image source={Images.preorders_02}  style={{width: 50, height:50}}/>
                             <Text style={{marginTop: 10, color: Color.textNormal}}>已完成</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.revokedtasks()}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
                             <Image source={Images.preorders_03}  style={{width: 50, height:50}}/>
                             <Text style={{marginTop: 10, color: Color.textNormal}}>已撤销</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.justifiedtasks()}>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
                             <Image source={Images.preorders_04}  style={{width: 50, height:50}}/>
                             <Text style={{marginTop: 10, color: Color.textNormal}}>申诉中</Text>
                         </TouchableOpacity>
@@ -52,8 +53,8 @@ class MyOrders extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content>
-                    {this._renderContent('垫付任务')}
-                    {this._renderContent('浏览任务')}
+                    {this._renderContent('垫付任务', 1)}
+                    {this._renderContent('浏览任务', 2)}
                     <View><Text> </Text></View>
                 </Content>
                 <Footer>

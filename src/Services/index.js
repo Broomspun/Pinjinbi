@@ -157,7 +157,7 @@ export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd
 };
 /**
  * 4.0 佣金、本金页面和佣金、本金明细、积分明细 (Commission, principal page and commission, principal details , points details)
- * This API allows Member to submit his avatar
+ * Get commission, principal page and commission, principal details
  * API: http://pjbapi.wtvxin.com/api/Money/GetWalletLogList
  *
  *@param UserId: Logged in User ID
@@ -191,7 +191,7 @@ export const getWalletLogList_API = async (UserId, Token, Page, WalletType, IsNe
  *
  *@param UserId : Logged in User ID
  *@param Token :  Logged in User Token
- *@param Avatar : Avatar(base64 image)
+ *@param Avatar : base64 image)
  *
  */
 export const submitAvatar_API = async (UserId, Token, Avatar)=>{
@@ -434,11 +434,35 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
 };
 
 /**
+ * API LISTS
+ *
+ *   4.0 佣金、本金页面和佣金、本金明细、积分明细 (Commission, principal page and commission, principal details , points details)
+ *       Get commission, principal, principal details
+ *       url: Money/GetWalletLogList
+ *       params: { UserId, Token, Page, PageSize, WalletType, IsNewMonth, Type}
+ *          Page: Current page number
+ *          PageSize: Number of pages per page
+ *          WalletType: Detail account type   0-- commission account, 1 -- principal account,  2 - points account
+ *          IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
+ *          Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
+ *
+ *   7.2 url: Task/GetTaskList
+ *       params: {UserId, Token, Page, PageSize, MemberAcceptTaskStatus, TaskType}
+ *
+ *   7.7 url: Withdraw/CommCommissionWithdrawal
+ *       params: {(UserId, Token, WithdrawalAmount, LoginPassWord}
+ *
+ *   7.8 url: Withdraw/PrincipalWithdrawal
+ *       params: {(UserId, Token, WithdrawalAmount, LoginPassWord}
+ *
+ */
+
+/**
  POST
  @param url API Endpoint, string
  @param data, JSON Object
  **/
-export const requestPOST_API = async (url,data)=>{
+export const requestPOST_API = async (url, data)=>{
 
     url = `${Constants.BASE_API_URL}/${url}`;
 

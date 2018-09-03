@@ -105,11 +105,17 @@ export const WalletList = _WalletList;
 import _MyOrders from './UserCenter/MyOrders/MyOrders';
 export const MyOrders = _MyOrders;
 
-import _PendingOperation from './UserCenter/MyOrders/PendingOperation';
-export const PendingOperation = _PendingOperation;
+import _PendingOperation from './UserCenter/MyOrders/PendingTasks';
+export const PendingTasks = _PendingOperation;
 
 import _CompletedTasks from './UserCenter/MyOrders/CompletedTasks';
 export const CompletedTasks = _CompletedTasks;
 
 import _RevokedTasks from './UserCenter/MyOrders/RevokedTasks';
 export const RevokedTasks = _RevokedTasks;
+
+import _AdvancedOrders from './UserCenter/MyOrders/AdvancedOrders';
+export const AdvancedOrders = _AdvancedOrders;
+
+import _BrowseOrders from './UserCenter/MyOrders/BrowseOrders';
+export const BrowseOrders = _BrowseOrders;

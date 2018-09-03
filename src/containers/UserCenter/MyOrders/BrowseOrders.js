@@ -6,7 +6,7 @@ import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
 import {Tab1, Tab2, Tab3, Tab4, Tab5} from "./tabs";
 
-class PendingOperation extends Component {
+class BrowseOrders extends Component {
     state = {selectedTab: 1};
     constructor(props) {
         super(props);
@@ -44,22 +44,22 @@ class PendingOperation extends Component {
 }
 
 const styles = {
-  tabStyle: {
-      backgroundColor: 'white',
+    tabStyle: {
+        backgroundColor: 'white',
 
-  },
-  activeTabStyle: {
-      backgroundColor: 'white',
-  },
-  textStyle: {
-      color: Color.textDark
-  },
-  activeTextStyle: {
-      color: Color.LightBlue
-  },
-  tabBarUnderlineStyle:{
-      backgroundColor: Color.LightBlue
-  }
+    },
+    activeTabStyle: {
+        backgroundColor: 'white',
+    },
+    textStyle: {
+        color: Color.textDark
+    },
+    activeTextStyle: {
+        color: Color.LightBlue
+    },
+    tabBarUnderlineStyle:{
+        backgroundColor: Color.LightBlue
+    }
 };
 
-export default PendingOperation;
+export default BrowseOrders;
