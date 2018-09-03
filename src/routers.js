@@ -11,7 +11,7 @@ NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions,
     PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
-    CommissionList,WithdrawalList,Withdrawal,
+    CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
 } from "@containers";
 
@@ -85,9 +85,10 @@ const RouterComponent = () => {
                     <Scene key="changeoldtonewphone" component ={ChangeOldToNewPhone} title="手机号修改" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="changeloginpassword" component ={ChangeLoginPassword} title="修改登录密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="integralrule" component ={IntegralRule} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="commissionlist" component ={CommissionList} title="佣金收益" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal()} />
+                    <Scene key="commissionlist" component ={CommissionList} title="佣金收益" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 1})} />
                     <Scene key="withdrawallist" component ={WithdrawalList} title="佣金提现记录" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="withdrawal" component ={Withdrawal} title="佣金提现" titleStyle={styles.navigationBarTitleStyle}  rightTitle="查看明细" onRight={() => Actions.withdrawallist()} />
+                    <Scene key="walletlist" component ={WalletList} title="本金总计" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

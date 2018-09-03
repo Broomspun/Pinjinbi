@@ -102,6 +102,7 @@ export default {
     LighterBlue: '#d6e3fb',
     LightGrayColor: '#f8f8f8',
     Border: '#c6c6c6',
+    GrayColor: '#aeaeae',
     LightBorder: '#d9d9d9',
     LighterBorder: '#f0f0f0',
     redColor: '#e40000',

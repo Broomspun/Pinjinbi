@@ -8,7 +8,7 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER_ATTEMPTING,
-    HOME_LOADING, GET_COMMISSION_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS
+    HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS
 } from "./types";
 
 import {getMemberInfo,getWalletLogList_API} from "../Services";
@@ -85,7 +85,7 @@ export const homeLoading = (UserId, Token, user)=> {
     }
 };
 
-export const commissionList = (user, UserId, Token, Page=1, WalletType=1,IsNewMonth=0, Type=0, PageSize=20)=> {
+export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
             let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
@@ -93,6 +93,20 @@ export const commissionList = (user, UserId, Token, Page=1, WalletType=1,IsNewMo
                 dispatch({
                     type: GET_COMMISSION_LIST,
                     payload: {commissions: res.data, ...user}
+                });
+            }
+        })();
+    }
+};
+
+export const walletList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
+    return (dispatch) =>{
+        (async ()=>{
+            let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
+            if(res.status===200) {
+                dispatch({
+                    type: GET_WALLET_LIST,
+                    payload: {wallets: res.data, ...user}
                 });
             }
         })();

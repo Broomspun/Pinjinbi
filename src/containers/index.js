@@ -110,3 +110,6 @@ export const WithdrawalList = _WithdrawalList;
 
 import _Withdrawal from './UserCenter/Commissions/Withdrawal';
 export const Withdrawal = _Withdrawal;
+
+import _WalletList from './UserCenter/Wallet/WalletList';
+export const WalletList = _WalletList;

@@ -4,7 +4,8 @@ import {
     LOGIN_USER_ATTEMPTING,
     LOGIN_USER_FAIL,
     HOME_LOADING,
-    GET_COMMISSION_LIST
+    GET_COMMISSION_LIST,
+    GET_WALLET_LIST
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -38,6 +39,8 @@ export default (state = INITIAL_STATE, action) => {
         case HOME_LOADING:
             return {...state, user: action.payload};
         case GET_COMMISSION_LIST:
+            return {...state, user:{ ...action.payload}};
+        case GET_WALLET_LIST:
             return {...state, user:{ ...action.payload}};
         default:
             return state;

@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity, PixelRatio} from 'react-native'
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {Actions} from "react-native-router-flux/";
-import {commissionList} from './../../../actions'
+
+import {walletList} from './../../../actions'
 
 
-class CommissionList extends Component {
+class WalletList extends Component {
 
     constructor(props) {
         super(props);
@@ -18,7 +18,7 @@ class CommissionList extends Component {
 
         const {UserId, Token} = this.props.user;
 
-        (async ()=> await this.props.commissionList(this.props.user, UserId, Token))();
+        this.props.walletList(this.props.user, UserId, Token);
     }
     componentDidUpdate() {
 
@@ -27,14 +27,14 @@ class CommissionList extends Component {
     componentWillReceiveProps(nextProps){
     }
 
-    _renderCommissionList = ()=> {
+    _renderWalletList = ()=> {
 
-        const {commissions} = this.props.user;
-        if(!commissions) return;
+        const {wallets} = this.props.user;
+        if(!wallets) return;
 
-        if(commissions.RecordDetail.length===0) {
+        if(wallets.RecordDetail.length===0) {
             return (
-                <View style={{flex: 1, ...Styles.ColumnCenter, height: Styles.height - 250}}>
+                <View style={{flex: 1, ...Styles.ColumnCenter, height: Styles.height - 300}}>
                     <View style={{...Styles.ColumnCenter}}>
                         <Image source={Images.commision_empty_icon} style={{width: 60, height: 60}}/>
                         <Text style={{marginTop: 15, alignSelf: 'center', color: Color.textLight}}>暂时没有相关数据</Text>
@@ -61,14 +61,23 @@ class CommissionList extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content >
-                    {this.props.user.commissions && (
-                    <View style={{backgroundColor: Color.lightOrangeColor, paddingVertical: 10, marginVertical: 10, paddingHorizontal: 15}}>
-                        <Text style={{color: 'white', fontSize: Styles.fontNormal}}>累计佣金（金）</Text>
-                        <View style={{...Styles.RowCenterLeft}}>
-                            <Text style={{color: 'white',fontSize: Styles.fontNormal, fontWeight: '600'}}>{this.props.user.commissions.Wallet || 0.00}</Text>
-                            <Text style={{color: 'white',fontSize: Styles.fontNormal}}>金</Text>
+                    {this.props.user.wallets && (
+                        <View>
+                            <View style={{backgroundColor: Color.lightOrangeColor, paddingVertical: 10, marginTop: 10, paddingHorizontal: 15}}>
+                                <Text style={{color: 'white', fontSize: Styles.fontNormal}}>可提现本金</Text>
+                                <View style={{...Styles.RowCenterLeft}}>
+                                    <Text style={{color: 'white',fontSize: Styles.fontNormal, fontWeight: '600'}}>{this.props.user.wallets.Amount}</Text>
+                                    <Text style={{color: 'white',fontSize: Styles.fontNormal}}>金</Text>
+                                </View>
+                            </View>
+                            <View style={{backgroundColor: Color.GrayColor, paddingVertical: 10, marginVertical: 10, paddingHorizontal: 15}}>
+                                <Text style={{color: 'white', fontSize: Styles.fontNormal}}>已冻结本金</Text>
+                                <View style={{...Styles.RowCenterLeft}}>
+                                    <Text style={{color: 'white',fontSize: Styles.fontNormal, fontWeight: '600'}}>{this.props.user.wallets.FrozenAmount}</Text>
+                                    <Text style={{color: 'white',fontSize: Styles.fontNormal}}>金</Text>
+                                </View>
+                            </View>
                         </View>
-                    </View>
                     )}
                     <View style={{backgroundColor:'white', paddingHorizontal: 10}}>
                         <View style={{...Styles.RowCenterBetween, paddingVertical: 10, borderBottomColor: Color.Border, borderBottomWidth: 1/PixelRatio.get()}}>
@@ -77,7 +86,7 @@ class CommissionList extends Component {
                         </View>
 
                         {/* Commission List*/}
-                        {this._renderCommissionList()}
+                        {this._renderWalletList()}
                     </View>
 
                 </Content>
@@ -89,4 +98,4 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     return {user};
 };
-export default connect(mapStateToProps, {commissionList})(CommissionList);
+export default connect(mapStateToProps, {walletList})(WalletList);

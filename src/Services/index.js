@@ -164,7 +164,7 @@ export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd
  *@Token:  Logged in User Token
  *@Page: Current page number
  *@PageSize: Number of pages per page
- *@WalletType: Detail account type   0 -- principal account,  1-- commission account, 2 - points account
+ *@WalletType: Detail account type   0-- commission account, 1 -- principal account,  2 - points account
  *@IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
  *@Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
  *

@@ -8,18 +8,24 @@ import {commissionList} from './../../../actions'
 
 
 class Withdrawal extends Component {
-    state = {
-        nChoiceButton: 1,  //1: commission withdrawal, 2: principal withdrawal
-        withdrawalAmount: '',
-        accountPassword: ''
-    };
+
 
     constructor(props) {
+
         super(props);
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        console.log(props);
+
+        this.state = {
+            nChoiceButton: props.wallettype,  //1: commission withdrawal, 2: principal withdrawal
+            withdrawalAmount: '',
+            accountPassword: ''
+        };
+
 
     }
     componentDidUpdate() {
