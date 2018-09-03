@@ -8,7 +8,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
-    MyOrders, AdvancedOrders,BrowseOrders, PendingTasks,CompletedTasks, RevokedTasks,
+    MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
@@ -73,9 +73,6 @@ const RouterComponent = () => {
 
                 <Stack back key="myordersstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="myorders" component ={MyOrders} title="我的订单" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="unfinishedtasks" component ={PendingTasks} title="垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="completedtask" component ={CompletedTasks} title="已完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="advancedorders" component ={AdvancedOrders} title="垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="browseorders" component ={BrowseOrders} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
