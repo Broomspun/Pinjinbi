@@ -93,7 +93,14 @@ class UserCenterMain extends Component {
                         </View>
                         <View style={{...Styles.RowCenter}}>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.user_center_icon_02} style={{width: 24, height: 26}}></Image>
+                                <View style={{position: 'relative'}}>
+                                    <TouchableOpacity onPress={()=>Actions.myorders()}>
+                                        <Image source={Images.user_center_icon_02} style={{width: 24, height: 26}}></Image>
+                                    </TouchableOpacity>
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+                                        <Text style={{color: 'white', fontSize: 12}}>5</Text>
+                                    </View>
+                                </View>
                                 <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>未完成</Text>
                             </View>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
@@ -101,8 +108,13 @@ class UserCenterMain extends Component {
                                 <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已完成</Text>
                             </View>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
-                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已撤销</Text>
+                                <View style={{position: 'relative'}}>
+                                    <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: 3, top:-6, borderRadius: 10}}>
+                                        <Text style={{color: 'white', fontSize: 12}}>2</Text>
+                                    </View>
+                                    <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已撤销</Text>
+                                </View>
                             </View>
                             <View style={{flex:1, ...Styles.ColumnCenter}}>
                                 <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
@@ -192,7 +204,7 @@ class UserCenterMain extends Component {
                         </View>
 
                         <View style={{alignItems: 'center' , flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.preordermain()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.myorders()}>
                                 <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
                             </TouchableOpacity>

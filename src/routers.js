@@ -8,7 +8,7 @@ import { fromLeft } from 'react-navigation-transitions';
 
 import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
-    PreOrderMain,PendingOperation,CompletedTasks, RevokedTasks,
+    MyOrders, PendingOperation,CompletedTasks, RevokedTasks,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
@@ -71,9 +71,9 @@ const RouterComponent = () => {
                     <Scene key="browsetask" component ={BrowseTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="打法师" onRight={() => {}} />
                 </Stack>
 
-                <Stack back key="preorders" backButtonImage={Images.backButtonImg}>
-                    <Scene key="preordermain" component ={PreOrderMain} title="已接任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="unfinishedtasks" component ={PendingOperation} title="未完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                <Stack back key="myordersstack" backButtonImage={Images.backButtonImg}>
+                    <Scene key="myorders" component ={MyOrders} title="我的订单" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="unfinishedtasks" component ={PendingOperation} title="垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="completedtask" component ={CompletedTasks} title="已完成垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="revokedtasks" component ={RevokedTasks} title="已撤销垫付任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>

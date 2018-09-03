@@ -41,8 +41,8 @@ export const getBindingInfo1 = async (userId, Token)=>{
  3.4. 个人中心首页 (Personal Center Homepage)
  http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?
  GET
- @UserId
- @Token
+ @param UserId
+ @param Token
  **/
 export const getMemberInfo = async (UserId, Token)=>{
     let res = await instance.get(`http://pjbapi.wtvxin.com/api/Login/GetMemberInfo?UserId=${UserId}&Token=${Token}`);
@@ -62,9 +62,9 @@ export const getMemberInfo = async (UserId, Token)=>{
  3.6. 验证、修改手机号获取验证码  (obtain the verification code to change the mobile phone number.)
  http://pjbapi.wtvxin.com/api/Member/GetSms
  POST
- @Mobile: current Phone number
- @ImgCode: Captcha code
- @VerifyType: 2 - Forgot password verification and get verification code parameters
+ @param Mobile: current Phone number
+ @param ImgCode: Captcha code
+ @param VerifyType: 2 - Forgot password verification and get verification code parameters
               6 - phone number verification and get verification code parameters,
               7 - Newly modify the phone number verification and get the verification code parameters
  **/
@@ -86,13 +86,13 @@ console.log('api_result', res);
  3.7. 验证码与手机号验证   (Verify verification code & Mobile number to change the mobile phone number.)
  http://pjbapi.wtvxin.com/api/Member/VerificationMobile
  POST
- @Mobile: current Phone number
- @VerifyType: 2 - Forgot password verification and get verification code parameters
+ @param: Mobile: current Phone number
+ @param: VerifyType: 2 - Forgot password verification and get verification code parameters
               6 - phone number verification and get verification code parameters,
               7 - Newly modify the phone number verification and get the verification code parameters
- @VerifyCode: Verify Code
- @UserId
- @Token
+ @param: VerifyCode: Verify Code
+ @param: UserId
+ @param: Token
  **/
 export const VerifyMC_API = async (Mobile, VerifyType, VerifyCode, UserId, Token)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/VerificationMobile`,
@@ -113,12 +113,12 @@ export const VerifyMC_API = async (Mobile, VerifyType, VerifyCode, UserId, Token
  3.8. 提交手机号修改   (Change Mobile Phone number.)
  http://pjbapi.wtvxin.com/api/Member/SubmitModifyByMobile
  POST
- @NewMobile: current Phone number
- @VerifyType: 7 - Newly modify the phone number verification and get the verification code parameters
- @VerifyCode: Verify Code
- @UserId
- @Token
+ @param NewMobile: current Phone number
+ @param VerifyCode: Verify Code
+ @param UserId
+ @param Token
  **/
+// @param VerifyType: 7 - Newly modify the phone number verification and get the verification code parameters
 export const ChangeMP_API = async (NewMobile, VerifyCode, UserId, Token)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/SubmitModifyByMobile`,
         `NewMobile=${NewMobile}&VerifyType=7&VerifyCode=${VerifyCode}&UserId=${UserId}&Token=${Token}`);
@@ -137,10 +137,10 @@ export const ChangeMP_API = async (NewMobile, VerifyCode, UserId, Token)=>{
  3.9. 登录密码修改   (Change login password)
  http://pjbapi.wtvxin.com/api/Member/SubmitModifyByPassword
  POST
- @UserId
- @Token
- @OldLoginPwd
- @NewLoginPwd
+ @param UserId
+ @param Token
+ @param OldLoginPwd
+ @param NewLoparam ginPwd
  **/
 export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/SubmitModifyByPassword`,
@@ -160,13 +160,13 @@ export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd
  * This API allows Member to submit his avatar
  * API: http://pjbapi.wtvxin.com/api/Money/GetWalletLogList
  *
- *@UserID: Logged in User ID
- *@Token:  Logged in User Token
- *@Page: Current page number
- *@PageSize: Number of pages per page
- *@WalletType: Detail account type   0-- commission account, 1 -- principal account,  2 - points account
- *@IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
- *@Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
+ *@param UserId: Logged in User ID
+ *@param Token:  Logged in User Token
+ *@param Page: Current page number
+ *@param PageSize: Number of pages per page
+ *@param WalletType: Detail account type   0-- commission account, 1 -- principal account,  2 - points account
+ *@param IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
+ *@param Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
  *
  */
 export const getWalletLogList_API = async (UserId, Token, Page, WalletType, IsNewMonth, Type, PageSize)=>{
@@ -189,9 +189,9 @@ export const getWalletLogList_API = async (UserId, Token, Page, WalletType, IsNe
  * This API allows Member to submit his avatar
  * API: http://pjbapi.wtvxin.com/api/Member/EditHeadImage
  *
- *@UserID : Logged in User ID
- *@Token :  Logged in User Token
- *@Avatar : Avatar(base64 image)
+ *@param UserId : Logged in User ID
+ *@param Token :  Logged in User Token
+ *@param Avatar : Avatar(base64 image)
  *
  */
 export const submitAvatar_API = async (UserId, Token, Avatar)=>{
@@ -199,8 +199,8 @@ export const submitAvatar_API = async (UserId, Token, Avatar)=>{
     const url = `${Constants.BASE_API_URL}/Member/EditHeadImage`;
     const data = {
         UserId: UserId,
-        Token:Token,
-        Avatar:Avatar
+        Token: Token,
+        Avatar: Avatar
     };
 
     const options = {
@@ -227,14 +227,13 @@ export const submitAvatar_API = async (UserId, Token, Avatar)=>{
  * This API allows Member to submit User ID card Information for biding
  * API: http://pjbapi.wtvxin.com/api/Member/BindUserIdCard
  *
- *@UserID : Logged in User ID
- *@Token :  Logged in User Token
- *@UserNmae : User name
- *@Idcard : Card Number
- *@IdCardImgOne: Front photo
- *@IdCardImgTwo: Back photo
- *@IdCardImgThree:
- *
+ *@param: UserID - Logged in User ID, integer
+ *@param: Token -  Logged in User Token
+ *@param: UserName, string
+ *@param: Idcard : Card Number
+ *@param: IdCardImgOne: Front photo, Base64 Image data
+ *@param: IdCardImgTwo: Back photo, Base64 Image data
+ *@param: IdCardImgThree, Base64 Image data
  */
 export const submitIdCard_API = async (UserId,Token,UserName,Idcard, IdCardImgOne,IdCardImgTwo,IdCardImgThree)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserIdCard`,
@@ -256,13 +255,12 @@ export const submitIdCard_API = async (UserId,Token,UserName,Idcard, IdCardImgOn
  * This API allows Member to submit User Bank Information for biding
  * API: http://pjbapi.wtvxin.com/api/Member/BindUserBank
  *
- *@UserID : Logged in User ID
- *@Token :  Logged in User Token
- *@BankName : Card Number
- *@BankCardNo: Front photo
- *@BankAddress: Back photo
- *@BankCardName: Back photo
- *
+ *@param UserId : Logged in User ID, integer
+ *@param Token :  Logged in User Token, string
+ *@param BankName : Card Number, string
+ *@param BankCardNo: stringparam:
+ *@param BankAddress: string
+ *@param BankCardName: string
  */
 export const submitBankInfo_API = async (UserId,Token,BankName,BankCardNo, BankAddress,BankCardName)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserBank`,
@@ -285,8 +283,8 @@ export const submitBankInfo_API = async (UserId,Token,BankName,BankCardNo, BankA
  5.1. 会员QQ号绑定页面加载
  http://pjbapi.wtvxin.com/api/Member/GetUserQQInfo
  POST
- @UserId
- @Token
+ @param UserId integer
+ @param Token string
  **/
 export const getQQInfo = async (UserId, Token)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetUserQQInfo`,`UserId=${UserId}&Token=${Token}` );
@@ -306,9 +304,9 @@ export const getQQInfo = async (UserId, Token)=>{
  5.2. 会员提交QQ号绑定
  http://pjbapi.wtvxin.com/api/Member/BindUserQQ
  POST
- @UserId
- @Token
- @UserQQ
+ @param UserId integer
+ @param Token string
+ @param UserQQ string
  **/
 export const submitQQInfo_API = async (UserId, Token, UserQQ)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserQQ`,`UserId=${UserId}&Token=${Token}&UserQQ=${UserQQ}` );
@@ -329,8 +327,8 @@ export const submitQQInfo_API = async (UserId, Token, UserQQ)=>{
  5.4. 获取绑定信息页面的数据
  http://pjbapi.wtvxin.com/api/Member/GetBindPageData
  POST
- @UserId
- @Token
+ @param UserId integer
+ @param Token string
 **/
 export const getBindingInfo = async (UserId, Token)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/GetBindPageData`,`UserId=${UserId}&Token=${Token}` );
@@ -361,3 +359,105 @@ export const requestInfo = async (url, UserId, Token) => {
     }
 };
 
+
+/**
+ 7.2. 获取可以自己选择接单的任务列表，分页模式，下拉加载更多数据 (Get a list of tasks that you can choose to pick up orders, pagination mode, pull down to load more data)
+ http://pjbapi.wtvxin.com/api/Task/GetTaskList
+ POST
+ @param UserId integer
+ @param Token string
+ @param Page integer
+ @param MemberAcceptTaskStatus integer
+ @param TaskType integer
+ @param PageSize integer, optional
+ **/
+export const getTaskLists_API = async (UserId, Token,Page, MemberAcceptTaskStatus, TaskType, PageSize)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Task/GetTaskList`,
+        `UserId=${UserId}&Token=${Token}&Page=${Page}&MemberAcceptTaskStatus=${MemberAcceptTaskStatus}&TaskType=${TaskType}&PageSize=${PageSize}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+
+/**
+ 7.7. 会员提交佣金提现申请
+ http://pjbapi.wtvxin.com/api/Withdraw/CommCommissionWithdrawal
+ POST
+ @param UserId integer
+ @param Token string
+ @param WithdrawalAmount decimal
+ @param LoginPassWord string
+ **/
+export const RequestCommissionWithdrawal_API = async (UserId, Token,WithdrawalAmount,LoginPassWord)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Withdraw/CommCommissionWithdrawal`,`UserId=${UserId}&Token=${Token}&WithdrawalAmount=${WithdrawalAmount}&LoginPassWord=${LoginPassWord}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+/**
+ 7.8. 支持格式
+ http://pjbapi.wtvxin.com/api/Withdraw/PrincipalWithdrawal
+ POST
+ @param UserId integer
+ @param Token string
+ @param WithdrawalAmount decimal
+ @param LoginPassWord string
+ **/
+export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmount,LoginPassWord)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Withdraw/PrincipalWithdrawal`,`UserId=${UserId}&Token=${Token}&WithdrawalAmount=${WithdrawalAmount}&LoginPassWord=${LoginPassWord}` );
+
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
+
+/**
+ POST
+ @param url API Endpoint, string
+ @param data, JSON Object
+ **/
+export const requestPOST_API = async (url,data)=>{
+
+    url = `${Constants.BASE_API_URL}/${url}`;
+
+    const options = {
+        method: 'POST',
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+        url,
+    };
+
+    let res = await axios(options);
+    try {
+        if(res.data.errcode ===0) {
+            console.log('api result:', res);
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};

@@ -24,20 +24,17 @@ class PendingOperation extends Component {
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginTop: 10}}>
                     <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>
-                        <Tab heading="待操作"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab1 />
+                        <Tab heading="未完成"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
+                            <Tab5 />
                         </Tab>
-                        <Tab  heading="预购任务" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab2/>
+                        <Tab heading="已完成" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
+                            <Tab5 />
                         </Tab>
-                        <Tab heading="待返款"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Text>Tab2</Text>
+                        <Tab heading="已撤销"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
+                            <Tab5 />
                         </Tab>
-                        <Tab  heading="发货中" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                           <Tab4/>
-                        </Tab>
-                        <Tab heading="待追评" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5/>
+                        <Tab  heading="申诉中" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
+                            <Tab5 />
                         </Tab>
                     </Tabs>
                 </Content>

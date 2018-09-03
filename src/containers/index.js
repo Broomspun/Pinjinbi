@@ -51,18 +51,6 @@ export const TotalMissions = _TotalMissions;
 import _BrowseTask from './Missions/BrowseTask';
 export const BrowseTask = _BrowseTask;
 
-import _PreOrderMain from './PreOrders/PreOrderMain';
-export const PreOrderMain = _PreOrderMain;
-
-import _PendingOperation from './PreOrders/PendingOperation';
-export const PendingOperation = _PendingOperation;
-
-import _CompletedTasks from './PreOrders/CompletedTasks';
-export const CompletedTasks = _CompletedTasks;
-
-import _RevokedTasks from './PreOrders/RevokedTasks';
-export const RevokedTasks = _RevokedTasks;
-
 import _VerifyMain from './Verify/VerifyMain';
 export const VerifyMain = _VerifyMain;
 
@@ -113,3 +101,15 @@ export const Withdrawal = _Withdrawal;
 
 import _WalletList from './UserCenter/Wallet/WalletList';
 export const WalletList = _WalletList;
+
+import _MyOrders from './UserCenter/MyOrders/MyOrders';
+export const MyOrders = _MyOrders;
+
+import _PendingOperation from './UserCenter/MyOrders/PendingOperation';
+export const PendingOperation = _PendingOperation;
+
+import _CompletedTasks from './UserCenter/MyOrders/CompletedTasks';
+export const CompletedTasks = _CompletedTasks;
+
+import _RevokedTasks from './UserCenter/MyOrders/RevokedTasks';
+export const RevokedTasks = _RevokedTasks;

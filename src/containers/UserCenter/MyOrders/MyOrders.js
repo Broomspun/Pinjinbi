@@ -6,7 +6,7 @@ import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
 
 
-class PreOrderMain extends Component {
+class MyOrders extends Component {
     state = {selectedTab: 1};
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ class PreOrderMain extends Component {
         console.log('tab event',this.state);
     }
 
-      _renderContent(title) {
+    _renderContent(title) {
         return (
             <View style={{marginTop: 10}}>
                 <View style={{backgroundColor: 'white', ...Styles.shadowStyle}}>
@@ -37,6 +37,10 @@ class PreOrderMain extends Component {
                         <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.revokedtasks()}>
                             <Image source={Images.preorders_03}  style={{width: 50, height:50}}/>
                             <Text style={{marginTop: 10, color: Color.textNormal}}>已撤销</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.justifiedtasks()}>
+                            <Image source={Images.preorders_04}  style={{width: 50, height:50}}/>
+                            <Text style={{marginTop: 10, color: Color.textNormal}}>申诉中</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -87,4 +91,4 @@ class PreOrderMain extends Component {
     }
 }
 
-export default PreOrderMain;
+export default MyOrders;

@@ -11,7 +11,7 @@ import {
     HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS
 } from "./types";
 
-import {getMemberInfo,getWalletLogList_API} from "../Services";
+import {getMemberInfo,getWalletLogList_API, requestPOST_API} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -88,7 +88,10 @@ export const homeLoading = (UserId, Token, user)=> {
 export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
-            let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
+            // let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
+            let res = await requestPOST_API('Money/GetWalletLogList',
+                {UserId:UserId, Token:Token, Page:Page, WalletType: WalletType,IsNewMonth:IsNewMonth, Type:Type, PageSize:PageSize}
+                );
             if(res.status===200) {
                 dispatch({
                     type: GET_COMMISSION_LIST,

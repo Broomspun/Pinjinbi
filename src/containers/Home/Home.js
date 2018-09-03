@@ -218,7 +218,7 @@ class Home extends Component {
                         <View style={{alignItems: 'center' , flex: 1}}>
                         </View>
                         <View  style={{alignItems: 'center' , flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.preordermain()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.myorders()}>
                                 <Image source={Images.preorderIcon} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color:Color.textNormal}}>已接任务 </Text>
                             </TouchableOpacity>

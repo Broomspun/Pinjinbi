@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity} from 'react-native'
-import { Container, Content, Button, Text} from 'native-base';
+import {Platform, UIManager, View, Image} from 'react-native'
+import { Button, Text} from 'native-base';
 
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
@@ -30,7 +30,7 @@ class Tab5 extends Component{
                             <View style={{flex:1, alignItems: 'flex-start',justifyContent: 'space-between'}}>
                                 <Text style={{flex: 1, flexWrap: 'wrap',color: Color.textNormal, fontSize:Styles.fontSmall}}>英国Vanow高档保温杯男士女316不锈钢便携水 杯子商务定制刻字茶杯</Text>
                                 <Text style={{flex: 1, color: Color.orangeColor, fontSize:Styles.fontSmall}}>0.9</Text>
-                                <RowLeftRightBlock leftTitle='最爱打法师' rightTitle='最爱打法师'
+                                <RowLeftRightBlock leftTitle='最爱打法师' rightTitle='2018-07-25'
                                       l_style={{color: Color.textNormal, fontSize:Styles.fontSmall}}
                                       r_style={{color: Color.textNormal, fontSize:Styles.fontSmall}}
                             />
