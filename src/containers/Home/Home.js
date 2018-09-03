@@ -49,8 +49,6 @@ class Home extends Component {
     componentDidUpdate() {
     }
 
-    componentWillMount(){
-    }
     onStartBindingPress() {
         this.setState({bShowStartOrderModal: false});
         Actions.verifymain();

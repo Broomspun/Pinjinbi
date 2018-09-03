@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 import {View,Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
-import {Images, Constants, Styles} from '@common';
+import {Images, Constants, Styles, Color} from '@common';
 import {Actions} from 'react-native-router-flux'
 import {loginParameterUpdated, loginUser} from './../../actions'
 import {
@@ -40,15 +40,15 @@ class Login extends Component {
                 type: "danger"
             })
         }
-
-        if(nextProps.user) {
-            Toast.show({
-                text: `${nextProps.msg}`,
-                buttonText: "是",
-                type: "success",
-                duration: 100
-            })
-        }
+        //
+        // if(nextProps.user) {
+        //     Toast.show({
+        //         text: `${nextProps.msg}`,
+        //         buttonText: "是",
+        //         type: "success",
+        //         duration: 100
+        //     })
+        // }
     }
 
     componentWillUpdate(){
@@ -134,7 +134,7 @@ const styles ={
         borderRadius: 5, backgroundColor: 'white', marginTop: 10, height: 37
     },
     buttonStyle: {
-        marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
+        marginTop: 10, borderRadius: 5, backgroundColor: Color.LightBlue
     },
     errorTextStyle: {
         fontSize: 20,

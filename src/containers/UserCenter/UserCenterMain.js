@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity, AsyncStorage} from 'react-native'
+import {Platform, UIManager,Image, View, Text, TouchableOpacity, AsyncStorage, PixelRatio} from 'react-native'
 import { Container, Content, Button, Footer, FooterTab, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
@@ -69,14 +69,14 @@ class UserCenterMain extends Component {
                     </View>
                     <View style={{marginTop: -30, marginHorizontal: 15, ...Styles.cardStyleEmpty, borderRadius: 5, paddingVertical: 20}}>
                         <View style={{...Styles.RowCenter}}>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>Actions.commissionlist()}>
                                 <Text style={{color: Color.textNormal}}>佣金收益（金）</Text>
                                 <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Amount}</Text>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter}}>
                                 <Text style={{color: Color.textNormal}}>本金总计（元）</Text>
                                 <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Wallet}</Text>
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>

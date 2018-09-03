@@ -8,9 +8,10 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER_ATTEMPTING,
-    HOME_LOADING, CHANGE_LOGIN_PASSWORD_SUCCESS
+    HOME_LOADING, GET_COMMISSION_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS
 } from "./types";
-import {getMemberInfo} from "../Services";
+
+import {getMemberInfo,getWalletLogList_API} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -78,6 +79,20 @@ export const homeLoading = (UserId, Token, user)=> {
                 dispatch({
                     type: HOME_LOADING,
                     payload: {...memberInfo.data, ...user}
+                });
+            }
+        })();
+    }
+};
+
+export const commissionList = (user, UserId, Token, Page=1, WalletType=1,IsNewMonth=0, Type=0, PageSize=20)=> {
+    return (dispatch) =>{
+        (async ()=>{
+            let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
+            if(res.status===200) {
+                dispatch({
+                    type: GET_COMMISSION_LIST,
+                    payload: {commissions: res.data, ...user}
                 });
             }
         })();

@@ -101,3 +101,12 @@ export const ChangeLoginPassword = _ChangeLoginPassword;
 
 import _IntegralRule from './UserCenter/IntegralRule';
 export const IntegralRule = _IntegralRule;
+
+import _CommissionList from './UserCenter/Commissions/CommissionList';
+export const CommissionList = _CommissionList;
+
+import _WithdrawalList from './UserCenter/Commissions/WithdrawalList';
+export const WithdrawalList = _WithdrawalList;
+
+import _Withdrawal from './UserCenter/Commissions/Withdrawal';
+export const Withdrawal = _Withdrawal;

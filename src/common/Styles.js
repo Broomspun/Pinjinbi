@@ -138,6 +138,11 @@ export default Styles ={
         alignItems: 'center',
         justifyContent: 'space-between',
     },
+    RowBottomBetween: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+    },
     //More traits
 
     IconSearchView: {
@@ -225,8 +230,8 @@ export default Styles ={
     },
     mb20: {
         marginBottom:20
-    }
-
-
-
+    },
+    itemStyle: {
+        borderRadius: 5, backgroundColor: 'white', marginTop: 10, height: 37
+    },
 };

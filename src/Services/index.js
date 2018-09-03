@@ -155,6 +155,33 @@ export const ChangePassword_API = async (UserId, Token, OldLoginPwd, NewLoginPwd
         return await {status: 404, data: null};
     }
 };
+/**
+ * 4.0 佣金、本金页面和佣金、本金明细、积分明细 (Commission, principal page and commission, principal details , points details)
+ * This API allows Member to submit his avatar
+ * API: http://pjbapi.wtvxin.com/api/Money/GetWalletLogList
+ *
+ *@UserID: Logged in User ID
+ *@Token:  Logged in User Token
+ *@Page: Current page number
+ *@PageSize: Number of pages per page
+ *@WalletType: Detail account type   0 -- principal account,  1-- commission account, 2 - points account
+ *@IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
+ *@Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
+ *
+ */
+export const getWalletLogList_API = async (UserId, Token, Page, WalletType, IsNewMonth, Type, PageSize)=>{
+    let res = await instance.post(`${Constants.BASE_API_URL}/Money/GetWalletLogList`,
+        `UserId=${UserId}&Token=${Token}&Page=${Page}&WalletType=${WalletType}&IsNewMonth=${IsNewMonth}&Type=${Type}&PageSize=${PageSize}`);
+    try {
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null};
+    }
+};
 
 
 /**

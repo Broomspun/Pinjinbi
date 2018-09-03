@@ -93,6 +93,7 @@ export default {
     textDark: '#222222',
     textInfoOrange: '#ff5d11',
     orangeColor: '#ff5d11',
+    lightOrangeColor: '#fe9142',
     textInfoBlue: '#5c91f0',
     LightBlue: '#5c91f0',
     LightBlue1: '#7ca6f2',
