@@ -26,15 +26,19 @@ class UserCenterMain extends Component {
 
     _renderAvatar = ()=> {
         const {userAvatar} = this.props;
-        if(userAvatar==null) {
+        if(this.props.user.Avatar!=='') {
             return (
-                <Image source={{uri: 'http://pjbapi.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
+                <Image source={{uri: 'http://pjb.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
             )
-        } else {
+        } else if(userAvatar) {
             return (
-                <Image source={{uri: this.props.userAvatar}} style={{width: 60, height: 60, borderRadius: 30}} />
+                <Image source={{uri: this.props.userAvatar }} style={{width: 60, height: 60, borderRadius: 30}} />
             )
         }
+        else
+            return(
+                <Image source={Images.user_center_avatar} style={{width: 60, height: 60, borderRadius: 30}} />
+            )
 
     };
 
@@ -124,7 +128,7 @@ class UserCenterMain extends Component {
 
                     </View>
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.verifymain()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_05} style={{width: 18, height: 20}} />
                                 <Text style={{marginLeft: 10}}>绑定信息</Text>
@@ -132,7 +136,7 @@ class UserCenterMain extends Component {
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_06} style={{width: 18, height: 18}} />

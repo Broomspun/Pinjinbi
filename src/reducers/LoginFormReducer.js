@@ -5,18 +5,21 @@ import {
     LOGIN_USER_FAIL,
     HOME_LOADING,
     GET_COMMISSION_LIST,
-    GET_WALLET_LIST
+    GET_WALLET_LIST,
+    GET_BIND_INFO,
+    GET_ID_CARD_INFO
 } from './../actions/types';
 
 const INITIAL_STATE = {
     phone: '18641568923',
-    // phone: '13612345678',
+    // phone: '18741586976',
     password: 'password123',
     // password: '123456',
     remember: true,
     loading: false,
     error: '',
-    user: null
+    user: null,
+    bindInfo: null
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -42,6 +45,10 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, user:{ ...action.payload}};
         case GET_WALLET_LIST:
             return {...state, user:{ ...action.payload}};
+        case GET_BIND_INFO:
+            return {...state, bindInfo: action.payload, user:{...state.user, bindInfo: action.payload}};
+        case GET_ID_CARD_INFO:
+            return {...state, bindInfo: action.payload, user:{...state.user, id_card: action.payload}};
         default:
             return state;
     }

@@ -29,6 +29,7 @@ export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code
 export const GET_BIND_INFO = 'get_bind_info';
 export const QQ_SUBMIT_SUCCESS = 'qq_submit_success';
 export const ID_CARD_SUBMIT_SUCCESS = 'id_card_submit_success';
+export const GET_ID_CARD_INFO = 'get_id_card_info';
 export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
 
 //News List

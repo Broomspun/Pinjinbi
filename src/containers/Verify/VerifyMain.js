@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {Actions} from "react-native-router-flux";
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {get_bindInfo} from './../../actions'
+import {get_bindInfo, get_idcardInfo} from './../../actions'
+import {getBindingInfo} from "../../Services";
 
 class VerifyMain extends Component {
 
@@ -17,13 +18,22 @@ class VerifyMain extends Component {
         this.state = {user: props.user};
 
         const {UserId, Token} = this.state.user;
-        this.props.get_bindInfo(UserId, Token);
+        if(this.props.user && !this.props.user.bindInfo)
+        (async ()=>{
+            await this.props.get_bindInfo(UserId, Token);  //API 5.4
+            await this.props.get_idcardInfo(UserId, Token);
+        })();
+
+        // this.props.get_bindInfo(UserId, Token);
+        // this.props.get_idcardInfo(UserId, Token);
     }
     componentWillMount(){
     }
     componentDidMount() {
-        // console.log('user', this.state.user);
 
+    }
+    componentWillReceiveProps(nextProps) {
+        console.log('user', nextProps);
     }
 
     render() {
@@ -39,7 +49,7 @@ class VerifyMain extends Component {
                             </View>
                             <View style={{flex:1,}}>
                                 <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifypassport({user: this.props.user})}>
-                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.IsAUTStr:''}</Text>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.user.bindInfo ? this.props.user.bindInfo.IsAUTStr:''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -51,7 +61,7 @@ class VerifyMain extends Component {
                             </View>
                             <View style={{flex:1,}}>
                                 <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifybanks({user: this.props.user})}>
-                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.BankStr: ''}</Text>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.user.bindInfo ? this.props.user.bindInfo.BankStr: ''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -62,8 +72,8 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>QQ号</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifyqq({user: this.props.user, qq:this.props.bindInfo!==null ? this.props.bindInfo.QQStr:''})}>
-                                    <Text style={{color: Color.LightBlue}}>{this.props.bindInfo!==null ? this.props.bindInfo.QQStr:''}</Text>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifyqq({user: this.props.user, qq:this.props.user.bindInfo ? this.props.user.bindInfo.QQStr:''})}>
+                                    <Text style={{color: Color.LightBlue}}>{this.props.user.bindInfo ? this.props.user.bindInfo.QQStr:''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
                             </View>
@@ -140,8 +150,7 @@ class VerifyMain extends Component {
     }
 }
  const mapStateToProps = (state) => {
-     const {user} = state.loginForm;
-     const {bindInfo} = state.bindInfoData;
-     return {user,bindInfo};
+     const {user, bindInfo} = state.loginForm;
+     return {user, bindInfo};
  };
-export default connect(mapStateToProps, {get_bindInfo})(VerifyMain);
+export default connect(mapStateToProps, {get_bindInfo, get_idcardInfo})(VerifyMain);

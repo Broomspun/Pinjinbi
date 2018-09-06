@@ -1,9 +1,8 @@
 import {
-    GET_BIND_INFO, ID_CARD_SUBMIT_SUCCESS, QQ_SUBMIT_SUCCESS, BANK_INFO_SUBMIT_SUCCESS
+    ID_CARD_SUBMIT_SUCCESS, QQ_SUBMIT_SUCCESS, BANK_INFO_SUBMIT_SUCCESS
 } from './../actions/types';
 
 const INITIAL_STATE = {
-    bindInfo: null,
     qq_res: null,
     id_res: null
 };
@@ -11,8 +10,6 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET_BIND_INFO:
-            return {...state, bindInfo: action.payload};
         case QQ_SUBMIT_SUCCESS:
             return {...state, qq_res: action.payload};
         case ID_CARD_SUBMIT_SUCCESS:

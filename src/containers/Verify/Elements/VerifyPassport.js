@@ -8,17 +8,7 @@ import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
 import {submitIdCardInfo} from './../../../actions'
 
-import {
-    Button,
-    Card,
-    Container,
-    Content,
-    Form,
-    Input,
-    Item,
-    Text,
-    Toast
-} from 'native-base';
+import { Button, Card, Container, Content, Form, Input, Item, Text, Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
 
 
@@ -32,14 +22,11 @@ class VerifyPassport extends Component {
             id_card_back_photo: null,
             id_card_hand_held1: null,
             id_card_hand_held2: null,
-            id_card_front_photo_raw: null,
-            id_card_back_photo_raw: null,
-            id_card_hand_held1_raw: null,
-            id_card_hand_held2_raw: null,
-            username: '蓝色',
-            id_card:'450881199412087711'
+            username: props.user.id_card.UserRName || 'none',
+            id_card: props.user.id_card.Idcard || 'none'
         };
 
+        console.log('passport', this.props);
         console.log('passport', this.state);
     }
 
@@ -73,27 +60,27 @@ class VerifyPassport extends Component {
                 // let source = { uri: response.uri };
 
                 // You can also display the image using data:
-                let source = { uri: 'data:image/jpeg;base64,' + response.data };
+                let source = { uri: `data:${response.type};base64,` + response.data };
 
                 switch (id) {
                     case 0:
                         this.setState({
-                            id_card_front_photo: source, id_card_front_photo_raw: response.data
+                            id_card_front_photo: source
                         });
                         break;
                     case 1:
                         this.setState({
-                            id_card_back_photo: source,id_card_back_photo_raw: response.data
+                            id_card_back_photo: source
                         });
                         break;
                     case 2:
                         this.setState({
-                            id_card_hand_held1: source,id_card_front_held1_raw: response.data
+                            id_card_hand_held1: source
                         });
                         break;
                     case 3:
                         this.setState({
-                            id_card_hand_held2: source,id_card_front_held2_raw: response.data
+                            id_card_hand_held2: source
                         });
                          break;
                 }
@@ -111,7 +98,7 @@ class VerifyPassport extends Component {
 
     submitIdCard = () => {
         const {UserId, Token} = this.state.user;
-        const {username,id_card, id_card_front_photo_raw,id_card_back_photo_raw, id_card_hand_held1_raw} = this.state;
+        const {username,id_card, id_card_front_photo,id_card_back_photo, id_card_hand_held1} = this.state;
 
         if(username==='') {
             Toast.show({
@@ -120,10 +107,11 @@ class VerifyPassport extends Component {
             return;
         }
 
-        this.props.submitIdCardInfo(UserId, Token, username, id_card,id_card_front_photo_raw,id_card_back_photo_raw,id_card_hand_held1_raw);
+        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo.uri, id_card_back_photo.uri, id_card_hand_held1.uri);
     };
 
     render() {
+        const {Idcard,IdcardInHand,IdcardNegative,IdcardPositive,IsAUT,IsAUTStr,UserRName} = this.props.user.id_card;
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
                 <Content >
@@ -150,16 +138,16 @@ class VerifyPassport extends Component {
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
                                     <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(0)}>
-                                        { this.state.id_card_front_photo === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_front_photo} />
+                                        { this.state.id_card_front_photo === null && IdcardPositive ==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_front_photo?this.state.id_card_front_photo: {uri: IdcardPositive}} />
                                         }
 
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
                                     <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(1)}>
-                                        { this.state.id_card_back_photo === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_back_photo} />
+                                        { this.state.id_card_back_photo === null && IdcardNegative==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_back_photo? this.state.id_card_back_photo: {uri: IdcardNegative}} />
                                         }
                                     </TouchableOpacity>
                                 </View>
@@ -187,8 +175,8 @@ class VerifyPassport extends Component {
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
                                     <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
-                                        { this.state.id_card_hand_held1 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1} />
+                                        { this.state.id_card_hand_held1 === null && IdcardInHand==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1?this.state.id_card_hand_held1:{uri: IdcardInHand}} />
                                         }
                                     </TouchableOpacity>
                                 </View>
@@ -251,7 +239,8 @@ const styles ={
 
 const mapStateToProps = (state) => {
     const {id_res} = state.bindInfoData;
-    return {id_res};
+    const {user} = state.loginForm;
+    return {id_res, user};
 };
 export default connect(mapStateToProps, {submitIdCardInfo})(VerifyPassport);
 

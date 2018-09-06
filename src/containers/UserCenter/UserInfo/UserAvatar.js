@@ -17,7 +17,7 @@ class UserAvatar extends Component {
         super(props);
         this.state = {
             user: this.props.user,
-            userAvatar:{uri: 'http://pjbapi.wtvxin.com'+ this.props.user.Avatar}
+            userAvatar:{uri: this.props.user.Avatar!==''? 'http://pjb.wtvxin.com'+ this.props.user.Avatar: ''}
         };
 
         console.log(this.state);
@@ -25,28 +25,22 @@ class UserAvatar extends Component {
     }
 
     _renderAvatar = () => {
-        const {userAvatar, user} = this.props;
-        if(userAvatar==null && user.Avatar==='') {
+        const {user} = this.props;
+        if(this.state.userAvatar.uri==='' && user.Avatar==='') {
             return (
                 <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text>
             )
         }
 
-        if(this.state.userAvatar){
+        if(this.state.userAvatar.uri!==''){
             return (
                 <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.userAvatar} />
             )
         }
 
-        if (userAvatar) {
+        if (user.Avatar!=='') {
             return (
-                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={{uri: userAvatar}} />
-            )
-        }
-
-        if (userAvatar==null && user.Avatar!=='') {
-            return (
-                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={{uri: 'http://pjbapi.wtvxin.com'+user.Avatar}} />
+                <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={{uri: 'http://pjb.wtvxin.com'+user.Avatar}} />
             )
         }
 
@@ -84,6 +78,8 @@ class UserAvatar extends Component {
                 this.setState({
                     userAvatar: source,
                 });
+
+                console.log('ccc', this.state)
 
                 // this.props.changedAvatar(`data:${response.type};base64,` + response.data);
             }

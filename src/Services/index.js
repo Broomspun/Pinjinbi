@@ -229,15 +229,15 @@ export const submitAvatar_API = async (UserId, Token, Avatar)=>{
  *
  *@param: UserID - Logged in User ID, integer
  *@param: Token -  Logged in User Token
- *@param: UserName, string
+ *@param: UserRName, string
  *@param: Idcard : Card Number
  *@param: IdCardImgOne: Front photo, Base64 Image data
  *@param: IdCardImgTwo: Back photo, Base64 Image data
  *@param: IdCardImgThree, Base64 Image data
  */
-export const submitIdCard_API = async (UserId,Token,UserName,Idcard, IdCardImgOne,IdCardImgTwo,IdCardImgThree)=>{
+export const submitIdCard_API = async (UserId,Token,UserRName,Idcard, IdCardImgOne,IdCardImgTwo,IdCardImgThree)=>{
     let res = await instance.post(`${Constants.BASE_API_URL}/Member/BindUserIdCard`,
-        `UserId=${UserId}&Token=${Token}&UserRName=${UserName}&Idcard=${Idcard}&IdCardImgOne=${IdCardImgOne}&IdCardImgTwo=${IdCardImgTwo}&IdCardImgThree=${IdCardImgThree}`);
+        `UserId=${UserId}&Token=${Token}&UserRName=${UserRName}&Idcard=${Idcard}&IdCardImgOne=${IdCardImgOne}&IdCardImgTwo=${IdCardImgTwo}&IdCardImgThree=${IdCardImgThree}`);
     try {
         console.log('api response', res);
         if(res.data.errcode ===0) {
@@ -445,9 +445,241 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
  *          WalletType: Detail account type   0-- commission account, 1 -- principal account,  2 - points account
  *          IsNewMonth: Page load is passed in 0 , 0 is for reading the current month data for paging, greater than 0 for reading all data for paging
  *          Type: Currency type   0 balance   1 points (except for the points record, all pass 0 )
+ *   4.1. Submit a reset login password
+ *   url:Member/SubmitResetLoginPwd
+ *   type:post
+ *   params:{Mobile,NewLoginPwd}
+ *         NewLoginPwd: Reset login password value
  *
- *   7.2 url: Task/GetTaskList
+ *   4.2. Get a list of all VIP packages
+ *   url: Money/GetVIPList
+ *   type: get
+ *   params{}
+ *
+ *   4.3. Purchase VIP and verify
+ *   url: Money/UserBuyVIP
+ *   type: post
+ *   params:{UserId,Token,SetMealId}
+ *          UserId: Id returned by the user after login , int, Yes
+ *          Token: '',string ,yest
+ *          SetMealId: 'Confirm the package ID of the purchase' , int , yes
+ *
+ *
+ *   4. 4 . Sign in page load earn points
+ *          url: Integral/LoadSignInPage
+ *          type: post
+ *          params:{UserId , Token}
+ *
+ *   4.5 .Member sign in to get points
+ *          url: Integral/SignInGetPoints
+ *          type: post
+ *          params: {UserId , Token}
+ *
+ *   4.6. Member changes avatar
+ *          url: Member/EditHeadImage
+ *          type: post
+ *          params: {UserId, Token, Avatar}
+ *          ...
+ *          Avatar: Modified avatar image , base64 bit image stream
+ *
+ *
+ *   4.7  http://pjbapi.wtvxin.com/api/Member/GetUserBindIdCardInfo
+ *        params: { UserId, Token}
+ *   4.8 会员身份证绑定提交 (Member ID binding submission)
+ *       url: Member/BindUserIdCard
+ *       params: { UserId, Token, UserRName, Idcard, IdCardImgOne, IdCardImgTwo, IdCardImgThree }
+
+ *    4. 9 . Member bank card binding information page to load
+ *          url: Member/GetUserBankInfo
+ *          type: post
+ *          params:{UserId , Token}
+ *
+ *
+ *     5.0 . Member submits bank card binding
+ *          url: Member/BindUserBank
+ *          type: post
+ *          params:{UserId,Token, BANKNAME, BankCardNo, bankaddress , BankCardName}
+ *                  BANKNAME : Bank name  , string, Yes
+ *                  BankCardNo : Bank card number , string , yes
+ *                  bankaddress: Bank details , string, Yes
+ *                  BankCardName : The cardholder's name and member Real name the same , string, Yes
+ *
+ *
+ *     5.1. Member Q Q binding page loading
+ *          url: Member/GetUserQQInfo
+ *          type: post
+ *          params: {UserId , Token}
+ *
+ *
+ *     5.2. Member submits Q Q binding
+ *          url: Member/BindUserQQ
+ *             type: post
+ *          params: {UserId , Token , UserQQ}
+ *              UserQQ: Member fills in the bound QQ number , string ,Yes
+ *
+ *
+ **********************Failure**********
+ * ###    5.3. Obtain provincial and municipal data
+ * ###         url: Member/GetAreaList
+ * ###         type: post
+ * ###         params: {AreaType,AreaCode }
+ * ###                 AreaType : Passed value of Province , String , Yes
+ * ###                 AreaCode : Upper area code , String, Yes
+ ******************************************
+ *
+ *    5.4. Obtaining the data of the binding information page
+ *          url:   Member/GetBindPageData
+ *          type: post
+ *          params: {UserId , Token}
+ *
+ *
+ *    5.5. Obtaining the account list page page loading of a certain platform
+ *          url:    Member/LoadMemberAccountList
+ *          type: post
+ *          params: {UserId , Token,tender}
+ *              tender: Selected platform Id  , int , yes
+ *
+ *    5.6. View details of a bound account
+ *          url: Member/LoadMemberAccountInfo
+ *          type: post
+ *          params: {UserId , Token}
+ *
+ *
+ *    5.7. Submitting the account binding of the platform
+ *          url: Member/BindOnAccount
+ *          type:  post
+ *          params: {UserId,Token, tender,PlatAccount,ConsigneeName,ConsigneeCall,ProvinceCode,CityCode,DistrictCode,Address,Gender,Age, TaobaoValue,CreditRating,AccountLevel,OrderNo,ConsumerCategoryList,CreditRatingImg,UserInfoImg,UserCenterImg,TaobaoValueImg,AccountLevelImg,VerifiedImg,BorrowingImg}
+ *                  PlatAccount: Filled in the platform account , string, yes
+ *                  ConsigneeName: Consignee name , string ,  yes.
+ *                  ConsigneeCall: Consignee contact number , string , yes
+ *                  ProvinceCode : Province Code value (code ) , string , yes
+ *                  CityCode: Urban Code Value (Code ) , string , yes
+ *                  DistrictCode: District code value (code ) , string, yes
+ *                  Address: address, string, yes
+ *                  Gender: gender, string, Yes
+ *                  Age: age,int, yes
+ *                  .....
+ *                  *others parameter:  string , According to the account to confirm whether the binding of different platforms is required item , if the page binding exists when the need to fill was required items
+ *
+ *
+ *   5.8. Get all shopping categories when the account is bound
+ *           url: Member/GetALLShoppingCategory
+ *           type: get
+ *
+ *
+ *   5.9. Get a list of all platforms for the system
+ *           url: Task/GetPlatList
+ *           type: get
+ *
+ *
+ *   6.0 . Get the user can receive the account
+ *           url: Task/GetMemberCanReceiveAccount
+ *           type: post
+ *           params:{UserId,Token, tender, TaskType}
+ *                   TaskType: Order task type: 1 - Advance mission 2- Browse tasks , yes
+ *
+ *
+ *   6.1. Select the task list of your own order to get
+ *           url: Task/GetTaskList
+ *           type: post
+ *           params: {UserId , Token, Page, PageSize, AccountId , tender, MaxAdvancePayMoney,TaskType}
+ *                   Page: current page number , int , yes
+ *                   PageSize: Number of pages per page , int , yes
+ *                   AccountId: User selected order account ID , int , yes
+ *                   MaxAdvancePayMoney: The maximum amount of advance payment for member order conditions , int , yes
+ *                   TaskType: Order task type: 1 - Advance mission 2- Browse tasks , yes
+ *
+ *
+ *    6.2. Manual order, create a member order task record
+ *           url: Task/UserDetermineTask
+ *           type: post
+ *           params: {UserId , Token, AccountId , TaskListNo}
+ *               TaskListNo: Assigned task number , string, yes
+ *
+ *
+ *
+ *    6.3. Select the task operation page to load after the order is successfully received .
+ *           url:   Task/GetMemberTaskAccept
+ *           type: post
+ *           params: {UserId , Token, TaskAcceptNo}
+ *                 TaskAcceptNo: Order number , string, yes
+ *
+ *
+ *    6. 4 . Operational tasks page data load (ie task details)
+ *            url:    Task/LoadOperationalTask
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo}
+ *
+ *
+ *    6. 5 . Verify the merchant platform shop name
+ *            url: Task/VerifyShopName
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo,Shopname}
+ *                    Shopname: Verified store name , string ,  yes
+ *
+ *
+ *    6. 6 . Submit jobs
+ *            url: Task/SubmitTask
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo,ImgJson,PlatOrderNo}
+ *                ImgJson: Task all picture collection Json , string , yes
+ *                PlatOrderNo: Order number placed by the platform TaskType==1-> Required for advancement task  == TaskType 2 > - browse when the task is not filled  , string , No
+ *
+ *    6. 7 . Members reminder ( reminders ) rebate
+ *            url: Task/RemindingRefunds
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo}
+ *
+ *
+ *    6. 8 . Members confirm receipt, to complete the task
+ *            url: Task/CompleteTask
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo,OkImgJson}
+ *                OkImgJson: Task collection of completed tasks, string , yes
+ *
+ *
+ *    6. 9 . Member cancel orders mission
+ *            url: Task/CancelTask
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo,TaskCancelReasons}
+ *                TaskCancelReasons: Reason for the member to cancel the task (text information) , string , yes
+ *
+ *    7.0. Get all appeal types
+ *            url: Task/GetApplyStatementType
+ *            type:get
+ *
+ *    7.1. Member application for appeal
+ *            url: Task/InitiateAppeal
+ *            type: post
+ *            params: {UserId , Token, TaskAcceptNo,AppealTypeId,AppealMsg,QuestionImgF,QuestionImgS,QuestionImgT}
+ *                AppealTypeId: Appeal Type Id , int , yes
+ *                AppealMsg : Reason for appeal , string, Yes
+ *                QuestionImgF: Appeal Figure 1 (base64 image stream ) , string ,No
+ *                QuestionImgS: Appeal Figure 2 (base64 image stream ) , string ,No
+ *                QuestionImgT: Appeal Figure 3 (base64 image stream ) , string ,No*
+ *
+ *
+  *
+ *   7.2 url: Task/GetMemberTaskList
  *       params: {UserId, Token, Page, PageSize, MemberAcceptTaskStatus, TaskType}
+
+ *
+ *   7.3. Obtain a list of data according to different complainants
+ *          url: Appeal/GetAppealListPage
+ *          type: post
+ *          params: {UserId, Token, Page,PageSize,Complainant}
+ *
+ *   7.4. View grievance details
+ *          url: Appeal/GetAppealInfo
+ *          params: { UserId, Token,AppealId}
+ *
+ *   7.5. Initiating platform involvement
+ *          url: Appeal/InitiatePlatformInvolvement
+ *          params: {UserId, Token,AppealId}
+ *
+ *   7.6. Cashing page binding data loading
+ *          url: Withdraw/LoadingWithdrawPage
+ *          params: { UserId, Token}
  *
  *   7.7 url: Withdraw/CommCommissionWithdrawal
  *       params: {(UserId, Token, WithdrawalAmount, LoginPassWord}
@@ -455,6 +687,33 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
  *   7.8 url: Withdraw/PrincipalWithdrawal
  *       params: {(UserId, Token, WithdrawalAmount, LoginPassWord}
  *
+ *   7.9 . Paging records acquired withdrawals
+ *          url: Withdraw/GetWithdrawLogPage
+ *          params: {UserId, Token,Page,PageSize,WalletType}
+ *
+ *   8.0. Get all appeal types
+ *          url: Help/GetAllHelpClass
+ *          type: get
+ *
+ *    8.1 . Paging to get a list of frequently asked questions
+ *          url: Help/GetHelpList
+ *          type: post
+ *          params: {HelpClassId,Page,PageSize,SarchKeyword}
+ *
+ *    8.2. Paging to get system messages , announcement lists
+ *          url: Notice/GetNoticeByMember
+ *          type: post
+ *          params: {UserId , Token, Page, PageSize , sendtype}
+ *
+ *    8.3. Read system messages or announcement details
+ *          url: Notice/GetNoticeByMember
+ *          type: post
+ *          params: {UserId , Token , NoticeId}
+ *
+ *    8.4. Get member promotion page data
+ *          url: Notice/GetNoticeByMember
+ *          type: post
+ *          params: {UserId , Token}
  */
 
 /**
@@ -462,12 +721,12 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
  @param url API Endpoint, string
  @param data, JSON Object
  **/
-export const requestPOST_API = async (url, data)=>{
+export const requestPOST_API = async (url, data, method='POST')=>{
 
     url = `${Constants.BASE_API_URL}/${url}`;
 
     const options = {
-        method: 'POST',
+        method: method,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         url,

@@ -8,10 +8,11 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGIN_USER_ATTEMPTING,
-    HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS
+    HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS,
+    GET_ID_CARD_INFO
 } from "./types";
 
-import {getMemberInfo,getWalletLogList_API, requestPOST_API} from "../Services";
+import {getMemberInfo, getWalletLogList_API, requestPOST_API} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -115,3 +116,20 @@ export const walletList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=
         })();
     }
 };
+
+export const get_idcardInfo = (UserId, Token) => {
+    return (dispatch) => {
+        (async ()=>{
+            let res = await requestPOST_API('/Member/GetUserBindIdCardInfo',
+                { UserId: UserId, Token: Token }
+            );
+
+            if(res.status===200)
+                dispatch({
+                    type: GET_ID_CARD_INFO,
+                    payload: res.data
+                });
+        })();
+    };
+};
+
