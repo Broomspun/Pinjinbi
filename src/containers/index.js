@@ -110,3 +110,7 @@ export const AdvancedOrders = _AdvancedOrders;
 
 import _BrowseOrders from './UserCenter/MyOrders/BrowseOrders';
 export const BrowseOrders = _BrowseOrders;
+
+import _TabaoMain from './Verify/Elements/Tabao/TabaoMain';
+export const TabaoMain = _TabaoMain;
+
