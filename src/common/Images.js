@@ -107,6 +107,7 @@ const Images = {
     tabao_icon: require('./../assets/img/platforms/tabao_icon.png'),
     jingdong_icon: require('./../assets/img/platforms/jingdong_icon.png'),
     pinduoduo_icon: require('./../assets/img/platforms/pinduoduo_icon.png'),
+    mushroom_icon: require('./../assets/img/platforms/mushroom_icon.png'),
 
 
 };

@@ -211,31 +211,35 @@ class BindPinDuoDuoAccount extends Component {
                             </Text>
 
                         </View>
-                        <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
-                            <View style={{flex:1,marginRight: 6}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
-                                    { this.state.id_card_hand_held1 === null && IdcardInHand==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1?this.state.id_card_hand_held1:{uri: IdcardInHand}} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>账户截图</Text>
+                        <View style={{...Styles.RowCenterBetween, paddingTop: 10}}>
+                            <View style={{flex:1,marginRight: 6, backgroundColor: 'transparent'}}>
+                                <View style={{flex:1,...Styles.ColumnCenter}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
+                                        { this.state.id_card_hand_held1 === null && IdcardInHand==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1?this.state.id_card_hand_held1:{uri: IdcardInHand}} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View >
+                                        <Text style={{fontSize: Styles.fontSmaller, color: Color.textNormal}}>账户截图</Text>
+                                    </View>
                                 </View>
                             </View>
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                    { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
-                                    }
-                                </TouchableOpacity>
+                            <View style={{flex:1, marginRight:3,backgroundColor: 'transparent'}}>
                                 <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>订单验证截图</Text>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
+                                        { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmaller, color: Color.textNormal}}>订单验证截图</Text>
+                                    </View>
                                 </View>
                             </View>
-                            <View style={{flex:1, marginRight:3}}>
+                            <View style={{flex:1, marginRight:3,backgroundColor: 'green'}}>
 
                             </View>
-                            <View style={{flex:1, marginRight:3}}>
+                            <View style={{flex:1, marginRight:3,backgroundColor: 'green'}}>
                             </View>
                         </View>
                     </View>
@@ -245,9 +249,9 @@ class BindPinDuoDuoAccount extends Component {
                     </View>
 
                     <View style={{paddingBottom: 15}}>
-                    <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
-                        <Text style={{fontSize: Styles.fontLarge}}>提交审核</Text>
-                    </Button>
+                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
+                            <Text style={{fontSize: Styles.fontLarge}}>提交审核</Text>
+                        </Button>
                     </View>
 
                 </Content>

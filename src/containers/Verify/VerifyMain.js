@@ -117,18 +117,18 @@ class VerifyMain extends Component {
                                 </View>
                             </View>
                         </TouchableOpacity>
-                        <View style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}}>
+                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.MushroomStreetMain()}>
                             <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
                                 <Image source={Images.mission_06} style={{width:26, height:26, marginRight:10}}/>
                                 <Text style={{color: Color.textNormal}}>绑定蘑菇街账号</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
                                     <Text style={{color: Color.LightBlue}}>未绑定</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}}>
                             <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
                                 <Image source={Images.mission_07} style={{width:26, height:26, marginRight:10}}/>

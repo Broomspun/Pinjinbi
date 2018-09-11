@@ -128,3 +128,9 @@ export const PinDuoDuoMain = _PinDuoDuoMain;
 
 import _BindPinDuoDuoAccount from './Verify/Elements/PinDuoDuo/BindPinDuoDuoAccount';
 export const BindPinDuoDuoAccount = _BindPinDuoDuoAccount;
+
+import _MushroomStreetMain from './Verify/Elements/MushroomStreet/MushroomStreetMain';
+export const MushroomStreetMain = _MushroomStreetMain;
+
+import _BindMushroomStreetAccount from './Verify/Elements/MushroomStreet/BindMushroomStreetAccount';
+export const BindMushroomStreetAccount = _BindMushroomStreetAccount;
