@@ -39,7 +39,7 @@ class VIPMain extends Component {
     componentWillUpdate(){
     }
     _renderVIPModal =() =>{
-        const {buttonSelectBackColor,buttonUnSelectBackColor,button6Select,buttonText,selectedMonth,selectedMoney} = this.state;
+        const {buttonSelectBackColor,buttonUnSelectBackColor,button6Select,buttonText} = this.state;
 
         return (
             <View style={{...Styles.ColumnCenter, width: '100%', maxHeight: 450, borderRadius: 10, backgroundColor:'white', paddingBottom: 30, paddingHorizontal: 15 }}>

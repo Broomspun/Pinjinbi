@@ -22,30 +22,37 @@ class Home extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
-        this.state = {user: props.user};
+        if(props.user) {
+            this.state = {user: props.user};
 
-        const {UserId, Token} = this.state.user;
+            const {UserId, Token} = this.state.user;
 
-        this.props.homeLoading(UserId, Token, this.state.user);
+            this.props.homeLoading(UserId, Token, this.state.user);
 
-        (async ()=>{
-            let bindInfo = await getBindingInfo(UserId, Token);
-            if(bindInfo.status===200) {
-                this.setState({bindInfo: bindInfo.data});
-            }
-        })();
+            (async () => {
+                let bindInfo = await getBindingInfo(UserId, Token);
+                if (bindInfo.status === 200) {
+                    this.setState({bindInfo: bindInfo.data});
+                }
+            })();
 
-        (async ()=>{
-            let qqInfo = await requestInfo('Member/GetUserQQInfo', UserId, Token);
-            if(qqInfo.status===200) {
-                this.setState({qq: qqInfo.data});
-            }
-        })();
+            (async () => {
+                let qqInfo = await requestInfo('Member/GetUserQQInfo', UserId, Token);
+                if (qqInfo.status === 200) {
+                    this.setState({qq: qqInfo.data});
+                }
+            })();
+        }
     }
 
     componentWillMount() {
-
     }
+
+    componentWillReceiveProps(nextProps) {
+      if(!nextProps.user)
+          Actions.auth();
+    }
+
     componentDidUpdate() {
     }
 
@@ -96,7 +103,7 @@ class Home extends Component {
                                     佣金收益(金)
                                 </Text>
                                 <Text style={{marginLeft: 20, color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-                                    {this.props.user.Amount}
+                                    {this.props.user?this.props.user.Amount:0.0}
                                 </Text>
                             </View>
                         </View>
@@ -108,7 +115,7 @@ class Home extends Component {
                                     本金总计(元)
                                 </Text>
                                 <Text style={{marginLeft: 20, color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-                                    {this.props.user.Wallet}
+                                    {this.props.user?this.props.user.Wallet:0.0}
                                 </Text>
                             </View>
                         </View>

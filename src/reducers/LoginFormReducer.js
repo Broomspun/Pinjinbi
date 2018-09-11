@@ -3,6 +3,7 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_ATTEMPTING,
     LOGIN_USER_FAIL,
+    LOGOUT_USER,
     HOME_LOADING,
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
@@ -49,6 +50,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, bindInfo: action.payload, user:{...state.user, bindInfo: action.payload}};
         case GET_ID_CARD_INFO:
             return {...state, bindInfo: action.payload, user:{...state.user, id_card: action.payload}};
+        case LOGOUT_USER:
+            return {...INITIAL_STATE};
         default:
             return state;
     }

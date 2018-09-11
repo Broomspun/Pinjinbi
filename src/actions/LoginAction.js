@@ -6,7 +6,7 @@ import Timer from 'react-timer-mixin';
 import {
     LOGIN_PARAMETER_UPDATED,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL,
+    LOGIN_USER_FAIL,LOGOUT_USER,
     LOGIN_USER_ATTEMPTING,
     HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS,
     GET_ID_CARD_INFO
@@ -132,4 +132,13 @@ export const get_idcardInfo = (UserId, Token) => {
         })();
     };
 };
+
+export const logout = ()=>{
+    return (dispatch) => {
+        dispatch({type: LOGOUT_USER});//For Spinner
+
+        Actions.auth();
+    }
+};
+
 

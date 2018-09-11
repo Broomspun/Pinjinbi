@@ -4,9 +4,14 @@ import {Platform, UIManager,Image, View, Text, TouchableOpacity, AsyncStorage, P
 import { Container, Content, Button, Footer, FooterTab, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
-
+import Modal from "react-native-modal";
+import {logout} from './../../actions'
 class UserCenterMain extends Component {
-    state = {selectedTab: 1};
+    state = {
+        bShowVersionInfo: false,
+        bClearCache: false,
+        bShowLogoutModal: false
+    };
     constructor(props) {
         super(props);
 
@@ -19,14 +24,97 @@ class UserCenterMain extends Component {
 
     }
 
-    logOut = ()=> {
+    logOut = async ()=> {
+        this.setState({bShowLogoutModal: false});
         AsyncStorage.removeItem('pjinbi_auth_user');
-        Actions.auth()
+        await this.props.logout();
+    };
+    onShowVersionInfo() {
+
+    }
+
+    onClearCache() {
+
+    }
+
+    _renderVersionInfo = () => {
+      return (
+          <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+              <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                  <Text style={{color: 'white', fontSize: Styles.fontLarge}}>是否重新安装？</Text>
+              </View>
+              <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
+                  <View style={{paddingVertical: 30}}>
+                      <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>当前已经是最新版本</Text>
+                  </View>
+              </View>
+              <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                  <Button onPress={()=>this.setState({bShowVersionInfo: false})}
+                          style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                      <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                  </Button>
+                  <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onShowVersionInfo.bind(this)}>
+                      <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                  </Button>
+              </View>
+          </View>
+
+      )
+    };
+
+    _renderClearCache = () => {
+        return (
+            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+                <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                    <Text style={{color: 'white', fontSize: Styles.fontLarge}}>温馨提示</Text>
+                </View>
+                <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 15,}}>
+                    <View style={{paddingVertical: 20}}>
+                        <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>清缓存后会重启应用，确认清缓存吗？</Text>
+                    </View>
+                </View>
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                    <Button onPress={()=>this.setState({bClearCache: false})}
+                            style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                    </Button>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onClearCache.bind(this)}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
+
+        )
+    };
+
+    _renderLogoutModal = () => {
+        return (
+            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+                <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                    <Text style={{color: 'white', fontSize: Styles.fontLarge}}>系统提示</Text>
+                </View>
+                <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 15,}}>
+                    <View style={{paddingVertical: 20}}>
+                        <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>确定退出</Text>
+                    </View>
+                </View>
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                    <Button onPress={()=>this.setState({bShowLogoutModal: false})}
+                            style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                    </Button>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={()=>this.logOut()}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
+
+        )
     };
 
     _renderAvatar = ()=> {
         const {userAvatar} = this.props;
-        if(this.props.user.Avatar!=='') {
+        if(this.props.user && this.props.user.Avatar!=='') {
             return (
                 <Image source={{uri: 'http://pjb.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
             )
@@ -46,6 +134,15 @@ class UserCenterMain extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content >
+                    <Modal  isVisible={this.state.bShowVersionInfo} style={{...Styles.ColumnCenter}}>
+                        {this._renderVersionInfo()}
+                    </Modal>
+                    <Modal  isVisible={this.state.bClearCache} style={{...Styles.ColumnCenter}}>
+                        {this._renderClearCache()}
+                    </Modal>
+                    <Modal  isVisible={this.state.bShowLogoutModal} style={{...Styles.ColumnCenter}}>
+                        {this._renderLogoutModal()}
+                    </Modal>
                     <View style={{flex:1,height: 120}}>
                         <Image source={Images.user_center_back} style={{ flex:1, position: 'absolute',bottom: 0, height: 150, width: '100%'}}/>
                         <View style={{flex:1,flexDirection: 'row', marginHorizontal: 15, marginTop: 20, justifyContent:'center'}}>
@@ -57,8 +154,8 @@ class UserCenterMain extends Component {
                             </View>
                             <View style={{flex: 1, marginLeft: 20, paddingTop: 0}}>
                                 <View style={{flex:1}}>
-                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>ID：{this.props.user.UserId}</Text>
-                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>用户名：{this.props.user.NickName!==''?this.props.user.NickName:'none' }</Text>
+                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>ID：{this.props.user?this.props.user.UserId:''}</Text>
+                                    <Text style={{color: 'white', fontSize: Styles.fontSmall}}>用户名：{this.props.user && this.props.user.NickName!==''? this.props.user.NickName:'none' }</Text>
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         <View style={{flex:1}}>
                                             <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
@@ -71,6 +168,7 @@ class UserCenterMain extends Component {
                             </View>
                         </View>
                     </View>
+                    {this.props.user && (
                     <View style={{marginTop: -30, marginHorizontal: 15, ...Styles.cardStyleEmpty, borderRadius: 5, paddingVertical: 20}}>
                         <View style={{...Styles.RowCenter}}>
                             <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>Actions.commissionlist()}>
@@ -83,6 +181,7 @@ class UserCenterMain extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    )}
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
                         <View style={{flexDirection: 'row',  paddingBottom: 10, alignItems: 'center'}}>
                             <View style={{flex:1}}>
@@ -164,7 +263,7 @@ class UserCenterMain extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>{this.setState({bShowVersionInfo: true})}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_09} style={{width: 18, height: 18}} />
                                 <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>版本信息</Text>
@@ -172,8 +271,8 @@ class UserCenterMain extends Component {
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
-                        </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>this.setState({bClearCache: true})}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_10} style={{width: 18, height: 18}} />
                                 <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>清除缓存</Text>
@@ -181,11 +280,11 @@ class UserCenterMain extends Component {
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={{...Styles.cardStyleEmpty}}>
-                        <Button transparent block onPress={()=>this.logOut()}>
+                        <Button transparent block onPress={()=>this.setState({bShowLogoutModal: true})}>
                             <Text style={{color: Color.textNormal, fontSize: Styles.fontLarge}}>退出登录</Text>
                             <Icon name='log-out' type='Entypo' style={{color: Color.textNormal}}/>
                         </Button>
@@ -229,4 +328,4 @@ const mapStateToProps = (state) => {
     const {userAvatar} = state.userInfoReducer;
     return {user, userAvatar};
 };
-export default connect(mapStateToProps, {})(UserCenterMain);
+export default connect(mapStateToProps, {logout})(UserCenterMain);
