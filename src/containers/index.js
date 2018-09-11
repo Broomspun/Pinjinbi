@@ -122,3 +122,9 @@ export const JingDongMain = _JingDongMain;
 
 import _BindJingDongAccount from './Verify/Elements/JD/BindJingDongAccount';
 export const BindJingDongAccount = _BindJingDongAccount;
+
+import _PinDuoDuoMain from './Verify/Elements/PinDuoDuo/PinDuoDuoMain';
+export const PinDuoDuoMain = _PinDuoDuoMain;
+
+import _BindPinDuoDuoAccount from './Verify/Elements/PinDuoDuo/BindPinDuoDuoAccount';
+export const BindPinDuoDuoAccount = _BindPinDuoDuoAccount;

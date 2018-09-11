@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,
+    TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
@@ -101,6 +101,8 @@ const RouterComponent = () => {
                     <Scene key="bindTabaoAccount" component ={BindTabaoAccount} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="JingDongMain" component ={JingDongMain} title="绑定京东账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="bindJingDongAccount" component ={BindJingDongAccount} title="绑定京东账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="PinDuoDuoMain" component ={PinDuoDuoMain} title="绑定拼多多账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="bindPinDuoDuoAccount" component ={BindPinDuoDuoAccount} title="绑定拼多多账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="faqstack" backButtonImage={Images.backButtonImg}>
