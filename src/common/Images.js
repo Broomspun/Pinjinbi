@@ -108,6 +108,7 @@ const Images = {
     jingdong_icon: require('./../assets/img/platforms/jingdong_icon.png'),
     pinduoduo_icon: require('./../assets/img/platforms/pinduoduo_icon.png'),
     mushroom_icon: require('./../assets/img/platforms/mushroom_icon.png'),
+    beautiful_icon: require('./../assets/img/platforms/beautiful_icon.png'),
 
 
 };

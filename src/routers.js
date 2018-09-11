@@ -11,7 +11,7 @@ NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
-    MushroomStreetMain, BindMushroomStreetAccount,
+    MushroomStreetMain, BindMushroomStreetAccount,BeautifulMain,BindBeautifulAccount,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
@@ -106,8 +106,9 @@ const RouterComponent = () => {
                     <Scene key="bindPinDuoDuoAccount" component ={BindPinDuoDuoAccount} title="绑定拼多多账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="MushroomStreetMain" component ={MushroomStreetMain} title="绑定蘑菇街账户" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="bindMushroomStreetAccount" component ={BindMushroomStreetAccount} title="绑定蘑菇街账户" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="BeautifulMain" component ={BeautifulMain} title="绑定美丽说账户" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="bindBeautifulAccount" component ={BindBeautifulAccount} title="绑定美丽说账户" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
-
                 <stack back key="faqstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="faqmain" component ={FaqMain} title="常见问题" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="faqs" component ={FaqMain} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />

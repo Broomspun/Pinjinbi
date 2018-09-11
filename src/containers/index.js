@@ -134,3 +134,9 @@ export const MushroomStreetMain = _MushroomStreetMain;
 
 import _BindMushroomStreetAccount from './Verify/Elements/MushroomStreet/BindMushroomStreetAccount';
 export const BindMushroomStreetAccount = _BindMushroomStreetAccount;
+
+import _BeautifulMain from './Verify/Elements/Beautiful/BeautifulMain';
+export const BeautifulMain = _BeautifulMain;
+
+import _BindBeautifulAccount from './Verify/Elements/Beautiful/BindBeautifulAccount';
+export const BindBeautifulAccount = _BindBeautifulAccount;
