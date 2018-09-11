@@ -12,6 +12,7 @@ NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
     MushroomStreetMain, BindMushroomStreetAccount,BeautifulMain,BindBeautifulAccount,
+    VIPMain,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
@@ -91,6 +92,10 @@ const RouterComponent = () => {
                     <Scene key="withdrawallist" component ={WithdrawalList} title="佣金提现记录" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="withdrawal" component ={Withdrawal} title="佣金提现" titleStyle={styles.navigationBarTitleStyle}  rightTitle="查看明细" onRight={() => Actions.withdrawallist()} />
                     <Scene key="walletlist" component ={WalletList} title="本金总计" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
+                </stack>
+
+                <stack back key="vipstack" backButtonImage={Images.backButtonImg}>
+                    <Scene key="vipMain" component ={VIPMain} title="加入VIP" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

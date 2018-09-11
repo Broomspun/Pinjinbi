@@ -111,32 +111,35 @@ export const AdvancedOrders = _AdvancedOrders;
 import _BrowseOrders from './UserCenter/MyOrders/BrowseOrders';
 export const BrowseOrders = _BrowseOrders;
 
-import _TabaoMain from './Verify/Elements/Tabao/TabaoMain';
+import _TabaoMain from './Verify/Elements/Platforms/Tabao/TabaoMain';
 export const TabaoMain = _TabaoMain;
 
-import _BindTabaoAccount from './Verify/Elements/Tabao/BindTabaoAccount';
+import _BindTabaoAccount from './Verify/Elements/Platforms/Tabao/BindTabaoAccount';
 export const BindTabaoAccount = _BindTabaoAccount;
 
-import _JingDongMain from './Verify/Elements/JD/JingDongMain';
+import _JingDongMain from './Verify/Elements/Platforms/JD/JingDongMain';
 export const JingDongMain = _JingDongMain;
 
-import _BindJingDongAccount from './Verify/Elements/JD/BindJingDongAccount';
+import _BindJingDongAccount from './Verify/Elements/Platforms/JD/BindJingDongAccount';
 export const BindJingDongAccount = _BindJingDongAccount;
 
-import _PinDuoDuoMain from './Verify/Elements/PinDuoDuo/PinDuoDuoMain';
+import _PinDuoDuoMain from './Verify/Elements/Platforms/PinDuoDuo/PinDuoDuoMain';
 export const PinDuoDuoMain = _PinDuoDuoMain;
 
-import _BindPinDuoDuoAccount from './Verify/Elements/PinDuoDuo/BindPinDuoDuoAccount';
+import _BindPinDuoDuoAccount from './Verify/Elements/Platforms/PinDuoDuo/BindPinDuoDuoAccount';
 export const BindPinDuoDuoAccount = _BindPinDuoDuoAccount;
 
-import _MushroomStreetMain from './Verify/Elements/MushroomStreet/MushroomStreetMain';
+import _MushroomStreetMain from './Verify/Elements/Platforms/MushroomStreet/MushroomStreetMain';
 export const MushroomStreetMain = _MushroomStreetMain;
 
-import _BindMushroomStreetAccount from './Verify/Elements/MushroomStreet/BindMushroomStreetAccount';
+import _BindMushroomStreetAccount from './Verify/Elements/Platforms/MushroomStreet/BindMushroomStreetAccount';
 export const BindMushroomStreetAccount = _BindMushroomStreetAccount;
 
-import _BeautifulMain from './Verify/Elements/Beautiful/BeautifulMain';
+import _BeautifulMain from './Verify/Elements/Platforms/Beautiful/BeautifulMain';
 export const BeautifulMain = _BeautifulMain;
 
-import _BindBeautifulAccount from './Verify/Elements/Beautiful/BindBeautifulAccount';
+import _BindBeautifulAccount from './Verify/Elements/Platforms/Beautiful/BindBeautifulAccount';
 export const BindBeautifulAccount = _BindBeautifulAccount;
+
+import _VIPMain from './UserCenter/VIP/VIPMain';
+export const VIPMain = _VIPMain;
