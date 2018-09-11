@@ -10,7 +10,7 @@ import {Actions} from "react-native-router-flux";
 import { Button, Container, Content, Text, Footer } from 'native-base';
 
 
-class TabaoMain extends Component {
+class JingDongMain extends Component {
 
     constructor(props){
         super(props);
@@ -28,7 +28,7 @@ class TabaoMain extends Component {
                 <Content style={{...Styles.mt15}}>
                     <View  style={{...Styles.RowCenterBetween, ...Styles.shadowStyle, backgroundColor: 'white', paddingHorizontal: 15, paddingVertical: 10}}>
                         <View style={{...Styles.RowCenterLeft}}>
-                            <Image source={Images.tabao_icon} style={{width: 20, height: 20, marginRight: 10}} />
+                            <Image source={Images.jingdong_icon} style={{width: 20, height: 20, marginRight: 10}} />
                             <Text>最爱大法师</Text>
                         </View>
                         <View>
@@ -55,7 +55,7 @@ class TabaoMain extends Component {
                 <Footer>
                     <View style={{flex:1}}>
                         <View style={{...Styles.ColumnCenter, flex: 1}}>
-                        <Button full style={{backgroundColor: 'white', height: 60}} onPress = {()=>Actions.bindTabaoAccount()}>
+                        <Button full style={{backgroundColor: 'white', height: 60}} onPress = {()=>Actions.bindJingDongAccount()}>
                             <Text style={{color: Color.LightBlue1, fontSize: Styles.fontLarge}}>+ 新增一个淘宝账户</Text>
                         </Button>
                         </View>
@@ -89,5 +89,5 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     return {id_res, user};
 };
-export default connect(mapStateToProps, {})(TabaoMain);
+export default connect(mapStateToProps, {})(JingDongMain);
 

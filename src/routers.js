@@ -10,12 +10,12 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    TabaoMain,BindTabaoAccount,
+    TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
 } from "@containers";
-import _TabaoMain from "./containers/Verify/Elements/Tabao/TabaoMain";
+
 
 renderBadge = ()=> {
     return (
@@ -99,6 +99,8 @@ const RouterComponent = () => {
                     <Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="TabaoMain" component ={TabaoMain} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="bindTabaoAccount" component ={BindTabaoAccount} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="JingDongMain" component ={JingDongMain} title="绑定京东账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="bindJingDongAccount" component ={BindJingDongAccount} title="绑定京东账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="faqstack" backButtonImage={Images.backButtonImg}>

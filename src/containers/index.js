@@ -116,3 +116,9 @@ export const TabaoMain = _TabaoMain;
 
 import _BindTabaoAccount from './Verify/Elements/Tabao/BindTabaoAccount';
 export const BindTabaoAccount = _BindTabaoAccount;
+
+import _JingDongMain from './Verify/Elements/JD/JingDongMain';
+export const JingDongMain = _JingDongMain;
+
+import _BindJingDongAccount from './Verify/Elements/JD/BindJingDongAccount';
+export const BindJingDongAccount = _BindJingDongAccount;
