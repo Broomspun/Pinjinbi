@@ -13,13 +13,14 @@ NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
     MushroomStreetMain, BindMushroomStreetAccount,BeautifulMain,BindBeautifulAccount,
     VIPMain,
+    BeginnersMain,Details,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
 } from "@containers";
 
 
-renderBadge = ()=> {
+const renderBadge = ()=> {
     return (
         <Button light rounded onPress={()=> Actions.noticelist()}
                 style={{flexDirection: 'column', marginRight: 10, height: 30,width: 30, marginTop: 14, alignItems: 'center'}}>
@@ -96,6 +97,11 @@ const RouterComponent = () => {
 
                 <stack back key="vipstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="vipMain" component ={VIPMain} title="加入VIP" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
+                </stack>
+
+                <stack back key="beginnerstack" backButtonImage={Images.backButtonImg}>
+                    <Scene key="BeginnersMain" component ={BeginnersMain} title="账号管理" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="Details" component ={Details} title="详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="verifystack" backButtonImage={Images.backButtonImg}>

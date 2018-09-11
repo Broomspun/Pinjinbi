@@ -143,3 +143,9 @@ export const BindBeautifulAccount = _BindBeautifulAccount;
 
 import _VIPMain from './UserCenter/VIP/VIPMain';
 export const VIPMain = _VIPMain;
+
+import _BeginnersMain from './UserCenter/Beginners/BeginnersMain';
+export const BeginnersMain = _BeginnersMain;
+
+import _Details from './UserCenter/Beginners/Details';
+export const Details = _Details;

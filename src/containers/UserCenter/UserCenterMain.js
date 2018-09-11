@@ -155,7 +155,7 @@ class UserCenterMain extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </View>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.BeginnersMain()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_08} style={{width: 18, height: 18}} />
                                 <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>新手教学</Text>
@@ -163,7 +163,7 @@ class UserCenterMain extends Component {
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_09} style={{width: 18, height: 18}} />

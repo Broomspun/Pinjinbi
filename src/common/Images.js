@@ -109,6 +109,7 @@ const Images = {
     pinduoduo_icon: require('./../assets/img/platforms/pinduoduo_icon.png'),
     mushroom_icon: require('./../assets/img/platforms/mushroom_icon.png'),
     beautiful_icon: require('./../assets/img/platforms/beautiful_icon.png'),
+    beginners_back: require('./../assets/img/user-center/beginners_back.png'),
 
 
 };
