@@ -208,7 +208,7 @@ export default Styles ={
         paddingVertical: 10
     },
     basicNoMarginStyle:{paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 10},
-    bottomBorderStyle: {borderBottomWidth:1, borderColor: Color.LighterBorder},
+    bottomBorderStyle: {borderBottomWidth:1/PixelRatio.get(), borderColor: Color.LighterBorder},
     bankSelectButtonStyle: {
         marginHorizontal: 15,
         paddingVertical: 8,
@@ -221,6 +221,9 @@ export default Styles ={
     },
     mt10: {
         marginTop:10
+    },
+    mt15: {
+        marginTop:15
     },
     mt20: {
         marginTop:20

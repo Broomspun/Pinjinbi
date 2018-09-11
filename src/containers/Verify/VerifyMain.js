@@ -81,7 +81,7 @@ class VerifyMain extends Component {
 
                         <Text style={{marginVertical: 15, paddingHorizontal: 15, color: Color.redColor}}>账号信息(任意绑定一个号并通过审核即可完成新手任务)</Text>
 
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.bindTabao()} >
+                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain()} >
                             <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
                                 <Image source={Images.mission_01} style={{width:26, height:26, marginRight:10}}/>
                                 <Text style={{color: Color.textNormal}}>绑定淘宝账号</Text>

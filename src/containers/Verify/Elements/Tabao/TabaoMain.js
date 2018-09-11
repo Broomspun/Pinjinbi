@@ -2,12 +2,12 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View,Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-
-import { Button, Container, Content, Text, Footer, FooterTab } from 'native-base';
+import {Actions} from "react-native-router-flux";
+import { Button, Container, Content, Text, Footer } from 'native-base';
 
 
 class TabaoMain extends Component {
@@ -25,7 +25,7 @@ class TabaoMain extends Component {
     render() {
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
-                <Content style={{...Styles.mt10}}>
+                <Content style={{...Styles.mt15}}>
                     <View  style={{...Styles.RowCenterBetween, ...Styles.shadowStyle, backgroundColor: 'white', paddingHorizontal: 15, paddingVertical: 10}}>
                         <View style={{...Styles.RowCenterLeft}}>
                             <Image source={Images.platform_icon} style={{width: 20, height: 20, marginRight: 10}} />
@@ -55,7 +55,7 @@ class TabaoMain extends Component {
                 <Footer>
                     <View style={{flex:1}}>
                         <View style={{...Styles.ColumnCenter, flex: 1}}>
-                        <Button full style={{backgroundColor: 'white', height: 60}}>
+                        <Button full style={{backgroundColor: 'white', height: 60}} onPress = {()=>Actions.bindTabaoAccount()}>
                             <Text style={{color: Color.LightBlue1, fontSize: Styles.fontLarge}}>+ 新增一个淘宝账户</Text>
                         </Button>
                         </View>

@@ -25,9 +25,6 @@ class VerifyPassport extends Component {
             username: props.user.id_card.UserRName || 'none',
             id_card: props.user.id_card.Idcard || 'none'
         };
-
-        console.log('passport', this.props);
-        console.log('passport', this.state);
     }
 
     selectPhotoTapped(id) {
@@ -225,7 +222,7 @@ const styles ={
         flex:1
     },
     itemStyle: {
-        borderRadius: 5, backgroundColor: 'white', marginTop: 10, height: 37, marginLeft: 15, marginRight: 15
+        borderRadius: 5, backgroundColor: 'white', marginTop: 15, height: 37, marginLeft: 15, marginRight: 15
     },
     buttonStyle: {
         marginTop: 10, borderRadius: 5, backgroundColor: Color.LightBlue, marginHorizontal: 15

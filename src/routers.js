@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
 NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
-    TabaoMain,
+    TabaoMain,BindTabaoAccount,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,IntegralRule,
     CommissionList,WithdrawalList,Withdrawal,WalletList,
     FaqMain, Faqs
@@ -97,7 +97,8 @@ const RouterComponent = () => {
                     <Scene key="verifypassport" component ={VerifyPassport} title="身份证信息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="verifybanks" component ={VerifyBanks} title="绑定银行账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     <Scene key="verifyqq" component ={VerifyQQ} title="QQ号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="bindTabao" component ={TabaoMain} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="TabaoMain" component ={TabaoMain} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="bindTabaoAccount" component ={BindTabaoAccount} title="绑定淘宝账号" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
 
                 <stack back key="faqstack" backButtonImage={Images.backButtonImg}>

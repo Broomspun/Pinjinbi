@@ -114,3 +114,5 @@ export const BrowseOrders = _BrowseOrders;
 import _TabaoMain from './Verify/Elements/Tabao/TabaoMain';
 export const TabaoMain = _TabaoMain;
 
+import _BindTabaoAccount from './Verify/Elements/Tabao/BindTabaoAccount';
+export const BindTabaoAccount = _BindTabaoAccount;
