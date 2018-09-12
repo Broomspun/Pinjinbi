@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, StyleSheet, PixelRatio} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -10,7 +10,8 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import {Actions} from "react-native-router-flux";
-
+import RNPickerSelect from 'react-native-picker-select';
+import {getAreaLists} from "@actions";
 
 class BindMushroomStreetAccount extends Component {
 
@@ -30,7 +31,13 @@ class BindMushroomStreetAccount extends Component {
             mushroom_full_address: '',
             age: '',
             order_no: '',
+            ProvinceCode: undefined,
+            CityCode: undefined,
+            DistrictCode: undefined,
         };
+    }
+    componentDidMount(){
+        this.props.getAreaLists('Province');
     }
 
     selectPhotoTapped(id) {
@@ -98,7 +105,22 @@ class BindMushroomStreetAccount extends Component {
 
     componentWillUpdate(){
     }
+    setProvinceCode = (value)=>{
+        this.setState({
+            ProvinceCode: value,
+        });
 
+        this.props.getAreaLists('City', value);
+
+    };
+
+    setCityCode = (value) => {
+        this.setState({
+            CityCode: value,
+        });
+
+        this.props.getAreaLists('District', value);
+    };
     submitIdCard = () => {
         const {UserId, Token} = this.state.user;
         const {username,id_card, id_card_front_photo,id_card_back_photo, id_card_hand_held1} = this.state;
@@ -132,7 +154,7 @@ class BindMushroomStreetAccount extends Component {
                     <View>
                         <Text style={{fontSize: Styles.fontLarge, color: Color.textNormal, paddingHorizontal: 15}}>账号信息</Text>
                     </View>
-                    <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white'}}>
+                    <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingBottom: 20}}>
                         <Item regular underline={false} style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
@@ -157,25 +179,64 @@ class BindMushroomStreetAccount extends Component {
                                 onChangeText={(value)=>this.setState({mushroom_phone: value})}
                             />
                         </Item>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textLight}}>请输入详细地址</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="请输入详细地址"
-                                value = {this.state.mushroom_full_address}
-                                onChangeText={(value)=>this.setState({mushroom_full_address: value})}
+                        {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
+                            {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
+                                {/*<Text style={{color: Color.textLight}}>请输入详细地址</Text>*/}
+                            {/*</View>*/}
+                            {/*<View style={{flex:1,}}>*/}
+                                {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
+                                    {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
+                                    {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
+                                {/*</View>*/}
+                            {/*</View>*/}
+                        {/*</TouchableOpacity>*/}
+                        {/*<Item regular style={styles.itemStyle}>*/}
+                            {/*<Input*/}
+                                {/*placeholderTextColor='#ccc'*/}
+                                {/*placeholder="请输入详细地址"*/}
+                                {/*value = {this.state.mushroom_full_address}*/}
+                                {/*onChangeText={(value)=>this.setState({mushroom_full_address: value})}*/}
+                            {/*/>*/}
+                        {/*</Item>*/}
+
+                        {this.props.provinces && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '选择省份',
+                                    value: null,
+                                }}
+                                items={this.props.provinces}
+                                onValueChange={(value) => { this.setProvinceCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.ProvinceCode}
                             />
-                        </Item>
+                        )}
+                        {this.props.cities && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择城市',
+                                    value: null,
+                                }}
+                                items={this.props.cities}
+                                onValueChange={(value) => { this.setCityCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.CityCode}
+                            />
+                        )}
+                        {this.props.districts && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择区',
+                                    value: null,
+                                }}
+                                items={this.props.districts}
+                                onValueChange={(value) => {
+                                    this.setState({DistrictCode: value})
+                                }}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.DistrictCode}
+                            />
+                        )}
                     </View>
                     <View style={{paddingHorizontal: 15, marginTop: 15, paddingVertical: 20, backgroundColor: 'white', ...Styles.shadowStyle}}>
                         <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
@@ -234,10 +295,22 @@ const styles ={
         color: 'red'
     }
 } ;
-
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: Styles.fontNormal,
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        paddingBottom: 12,
+        borderWidth: 1/PixelRatio.get(),
+        borderColor: Color.Border,
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: Color.textNormal,
+    },
+});
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user};
+    const {user, provinces, cities, districts} = state.loginForm;
+    return {user, provinces, cities, districts};
 };
-export default connect(mapStateToProps, {})(BindMushroomStreetAccount);
+export default connect(mapStateToProps, {getAreaLists})(BindMushroomStreetAccount);
 

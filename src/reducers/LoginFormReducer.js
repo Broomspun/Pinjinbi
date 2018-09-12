@@ -68,7 +68,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGOUT_USER:
             return {...INITIAL_STATE};
         case GET_PROVINCE_LISTS:
-            return {...state, provinces: areas};
+            return {...state, provinces: areas, cities: null, districts: null};
         case GET_CITY_LISTS:
             return {...state, cities: areas, districts: null};
         case GET_DISTRICT_LISTS:

@@ -32,7 +32,10 @@ class VIPMain extends Component {
     }
 
     _toggleVIPModal = () => {
-        this.setState({bShowVIPModal: !this.state.bShowVIPModal});
+        if(this.props.user && this.props.user.Level==='L0')
+            this.setState({bShowAlertModal: true})
+        else
+            this.setState({bShowVIPModal: !this.state.bShowVIPModal});
     };
 
 
@@ -155,11 +158,11 @@ class VIPMain extends Component {
                         </View>
                     </View>
                     <View style={{flex:1, backgroundColor:'white', paddingVertical: 10, paddingHorizontal: 15}}>
-                        <Button block style={{backgroundColor: Color.LightBlue1}} onPress = {()=>this.setState({bShowAlertModal: true})}>
-                            <Text style={{color: 'white', fontSize: Styles.fontLarge}}>同意加入</Text>
-                        </Button>
+                        {/*<Button block style={{backgroundColor: Color.LightBlue1}} onPress = {()=>this.setState({bShowAlertModal: true})}>*/}
+                            {/*<Text style={{color: 'white', fontSize: Styles.fontLarge}}>Level check(testing)</Text>*/}
+                        {/*</Button>*/}
                         <Button block style={{backgroundColor: Color.LightBlue1}}  onPress={()=>this._toggleVIPModal()}>
-                            <Text style={{color: 'white', fontSize: Styles.fontLarge}}>VIP</Text>
+                            <Text style={{color: 'white', fontSize: Styles.fontLarge}}>同意加入</Text>
                         </Button>
                     </View>
 

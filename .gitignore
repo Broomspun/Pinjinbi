@@ -24,7 +24,7 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-android/
+
 ios/
 *.lock
 package-lock.json

@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View,Image,TouchableOpacity,StyleSheet, PixelRatio} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -10,6 +10,8 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import {Actions} from "react-native-router-flux";
+import RNPickerSelect from 'react-native-picker-select';
+import {getAreaLists} from "@actions";
 
 
 class BindPinDuoDuoAccount extends Component {
@@ -29,9 +31,32 @@ class BindPinDuoDuoAccount extends Component {
             tdd_recipient: '',
             age: '',
             order_no: '',
+            ProvinceCode: undefined,
+            CityCode: undefined,
+            DistrictCode: undefined,
         };
     }
 
+    componentDidMount(){
+        this.props.getAreaLists('Province');
+    }
+
+    setProvinceCode = (value)=>{
+        this.setState({
+            ProvinceCode: value,
+        });
+
+        this.props.getAreaLists('City', value);
+
+    };
+
+    setCityCode = (value) => {
+        this.setState({
+            CityCode: value,
+        });
+
+        this.props.getAreaLists('District', value);
+    };
     selectPhotoTapped(id) {
         const options = {
             title:'选择一张照片',
@@ -149,25 +174,63 @@ class BindPinDuoDuoAccount extends Component {
                                 onChangeText={(value)=>this.setState({tdd_recipient: value})}
                             />
                         </Item>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textLight}}>请输入详细地址</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="请输入详细地址"
-                                value = {this.state.tdd_full_address}
-                                onChangeText={(value)=>this.setState({jd_recipient: value})}
+                        {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
+                            {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
+                                {/*<Text style={{color: Color.textLight}}>请输入详细地址</Text>*/}
+                            {/*</View>*/}
+                            {/*<View style={{flex:1,}}>*/}
+                                {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
+                                    {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
+                                    {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
+                                {/*</View>*/}
+                            {/*</View>*/}
+                        {/*</TouchableOpacity>*/}
+                        {/*<Item regular style={styles.itemStyle}>*/}
+                            {/*<Input*/}
+                                {/*placeholderTextColor='#ccc'*/}
+                                {/*placeholder="请输入详细地址"*/}
+                                {/*value = {this.state.tdd_full_address}*/}
+                                {/*onChangeText={(value)=>this.setState({jd_recipient: value})}*/}
+                            {/*/>*/}
+                        {/*</Item>*/}
+                        {this.props.provinces && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '选择省份',
+                                    value: null,
+                                }}
+                                items={this.props.provinces}
+                                onValueChange={(value) => { this.setProvinceCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.ProvinceCode}
                             />
-                        </Item>
+                        )}
+                        {this.props.cities && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择城市',
+                                    value: null,
+                                }}
+                                items={this.props.cities}
+                                onValueChange={(value) => { this.setCityCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.CityCode}
+                            />
+                        )}
+                        {this.props.districts && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择区',
+                                    value: null,
+                                }}
+                                items={this.props.districts}
+                                onValueChange={(value) => {
+                                    this.setState({DistrictCode: value})
+                                }}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.DistrictCode}
+                            />
+                        )}
                     </View>
                     <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 15, ...Styles.shadowStyle}}>
                         <Text style={{color:Color.textNormal, marginTop: 25}}>账号属性（与实名认证的身份证信息一致）</Text>
@@ -278,9 +341,23 @@ const styles ={
     }
 } ;
 
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: Styles.fontNormal,
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        paddingBottom: 12,
+        borderWidth: 1/PixelRatio.get(),
+        borderColor: Color.Border,
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: Color.textNormal,
+    },
+});
+
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user};
+    const {user, provinces, cities, districts} = state.loginForm;
+    return {user, provinces, cities, districts};
 };
-export default connect(mapStateToProps, {})(BindPinDuoDuoAccount);
+export default connect(mapStateToProps, {getAreaLists})(BindPinDuoDuoAccount);
 

@@ -204,17 +204,17 @@ class BindTabaoAccount extends Component {
                                 onChangeText={(value)=>this.setState({contact_phone: value})}
                             />
                         </Item>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textLight}}>请选择城市</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
+                            {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
+                                {/*<Text style={{color: Color.textLight}}>请选择城市</Text>*/}
+                            {/*</View>*/}
+                            {/*<View style={{flex:1,}}>*/}
+                                {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
+                                    {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
+                                    {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
+                                {/*</View>*/}
+                            {/*</View>*/}
+                        {/*</TouchableOpacity>*/}
                         {this.props.provinces && (
                             <RNPickerSelect
                                 placeholder={{
