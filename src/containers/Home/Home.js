@@ -27,7 +27,10 @@ class Home extends Component {
 
             const {UserId, Token} = this.state.user;
 
-            this.props.homeLoading(UserId, Token, this.state.user);
+            (async () => {
+                await this.props.homeLoading(UserId, Token, this.state.user);
+            })();
+
 
             (async () => {
                 let bindInfo = await getBindingInfo(UserId, Token);

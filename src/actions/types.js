@@ -50,3 +50,9 @@ export const NEW_PHONE_VERIFY_SUCCESS = 'new_phone_verify_success';
 export const MOBILE_CHANGE_SUCCESS = 'mobile_change_success';
 export const MOBILE_REQUSET_STATUS_RESET = 'mobile_request_status_reset';
 export const CHANGE_LOGIN_PASSWORD_SUCCESS = 'change_login_password_success';
+
+
+export const GET_PROVINCE_LISTS = 'get_province_lists';
+export const GET_CITY_LISTS = 'get_city_lists';
+export const GET_DISTRICT_LISTS = 'get_district_lists';
+

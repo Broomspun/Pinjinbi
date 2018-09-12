@@ -8,7 +8,8 @@ import {
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
     GET_BIND_INFO,
-    GET_ID_CARD_INFO
+    GET_ID_CARD_INFO,
+    GET_PROVINCE_LISTS, GET_CITY_LISTS, GET_DISTRICT_LISTS,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -20,12 +21,26 @@ const INITIAL_STATE = {
     loading: false,
     error: '',
     user: null,
-    bindInfo: null
+    bindInfo: null,
+    provinces: null, cities: null, districts: null,
 };
 let remember_status = INITIAL_STATE.remember;
 
+const convertAreas =(areas) => {
+  return areas.map(area=>{
+      return {label: area.Name, value: area.Code}
+  })
+};
+
+
 export default (state = INITIAL_STATE, action) => {
     console.log(action);
+
+    let areas;
+
+    if(action.type===GET_PROVINCE_LISTS  || action.type===GET_CITY_LISTS || action.type===GET_DISTRICT_LISTS)
+        areas = convertAreas(action.payload);
+
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
             if(action.payload.prop==='remember') {
@@ -52,6 +67,12 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, bindInfo: action.payload, user:{...state.user, id_card: action.payload}};
         case LOGOUT_USER:
             return {...INITIAL_STATE};
+        case GET_PROVINCE_LISTS:
+            return {...state, provinces: areas};
+        case GET_CITY_LISTS:
+            return {...state, cities: areas, districts: null};
+        case GET_DISTRICT_LISTS:
+            return {...state, districts : areas};
         default:
             return state;
     }

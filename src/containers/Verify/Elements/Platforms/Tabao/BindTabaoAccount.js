@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View,Image,TouchableOpacity,StyleSheet, PixelRatio} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -10,12 +10,17 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import {Actions} from "react-native-router-flux";
+import RNPickerSelect from 'react-native-picker-select';
+import {getAreaLists} from "@actions";
 
 
 class BindTabaoAccount extends Component {
 
     constructor(props){
         super(props);
+
+        this.setProvinceCode = this.setProvinceCode.bind(this);
+
         this.state = {
             user: this.props.user,
             id_card_front_photo: null,
@@ -27,9 +32,33 @@ class BindTabaoAccount extends Component {
             best_game: '',
             tabao_name: '',
             contact_phone: '',
-            age: '',
-            order_no: '',
+            age: undefined,
+            OrderNo: '123143245253646',
+            Gender: undefined,
+            ProvinceCode: undefined,
+            CityCode: undefined,
+            DistrictCode: undefined,
+            TaobaoValue: '1000',
+            CreditRating: '2',
+            genders:[
+                {
+                    label:'性别: 男',
+                    value: '男'
+                },
+                {
+                    label:'性别: 女',
+                    value: '女'
+                }
+            ]
         };
+    }
+
+    componentDidMount(){
+        this.props.getAreaLists('Province');
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps);
     }
 
     selectPhotoTapped(id) {
@@ -112,6 +141,24 @@ class BindTabaoAccount extends Component {
         this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo.uri, id_card_back_photo.uri, id_card_hand_held1.uri);
     };
 
+    setProvinceCode = (value)=>{
+        this.setState({
+            ProvinceCode: value,
+        });
+
+        this.props.getAreaLists('City', value);
+
+    };
+
+    setCityCode = (value) => {
+        this.setState({
+            CityCode: value,
+        });
+
+        this.props.getAreaLists('District', value);
+    };
+
+
     render() {
         const {IdcardInHand} = this.props.user.id_card;
         return (
@@ -168,21 +215,75 @@ class BindTabaoAccount extends Component {
                                 </View>
                             </View>
                         </TouchableOpacity>
+                        {this.props.provinces && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '选择省份',
+                                    value: null,
+                                }}
+                                items={this.props.provinces}
+                                onValueChange={(value) => { this.setProvinceCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.ProvinceCode}
+                            />
+                        )}
+                        {this.props.cities && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择城市',
+                                    value: null,
+                                }}
+                                items={this.props.cities}
+                                onValueChange={(value) => { this.setCityCode(value)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.CityCode}
+                            />
+                        )}
+                        {this.props.districts && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择区',
+                                    value: null,
+                                }}
+                                items={this.props.districts}
+                                onValueChange={(value) => {
+                                    this.setState({DistrictCode: value})
+                                }}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.DistrictCode}
+                            />
+                        )}
+
                     </View>
                     <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 15, ...Styles.shadowStyle}}>
                         <Text style={{color:Color.textNormal, marginTop: 25}}>账号属性（与实名认证的身份证信息一致）</Text>
 
-                        <TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textNormal}}>性别</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>男</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+                        {/*<TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>*/}
+                        {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
+                        {/*<Text style={{color: Color.textNormal}}>性别</Text>*/}
+                        {/*</View>*/}
+                        {/*<View style={{flex:1,}}>*/}
+                        {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
+                        {/*<Text style={{color: Color.textNormal}}>男</Text>*/}
+                        {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
+                        {/*</View>*/}
+                        {/*</View>*/}
+                        {/*</TouchableOpacity>*/}
+                        <RNPickerSelect
+                            placeholder={{
+                                label: '请选择性别',
+                                value: null,
+                            }}
+                            items={this.state.genders}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    Gender: value,
+                                });
+                            }}
+                            style={{ ...pickerSelectStyles }}
+                            mode='dropdown'
+                            value={this.state.Gender}
+                        />
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
@@ -197,7 +298,7 @@ class BindTabaoAccount extends Component {
                             </View>
                             <View style={{flex:1,}}>
                                 <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>2星</Text>
+                                    <Text style={{color: Color.textNormal}}>{this.state.CreditRating}星</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </View>
                             </View>
@@ -208,7 +309,7 @@ class BindTabaoAccount extends Component {
                             </View>
                             <View style={{flex:1,}}>
                                 <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>1000以下</Text>
+                                    <Text style={{color: Color.textNormal}}>{this.state.TaobaoValue}以下</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </View>
                             </View>
@@ -217,8 +318,8 @@ class BindTabaoAccount extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="订单编号"
-                                value = {this.state.order_no}
-                                onChangeText={(value)=>this.setState({order_no: value})}
+                                value = {this.state.OrderNo}
+                                onChangeText={(value)=>this.setState({OrderNo: value})}
                             />
                         </Item>
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, marginTop: 10}}>
@@ -284,9 +385,9 @@ class BindTabaoAccount extends Component {
                     </View>
 
                     <View style={{paddingBottom: 15}}>
-                    <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
-                        <Text style={{fontSize: Styles.fontLarge}}>提交审核</Text>
-                    </Button>
+                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
+                            <Text style={{fontSize: Styles.fontLarge}}>提交审核</Text>
+                        </Button>
                     </View>
 
                 </Content>
@@ -313,9 +414,22 @@ const styles ={
     }
 } ;
 
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: Styles.fontNormal,
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        paddingBottom: 12,
+        borderWidth: 1/PixelRatio.get(),
+        borderColor: Color.Border,
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: Color.textNormal,
+    },
+});
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user};
+    const {user, provinces, cities, districts} = state.loginForm;
+    return {user, provinces, cities, districts};
 };
-export default connect(mapStateToProps, {})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists})(BindTabaoAccount);
 
