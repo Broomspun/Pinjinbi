@@ -57,5 +57,4 @@ public class MainActivity extends ReactActivity {
     private void unregisterManagers() {
         UpdateManager.unregister();
     }
-
 }

@@ -24,10 +24,6 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
-
-ios/
-*.lock
-package-lock.json
 build/
 .idea
 .gradle
@@ -39,6 +35,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+
 # BUCK
 buck-out/
 \.buckd/
