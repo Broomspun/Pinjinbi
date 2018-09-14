@@ -20,19 +20,21 @@ import {ReactCaptchaGenerator} from "../../components";
 
 import getTheme from './../../../native-base-theme/components';
 import platform from './../../../native-base-theme/variables/platform';
-
+import {generatorCaptchaCode} from './../../Helper'
 
 class Register extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             visibleModal: null,
-            bTerm: false
+            bTerm: false,
+            OnlyVal: null
         };
     }
 
-    componentWillMount() {
-
+    componentDidMount() {
+        this.generateCaptchacode();
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.rg_verified !=null) {
@@ -100,38 +102,18 @@ class Register extends Component {
     }
 
     getUserSMSVerifyCode() {
-        const { rg_phone, rg_captcha_match, rg_captcha_code} = this.props;
+        const { rg_phone} = this.props;
 
-        if(rg_captcha_match !== rg_captcha_code) {
-            Toast.show({
-                text: "Captcha code incorrect!",
-                buttonText: "是",
-                type: "danger"
-            });
-            return
-        }
-
-        if(rg_phone && rg_captcha_match === rg_captcha_code)
-            this.props.requestVerifyCode_register({rg_phone});
+            this.props.requestVerifyCode_register(rg_phone);
     }
 
     registerUser() {
         const {bTerm} = this.state;
-        const {rg_phone,rg_password,rg_captcha_match,rg_captcha_code,rg_verify_code, rg_invite_code, rg_qq_code,rg_qq_group} = this.props;
+        const {rg_phone,rg_password,rg_verify_code, rg_invite_code, rg_qq_code,rg_qq_group} = this.props;
 
         if(!bTerm) {
             Toast.show({
                 text: "点击 “立即注册” 表示同意",
-                buttonText: "是",
-                type: "warning",
-                duration: 2000
-            });
-            return;
-        }
-
-        if(rg_captcha_code !== rg_captcha_match) {
-            Toast.show({
-                text: "Incorrect captcha code",
                 buttonText: "是",
                 type: "warning",
                 duration: 2000
@@ -168,7 +150,31 @@ class Register extends Component {
             return;
         }
 
-        this.props.registerUser( {rg_phone, rg_verify_code, rg_password, rg_invite_code } );
+        this.props.registerUser( rg_phone, rg_verify_code, rg_password, rg_invite_code );
+    }
+
+    generateCaptchacode () {
+        let today = new Date();
+        let month = parseInt(today.getMonth())+1;
+        let date = parseInt(today.getDate());
+        let hour = parseInt(today.getHours());
+        let minute = parseInt(today.getMinutes());
+        let second = parseInt(today.getSeconds());
+        let milisecond = parseInt(today.getMilliseconds());
+
+        if(month<10)   month = '0'+ month;
+        if(date<10)   date = '0'+ date;
+        if(hour<10)   hour = '0'+ hour;
+        if(minute<10)   minute = '0'+ minute;
+        if(second<10)   second = '0'+ second;
+        if(milisecond<100)   milisecond = '0'+ milisecond;
+
+        let OnlyVal = today.getFullYear()+month+date+hour+minute+second+milisecond+generatorCaptchaCode(6);
+
+        console.log('onlyval', OnlyVal);
+
+        this.setState({OnlyVal: OnlyVal})
+
     }
 
     render() {
@@ -213,9 +219,10 @@ class Register extends Component {
                                         />
                                     </View>
                                     <View style={{flex: 1, flexDirection: 'column'}}>
-                                        <TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>
-                                            <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                            <ReactCaptchaGenerator captchaCode={this.props.rg_captcha_code} />
+                                        <TouchableOpacity onPress={()=> this.generateCaptchacode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                            {this.state.OnlyVal && (
+                                            <Image style={{position: 'absolute', height: 31, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
+                                            )}
                                         </TouchableOpacity>
                                     </View>
                                 </View>

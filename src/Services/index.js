@@ -734,13 +734,13 @@ export const requestPOST_API = async (url, data, method='POST')=>{
 
     let res = await axios(options);
     try {
+        console.log('api result:', res);
         if(res.data.errcode ===0) {
-            console.log('api result:', res);
-            return  await {status: 200, data:res.data.obj};
+            return  await {status: 200, data:res.data.obj,msg:res.data.msg};
         } else {
             return  await {status: res.data.errcode, msg:res.data.msg};
         }
     } catch (error) {
-        return await {status: 404, data: null};
+        return await {status: 404, data: null, msg: 'failed'};
     }
 };

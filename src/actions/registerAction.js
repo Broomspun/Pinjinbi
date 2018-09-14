@@ -1,6 +1,7 @@
 import axios from "axios";
 import {Actions} from 'react-native-router-flux';
 import {generatorCaptchaCode} from "../Helper";
+import {requestPOST_API} from "../Services";
 
 import {
     REGISTER_FAIL,
@@ -9,17 +10,17 @@ import {
     REGISTER_REGENERATE_CAPTCHACODE,
     REGISTER_VERIFY,
     REGISTER_VERIFY_FAIL,
-    REGISTER_VERIFY_SUCCESS,
+    REGISTER_VERIFY_SUCCESS
 } from './types'
 
 const rinstance = axios.create({
     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
 });
 export const registerParameterUpdated = ( {prop, value}) => {
-  return {
-      type: REGISTER_PARAMETER_UPDATED,
-      payload: {prop, value}
-  }
+    return {
+        type: REGISTER_PARAMETER_UPDATED,
+        payload: {prop, value}
+    }
 };
 
 export const generateCaptchaCode_register = () => {
@@ -30,72 +31,52 @@ export const generateCaptchaCode_register = () => {
 };
 
 
-export const requestVerifyCode_register = ({rg_phone}) =>{
+export const requestVerifyCode_register = (rg_phone) =>{
     return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: REGISTER_VERIFY}); //for Spinner;
 
-        dispatch({type: REGISTER_VERIFY}); //for Spinner;
-
-        rinstance.post('http://pjbapi.wtvxin.com/api/Login/GetUserSms',
-            `Mobile=${rg_phone}&VerifyType=0}`)
-            .then (res=> {
-                if(res.data.errcode===0){
-                    requestSuccess_register(dispatch, res.data.msg)
-                } else {
-                    requestFail_register(dispatch, res.data.msg);
-                }
-            })
-            .catch(()=> requestFail_register(dispatch, 'failed'))
-    }
+            let res = await requestPOST_API('Login/GetUserSms',
+                {Mobile:rg_phone,VerifyType:0},
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: REGISTER_VERIFY_SUCCESS,
+                    payload: res.msg
+                });
+            } else {
+                dispatch({
+                    type: REGISTER_VERIFY_FAIL,
+                    payload: 'Failed'
+                });
+            }
+        })();
+    };
 };
 
 
-export const registerUser = ( {rg_phone, rg_verify_code, rg_password, rg_invite_code } ) => {
-    return (dispatch) => {
+export const registerUser = ( rg_phone, rg_verify_code, rg_password, rg_invite_code ) => {
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: REGISTER_VERIFY}); //for Spinner;
 
-        dispatch({type: REGISTER_VERIFY}); //for Spinner;
+            let res = await requestPOST_API('Login/MobileRegister',
+                {Mobile:rg_phone, VerifyCode: rg_verify_code, Password: rg_password}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: REGISTER_SUCCESS,
+                    payload: res.msg
+                });
 
-        rinstance.post('http://pjbapi.wtvxin.com/api/Login/MobileRegister',
-            `Mobile=${rg_phone}&VerifyCode=${rg_verify_code}&Password=${rg_password}`)
-            .then (res=> {
-                if(res.data.errcode===0){
-                    registerSuccess(dispatch, res.data.msg)
-                } else {
-                    registerFail(dispatch, res.data.msg);
-                }
-            })
-            .catch(()=> registerFail(dispatch, 'failed'));
-    }
-};
-
-const registerSuccess = (dispatch, msg) => {
-    dispatch({
-        type: REGISTER_SUCCESS,
-        payload: msg
-    });
-
-    Actions.login();
-
-};
-
-const registerFail = (dispatch, msg) => {
-    dispatch({
-        type: REGISTER_FAIL,
-        payload: msg
-    });
-};
-
-
-const requestSuccess_register = (dispatch) => {
-    dispatch({
-        type: REGISTER_VERIFY_SUCCESS,
-        payload: msg
-    });
-};
-
-const requestFail_register = (dispatch, msg) => {
-    dispatch({
-        type: REGISTER_VERIFY_FAIL,
-        payload: msg
-    });
+                Actions.login();
+            } else {
+                dispatch({
+                    type: REGISTER_FAIL,
+                    payload: res.msg
+                });
+            }
+        })();
+    };
 };
 

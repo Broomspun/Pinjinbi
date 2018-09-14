@@ -12,14 +12,47 @@ import {
     regenerateRecaptchaCode,
     requestVerifyCode
 } from "../../actions";
+import {generatorCaptchaCode} from "../../Helper";
 
 class ForgottenVerify extends Component {
     constructor(props) {
         super(props);
 
+
+        this.state = {
+            OnlyVal: null
+        };
+
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+    }
+
+    componentDidMount() {
+        this.generateCaptchacode();
+    }
+
+
+    generateCaptchacode () {
+        let today = new Date();
+        let month = parseInt(today.getMonth())+1;
+        let date = parseInt(today.getDate());
+        let hour = parseInt(today.getHours());
+        let minute = parseInt(today.getMinutes());
+        let second = parseInt(today.getSeconds());
+        let milisecond = parseInt(today.getMilliseconds());
+
+        if(month<10)   month = '0'+ month;
+        if(date<10)   date = '0'+ date;
+        if(hour<10)   hour = '0'+ hour;
+        if(minute<10)   minute = '0'+ minute;
+        if(second<10)   second = '0'+ second;
+        if(milisecond<100)   milisecond = '0'+ milisecond;
+
+        let OnlyVal = today.getFullYear()+month+date+hour+minute+second+milisecond+generatorCaptchaCode(6);
+
+        this.setState({OnlyVal: OnlyVal})
+
     }
     componentWillReceiveProps(nextProps){
         if(nextProps.fv_phone==='') {
@@ -93,10 +126,9 @@ class ForgottenVerify extends Component {
                                     />
                                 </View>
                                 <View style={{flex: 1, flexDirection: 'column'}}>
-                                    <TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>
-                                        <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                        {/*<Image style={{position: 'absolute'}} source={{uri:'http://pjbapi.wtvxin.com/api/Member/GetImageCode'}}  style={{ width: null, height: 30}}/>*/}
-                                        <ReactCaptchaGenerator captchaCode={this.props.fv_recaptchaCode} />
+                                    {/*<TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>*/}
+                                    <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }} onPress={()=>this.generateCaptchacode()}>
+                                        <Image style={{position: 'absolute', height: 31, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
                                     </TouchableOpacity>
                                 </View>
                             </View>
