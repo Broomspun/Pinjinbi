@@ -721,12 +721,12 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
  @param url API Endpoint, string
  @param data, JSON Object
  **/
-export const requestPOST_API = async (url, data, method='POST')=>{
+export const requestPOST_API = async (url, data)=>{
 
     url = `${Constants.BASE_API_URL}/${url}`;
 
     const options = {
-        method: method,
+        method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
         url,
@@ -737,6 +737,30 @@ export const requestPOST_API = async (url, data, method='POST')=>{
         console.log('api result:', res);
         if(res.data.errcode ===0) {
             return  await {status: 200, data:res.data.obj,msg:res.data.msg};
+        } else {
+            return  await {status: res.data.errcode, msg:res.data.msg};
+        }
+    } catch (error) {
+        return await {status: 404, data: null, msg: 'failed'};
+    }
+};
+
+
+export const requestGET_API = async (url)=>{
+
+    url = `${Constants.BASE_API_URL}/${url}`;
+
+    const options = {
+        method: 'GET',
+        headers: { 'content-type': 'application/json' },
+        url,
+    };
+
+    let res = await axios.get(url);
+    try {
+        console.log('api get result:', res);
+        if(res.data.errcode ===0) {
+            return  await {status: 200, data:res.data.obj, msg:res.data.msg};
         } else {
             return  await {status: res.data.errcode, msg:res.data.msg};
         }

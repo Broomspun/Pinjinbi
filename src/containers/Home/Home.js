@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 import Modal from 'react-native-modal'
 import {connect} from 'react-redux';
+import Carousel from 'react-native-banner-carousel';
 
 import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
-import {Platform, UIManager} from "react-native";
+import {Platform, UIManager, Dimensions} from "react-native";
 
 import { FooterTab, Button, Text,Icon, Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
 import {getBindingInfo,requestInfo} from './../../Services'
-import {homeLoading} from "../../actions";
+import {homeLoading, getHomeBanners} from "../../actions";
+
+const BannerWidth = Dimensions.get('window').width;
+const BannerHeight = 200;
 
 class Home extends Component {
     state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
@@ -22,10 +26,17 @@ class Home extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
+
+
+
         if(props.user) {
             this.state = {user: props.user};
 
             const {UserId, Token} = this.state.user;
+
+            (async () => {
+                await this.props.getHomeBanners();
+            })();
 
             (async () => {
                 await this.props.homeLoading(UserId, Token, this.state.user);
@@ -52,8 +63,8 @@ class Home extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      if(!nextProps.user)
-          Actions.auth();
+        if(!nextProps.user)
+            Actions.auth();
     }
 
     componentDidUpdate() {
@@ -90,6 +101,14 @@ class Home extends Component {
         }
     };
 
+    renderPage(image, index) {
+        return (
+            <View key={index}>
+                <Image style={{ width: BannerWidth, height: BannerHeight }} source={{ uri: image }} />
+            </View>
+        );
+    }
+
     render() {
         return(
             <Container style={{flex: 1}}>
@@ -97,7 +116,17 @@ class Home extends Component {
                     <Modal  isVisible={this.state.bShowStartOrderModal} style={{...Styles.ColumnCenter}}>
                         {this._renderShowOrderStartModal()}
                     </Modal>
-                    <Image source={Images.homeBackTop} style={{height: 180, width: null, flex: 1}}/>
+                    {this.props.homeBanners && (
+                        <Carousel
+                            autoplay
+                            autoplayTimeout={5000}
+                            loop
+                            index={0}
+                            pageSize={BannerWidth}
+                        >
+                            {this.props.homeBanners.map((image, index) => this.renderPage(image, index))}
+                        </Carousel>
+                    )}
                     <View style={{...styles.moneyStyle,backgroundColor: '#fe9142',height: 60,...Styles.shadowStyle}}>
                         <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
                             <Image source={Images.silcCardIcon} style={{width: 36, height: 30}}/>
@@ -339,7 +368,7 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user}
+    const {user, homeBanners} = state.loginForm;
+    return {user,homeBanners}
 };
-export default connect(mapStateToProps, {homeLoading})(Home);
+export default connect(mapStateToProps, {homeLoading, getHomeBanners})(Home);

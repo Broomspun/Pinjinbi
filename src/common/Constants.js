@@ -5,7 +5,7 @@ const {width, height} = Dimensions.get("window");
 const Constants = {
     BASE_API_URL: 'http://pjbapi.wtvxin.com/api',
     SplashScreen: {
-        Duration: 500,
+        Duration: 2000,
     },
     AsyncCode: {
         Intro: 'async.intro',

@@ -6,6 +6,7 @@ export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
 export const HOME_LOADING = 'home_loading';
+export const GET_HOME_BANNERS = 'get_home_banners';
 export const GET_COMMISSION_LIST = 'get_commission_list';
 export const GET_WALLET_LIST = 'get_wallet_list';
 export const LOGOUT_USER = 'logout_user';
@@ -14,6 +15,7 @@ export const LOGOUT_USER = 'logout_user';
 export const FORGOTTEN_VERIFY_PARAMETER_UPDATED = 'forgotten_verify_parameter_updated';
 export const FORGOTTEN_VERIFY_SUCCESS = 'forgotten_verify_success';
 export const FORGOTTEN_VERIFY_FAIL = 'forgotten_verify_fail';
+export const FORGOTTEN_LOADNIG = 'forgotten_loading';
 export const REGENERATE_CAPTCHACODE = 'regenerate_recaptcha_code';
 
 

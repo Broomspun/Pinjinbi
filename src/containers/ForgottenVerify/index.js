@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, UIManager, Image, View,TouchableOpacity} from "react-native";
 import {Actions} from 'react-native-router-flux';
-import {Spinner} from "../../components";
-import {ReactCaptchaGenerator} from "../../components";
+import {Spinner1} from "../../components";
 
-import {Images} from "../../common";
+import {Images, Styles} from "../../common";
 import { Container, Form, Item, Content, Input, Button, Icon, Text,Toast } from 'native-base';
 import {
     forgottenVerifyParameterUpdated,
@@ -74,30 +73,55 @@ class ForgottenVerify extends Component {
         }
     }
 
-    onRegenerateRecaptcahaCode() {
-        this.props.regenerateRecaptchaCode();
-        Toast.show({
-            text: "Captcha code changed!",
-            buttonText: "是",
-            type: "success"
-        });
-    }
-
-    getUserSMSVerifyCode() {
-        const {fv_phone, fv_recaptchaMatch, fv_recaptchaCode} = this.props;
-        if(fv_recaptchaMatch!==fv_recaptchaCode) {
+    onGotoForgottenPassword() {
+        if(this.props.fv_phone==='') {
             Toast.show({
-                text: "Captcha code incorrect!",
+                text: "Please enter phone number!",
                 buttonText: "是",
                 type: "danger"
             });
             return
         }
 
-        console.log('code=',fv_recaptchaCode, fv_phone);
-        if(fv_phone && fv_recaptchaMatch===fv_recaptchaCode)
-            this.props.requestVerifyCode({fv_phone,  fv_recaptchaCode});
+        if(this.props.fv_recaptchaCode==='') {
+            Toast.show({
+                text: "Please enter captch code!",
+                buttonText: "是",
+                type: "danger"
+            });
+            return
+        }
+        if(this.props.verified)
+            Actions.forgottenpassword();
+        else {
+            Toast.show({
+                text: this.props.verify_msg,
+                buttonText: "是",
+                type: "danger"
+            });
+        }
+    }
 
+    getUserSMSVerifyCode() {
+        const {fv_phone, fv_recaptchaCode} = this.props;
+        if(fv_phone==='') {
+            Toast.show({
+                text: "Please enter phone number!",
+                buttonText: "是",
+                type: "danger"
+            });
+            return
+        }
+
+        if(fv_recaptchaCode==='') {
+            Toast.show({
+                text: "Please enter captch code!",
+                buttonText: "是",
+                type: "danger"
+            });
+            return
+        }
+        this.props.requestVerifyCode(fv_phone,  fv_recaptchaCode, this.state.OnlyVal);
     }
 
     render() {
@@ -121,14 +145,15 @@ class ForgottenVerify extends Component {
                                     <Input style={styles.inputStyle}
                                         placeholderTextColor='#ccc'
                                         placeholder="请输入图形验证码"
-                                        value = {this.props.fv_recaptchaMatch}
-                                        onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptchaMatch', value})}
+                                        value = {this.props.fv_recaptchaCode}
+                                        onChangeText = {value => this.props.forgottenVerifyParameterUpdated({prop: 'fv_recaptchaCode', value})}
                                     />
                                 </View>
                                 <View style={{flex: 1, flexDirection: 'column'}}>
-                                    {/*<TouchableOpacity onPress={this.onRegenerateRecaptcahaCode.bind(this)} style={{flex: 1, height: null, justifyContent: 'center' }}>*/}
                                     <TouchableOpacity style={{flex: 1, height: null, justifyContent: 'center' }} onPress={()=>this.generateCaptchacode()}>
-                                        <Image style={{position: 'absolute', height: 31, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
+                                        {this.state.OnlyVal && (
+                                        <Image style={{flex: 1, position: 'absolute', height: 26, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
+                                        )}
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -153,11 +178,12 @@ class ForgottenVerify extends Component {
                                 </View>
                             </View>
                         </View>
-                        <Button block style={styles.buttonStyle} onPress = {()=> Actions.forgottenpassword()}>
+                        <Button block style={styles.buttonStyle} onPress = {()=> this.onGotoForgottenPassword()}>
                             <Text style={{fontSize: 18}}>下一步</Text>
                         </Button>
                     </Form>
                 </Content>
+                {this.props.bForgottenLoading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
         );
     }
@@ -179,14 +205,14 @@ const styles ={
     },
     cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff', height: 37},
     inputStyle:{
-        fontSize: 14
+        fontSize: Styles.fontNormal
     }
 };
 
 const mapStateToProps = (state) => {
-    const {fv_phone, fv_recaptchaMatch, fv_verifycode, fv_recaptchaCode,loading, verified,verify_msg, verify_show,error} = state.forgottenVerifyForm;
-    return  {fv_phone, fv_recaptchaMatch, fv_verifycode, fv_recaptchaCode,loading, verified,verify_msg,verify_show, error};
+    const {fv_phone, fv_recaptchaCode, fv_verifycode, verified,verify_msg, verify_show,error,bForgottenLoading} = state.forgottenVerifyForm;
+    return  {fv_phone, fv_recaptchaCode, fv_verifycode, verified,verify_msg,verify_show, error,bForgottenLoading};
 };
 
-export default connect(mapStateToProps, {forgottenVerifyParameterUpdated, regenerateRecaptchaCode, requestVerifyCode})(ForgottenVerify);
+export default connect(mapStateToProps, {forgottenVerifyParameterUpdated, requestVerifyCode})(ForgottenVerify);
 

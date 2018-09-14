@@ -25,7 +25,7 @@ class UserCenterMain extends Component {
     }
 
     logOut = async ()=> {
-        this.setState({bShowLogoutModal: false});
+        await this.setState({bShowLogoutModal: false});
         AsyncStorage.removeItem('pjinbi_auth_user');
         await this.props.logout();
     };

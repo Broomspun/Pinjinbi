@@ -9,11 +9,12 @@ import {
     LOGIN_USER_FAIL,LOGOUT_USER,
     LOGIN_USER_ATTEMPTING,
     HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS,
+    GET_HOME_BANNERS,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,GET_CITY_LISTS, GET_DISTRICT_LISTS,
 } from "./types";
 
-import {getMemberInfo, getWalletLogList_API, requestPOST_API} from "../Services";
+import {getMemberInfo, getWalletLogList_API, requestPOST_API,requestGET_API} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -172,6 +173,25 @@ export const getAreaLists = (areaSymbol, areaCode='110000') => {
                     type: listType,
                     payload: res.data
                 });
+        })();
+    };
+};
+
+export const getHomeBanners = () => {
+    return (dispatch) => {
+        (async ()=>{
+            let res = await requestGET_API('/Advertisement/GetHomeBanners');
+
+            if(res.status===200) {
+
+                let banners = res.data.map(banner=>{
+                    return banner.Pic;
+                });
+                dispatch({
+                    type: GET_HOME_BANNERS,
+                    payload: banners
+                });
+            }
         })();
     };
 };

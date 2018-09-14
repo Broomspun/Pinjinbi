@@ -2,33 +2,31 @@ import {
     FORGOTTEN_VERIFY_PARAMETER_UPDATED,
     FORGOTTEN_VERIFY_FAIL,
     FORGOTTEN_VERIFY_SUCCESS,
-    REGENERATE_CAPTCHACODE
+    FORGOTTEN_LOADNIG,
 } from "./../actions/types";
 
-import {generatorCaptchaCode} from './../Helper'
-
 const INITIAL_STATE = {
-    fv_phone: '18641568923',
-    fv_recaptchaMatch: '',
+    fv_phone: '18704153342',
     fv_verifycode: '',
-    fv_recaptchaCode: generatorCaptchaCode(4),
+    fv_recaptchaCode: '',
     loading: false,
     error: '',
     verified: false,
     verify_msg: '',
-    verify_show: false
+    verify_show: false,
+    bForgottenLoading: false
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case FORGOTTEN_VERIFY_PARAMETER_UPDATED:
             return {...state, [action.payload.prop]: action.payload.value };
-        case REGENERATE_CAPTCHACODE:
-            return {...state, fv_recaptchaCode: action.payload.value};
         case FORGOTTEN_VERIFY_FAIL:
-            return {...state, verified: false, verify_msg: action.payload, verify_show: true};
+            return {...state, verified: false,bForgottenLoading: false, verify_msg: action.payload, verify_show: true};
         case FORGOTTEN_VERIFY_SUCCESS:
-            return {...state, verified: true,  verify_msg: action.payload, verify_show: true};
+            return {...state, verified: true,  bForgottenLoading: false, verify_msg: action.payload, verify_show: true};
+        case FORGOTTEN_LOADNIG:
+            return {...state, bForgottenLoading: true,};
         default:
             return state;
     }

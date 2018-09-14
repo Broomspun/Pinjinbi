@@ -353,10 +353,10 @@ const styles ={
         backgroundColor: 'white'
     },
     inputStyle:{
-        height: 37, padding: 0,  margin:0, fontSize: 14
+        height: 37, padding: 0,  margin:0,
     },
     inputStyle1:{
-        height: 37, padding: 0,  margin:10, fontSize: 14, flex: 2
+        height: 37, padding: 0,  margin:10, flex: 2
     },
     cardStyle: {borderWidth: 1, borderRadius: 5, borderColor: '#ccc',  marginTop: 10, backgroundColor: '#fff', height: 36},
     qqGroupStyle: {

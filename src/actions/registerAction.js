@@ -13,9 +13,7 @@ import {
     REGISTER_VERIFY_SUCCESS
 } from './types'
 
-const rinstance = axios.create({
-    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
-});
+
 export const registerParameterUpdated = ( {prop, value}) => {
     return {
         type: REGISTER_PARAMETER_UPDATED,
