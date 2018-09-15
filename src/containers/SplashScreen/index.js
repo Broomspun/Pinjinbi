@@ -4,11 +4,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {drawSplashScreen} from "./../../actions"
 import Timer from 'react-timer-mixin';
 import {Images, Constants} from '@common';
-import {View, Text, Image, Platform, UIManager,AsyncStorage} from 'react-native';
-import {_retrieveUserData} from './../../Services'
+import {View, Text, Image, Platform, UIManager,AsyncStorage, BackHandler} from 'react-native';
+
 
 class SplashScreen extends Component {
 
@@ -21,13 +20,7 @@ class SplashScreen extends Component {
     }
     componentDidMount() {
         Timer.setTimeout(async () => {
-            // let user = await _retrieveUserData();
-            // console.log('user****',user);
-
-            // if(user)
-            //     Actions.main({user: JSON.parse(user)});
-            // else
-                Actions.auth();
+            Actions.auth();
         }, Constants.SplashScreen.Duration);
     }
 
@@ -88,4 +81,4 @@ const mapStoretoProps = (state) => {
     return { user };
 };
 
-export default connect(mapStoretoProps, {drawSplashScreen})(SplashScreen);
+export default connect(mapStoretoProps, {})(SplashScreen);

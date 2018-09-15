@@ -9,7 +9,7 @@ import {
     GET_WALLET_LIST,
     GET_BIND_INFO,
     GET_ID_CARD_INFO,
-    GET_PROVINCE_LISTS, GET_CITY_LISTS, GET_DISTRICT_LISTS, GET_HOME_BANNERS,
+    GET_PROVINCE_LISTS, GET_CITY_LISTS, GET_DISTRICT_LISTS, GET_HOME_BANNERS,GET_INTEGRAL_GRADES,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -23,7 +23,8 @@ const INITIAL_STATE = {
     user: null,
     bindInfo: null,
     provinces: null, cities: null, districts: null,
-    homeBanners: null
+    homeBanners: null,
+    grades: null
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -76,6 +77,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, districts : areas};
         case GET_HOME_BANNERS:
             return {...state, homeBanners : action.payload};
+        case GET_INTEGRAL_GRADES:
+            return {...state, grades : action.payload};
         default:
             return state;
     }

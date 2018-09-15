@@ -701,17 +701,17 @@ export const RequestPrincipalWithdrawal_API = async (UserId, Token,WithdrawalAmo
  *          params: {HelpClassId,Page,PageSize,SarchKeyword}
  *
  *    8.2. Paging to get system messages , announcement lists
- *          url: Notice/GetNoticeByMember
+ *          url: SystemMessages/GetNoticeByMember
  *          type: post
  *          params: {UserId , Token, Page, PageSize , sendtype}
  *
  *    8.3. Read system messages or announcement details
- *          url: Notice/GetNoticeByMember
+ *          url: SystemMessages/GetNoticeByMember
  *          type: post
  *          params: {UserId , Token , NoticeId}
  *
  *    8.4. Get member promotion page data
- *          url: Notice/GetNoticeByMember
+ *          url: SystemMessages/GetNoticeByMember
  *          type: post
  *          params: {UserId , Token}
  */

@@ -21,17 +21,17 @@ export const ForgottenVerify = _ForgottenVerify;
 import _ForgottenPassword from './ForgottenPassword';
 export const ForgottenPassword = _ForgottenPassword;
 
-import _NewsList from './NewsList';
-export const NewsList = _NewsList;
+import _AnnounceMessagesList from './AnnounceMessages/AnnounceMessagesList';
+export const AnnounceMessagesList = _AnnounceMessagesList;
 
-import _NewsDetail from './NewsDetail';
-export const NewsDetail = _NewsDetail;
+import _AnnounceMessageDetail from './AnnounceMessages/AnnounceMessageDetail';
+export const AnnounceMessageDetail = _AnnounceMessageDetail;
 
-import _NoticeList from './Notice/NoticeList';
-export const NoticeList = _NoticeList;
+import _SystemMessagesList from './SystemMessages/SystemMessagesList';
+export const SystemMessagesList = _SystemMessagesList;
 
-import _NoticeDetail from './Notice/NoticeDetail';
-export const NoticeDetail = _NoticeDetail;
+import _SystemMessageDetail from './SystemMessages/SystemMessageDetail';
+export const SystemMessageDetail = _SystemMessageDetail;
 
 import _Promotion from './Home/Promotion';
 export const Promotion = _Promotion;

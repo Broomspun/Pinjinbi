@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
-import {Platform, UIManager, FlatList, View, PixelRatio} from "react-native";
+import {Platform, UIManager, FlatList, View, PixelRatio, Image} from "react-native";
 
 import { Text, ListItem, Container, Content } from 'native-base';
-import {Images, Constants, Color} from '@common';
-import { getNewsLists} from './../../actions'
+import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from 'react-native-router-flux';
+import {Spinner1} from "@components";
+import { getSystemMessages} from './../../actions'
 
-class NewsList extends Component {
+
+class AnnounceMessagesList extends Component {
     constructor(props) {
         super(props);
 
@@ -16,9 +18,14 @@ class NewsList extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
-        props.getNewsLists();
+        if(props.user) {
+            const {UserId, Token} = props.user;
+            (async () => {
+                if(!this.props.announceMessages)
+                    await this.props.getSystemMessages(UserId,Token,0);
+            })()
+        }
     }
-
 
     componentWillMount(){
     }
@@ -30,7 +37,7 @@ class NewsList extends Component {
     componentWillReceiveProps(nextProps) {
     }
 
-    renderRow = (news)=> {
+    renderRow = (message)=> {
         return (
             <ListItem onPress={()=>Actions.newsdetail({album: news.item})} style={{paddingTop:10, paddingBottom:10, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.borderNormal}}>
                 <View style={{flex: 1}}>
@@ -49,18 +56,29 @@ class NewsList extends Component {
 
 
     renderLists() {
-        const {newslists} = this.props;
+        const {announceMessages} = this.props;
 
-        if (newslists==null)
+        if (announceMessages==null)
             return (<Text></Text>);
 
-        return (
-            <FlatList
-                data= {newslists}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem = {this.renderRow}
-            />
-        ) ;
+        if(announceMessages.length===0)
+            return (
+                <View style={{flex: 1, ...Styles.ColumnCenter, height: Styles.height - 250}}>
+                    <View style={{...Styles.ColumnCenter}}>
+                        <Image source={Images.empty_messages_icon} style={{width: 60, height: 60}}/>
+                        <Text style={{marginTop: 15, alignSelf: 'center', color: Color.textLight}}>暂时消息哦！</Text>
+                    </View>
+                </View>
+            );
+
+        else
+            return (
+                <FlatList
+                    data= {announceMessages}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem = {this.renderRow}
+                />
+            ) ;
     }
 
     render() {
@@ -76,9 +94,9 @@ class NewsList extends Component {
 
 
 const mapStateToProps = (state) => {
-    // const {user} = state.loginForm;
-    const {newslists} = state.newslistsRaw;
-    return {newslists};
+    const {user} = state.loginForm;
+    const {announceMessages,bAnnounceMessageLoading,announce_error_msg} = state.MessagesReducer;
+    return {user, announceMessages,bAnnounceMessageLoading,announce_error_msg};
 };
-export default connect(mapStateToProps, {getNewsLists})(NewsList);
-// export default NewsList;
+export default connect(mapStateToProps, {getSystemMessages})(AnnounceMessagesList);
+// export default AnnounceMessages;

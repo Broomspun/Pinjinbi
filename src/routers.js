@@ -5,9 +5,8 @@ import {Stack, Scene, Router, Actions} from 'react-native-router-flux';
 import {Images} from '@common';
 import { fromLeft } from 'react-navigation-transitions';
 
-
-import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, NewsList, NewsDetail,
-NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
+import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, AnnounceMessagesList,AnnounceMessageDetail,
+    SystemMessagesList, SystemMessageDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
@@ -22,7 +21,7 @@ NoticeList, NoticeDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions,
 
 const renderBadge = ()=> {
     return (
-        <Button light rounded onPress={()=> Actions.noticelist()}
+        <Button light rounded onPress={()=> Actions.systemMessagesList()}
                 style={{flexDirection: 'column', marginRight: 10, height: 30,width: 30, marginTop: 14, alignItems: 'center'}}>
             <Image source={Images.noticeIcon} style={{width: 24, height: 24}} />
         </Button>
@@ -30,15 +29,14 @@ const renderBadge = ()=> {
 };
 
 const RouterComponent = () => {
-
     return (
         <Router>
             <Stack key="root"  hideNavBar>
                 {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
                     {/*<Scene key="integralrule123" component ={TabaoMain} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                 {/*</Stack>*/}
-                <Stack key="splash" hideNavBar>
-                    <Scene key="splashscreen" component={SplashScreen}  />
+                <Stack back key="splash" hideNavBar>
+                    <Scene key="splashscreen" component={SplashScreen}  hideNavBar />
                 </Stack>
                 <Stack key="main" backButtonImage={Images.backButtonImg}>
                     <Scene key="home"
@@ -61,14 +59,14 @@ const RouterComponent = () => {
                     <Scene key="forgottenverify" component ={ForgottenVerify} title="忘记密码" titleStyle={styles.navigationBarTitleStyle} rightTitle=" " onRight={() => {}} />
                     <Scene key="forgottenpassword" component ={ForgottenPassword} title="忘记密码" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}}/>
                 </Stack>
-                <Stack back key="news" transitionConfig={() => fromLeft(500)} backButtonImage={Images.backButtonImg}>
-                    <Scene key="newslist" component ={NewsList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="newsdetail"   component ={NewsDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                <Stack back key="systemmessages" transitionConfig={() => fromLeft(500)} backButtonImage={Images.backButtonImg}>
+                    <Scene key="systemMessagesList" component ={SystemMessagesList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="systemMessageDetail" component ={SystemMessageDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
-                <Stack back key="notice" transitionConfig={() => fromLeft(500)} backButtonImage={Images.backButtonImg}>
-                    <Scene key="noticelist" component ={NoticeList} title="系统消息" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="noticedetail"   component ={NoticeDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                <Stack back key="announceMessages" transitionConfig={() => fromLeft(500)} backButtonImage={Images.backButtonImg}>
+                    <Scene key="announceMessagesList" component ={AnnounceMessagesList} title="公告" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="announceMessageDetail"   component ={AnnounceMessageDetail} title="消息详情" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </Stack>
 
                 <Stack back key="missionsstack" backButtonImage={Images.backButtonImg}>

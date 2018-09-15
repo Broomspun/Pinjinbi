@@ -12,6 +12,7 @@ import {Actions} from "react-native-router-flux";
 
 import {getBindingInfo,requestInfo} from './../../Services'
 import {homeLoading, getHomeBanners} from "../../actions";
+import {generatorCaptchaCode} from "../../Helper";
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 200;
@@ -26,11 +27,16 @@ class Home extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
+        let today = new Date();
+        let month = parseInt(today.getMonth())+1;
+        let date = parseInt(today.getDate());
+        if(month<10)   month = '0'+ month;
+        if(date<10)   date = '0'+ date;
 
-
+        let today_1 = today.getFullYear()+'-'+month+'-'+date;
 
         if(props.user) {
-            this.state = {user: props.user};
+            this.state = {user: props.user,today: today_1};
 
             const {UserId, Token} = this.state.user;
 
@@ -157,7 +163,7 @@ class Home extends Component {
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
                             </View>
-                            <Text style={{color: Color.textNormal}}>补单任务</Text>
+                            <Text style={{color: Color.textNormal}}>垫付任务</Text>
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
@@ -179,16 +185,16 @@ class Home extends Component {
                         </View>
                     </View>
                     <View style={{backgroundColor: '#fff', marginTop: 10, ...Styles.shadowStyle}}>
-                        <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.newslist()}><Text>公告</Text></Button>
+                        <Button style={{marginLeft: 15, marginTop: 10}} info rounded small onPress={()=>Actions.announceMessagesList()}><Text>公告</Text></Button>
                         <View style={{...styles.moneyStyle, paddingBottom: 10,flexDirection: 'row', flex:1}}>
                             <View style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}>
-                                <Text style={{color: Color.textNormal}}>微信：pin8002</Text>
-                                <TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1/PixelRatio.get(),paddingHorizontal:5, borderColor: Color.textNormal, marginLeft: 5, justifyContent:'center'}}>
-                                    <Text style={{color: Color.textNormal, fontSize: Styles.fontSmall, }}>复制</Text>
-                                </TouchableOpacity>
+                                <Text style={{color: Color.textNormal}}>平台开始测试了...</Text>
+                                {/*<TouchableOpacity style={{height: 28, borderRadius: 14,borderWidth:1/PixelRatio.get(),paddingHorizontal:5, borderColor: Color.textNormal, marginLeft: 5, justifyContent:'center'}}>*/}
+                                    {/*<Text style={{color: Color.textNormal, fontSize: Styles.fontSmall, }}>复制</Text>*/}
+                                {/*</TouchableOpacity>*/}
                             </View>
                             <View style={{...Styles.RowCenterRight, flex: 1}}>
-                                <Text style={{color: Color.textNormal,alignSelf: 'flex-end'}}>工作时间  09:00-22:00</Text>
+                                <Text style={{color: Color.textNormal,alignSelf: 'flex-end'}}>{this.state.today}</Text>
                             </View>
                         </View>
                     </View>

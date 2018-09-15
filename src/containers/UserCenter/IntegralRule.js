@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {Image, View, PixelRatio} from 'react-native'
 import {Platform, UIManager} from "react-native";
 
 import { Text,Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
+
+import {requestGET_API} from "../../Services";
+import {getIntegralGrades} from "../../actions";
 
 
 class IntegralRule extends Component {
@@ -17,42 +21,36 @@ class IntegralRule extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
+        (async () => {
+            await this.props.getIntegralGrades();
+        })();
     }
 
     _renderCustomBlock = ()=>{
-        let levels =[
-            {key: 'L0', value: '0-59分'},
-            {key: 'L1', value: '60-239分'},
-            {key: 'L2', value: '240-659分'},
-            {key: 'L3', value: '660-1439分'},
-            {key: 'L4', value: '1440-2699分'},
-            {key: 'L5', value: '2700-4599分'},
-            {key: 'L6', value: '4560-7139分'},
-            {key: 'L7', value: '7140-10559分'},
-            {key: 'L8', value: '1056-14939分'},
-        ];
+        if(!this.props.grades) return;
 
-      let items = levels.map((level, index)=>{
-          let backcolor='#f15e1d';
-          let backbottomwidth=1/PixelRatio.get();
-          if(index%2==1)
-              backcolor = '#ba8d2a';
+        let itemLength = this.props.grades.length;
+        let items = this.props.grades.map((grade, index)=>{
+            let backcolor='#f15e1d';
+            let backbottomwidth=1/PixelRatio.get();
+            if(index%2==1)
+                backcolor = '#ba8d2a';
 
-          if(index==8)
-              backbottomwidth = 0;
+            if(index==itemLength)
+                backbottomwidth = 0;
 
 
-          return (
-              <View key={index} style={{...Styles.RowCenterLeft, paddingVertical: 5, borderBottomWidth: backbottomwidth, borderBottomColor: '#d0b374', borderStyle: 'dashed'}}>
-                  <View style={{width: 50}}>
-                      <View style={{width: 30, height: 30, backgroundColor: backcolor, borderRadius: 40, ...Styles.ColumnCenter}}>
-                          <Text style={{color: 'white', paddingVertical: 10}}>{level.key}</Text>
-                      </View>
-                  </View>
-                  <View><Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>{level.value}</Text></View>
-              </View>
-          )
-      })
+            return (
+                <View key={index} style={{...Styles.RowCenterLeft, paddingVertical: 5, borderBottomWidth: backbottomwidth, borderBottomColor: '#d0b374', borderStyle: 'dashed'}}>
+                    <View style={{width: 50}}>
+                        <View style={{width: 30, height: 30, backgroundColor: backcolor, borderRadius: 40, ...Styles.ColumnCenter}}>
+                            <Text style={{color: 'white', paddingVertical: 10}}>{grade.key}</Text>
+                        </View>
+                    </View>
+                    <View><Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>{grade.content}</Text></View>
+                </View>
+            )
+        })
 
         return items;
     };
@@ -89,5 +87,9 @@ const styles = {
     cardStyle: {marginTop: 15, marginHorizontal: 15, backgroundColor: 'white', paddingVertical: 20, paddingHorizontal: 25,borderRadius: 10, borderWidth: 1/PixelRatio.get(), borderColor: '#e3b653'}
 
 };
+const mapStateToProps = (state) => {
+    const {grades} = state.loginForm;
+    return {grades}
+};
+export default connect(mapStateToProps, {getIntegralGrades})(IntegralRule);
 
-export default IntegralRule;

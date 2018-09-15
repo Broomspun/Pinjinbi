@@ -7,6 +7,7 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
 export const HOME_LOADING = 'home_loading';
 export const GET_HOME_BANNERS = 'get_home_banners';
+export const GET_INTEGRAL_GRADES = 'get_integral_grades';
 export const GET_COMMISSION_LIST = 'get_commission_list';
 export const GET_WALLET_LIST = 'get_wallet_list';
 export const LOGOUT_USER = 'logout_user';
@@ -36,8 +37,12 @@ export const GET_ID_CARD_INFO = 'get_id_card_info';
 export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
 
 //News List
-export const GET_NEWS_LIST = 'get_news_list';
-export const GET_NOTICE_LIST = 'get_notice_list';
+export const GET_SYSTEM_MESSAGES_SUCCESS = 'get_system_messages_success';
+export const GET_SYSTEM_MESSAGES_FAIL = 'get_system_messages_fail';
+export const GET_SYSTEM_MESSAGES_LOADING = 'get_system_messages_loading';
+export const GET_ANNOUNCE_MESSAGES_SUCCESS = 'get_announce_messages_success';
+export const GET_ANNOUNCE_MESSAGES_LOADING = 'get_announce_messages_loading';
+export const GET_ANNOUNCE_MESSAGES_FAIL = 'get_announce_messages_fail';
 
 //My Account
 export const AVATAR_SUBMIT = 'avatar_submit';

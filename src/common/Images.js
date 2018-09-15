@@ -110,6 +110,7 @@ const Images = {
     mushroom_icon: require('./../assets/img/platforms/mushroom_icon.png'),
     beautiful_icon: require('./../assets/img/platforms/beautiful_icon.png'),
     beginners_back: require('./../assets/img/user-center/beginners_back.png'),
+    empty_messages_icon: require('./../assets/img/empty_messages.png'),
 
 
 };

@@ -161,7 +161,7 @@ class UserCenterMain extends Component {
                                             <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
                                         </View>
                                         <TouchableOpacity style={{flex:1}} onPress={()=>Actions.integralrule()}>
-                                            <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>我的夺宝 拷贝</Text>
+                                            <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>查看等级规则</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

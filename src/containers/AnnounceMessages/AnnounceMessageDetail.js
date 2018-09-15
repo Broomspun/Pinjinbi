@@ -6,7 +6,7 @@ import { Container, Content, Footer, FooterTab, Button} from 'native-base';
 import {Images, Constants} from '@common';
 import {Card, CardSection} from '@components'
 
-class NewsDetail extends Component {
+class AnnounceMessageDetail extends Component {
 
     componentWillMount(){
     }
@@ -77,4 +77,4 @@ const styles = {
 
 const {thumbnailStyle, headerContentStyle, thumbnailContainerStyle,headerTextStyle,imageStyle} = styles;
 
-export default NewsDetail;
+export default AnnounceMessageDetail;

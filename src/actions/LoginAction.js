@@ -9,7 +9,7 @@ import {
     LOGIN_USER_FAIL,LOGOUT_USER,
     LOGIN_USER_ATTEMPTING,
     HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS,
-    GET_HOME_BANNERS,
+    GET_HOME_BANNERS,GET_INTEGRAL_GRADES,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,GET_CITY_LISTS, GET_DISTRICT_LISTS,
 } from "./types";
@@ -190,6 +190,26 @@ export const getHomeBanners = () => {
                 dispatch({
                     type: GET_HOME_BANNERS,
                     payload: banners
+                });
+            }
+        })();
+    };
+};
+
+export const getIntegralGrades = () => {
+    return (dispatch) => {
+        (async ()=>{
+            let res = await requestGET_API('/Member/GetMemberGrade');
+
+            if(res.status===200) {
+
+                let grades = res.data.map(grade=>{
+                    return {key: grade.GradeName, content: grade.Content, MinScore: grade.MinScore, MaxScore: grade.MaxScore};
+                });
+
+                dispatch({
+                    type: GET_INTEGRAL_GRADES,
+                    payload: grades
                 });
             }
         })();

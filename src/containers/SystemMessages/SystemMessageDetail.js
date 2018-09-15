@@ -6,7 +6,7 @@ import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color} from '@common';
 import {Card, CardSection} from '@components'
 
-class NoticeDetail extends Component {
+class SystemMessageDetail extends Component {
 
     componentWillMount(){
     }
@@ -79,4 +79,4 @@ const styles = {
 
 const {thumbnailStyle, headerContentStyle, thumbnailContainerStyle,headerTextStyle,imageStyle} = styles;
 
-export default NoticeDetail;
+export default SystemMessageDetail;
