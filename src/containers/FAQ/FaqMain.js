@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
-
-import {Platform, UIManager, Image, View, Text, PixelRatio} from 'react-native'
+import {connect} from 'react-redux';
+import {Actions} from 'react-native-router-flux';
+import {Platform, UIManager, Image, View, Text, PixelRatio, TouchableOpacity} from 'react-native'
 
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {CardBlock} from '@components'
+import {CardBlock,Spinner1} from '@components'
+import {getHelpLists} from "../../actions";
+
 
 class FaqMain extends Component {
 
@@ -18,32 +21,35 @@ class FaqMain extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        this.props.getHelpLists();
     }
+
+    _renderLists = ()=>{
+        if (this.props.helpLists)
+            return (
+                <View style={{flex:1, flexDirection: 'row', flexWrap: 'wrap', paddingVertical: 12,borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.LightBorder }}>
+                    {this.props.helpLists.map((help)=>{
+                        return (
+                            <View key={help.Id} style={{paddingVertical: 12, width: '50%',  ...Styles.ColumnCenter}}>
+                                <TouchableOpacity activeOpacity={.8} onPress={()=>Actions.faqs({helpId: help.Id})}>
+                                    <Image source={{uri: help.Logo}} style={{width: 60, height: 60}}/>
+                                </TouchableOpacity>
+                                <Text style={{marginTop: 10, color: Color.textNormal, fontSize: Styles.fontSmall}}>{help.ClassName}</Text>
+                            </View>
+                        )
+                    })
+                    }
+                </View>
+            )
+    };
+
     render() {
         return(
             <Container style={{backgroundColor: Color.mainBackground, marginTop: 10, marginBottom: 10}}>
                 <Content>
                     <View style={{...Styles.shadowStyle}}>
-                        <View style={{flex:1, flexDirection: 'row',  paddingVertical: 12,borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.LightBorder }}>
-                            <View style={{flex:1,  ...Styles.ColumnCenter}}>
-                                <Image source={Images.faq_icon_01} style={{width: 60, height: 60}}/>
-                                <Text style={{marginTop: 10, color: Color.textNormal, fontSize: Styles.fontSmall}}>账号管理</Text>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.faq_icon_02} style={{width: 60, height: 60}}/>
-                                <Text style={{marginTop: 10, color: Color.textNormal, fontSize: Styles.fontSmall}}>任务操作</Text>
-                            </View>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'row', paddingVertical: 12, }}>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.faq_icon_03} style={{width: 60, height: 60}}/>
-                                <Text style={{marginTop: 10, color: Color.textNormal, fontSize: Styles.fontSmall}}>反款问题</Text>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.faq_icon_04} style={{width: 60, height: 60}}/>
-                                <Text style={{marginTop: 10, color: Color.textNormal, fontSize: Styles.fontSmall}}>其他问题</Text>
-                            </View>
-                        </View>
+                        {this._renderLists()}
                     </View>
                     <View style={{ ...Styles.shadowStyle,marginTop: 10,  marginLeft: 15, marginRight: 15, backgroundColor:'transparent'}}>
                         <View style={{flexDirection:'row', ...Styles.RowCenterLeft, paddingVertical: 5, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.LightBorder}}>
@@ -63,8 +69,8 @@ class FaqMain extends Component {
                     <Button block style={{marginTop: 20, borderRadius: 5, backgroundColor: Color.LightBlue, marginLeft: 15, marginRight: 15}} >
                         <Text style={{color: 'white',fontSize: Styles.fontLarge}}>QQ咨询</Text>
                     </Button>
-
                 </Content>
+                {this.props.bHelpListsLoading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
         );
     }
@@ -101,4 +107,9 @@ const styles = {
 
 const {cardStyle_1,textBlockDownStyle} = styles;
 
-export default FaqMain;
+const mapStateToProps = (state) => {
+    const {helpLists,qqConsult,bHelpListsLoading} = state.MessagesReducer;
+    return {helpLists,qqConsult,bHelpListsLoading};
+};
+export default connect(mapStateToProps, {getHelpLists})(FaqMain);
+

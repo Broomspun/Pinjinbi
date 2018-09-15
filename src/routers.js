@@ -5,8 +5,10 @@ import {Stack, Scene, Router, Actions} from 'react-native-router-flux';
 import {Images} from '@common';
 import { fromLeft } from 'react-navigation-transitions';
 
-import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword, AnnounceMessagesList,AnnounceMessageDetail,
-    SystemMessagesList, SystemMessageDetail, Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
+import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
+    AnnounceMessagesList,AnnounceMessageDetail,
+    SystemMessagesList, SystemMessageDetail,
+    Promotion, PromotionAward, Prize, Loto, TotalMissions, BrowseTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
@@ -120,7 +122,7 @@ const RouterComponent = () => {
                 </stack>
                 <stack back key="faqstack" backButtonImage={Images.backButtonImg}>
                     <Scene key="faqmain" component ={FaqMain} title="常见问题" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
-                    <Scene key="faqs" component ={FaqMain} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                    <Scene key="faqs" component ={Faqs} title="任务类型" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                 </stack>
             </Stack>
         </Router>

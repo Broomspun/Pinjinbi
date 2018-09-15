@@ -99,4 +99,4 @@ const mapStateToProps = (state) => {
     return {user, announceMessages,bAnnounceMessageLoading,announce_error_msg};
 };
 export default connect(mapStateToProps, {getSystemMessages})(AnnounceMessagesList);
-// export default AnnounceMessages;
+

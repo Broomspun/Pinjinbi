@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
-
+import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Linking, Text} from 'react-native'
 
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color} from '@common';
-import {Card, CardSection} from '@components'
+import {Card, CardSection,Spinner1} from '@components'
+
+import {getSystemMessageDetail} from "../../actions";
+
 
 class SystemMessageDetail extends Component {
 
@@ -19,34 +22,31 @@ class SystemMessageDetail extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
+        if(props.user) {
+            const {UserId, Token} = props.user;
+
+            this.props.getSystemMessageDetail(UserId, Token, this.props.systemMsgId)
+        }
+
     }
     render() {
         return(
             <Container>
                 <Content padder style={{backgroundColor: '#f8f8f8'}}>
+                    {this.props.systemMessageDetail && (
                     <View>
                         <CardSection>
                             <View style={headerContentStyle}>
-                                <Text style={{...headerTextStyle, color:Color.textDark}}>{this.props.album.title}</Text>
+                                <Text style={{...headerTextStyle, color:Color.textDark}}>{this.props.systemMessageDetail.Title}</Text>
                             </View>
                         </CardSection>
                         <CardSection>
-                            <View style={{flexDirection:'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textLight, paddingTop: 5, paddingBottom: 5}}>拼金币, {this.props.album.publishedAt}</Text>
-                                <View style={{flexDirection: 'column',justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: Color.primary, paddingLeft: 10, paddingRight:10, marginLeft: 5, height: 20}}>
-                                    <Text style={{fontSize: 10, color: 'white'}}>公告</Text>
-                                </View>
-                            {/*<Image style={imageStyle} source={{uri: this.props.album.urlToImage}} />*/}
-                            </View>
+                            <Text>{this.props.systemMessageDetail.Memo}</Text>
                         </CardSection>
-                        <CardSection>
-                            <Text>{this.props.album.description}</Text>
-                        </CardSection>
-                        <View>
-                            <Button block onPress = {()=>Linking.openURL(this.props.album.url)}><Text style={{color: 'white'}}>Read More</Text></Button>
-                        </View>
                     </View>
+                    )}
                 </Content>
+                {this.props.bSystemMessageDetailLoading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
         );
     }
@@ -76,7 +76,11 @@ const styles = {
         width: null
     }
 };
+const {headerContentStyle, headerTextStyle} = styles;
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {systemMessageDetail,bSystemMessageDetailLoading,system_detail_error_msg} = state.MessagesReducer;
+    return {user, systemMessageDetail,bSystemMessageDetailLoading,system_detail_error_msg};
+};
 
-const {thumbnailStyle, headerContentStyle, thumbnailContainerStyle,headerTextStyle,imageStyle} = styles;
-
-export default SystemMessageDetail;
+export default connect(mapStateToProps, {getSystemMessageDetail})(SystemMessageDetail);

@@ -18,7 +18,6 @@ class AnnounceMessageDetail extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
-
     }
     render() {
         return(

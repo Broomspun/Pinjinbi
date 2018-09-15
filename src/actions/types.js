@@ -12,6 +12,14 @@ export const GET_COMMISSION_LIST = 'get_commission_list';
 export const GET_WALLET_LIST = 'get_wallet_list';
 export const LOGOUT_USER = 'logout_user';
 
+export const GET_HELP_LISTS_SUCCESS = 'get_help_success';
+export const GET_HELP_LISTS_FAIL = 'get_help_fail';
+export const GET_HELP_LISTS_LOADING = 'get_help_loading';
+
+export const GET_HELP_DETAIL_SUCCESS = 'get_help_detail_success';
+export const GET_HELP_DETAIL_FAIL = 'get_help_detail_fail';
+export const GET_HELP_DETAIL_LOADING = 'get_help_detail_loading';
+
 // Forgotten Verify Action Constant
 export const FORGOTTEN_VERIFY_PARAMETER_UPDATED = 'forgotten_verify_parameter_updated';
 export const FORGOTTEN_VERIFY_SUCCESS = 'forgotten_verify_success';
@@ -36,10 +44,16 @@ export const ID_CARD_SUBMIT_SUCCESS = 'id_card_submit_success';
 export const GET_ID_CARD_INFO = 'get_id_card_info';
 export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
 
-//News List
+//System Messages List
 export const GET_SYSTEM_MESSAGES_SUCCESS = 'get_system_messages_success';
 export const GET_SYSTEM_MESSAGES_FAIL = 'get_system_messages_fail';
 export const GET_SYSTEM_MESSAGES_LOADING = 'get_system_messages_loading';
+
+//System Message Detail
+export const GET_SYSTEM_MESSAGE_DETAIL_SUCCESS = 'get_system_message_detail_success';
+export const GET_SYSTEM_MESSAGE_DETAIL_FAIL = 'get_system_message_detail_fail';
+export const GET_SYSTEM_MESSAGE_DETAIL_LOADING = 'get_system_message_detail_loading';
+
 export const GET_ANNOUNCE_MESSAGES_SUCCESS = 'get_announce_messages_success';
 export const GET_ANNOUNCE_MESSAGES_LOADING = 'get_announce_messages_loading';
 export const GET_ANNOUNCE_MESSAGES_FAIL = 'get_announce_messages_fail';

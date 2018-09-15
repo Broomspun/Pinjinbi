@@ -55,7 +55,7 @@ class SystemMessagesList extends Component {
                     </View>
                 </View>
                 <View style={{flex:1, flexDirection: 'row', justifyContent:'flex-end',paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
-                    <Button rounded info small iconRight onPress ={ ()=> Actions.noticedetail({album: news.item})} >
+                    <Button rounded info small iconRight onPress ={ ()=> Actions.systemMessageDetail({systemMsgId: news.item.Id})} >
                         <Text>消息详情</Text>
                         <Icon name="chevron-right" type="Entypo" />
                     </Button>
