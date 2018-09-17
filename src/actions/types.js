@@ -89,3 +89,12 @@ export const TRIAL_LOTO_LOADING = 'trial_loto_loading';
 export const LOTO_HISTORY_SUCCESS = 'loto_history_success';
 export const LOTO_HISTORY_FAIL = 'loto_history_fail';
 export const LOTO_HISTORY_LOADING = 'loto_history_loading';
+
+//Member
+export const GET_MEMBER_INVITE_SUCCESS = 'get_member_invite_success';
+export const GET_MEMBER_INVITE_FAIL = 'get_member_invite_fail';
+export const GET_MEMBER_INVITE_LOADING = 'get_member_invite_loading';
+
+export const IS_NOVICE_TASK_COMPLETED_SUCCESS = 'is_novice_task_completed_success';
+export const IS_NOVICE_TASK_COMPLETED_FAIL = 'is_novice_task_completed_fail';
+export const IS_NOVICE_TASK_COMPLETED_LOADING = 'is_novice_task_completed_loading';

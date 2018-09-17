@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import Modal from 'react-native-modal'
 import {connect} from 'react-redux';
 import Carousel from 'react-native-banner-carousel';
-
-import {Image, View, TouchableOpacity, PixelRatio} from 'react-native'
+import Timer from 'react-timer-mixin';
+import {Image, View, TouchableOpacity, PixelRatio, Alert} from 'react-native'
 import {Platform, UIManager, Dimensions} from "react-native";
 
 import { FooterTab, Button, Text,Icon, Container, Content } from 'native-base';
@@ -11,14 +11,13 @@ import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
 import {getBindingInfo,requestInfo} from './../../Services'
-import {homeLoading, getHomeBanners} from "../../actions";
-import {generatorCaptchaCode} from "../../Helper";
+import {homeLoading, getHomeBanners, isCompletedNoviceTask} from "../../actions";
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 200;
 
 class Home extends Component {
-    state= {bShowStartOrderModal: false, orderStartBtn: false, orderCancelBtn: true};
+    state= {bShowStartUserBindingModal: false, orderStartBtn: false, orderCancelBtn: true};
     constructor(props) {
 
         super(props);
@@ -52,6 +51,7 @@ class Home extends Component {
             (async () => {
                 let bindInfo = await getBindingInfo(UserId, Token);
                 if (bindInfo.status === 200) {
+                    console.log('bindinfo', bindInfo);
                     this.setState({bindInfo: bindInfo.data});
                 }
             })();
@@ -62,6 +62,8 @@ class Home extends Component {
                     this.setState({qq: qqInfo.data});
                 }
             })();
+
+            this.props.isCompletedNoviceTask(UserId, Token);
         }
     }
 
@@ -74,21 +76,26 @@ class Home extends Component {
     }
 
     componentDidUpdate() {
+        if(this.state.bShowStartUserBindingModal) {
+            Timer.setTimeout(() => {
+                this.setState({bShowStartUserBindingModal: false})
+            }, 5000);
+        }
     }
 
     onStartBindingPress() {
-        this.setState({bShowStartOrderModal: false});
+        this.setState({bShowStartUserBindingModal: false});
         Actions.verifymain();
     }
 
-    _renderShowOrderStartModal = () => (
+    _renderShowUserBindStartModal = () => (
         <View style={{borderRadius: 10, width: 300, height: 200, backgroundColor: 'white', paddingVertical: 30 }}>
             <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center'}}>
                 <View style={{borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.LightBorder, paddingBottom: 30}}>
                     <Text style={{color:'#e84e40', fontSize: Styles.fontLarge, fontWeight: '700'}}>请先完成新手任务</Text>
                 </View>
                 <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-                    <Button onPress={()=>this.setState({bShowStartOrderModal: false})}
+                    <Button onPress={()=>this.setState({bShowStartUserBindingModal: false})}
                             style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
                         <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
                     </Button>
@@ -103,7 +110,7 @@ class Home extends Component {
     getUserBindStatus =  () => {
 
         if(this.state.bindInfo.IsAUT===0){
-            this.setState({bShowStartOrderModal: true});
+            this.setState({bShowStartUserBindingModal: true});
         }
     };
 
@@ -115,12 +122,29 @@ class Home extends Component {
         );
     }
 
+    _onNoviceTask = () => {
+        if(this.props.noviceObj){
+            Alert.alert(
+                'Completed',
+                'You already completed novice task',
+                [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+            )
+        }
+        else {
+
+        }
+
+    };
+
     render() {
         return(
             <Container style={{flex: 1}}>
                 <Content style={{backgroundColor: '#f6f6f6', paddingBottom: 10}}>
-                    <Modal  isVisible={this.state.bShowStartOrderModal} style={{...Styles.ColumnCenter}}>
-                        {this._renderShowOrderStartModal()}
+                    <Modal  isVisible={this.state.bShowStartUserBindingModal} style={{...Styles.ColumnCenter}}>
+                        {this._renderShowUserBindStartModal()}
                     </Modal>
                     {this.props.homeBanners && (
                         <Carousel
@@ -199,12 +223,12 @@ class Home extends Component {
                         </View>
                     </View>
                     <View style={{...styles.thirdRowStyle, ...Styles.shadowStyle}}>
-                        <View style={{...styles.cardStyle,backgroundColor: '#03cea5' }}>
+                        <TouchableOpacity activeOpacity={.8} style={{...styles.cardStyle,backgroundColor: '#03cea5' }} onPress={()=>this._onNoviceTask()}>
                             <View style={{...styles.iconWrapper1, }}>
                                 <Image source={Images.usersIcon} style={{width: 35, height: 35}} />
                             </View>
                             <Text style={{color: '#fff'}}>新手任务</Text>
-                        </View>
+                        </TouchableOpacity>
                         <TouchableOpacity activeOpacity={.8} style={{...styles.cardStyle, backgroundColor: '#59a3ff'}} onPress={()=>Actions.promotion()}>
                             <View style={{...styles.iconWrapper1}}>
                                 <Image source={Images.promotionIcon} style={{width: 29, height: 35}} />
@@ -236,7 +260,7 @@ class Home extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={{flex: 1, flexDirection: 'row',justifyContent: 'flex-end', alignItems: 'center'}}>
-                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} >
+                                <TouchableOpacity activeOpacity={.8} style={{flexDirection: 'row', alignItems: 'center'}} onPress={()=>Actions.promotion()}>
                                     <Image source={Images.userfavoriteIcon} style={{width: 35, height: 35}}/>
                                     <Text style={{marginLeft: 5, fontSize: 14, color: Color.textNormal}}>邀请好友</Text>
                                 </TouchableOpacity>
@@ -278,7 +302,7 @@ class Home extends Component {
                 </View>
                 <View style={{alignSelf: 'center', position: 'absolute', width: 60,bottom: 25, zIndex: 99999}} >
                     <View style={styles.footerCenterStyle}>
-                        <TouchableOpacity  activeOpacity={.8} onPress={()=>this.setState({bShowStartOrderModal: true})}
+                        <TouchableOpacity  activeOpacity={.8} onPress={()=>this.setState({bShowStartUserBindingModal: true})}
                                            style={{backgroundColor: '#ff7a19', width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{fontSize:14,color: 'white'}}>接单</Text>
                         </TouchableOpacity>
@@ -375,6 +399,7 @@ const styles = {
 
 const mapStateToProps = (state) => {
     const {user, homeBanners} = state.loginForm;
-    return {user,homeBanners}
+    const {noviceObj, noviceMsg, bNoviceLoading} = state.memberReducer;
+    return {user,homeBanners,noviceObj, noviceMsg, bNoviceLoading}
 };
-export default connect(mapStateToProps, {homeLoading, getHomeBanners})(Home);
+export default connect(mapStateToProps, {homeLoading, getHomeBanners,isCompletedNoviceTask})(Home);

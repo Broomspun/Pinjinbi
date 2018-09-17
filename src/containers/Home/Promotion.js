@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-
+import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Linking, Text} from 'react-native'
 
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {CardBlock} from '@components'
+import {getMemberByInvite} from "../../actions";
 
 class Promotion extends Component {
 
@@ -17,6 +18,12 @@ class Promotion extends Component {
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
+        }
+
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+
+            this.props.getMemberByInvite(UserId, Token);
         }
     }
     render() {
@@ -51,7 +58,7 @@ class Promotion extends Component {
                     </CardBlock>
                     <Image source={Images.promotion} style={{height: 180, width: null, flex: 1}}/>
                     <View style={{paddingHorizontal: 15, marginTop: 10, marginBottom: 20}}>
-                        <Button block style={Styles.buttonStyle} >
+                        <Button block style={Styles.buttonStyle} onPress = {()=>this.props.inviteObj?Linking.openURL(this.props.inviteObj.ShareUrl):null}>
                             <Text style={{fontSize: Styles.fontLarge, color:'white'}}>立即分享</Text>
                         </Button>
                     </View>
@@ -76,4 +83,11 @@ const styles = {
 
 const {cardStyle_1,textBlockDownStyle} = styles;
 
-export default Promotion;
+
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {inviteObj} = state.memberReducer;
+    return {user, inviteObj}
+};
+export default connect(mapStateToProps, {getMemberByInvite})(Promotion);
+
