@@ -7,15 +7,20 @@ import {connect} from 'react-redux';
 import {Spinner1} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
+import {generatorCaptchaCode} from './../../../Helper'
 
 import {generateCaptchaCode_mc, getVerifySMSCode_mc, getVerifyPhone} from './../../../actions'
 
 class VerifyOldPhone extends Component {
     state = {
-      phone: '',
-      verifyCode: '',
-      captchaCode: '',
+        phone: '',
+        verifyCode: '',
+        OnlyVal: null
     };
+
+    componentDidMount() {
+        this.generateCaptchacode();
+    }
 
     onButtonPress() {
         const { captchaCode, phone,verifyCode} = this.state;
@@ -119,12 +124,37 @@ class VerifyOldPhone extends Component {
             this.props.getVerifySMSCode_mc(phone, 6, captchaCode);
         }
     }
+
+    generateCaptchacode () {
+        let today = new Date();
+        let month = parseInt(today.getMonth())+1;
+        let date = parseInt(today.getDate());
+        let hour = parseInt(today.getHours());
+        let minute = parseInt(today.getMinutes());
+        let second = parseInt(today.getSeconds());
+        let milisecond = parseInt(today.getMilliseconds());
+
+        if(month<10)   month = '0'+ month;
+        if(date<10)   date = '0'+ date;
+        if(hour<10)   hour = '0'+ hour;
+        if(minute<10)   minute = '0'+ minute;
+        if(second<10)   second = '0'+ second;
+        if(milisecond<100)   milisecond = '0'+ milisecond;
+
+        let OnlyVal = today.getFullYear()+month+date+hour+minute+second+milisecond+generatorCaptchaCode(6);
+
+        console.log('onlyval', OnlyVal);
+
+        this.setState({OnlyVal: OnlyVal})
+
+    }
+
     render() {
         return (
             <Container>
                 <Content padder style={{backgroundColor:'#f8f8f8'}}>
                     <View style={{marginBottom: 10}}>
-                    <Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>原用户名可接受短信的用户可自主验证修改用户名，修改后原有 邀请关心不受影响，原用户无法接受短信的用户，需联系在线客 服验证后修</Text>
+                        <Text style={{fontSize: Styles.fontNormal, color: Color.textNormal}}>原用户名可接受短信的用户可自主验证修改用户名，修改后原有 邀请关心不受影响，原用户无法接受短信的用户，需联系在线客 服验证后修</Text>
                     </View>
                     <Form>
                         <Item regular underline={false} style={styles.itemStyle}>
@@ -149,9 +179,10 @@ class VerifyOldPhone extends Component {
                                     />
                                 </View>
                                 <View style={{flex: 1, flexDirection: 'column'}}>
-                                    <TouchableOpacity onPress={()=>this.onMCRecaptcahaGenCode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
-                                        <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                        <ReactCaptchaGenerator captchaCode={this.props.mc_captchaGenCode} />
+                                    <TouchableOpacity onPress={()=>this.generateCaptchacode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        {this.state.OnlyVal && (
+                                            <Image style={{position: 'absolute', height: 31, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
+                                        )}
                                     </TouchableOpacity>
                                 </View>
                             </View>
