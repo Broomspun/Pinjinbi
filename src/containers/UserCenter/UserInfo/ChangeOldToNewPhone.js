@@ -228,4 +228,4 @@ const mapStateToProps = (state) => {
     const {user,mc_msg1,bChangedMC} = state.loginForm;
     return {user, mc_msg1,bChangedMC};
 };
-export default connect(mapStateToProps, {getVerifySMSCode_mc,changeMobileNumber})(ChangeOldToNewPhone);
+export default connect(mapStateToProps, {getVerifySMSCode_mc, changeMobileNumber})(ChangeOldToNewPhone);

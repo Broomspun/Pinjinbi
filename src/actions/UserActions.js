@@ -80,13 +80,13 @@ export const getVerifySMSCode_mc = (phone, verifyType, captchaCode, uniqueVal) =
             if(res.status===200) {
                 dispatch({
                     type: type_s,
-                    payload: res.data.msg
+                    payload: {msg: res.data.msg, status: true}
                 });
             }
             else {
                 dispatch({
                     type: type_f,
-                    payload: res.data.msg
+                    payload: {mas: res.data.msg, status: false}
                 });
             }
         })();
@@ -114,7 +114,7 @@ export const getVerifyPhone = (Mobile, VerifyType, VerifyCode, UserId, Token)=>{
             if(res.status===200) {
                 dispatch({
                     type: type_s,
-                    payload: res.msg
+                    payload: {msg: res.msg, status: true}
                 });
 
                 if(VerifyType===6)  //in case of success of verification for changing mobile number
@@ -123,7 +123,7 @@ export const getVerifyPhone = (Mobile, VerifyType, VerifyCode, UserId, Token)=>{
             else {
                 dispatch({
                     type: type_f,
-                    payload: res.msg
+                    payload: {msg: res.msg, status: false}
                 });
             }
         })();
@@ -163,7 +163,9 @@ export const resetRequestStatus = ()=>{
 export const changePassword = (UserId, Token, OldLoginPwd, NewLoginPwd)=> {
     return (dispatch) => {
         (async ()=>{
-            let res = await ChangePassword_API(UserId, Token, OldLoginPwd, NewLoginPwd);
+            let res = await requestPOST_API('Member/SubmitModifyByPassword',
+                {UserId: UserId, Token: Token, OldLoginPwd: OldLoginPwd, NewLoginPwd: NewLoginPwd}
+            );
 
             if(res.status===200) {
                 dispatch({

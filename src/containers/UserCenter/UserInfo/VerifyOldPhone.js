@@ -227,7 +227,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {user, mc_sms_msg,mc_msg_old} = state.loginForm;
-    return {user,mc_sms_msg,mc_msg_old};
+    const {user, mc_sms_old_verify, bSMS6, bVerify6} = state.loginForm;
+    return {user,mc_sms_old_verify, bSMS6, bVerify6};
 };
 export default connect(mapStateToProps, {getVerifySMSCode_mc, getVerifyPhone})(VerifyOldPhone);

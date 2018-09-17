@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, Image} from "react-native";
-import { Container, Form, Content, Button, Input, Item, Icon, Text} from 'native-base';
+import {Platform, UIManager, Image, Alert, AsyncStorage} from "react-native";
+import { Container, Form, Content, Button, Input, Item, Toast, Text} from 'native-base';
 import {connect} from 'react-redux';
-
+import {Actions} from 'react-native-router-flux';
 import {Spinner,Spinner1} from "@components";
 import {Images} from "@common";
-import {changePassword} from "../../../actions";
+
+import {changePassword, logout} from "../../../actions";
+
 class ChangeLoginPassword extends Component {
     state = {
         cp_old_password: '',
@@ -22,9 +24,57 @@ class ChangeLoginPassword extends Component {
         console.log(props);
     }
 
+
+
+    componentWillUnmount(){
+        AsyncStorage.removeItem('pjinbi_auth_user');
+    }
+
     submitChangePassword () {
         const { cp_old_password, cp_password, cp_confirm_password} = this.state;
         const {UserId, Token} =  this.props.user;
+
+        if(cp_old_password==='') {
+            Toast.show({
+                text: 'Please enter old password',
+                buttonText: "是",
+                type: "danger",
+                duration: 1000
+            });
+            return;
+        }
+
+        if(cp_confirm_password==='') {
+            Toast.show({
+                text: 'Please enter repeat-password',
+                buttonText: "是",
+                type: "danger",
+                duration: 1000
+            });
+            return;
+        }
+
+        if(cp_password==='') {
+            Toast.show({
+                text: 'Please enter new password',
+                buttonText: "是",
+                type: "danger",
+                duration: 1000
+            });
+            return;
+        }
+
+
+        if (cp_password !== cp_confirm_password) {
+            if(cp_password==='')
+                Toast.show({
+                    text: 'Mismatch password!',
+                    buttonText: "是",
+                    type: "danger",
+                    duration: 1000
+                });
+            return
+        }
 
         if(cp_password!=='' && cp_confirm_password!=='') {
             if (cp_old_password !== '' && cp_password === cp_confirm_password) {
@@ -35,7 +85,14 @@ class ChangeLoginPassword extends Component {
 
     componentWillReceiveProps(nextProps){
         if(nextProps.bChangedPassword){
-            //Logout with modal confirm
+            Alert.alert(
+                'Success',
+                'Your password was changed, Please login again!',
+                [
+                    {text: 'OK', onPress: () => this.props.logout()},
+                ],
+                { cancelable: false }
+            )
         }
     }
 
@@ -121,5 +178,5 @@ const mapStateToProps = (state) => {
     const {bChangedPassword} = state.userInfoReducer;
     return {user,bChangedPassword};
 };
-export default connect(mapStateToProps, {changePassword})(ChangeLoginPassword);
+export default connect(mapStateToProps, {changePassword, logout})(ChangeLoginPassword);
 
