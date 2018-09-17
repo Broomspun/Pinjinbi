@@ -6,7 +6,7 @@ import Modal from 'react-native-modal'
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import connect from "react-redux/es/connect/connect";
-import {getLotoPlayActivities,trialLoto} from "../../actions";
+import {getLotoPlayActivities,trialLoto, initializeLoto} from "../../actions";
 
 class Loto extends Component {
     state = {visibleLotoFailModal: false};
@@ -24,22 +24,28 @@ class Loto extends Component {
             const {UserId, Token} = this.props.user;
             this.props.getLotoPlayActivities(UserId, Token);
         }
+        console.log('Fired constructor');
     }
-    componentWillMount(){
+    componentWillUnmount(){
+        console.log('Fired unmount');
 
     }
 
     componentWillReceiveProps(nextProps){
         if(nextProps.trialLotoMsg!=='') {
-            this.setState({visibleLotoFailModal: true})
+            this.setState({visibleLotoFailModal: true});
         }
+    }
 
+    componentDidMount() {
+        console.log('height',  Dimensions.get('screen'));
     }
 
     componentDidUpdate() {
         if(this.state.visibleLotoFailModal) {
             Timer.setTimeout(() => {
-                this.setState({visibleLotoFailModal: false})
+                this.setState({visibleLotoFailModal: false});
+                this.props.initializeLoto();
             }, 5000);
         }
     }
@@ -53,7 +59,7 @@ class Loto extends Component {
                 </View>
             </View>
             <View style={{paddingHorizontal: 15, paddingBottom: 20}}>
-                <Button block style={{backgroundColor: Color.LightBlue1, paddingHorizontal: 20}} onPress={()=>{this.setState({visibleLotoFailModal: false})}}>
+                <Button block style={{backgroundColor: Color.LightBlue1, paddingHorizontal: 20}} onPress={()=>{this.setState({visibleLotoFailModal: false}); this.props.initializeLoto();}}>
                     <Text style={{color: 'white', fontSize: Styles.textLarge}}>确认</Text>
                 </Button>
             </View>
@@ -93,7 +99,7 @@ class Loto extends Component {
                                 {this._renderLotoModal()}
                             </Modal>
                             <View style={{width: Styles.width,...Styles.ColumnCenterBottom,}}>
-                                <Image source={Images.lotoBackTop} style={{width: Styles.width, height: (height-150)/2}}/>
+                                <Image source={Images.lotoBackTop} style={{width: Styles.width, height: (height-100)/2}}/>
                             </View>
                         </View>
                         <View style={{backgroundColor: '#f8655e'}}>
@@ -112,13 +118,13 @@ class Loto extends Component {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ ...Styles.ColumnCenter, position: 'absolute',zIndex:11, top: (height/2-100)}}>
+                        <View style={{ ...Styles.ColumnCenter, position: 'absolute',zIndex:11, top: (height-100)/2-25}}>
                             {/*<TouchableOpacity style={{...Styles.ColumnCenter}} onPress={()=> this.setState({visibleLotoFailModal: true})}>*/}
                             <TouchableOpacity style={{...Styles.ColumnCenter}} onPress={()=>this._onStartTrialLoto()}>
                                 <Image source={Images.lotoStart}  style={{width: 50, height: 50}}/>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ ...Styles.ColumnCenter, position: 'absolute', top:140, backgroundColor:  'transparent', left: 0, right: 0,zIndex: 10}}>
+                        <View style={{ ...Styles.ColumnCenter, position: 'absolute', top:(height-100)/2-150, backgroundColor:  'transparent', left: 0, right: 0,zIndex: 10}}>
                             <Image source={Images.lotoBakcground} style={{width: 300, height:300 }}/>
                         </View>
                     </View>
@@ -132,4 +138,4 @@ const mapStateToProps = (state) => {
     const {lotoObj, bLotoLoading,trialLotoResult,bTrialing,trialLotoMsg,ActivitiesId} = state.lotoReducer;
     return {user, lotoObj, bLotoLoading, trialLotoResult,bTrialing,trialLotoMsg,ActivitiesId};
 };
-export default connect(mapStateToProps, {getLotoPlayActivities, trialLoto})(Loto);
+export default connect(mapStateToProps, {getLotoPlayActivities, trialLoto, initializeLoto})(Loto);

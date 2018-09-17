@@ -1,7 +1,7 @@
 import {
     GET_LOTO_ACTIVITIES_SUCCESS, GET_LOTO_ACTIVITIES_FAIL, GET_LOTO_ACTIVITIES_LOADING,
     TRIAL_LOTO_SUCCESS, TRIAL_LOTO_FAIL, TRIAL_LOTO_LOADING,
-    LOTO_HISTORY_SUCCESS, LOTO_HISTORY_FAIL, LOTO_HISTORY_LOADING
+    LOTO_HISTORY_SUCCESS, LOTO_HISTORY_FAIL, LOTO_HISTORY_LOADING, INITIALIZE_LOTO, LOGIN_PARAMETER_UPDATED
 } from "./types";
 
 import { requestPOST_API,requestGET_API} from "../Services";
@@ -73,4 +73,10 @@ export const getLotoHistory = (UserId, Token, ActivitiesId)=> {
             }
         })();
     };
+};
+
+export const initializeLoto = () => {
+    return {
+        type: INITIALIZE_LOTO,
+    }
 };

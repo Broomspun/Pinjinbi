@@ -85,6 +85,7 @@ export const GET_LOTO_ACTIVITIES_LOADING = 'get_loto_activities_loading';
 export const TRIAL_LOTO_SUCCESS = 'trial_loto_success';
 export const TRIAL_LOTO_FAIL = 'trial_loto_fail';
 export const TRIAL_LOTO_LOADING = 'trial_loto_loading';
+export const INITIALIZE_LOTO = 'initialize_loto';
 
 export const LOTO_HISTORY_SUCCESS = 'loto_history_success';
 export const LOTO_HISTORY_FAIL = 'loto_history_fail';
