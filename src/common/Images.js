@@ -37,7 +37,7 @@ const Images = {
     lotoBakcground: require('./../assets/img/home/lotoSplashBack.png'),
     lotoBackTop: require('./../assets/img/home/lotoSplashBack-top.png'),
     lotoStart: require('./../assets/img/home/loto-start.png'),
-    loto_icon:require('./../assets/img/home/loto_modal_icon.png'),
+    loto_fail_icon:require('./../assets/img/home/loto_modal_icon.png'),
     loto_prize_icon:require('./../assets/img/home/loto_prize_icon.png'),
     smileFace: require('./../assets/img/home/smile-face.png'),
     mission_01: require('./../assets/img/icons/total-mission_01.png'),

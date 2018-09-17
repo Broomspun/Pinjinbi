@@ -45,6 +45,9 @@ export const Prize = _Prize;
 import _Loto from './Home/Loto';
 export const Loto = _Loto;
 
+import _LotoWinningHistory from './Home/LotoWinningHistory';
+export const LotoWinningHistory = _LotoWinningHistory;
+
 import _TotalMissions from './Missions/TotalMissions';
 export const TotalMissions = _TotalMissions;
 

@@ -77,6 +77,15 @@ export const GET_PROVINCE_LISTS = 'get_province_lists';
 export const GET_CITY_LISTS = 'get_city_lists';
 export const GET_DISTRICT_LISTS = 'get_district_lists';
 
+//Loto
 export const GET_LOTO_ACTIVITIES_SUCCESS = 'get_loto_activities_success';
 export const GET_LOTO_ACTIVITIES_FAIL = 'get_loto_activities_fail';
 export const GET_LOTO_ACTIVITIES_LOADING = 'get_loto_activities_loading';
+
+export const TRIAL_LOTO_SUCCESS = 'trial_loto_success';
+export const TRIAL_LOTO_FAIL = 'trial_loto_fail';
+export const TRIAL_LOTO_LOADING = 'trial_loto_loading';
+
+export const LOTO_HISTORY_SUCCESS = 'loto_history_success';
+export const LOTO_HISTORY_FAIL = 'loto_history_fail';
+export const LOTO_HISTORY_LOADING = 'loto_history_loading';

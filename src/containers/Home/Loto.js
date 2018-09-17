@@ -6,11 +6,10 @@ import Modal from 'react-native-modal'
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import connect from "react-redux/es/connect/connect";
-import {getLotoPlayActivities} from "../../actions";
-
+import {getLotoPlayActivities,trialLoto} from "../../actions";
 
 class Loto extends Component {
-    state = {visibleLotaModal: false};
+    state = {visibleLotoFailModal: false};
     constructor(props) {
         super(props);
 
@@ -18,6 +17,8 @@ class Loto extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        this.state = {bLotoTrialFail: false};
 
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
@@ -27,21 +28,34 @@ class Loto extends Component {
     componentWillMount(){
 
     }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.trialLotoMsg!=='') {
+            this.setState({visibleLotoFailModal: true})
+        }
+
+    }
+
     componentDidUpdate() {
-        if(this.state.visibleLotaModal) {
+        if(this.state.visibleLotoFailModal) {
             Timer.setTimeout(() => {
-                this.setState({visibleLotaModal: false})
-            }, 2000);
+                this.setState({visibleLotoFailModal: false})
+            }, 5000);
         }
     }
 
     _renderLotoModal = () => (
-        <View style={{borderRadius: 10, width: 300, height: 270, backgroundColor: 'white', paddingVertical: 40 }}>
+        <View style={{borderRadius: 10, width: 300, height: 240, backgroundColor: 'white', paddingVertical: 40 }}>
             <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style={{marginBottom: 40, color:'#e84e40', fontSize: Styles.fontLarge, fontWeight: '700'}}>恭喜您获得***</Text>
-                <View style={{ borderColor: '#e84e40', width: 90, height: 90, borderWidth: 5, borderRadius: 50,justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={Images.smileFace} style={{width: 45, height: 45}} />
+                <Text style={{marginBottom: 20, color:'#e84e40', fontSize: Styles.fontLarge, fontWeight: '700'}}>{this.props.trialLotoMsg}</Text>
+                <View style={{ borderColor: '#e84e40', width: 90, height: 90, borderWidth: 0, borderRadius: 50,justifyContent: 'center', alignItems: 'center'}}>
+                    <Image source={Images.loto_fail_icon} style={{width: 64, height: 64}} />
                 </View>
+            </View>
+            <View style={{paddingHorizontal: 15, paddingBottom: 20}}>
+                <Button block style={{backgroundColor: Color.LightBlue1, paddingHorizontal: 20}} onPress={()=>{this.setState({visibleLotoFailModal: false})}}>
+                    <Text style={{color: 'white', fontSize: Styles.textLarge}}>确认</Text>
+                </Button>
             </View>
         </View>
     );
@@ -50,11 +64,11 @@ class Loto extends Component {
 
     }
 
-    _onStartLoto = ()=> {
-        if(this.props.lotoObj.RemainingNum>0) {
-
+    _onStartTrialLoto = ()=> {
+        if(this.props.user && this.props.lotoObj.RemainingNum>0) {
+            const {UserId, Token} = this.props.user;
+            this.props.trialLoto(UserId, Token, this.props.lotoObj.ActivitiesId);
         }
-
     };
 
     _renderRemainingButton =()=>{
@@ -75,7 +89,7 @@ class Loto extends Component {
                 <Content>
                     <View style={{...Styles.ColumnCenter, position: 'relative'}}>
                         <View >
-                            <Modal  isVisible={this.state.visibleLotaModal} style={{...Styles.ColumnCenter}}>
+                            <Modal  isVisible={this.state.visibleLotoFailModal} style={{...Styles.ColumnCenter}}>
                                 {this._renderLotoModal()}
                             </Modal>
                             <View style={{width: Styles.width,...Styles.ColumnCenterBottom,}}>
@@ -99,7 +113,8 @@ class Loto extends Component {
                             </View>
                         </View>
                         <View style={{ ...Styles.ColumnCenter, position: 'absolute',zIndex:11, top: (height/2-100)}}>
-                            <TouchableOpacity style={{...Styles.ColumnCenter}} onPress={()=> this.setState({visibleLotaModal: true})}>
+                            {/*<TouchableOpacity style={{...Styles.ColumnCenter}} onPress={()=> this.setState({visibleLotoFailModal: true})}>*/}
+                            <TouchableOpacity style={{...Styles.ColumnCenter}} onPress={()=>this._onStartTrialLoto()}>
                                 <Image source={Images.lotoStart}  style={{width: 50, height: 50}}/>
                             </TouchableOpacity>
                         </View>
@@ -114,8 +129,7 @@ class Loto extends Component {
 }
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {lotoObj, bLotoLoading} = state.lotoReducer;
-    return {user, lotoObj, bLotoLoading};
+    const {lotoObj, bLotoLoading,trialLotoResult,bTrialing,trialLotoMsg,ActivitiesId} = state.lotoReducer;
+    return {user, lotoObj, bLotoLoading, trialLotoResult,bTrialing,trialLotoMsg,ActivitiesId};
 };
-export default connect(mapStateToProps, {getLotoPlayActivities})(Loto);
-
+export default connect(mapStateToProps, {getLotoPlayActivities, trialLoto})(Loto);
