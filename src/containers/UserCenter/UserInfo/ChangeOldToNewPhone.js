@@ -8,20 +8,20 @@ import {connect} from 'react-redux';
 import {Spinner1} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
-import {ReactCaptchaGenerator} from "../../../components";
 
-import {generateCaptchaCode_mc,getVerifySMSCode_mc,changeMobileNumber} from './../../../actions'
+import {getVerifySMSCode_mc,changeMobileNumber} from './../../../actions'
+import {generatorCaptchaCode} from "../../../Helper";
 
 class ChangeOldToNewPhone extends Component {
     state = {
-        phone: '',
+        phone: '18641568923',
         verifyCode: '',
         captchaCode: '',
+        OnlyVal: null,
     };
 
     onButtonPress() {
         const { captchaCode, phone,verifyCode} = this.state;
-        const { mc_captchaGenCode1} = this.props;
 
         if(phone==='') {
             Toast.show({
@@ -33,9 +33,9 @@ class ChangeOldToNewPhone extends Component {
             return;
         }
 
-        if(captchaCode !== mc_captchaGenCode1) {
+        if(captchaCode === '') {
             Toast.show({
-                text: "Incorrect captcha code",
+                text: "Please enter Image code!",
                 buttonText: "是",
                 type: "warning",
                 duration: 1000
@@ -53,7 +53,34 @@ class ChangeOldToNewPhone extends Component {
             return;
         }
         const {UserId, Token} = this.props.user;
-        this.props.changeMobileNumber(phone, verifyCode, UserId, Token);
+        this.props.changeMobileNumber(phone, verifyCode, 7, UserId, Token);
+    }
+
+    generateCaptchacode () {
+        let today = new Date();
+        let month = parseInt(today.getMonth())+1;
+        let date = parseInt(today.getDate());
+        let hour = parseInt(today.getHours());
+        let minute = parseInt(today.getMinutes());
+        let second = parseInt(today.getSeconds());
+        let milisecond = parseInt(today.getMilliseconds());
+
+        if(month<10)   month = '0'+ month;
+        if(date<10)   date = '0'+ date;
+        if(hour<10)   hour = '0'+ hour;
+        if(minute<10)   minute = '0'+ minute;
+        if(second<10)   second = '0'+ second;
+        if(milisecond<100)   milisecond = '0'+ milisecond;
+
+        let OnlyVal = today.getFullYear()+month+date+hour+minute+second+milisecond+generatorCaptchaCode(6);
+
+        console.log('onlyval', OnlyVal);
+
+        this.setState({OnlyVal: OnlyVal})
+
+    }
+    componentDidMount() {
+        this.generateCaptchacode();
     }
 
     componentWillReceiveProps(nextProps){
@@ -94,29 +121,19 @@ class ChangeOldToNewPhone extends Component {
         );
     }
 
-    onMCRecaptcahaGenCode() {
-        this.props.generateCaptchaCode_mc();
-        Toast.show({
-            text: "Captcha code changed!",
-            buttonText: "是",
-            type: "success"
-        });
-    }
-
 
     getUserMCSMSVerifyCode() {
         const { captchaCode, phone} = this.state;
-        const { mc_captchaGenCode1} = this.props;
 
-        if(captchaCode !== mc_captchaGenCode1) {
+        if(captchaCode === '') {
             Toast.show({
-                text: "Captcha code incorrect!",
+                text: "Please enter image code!",
                 buttonText: "是",
                 type: "danger"
             });
         }
         else {
-            this.props.getVerifySMSCode_mc(phone, 7, captchaCode);
+            this.props.getVerifySMSCode_mc(phone, 7, captchaCode, this.state.OnlyVal);
         }
     }
     render() {
@@ -149,9 +166,10 @@ class ChangeOldToNewPhone extends Component {
                                     />
                                 </View>
                                 <View style={{flex: 1, flexDirection: 'column'}}>
-                                    <TouchableOpacity onPress={()=>this.onMCRecaptcahaGenCode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
-                                        <Image style={{position: 'absolute'}} source={Images.captchBackground} />
-                                        <ReactCaptchaGenerator captchaCode={this.props.mc_captchaGenCode1} />
+                                    <TouchableOpacity onPress={()=>this.generateCaptchacode()} style={{flex: 1, height: null, justifyContent: 'center' }}>
+                                        {this.state.OnlyVal && (
+                                            <Image style={{position: 'absolute', height: 31, right: 0, width: 100}} source={{uri: `http://pjbapi.wtvxin.com/api/Member/GetImageCode?OnlyVal=${this.state.OnlyVal}`}}/>
+                                        )}
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -173,7 +191,7 @@ class ChangeOldToNewPhone extends Component {
                                         style={{flex: 1, height: null, justifyContent: 'center' }}
                                         onPress={()=>this.getUserMCSMSVerifyCode()}
                                     >
-                                        <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>短信验证码(50)</Text>
+                                        <Text style={{color: 'white', paddingLeft: 10, fontSize: 14}}>短信验证码</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -207,8 +225,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    const {mc_captchaGenCode1,mc_msg1,bChangedMC} = state.userInfoReducer;
-    return {user,mc_captchaGenCode1,mc_msg1,bChangedMC};
+    const {user,mc_msg1,bChangedMC} = state.loginForm;
+    return {user, mc_msg1,bChangedMC};
 };
-export default connect(mapStateToProps, {generateCaptchaCode_mc, getVerifySMSCode_mc,changeMobileNumber})(ChangeOldToNewPhone);
+export default connect(mapStateToProps, {getVerifySMSCode_mc,changeMobileNumber})(ChangeOldToNewPhone);

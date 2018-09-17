@@ -1,11 +1,17 @@
-import {AsyncStorage} from 'react-native'
-import {submitAvatar_API, getVerifySMSCode_API, VerifyMC_API, ChangeMP_API,ChangePassword_API} from './../Services'
+import {submitAvatar_API, ChangePassword_API,requestPOST_API} from './../Services'
 import {Constants} from "@common";
 import {
     AVATAR_SUBMIT, AVATAR_SUCCESS, AVATAR_CHANGED,
-    MOBILE_CHANGE_REGENERATE_CAPTCHACODE, OLD_PHONE_VERIFY_SMS_SUCCESS,NEW_PHONE_VERIFY_SMS_SUCCESS,
+    MOBILE_CHANGE_REGENERATE_CAPTCHACODE,
+
+    OLD_PHONE_VERIFY_SMS_SUCCESS, NEW_PHONE_VERIFY_SMS_SUCCESS,
+    OLD_PHONE_VERIFY_SMS_FAILURE, NEW_PHONE_VERIFY_SMS_FAILURE,
+
     OLD_PHONE_VERIFY_SUCCESS, NEW_PHONE_VERIFY_SUCCESS,
-    MOBILE_CHANGE_SUCCESS,CHANGE_LOGIN_PASSWORD_SUCCESS
+    MOBILE_CHANGE_SUCCESS,MOBILE_CHANGE_FAILURE,
+    CHANGE_LOGIN_PASSWORD_SUCCESS,CHANGE_LOGIN_PASSWORD_FAILURE,
+    REGISTER_VERIFY_FAIL,
+    NEW_PHONE_VERIFY_FAILURE, OLD_PHONE_VERIFY_FAILURE,
 } from "./types";
 
 import {Actions} from 'react-native-router-flux';
@@ -54,23 +60,32 @@ export const generateCaptchaCode_mc = () => {
     }
 };
 
-export const getVerifySMSCode_mc = (phone, verifyType, captcha) => {
-    let type;
+export const getVerifySMSCode_mc = (phone, verifyType, captchaCode, uniqueVal) => {
+    let type_s, type_f;
     switch(verifyType) {
         case 6:
-            type = OLD_PHONE_VERIFY_SMS_SUCCESS;
+            type_s = OLD_PHONE_VERIFY_SMS_SUCCESS;
+            type_f = OLD_PHONE_VERIFY_SMS_FAILURE;
             break;
         case 7:
-            type = NEW_PHONE_VERIFY_SMS_SUCCESS;
+            type_s = NEW_PHONE_VERIFY_SMS_SUCCESS;
+            type_f = NEW_PHONE_VERIFY_SMS_FAILURE;
             break;
     }
     return (dispatch) => {
         (async ()=>{
-            let res = await getVerifySMSCode_API(phone, verifyType, captcha);
+            let res = await requestPOST_API('Member/GetSms',
+                {Mobile:phone, VerifyType: verifyType, ImgCode: captchaCode, OnlyVal: uniqueVal});
             console.log('verify code',res);
             if(res.status===200) {
                 dispatch({
-                    type: type,
+                    type: type_s,
+                    payload: res.data.msg
+                });
+            }
+            else {
+                dispatch({
+                    type: type_f,
                     payload: res.data.msg
                 });
             }
@@ -79,42 +94,59 @@ export const getVerifySMSCode_mc = (phone, verifyType, captcha) => {
 };
 
 export const getVerifyPhone = (Mobile, VerifyType, VerifyCode, UserId, Token)=>{
-    let type;
+    let type_s, type_f;
     switch(VerifyType) {
         case 6:
-            type = OLD_PHONE_VERIFY_SUCCESS;
+            type_s = OLD_PHONE_VERIFY_SUCCESS;
+            type_f = OLD_PHONE_VERIFY_FAILURE;
             break;
         case 7:
-            type = NEW_PHONE_VERIFY_SUCCESS;
+            type_s = NEW_PHONE_VERIFY_SUCCESS;
+            type_f = NEW_PHONE_VERIFY_FAILURE;
             break;
     }
     return (dispatch) => {
         (async ()=>{
-            let res = await VerifyMC_API(Mobile, VerifyType, VerifyCode, UserId, Token);
+            let res = await requestPOST_API('Member/VerificationMobile',
+                {Mobile: Mobile, VerifyType: VerifyType, VerifyCode: VerifyCode, UserId: UserId, Token:Token}
+            );
 
             if(res.status===200) {
                 dispatch({
-                    type: type,
-                    payload: res.data.msg
+                    type: type_s,
+                    payload: res.msg
                 });
 
                 if(VerifyType===6)  //in case of success of verification for changing mobile number
                      Actions.changeoldtonewphone();
             }
+            else {
+                dispatch({
+                    type: type_f,
+                    payload: res.msg
+                });
+            }
         })();
     };
 };
 
-export const changeMobileNumber = (NewMobile, VerifyCode, UserId, Token)=> {
+export const changeMobileNumber = (NewMobile, VerifyCode, VerifyType, UserId, Token)=> {
     return (dispatch) => {
         (async ()=>{
-            let res = await ChangeMP_API(NewMobile,VerifyCode, UserId, Token);
+            let res = await requestPOST_API('Member/SubmitModifyByMobile',
+                {NewMobile: NewMobile,VerifyType: 7, VerifyCode: VerifyCode, UserId: UserId, Token: Token}
+            );
 
             if(res.status===200) {
                 dispatch({
                     type: MOBILE_CHANGE_SUCCESS,
+                    payload: res.msg
                 });
-
+            } else {
+                dispatch({
+                    type: MOBILE_CHANGE_FAILURE,
+                    payload: res.msg
+                })
             }
         })();
     };

@@ -9,13 +9,14 @@ import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
 import {generatorCaptchaCode} from './../../../Helper'
 
-import {generateCaptchaCode_mc, getVerifySMSCode_mc, getVerifyPhone} from './../../../actions'
+import {getVerifySMSCode_mc, getVerifyPhone} from './../../../actions'
 
 class VerifyOldPhone extends Component {
     state = {
-        phone: '',
+        phone: '18704153342',
         verifyCode: '',
-        OnlyVal: null
+        OnlyVal: null,
+        captchaCode: ''
     };
 
     componentDidMount() {
@@ -23,8 +24,7 @@ class VerifyOldPhone extends Component {
     }
 
     onButtonPress() {
-        const { captchaCode, phone,verifyCode} = this.state;
-        const { mc_captchaGenCode} = this.props;
+        const { phone, verifyCode, captchaCode} = this.state;
 
         if(phone==='') {
             Toast.show({
@@ -36,9 +36,9 @@ class VerifyOldPhone extends Component {
             return;
         }
 
-        if(captchaCode !== mc_captchaGenCode) {
+        if(captchaCode === '') {
             Toast.show({
-                text: "Incorrect captcha code",
+                text: "Please enter image code",
                 buttonText: "是",
                 type: "warning",
                 duration: 1000
@@ -99,29 +99,18 @@ class VerifyOldPhone extends Component {
         );
     }
 
-    onMCRecaptcahaGenCode() {
-        this.props.generateCaptchaCode_mc();
-        Toast.show({
-            text: "Captcha code changed!",
-            buttonText: "是",
-            type: "success"
-        });
-    }
-
-
     getUserMCSMSVerifyCode() {
         const { captchaCode, phone} = this.state;
-        const { mc_captchaGenCode} = this.props;
 
-        if(captchaCode !== mc_captchaGenCode) {
+        if(captchaCode === '') {
             Toast.show({
-                text: "Captcha code incorrect!",
+                text: "Please enter image code!",
                 buttonText: "是",
                 type: "danger"
             });
         }
         else {
-            this.props.getVerifySMSCode_mc(phone, 6, captchaCode);
+            this.props.getVerifySMSCode_mc(phone, 6, captchaCode, this.state.OnlyVal);
         }
     }
 
@@ -241,4 +230,4 @@ const mapStateToProps = (state) => {
     const {user, mc_sms_msg,mc_msg_old} = state.loginForm;
     return {user,mc_sms_msg,mc_msg_old};
 };
-export default connect(mapStateToProps, {generateCaptchaCode_mc, getVerifySMSCode_mc, getVerifyPhone})(VerifyOldPhone);
+export default connect(mapStateToProps, {getVerifySMSCode_mc, getVerifyPhone})(VerifyOldPhone);

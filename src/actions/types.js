@@ -64,13 +64,26 @@ export const AVATAR_SUCCESS = 'avatar_success';
 export const AVATAR_CHANGED = 'avatar_changed';
 export const MOBILE_CHANGE_REGENERATE_CAPTCHACODE = 'mobile_change_regenerate_catchacode';
 export const MOBILE_CHANGE_REGENERATE_CAPTCHACODE1 = 'mobile_change_regenerate_catchacode1';
+
+
 export const OLD_PHONE_VERIFY_SMS_SUCCESS = 'old_phone_verify_sms_success';
 export const NEW_PHONE_VERIFY_SMS_SUCCESS = 'new_phone_verify_sms_success';
+
+export const OLD_PHONE_VERIFY_SMS_FAILURE = 'old_phone_verify_sms_failure';
+export const NEW_PHONE_VERIFY_SMS_FAILURE = 'new_phone_verify_sms_failure';
+
 export const OLD_PHONE_VERIFY_SUCCESS = 'old_phone_verify_success';
+export const OLD_PHONE_VERIFY_FAILURE = 'old_phone_verify_failure';
 export const NEW_PHONE_VERIFY_SUCCESS = 'new_phone_verify_success';
+export const NEW_PHONE_VERIFY_FAILURE = 'new_phone_verify_failure';
+
+
 export const MOBILE_CHANGE_SUCCESS = 'mobile_change_success';
+export const MOBILE_CHANGE_FAILURE = 'mobile_change_failure';
+
 export const MOBILE_REQUSET_STATUS_RESET = 'mobile_request_status_reset';
 export const CHANGE_LOGIN_PASSWORD_SUCCESS = 'change_login_password_success';
+export const CHANGE_LOGIN_PASSWORD_FAILURE = 'change_login_password_failure';
 
 
 export const GET_PROVINCE_LISTS = 'get_province_lists';
