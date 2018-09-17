@@ -41,14 +41,13 @@ class Login extends Component {
             })
         }
         //
-        // if(nextProps.user) {
-        //     Toast.show({
-        //         text: `${nextProps.msg}`,
-        //         buttonText: "是",
-        //         type: "success",
-        //         duration: 100
-        //     })
-        // }
+        if(nextProps.user) {
+            Toast.show({
+                text: `${nextProps.msg}`,
+                buttonText: "是",
+                type: "success",
+            })
+        }
     }
 
     componentWillUpdate(){

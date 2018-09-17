@@ -7,6 +7,7 @@ import MessagesReducer from './MessagesReducer';
 import noticeListReducer from './NoticeListReducer';
 import bindInfoReducer from './BindinfoReducer';
 import userInfoReducer from './UserInfoReducer';
+import lotoReducer from './LotoRuducer';
 
 const allReducers= combineReducers({
     splash: splashReducer,
@@ -17,6 +18,7 @@ const allReducers= combineReducers({
     noticelistsRaw: noticeListReducer,
     bindInfoData: bindInfoReducer,
     userInfoReducer: userInfoReducer,
+    lotoReducer: lotoReducer
 });
 
 export default allReducers;

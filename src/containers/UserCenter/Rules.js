@@ -7,11 +7,10 @@ import {Platform, UIManager} from "react-native";
 import { Text,Container, Content } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 
-import {requestGET_API} from "../../Services";
 import {getIntegralGrades} from "../../actions";
 
 
-class IntegralRule extends Component {
+class Rules extends Component {
 
     constructor(props) {
 
@@ -38,7 +37,6 @@ class IntegralRule extends Component {
 
             if(index==itemLength)
                 backbottomwidth = 0;
-
 
             return (
                 <View key={index} style={{...Styles.RowCenterLeft, paddingVertical: 5, borderBottomWidth: backbottomwidth, borderBottomColor: '#d0b374', borderStyle: 'dashed'}}>
@@ -91,5 +89,5 @@ const mapStateToProps = (state) => {
     const {grades} = state.loginForm;
     return {grades}
 };
-export default connect(mapStateToProps, {getIntegralGrades})(IntegralRule);
+export default connect(mapStateToProps, {getIntegralGrades})(Rules);
 

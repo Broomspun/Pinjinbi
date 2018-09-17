@@ -87,8 +87,8 @@ export const ChangeOldToNewPhone = _ChangeOldToNewPhone;
 import _ChangeLoginPassword from './UserCenter/UserInfo/ChangeLoginPassword';
 export const ChangeLoginPassword = _ChangeLoginPassword;
 
-import _IntegralRule from './UserCenter/IntegralRule';
-export const IntegralRule = _IntegralRule;
+import _Rules from './UserCenter/Rules';
+export const Rules = _Rules;
 
 import _CommissionList from './UserCenter/Commissions/CommissionList';
 export const CommissionList = _CommissionList;

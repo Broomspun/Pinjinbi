@@ -160,7 +160,7 @@ class UserCenterMain extends Component {
                                         <View style={{flex:1}}>
                                             <Text style={{color: 'white', fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>等级：LO</Text>
                                         </View>
-                                        <TouchableOpacity style={{flex:1}} onPress={()=>Actions.integralrule()}>
+                                        <TouchableOpacity style={{flex:1}} onPress={()=>Actions.rules()}>
                                             <Text style={{color: 'white',textDecorationLine: 'underline', fontSize: Styles.fontSmall, alignSelf: 'flex-end'}}>查看等级规则</Text>
                                         </TouchableOpacity>
                                     </View>

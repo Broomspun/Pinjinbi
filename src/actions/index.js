@@ -6,3 +6,4 @@ export * from './MessagesAction';
 export * from './NoticeListAction';
 export * from './VerifyActions';
 export * from './UserActions';
+export * from './LotoActions';

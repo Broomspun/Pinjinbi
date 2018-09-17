@@ -77,3 +77,6 @@ export const GET_PROVINCE_LISTS = 'get_province_lists';
 export const GET_CITY_LISTS = 'get_city_lists';
 export const GET_DISTRICT_LISTS = 'get_district_lists';
 
+export const GET_LOTO_ACTIVITIES_SUCCESS = 'get_loto_activities_success';
+export const GET_LOTO_ACTIVITIES_FAIL = 'get_loto_activities_fail';
+export const GET_LOTO_ACTIVITIES_LOADING = 'get_loto_activities_loading';
