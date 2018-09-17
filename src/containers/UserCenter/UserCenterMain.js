@@ -25,8 +25,6 @@ class UserCenterMain extends Component {
     }
 
     logOut = async ()=> {
-        await this.setState({bShowLogoutModal: false});
-        AsyncStorage.removeItem('pjinbi_auth_user');
         await this.props.logout();
     };
     onShowVersionInfo() {
@@ -35,6 +33,11 @@ class UserCenterMain extends Component {
 
     onClearCache() {
 
+    }
+
+    componentWillUnmount(){
+        this.setState({bShowLogoutModal: false});
+        AsyncStorage.removeItem('pjinbi_auth_user');
     }
 
     _renderVersionInfo = () => {
@@ -113,21 +116,19 @@ class UserCenterMain extends Component {
     };
 
     _renderAvatar = ()=> {
-        const {userAvatar} = this.props;
-        if(this.props.user && this.props.user.Avatar!=='') {
-            return (
-                <Image source={{uri: 'http://pjb.wtvxin.com'+this.props.user.Avatar}} style={{width: 60, height: 60, borderRadius: 30}} />
-            )
-        } else if(userAvatar) {
-            return (
-                <Image source={{uri: this.props.userAvatar }} style={{width: 60, height: 60, borderRadius: 30}} />
-            )
+        if(this.props.user) {
+            const {Avatar} = this.props.user;
+            if (this.props.user && this.props.user.Avatar !== '') {
+                return (
+                    <Image source={{uri: 'http://pjb.wtvxin.com' + this.props.user.Avatar}}
+                           style={{width: 60, height: 60, borderRadius: 30}}/>
+                )
+            }
+            else
+                return (
+                    <Image source={Images.user_center_avatar} style={{width: 60, height: 60, borderRadius: 30}}/>
+                )
         }
-        else
-            return(
-                <Image source={Images.user_center_avatar} style={{width: 60, height: 60, borderRadius: 30}} />
-            )
-
     };
 
     render() {
@@ -325,7 +326,6 @@ class UserCenterMain extends Component {
 }
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {userAvatar} = state.userInfoReducer;
-    return {user, userAvatar};
+    return {user};
 };
 export default connect(mapStateToProps, {logout})(UserCenterMain);

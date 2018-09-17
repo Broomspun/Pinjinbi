@@ -9,7 +9,17 @@ import {
     GET_WALLET_LIST,
     GET_BIND_INFO,
     GET_ID_CARD_INFO,
-    GET_PROVINCE_LISTS, GET_CITY_LISTS, GET_DISTRICT_LISTS, GET_HOME_BANNERS,GET_INTEGRAL_GRADES,
+    GET_PROVINCE_LISTS,
+    GET_CITY_LISTS,
+    GET_DISTRICT_LISTS,
+    GET_HOME_BANNERS,
+    GET_INTEGRAL_GRADES,
+    AVATAR_SUBMIT,
+    AVATAR_CHANGED,
+    AVATAR_SUCCESS,
+    OLD_PHONE_VERIFY_SMS_SUCCESS,
+    NEW_PHONE_VERIFY_SMS_SUCCESS,
+    OLD_PHONE_VERIFY_SUCCESS, NEW_PHONE_VERIFY_SUCCESS, MOBILE_CHANGE_SUCCESS, CHANGE_LOGIN_PASSWORD_SUCCESS,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -24,7 +34,15 @@ const INITIAL_STATE = {
     bindInfo: null,
     provinces: null, cities: null, districts: null,
     homeBanners: null,
-    grades: null
+    grades: null,
+    submitting: false,
+    userAvatar: null,
+    mc_sms_msg: '', //old phone sms: type: 6
+    mc_msg_old:'',
+    mc_sms_msg1: '', //new phone sms: type: 7
+    mc_msg_new:'',
+    bChangedMC: false, //Mobile number changed flag
+    bChangedPassword: false //password changed flag
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -79,6 +97,24 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, homeBanners : action.payload};
         case GET_INTEGRAL_GRADES:
             return {...state, grades : action.payload};
+        case AVATAR_SUBMIT:
+            return {...state, submitting: true};
+        case AVATAR_CHANGED:
+            return {...state, userAvatar: action.payload};
+        case AVATAR_SUCCESS:
+            return {...state, submitting: false, user:{...state.user, Avatar:  action.payload.replace('http://pjb.wtvxin.com','')}, userAvatar: action.payload};
+        case OLD_PHONE_VERIFY_SMS_SUCCESS:
+            return {...state, mc_sms_msg: action.payload};
+        case NEW_PHONE_VERIFY_SMS_SUCCESS:
+            return {...state, mc_sms_msg1: action.payload};
+        case OLD_PHONE_VERIFY_SUCCESS:
+            return {...state, mc_msg_old: action.payload};
+        case NEW_PHONE_VERIFY_SUCCESS:
+            return {...state, mc_msg_new: action.payload};
+        case MOBILE_CHANGE_SUCCESS:
+            return {...state, bChangedMC: true};
+        case CHANGE_LOGIN_PASSWORD_SUCCESS:
+            return {...state, bChangedPassword: true};
         default:
             return state;
     }

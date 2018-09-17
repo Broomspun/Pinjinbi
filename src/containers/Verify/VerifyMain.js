@@ -5,7 +5,7 @@ import {Actions} from "react-native-router-flux";
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {get_bindInfo, get_idcardInfo} from './../../actions'
-import {getBindingInfo} from "../../Services";
+
 
 class VerifyMain extends Component {
 

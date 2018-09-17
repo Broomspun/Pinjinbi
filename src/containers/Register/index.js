@@ -16,7 +16,6 @@ import {
 
 import {Spinner, Spinner1} from "../../components";
 import {registerParameterUpdated, generateCaptchaCode_register, requestVerifyCode_register, registerUser} from './../../actions'
-import {ReactCaptchaGenerator} from "../../components";
 
 import getTheme from './../../../native-base-theme/components';
 import platform from './../../../native-base-theme/variables/platform';

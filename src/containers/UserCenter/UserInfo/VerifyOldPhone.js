@@ -7,7 +7,6 @@ import {connect} from 'react-redux';
 import {Spinner1} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
-import {ReactCaptchaGenerator} from "../../../components";
 
 import {generateCaptchaCode_mc, getVerifySMSCode_mc, getVerifyPhone} from './../../../actions'
 
@@ -208,8 +207,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    const {mc_captchaGenCode,mc_sms_msg,mc_msg_old} = state.userInfoReducer;
-    return {user,mc_captchaGenCode,mc_sms_msg,mc_msg_old};
+    const {user, mc_sms_msg,mc_msg_old} = state.loginForm;
+    return {user,mc_sms_msg,mc_msg_old};
 };
 export default connect(mapStateToProps, {generateCaptchaCode_mc, getVerifySMSCode_mc, getVerifyPhone})(VerifyOldPhone);

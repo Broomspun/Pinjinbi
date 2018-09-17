@@ -16,8 +16,7 @@ class UserAvatar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user: this.props.user,
-            userAvatar:{uri: this.props.user.Avatar!==''? 'http://pjb.wtvxin.com'+ this.props.user.Avatar: ''}
+            userAvatar:{uri: this.props.user.Avatar!=='' ? 'http://pjb.wtvxin.com'+ this.props.user.Avatar: ''}
         };
 
         console.log(this.state);
@@ -93,8 +92,8 @@ class UserAvatar extends Component {
     componentWillUpdate(){
     }
 
-    submitAvatar = () => {
-        const {UserId, Token} = this.state.user;
+    onSubmitAvatar = () => {
+        const {UserId, Token} = this.props.user;
         const {userAvatar} = this.state;
 
         if(userAvatar==='') {
@@ -113,13 +112,15 @@ class UserAvatar extends Component {
                 <Content >
                     <Form>
                         <View style={{...Styles.cardStyleColumn1, flex:1}}>
-                            <Text style={{color:Color.redColor}}>请上传身份证(头像面) 截图</Text>
+                            {this.props.user.Avatar==='' && (
+                                <Text style={{color:Color.redColor}}>请上传身份证(头像面) 截图</Text>
+                            )}
 
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
                                     <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped()}>
                                         {/*{ this.state.userAvatar === '' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :*/}
-                                            {/*<Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.userAvatar} />*/}
+                                        {/*<Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.userAvatar} />*/}
                                         {/*}*/}
                                         {this._renderAvatar()}
 
@@ -131,7 +132,7 @@ class UserAvatar extends Component {
                             </View>
                         </View>
 
-                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitAvatar()}>
+                        <Button block style={styles.buttonStyle} onPress = {()=>this.onSubmitAvatar()}>
                             <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
                         </Button>
                     </Form>
@@ -162,8 +163,8 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    const {userAvatar} = state.userInfoReducer;
+    const {user, userAvatar} = state.loginForm;  //userAvatar: run-time avatar
+    // const {userAvatar} = state.userInfoReducer;
     return {user,userAvatar};
 };
 export default connect(mapStateToProps, {submitAvatar, changedAvatar})(UserAvatar);
