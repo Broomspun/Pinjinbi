@@ -3,7 +3,7 @@ import {
     HOME_LOADING, GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
-    GET_BIND_INFO,
+    GET_BIND_INFO,GET_BIND_INFO_LOADING,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,
     GET_CITY_LISTS,
@@ -28,6 +28,7 @@ const INITIAL_STATE = {
     error: '',
     user: null,
     bindInfo: null,
+    bBindInfoLoading: false,
     provinces: null, cities: null, districts: null,
     homeBanners: null,
     grades: null,
@@ -73,7 +74,9 @@ export default (state = INITIAL_STATE, action) => {
         case GET_WALLET_LIST:
             return {...state, user:{ ...action.payload}};
         case GET_BIND_INFO:
-            return {...state, bindInfo: action.payload, user:{...state.user, bindInfo: action.payload}};
+            return {...state, bindInfo: action.payload, user:{...state.user, bindInfo: action.payload}, bBindInfoLoading: false};
+        case GET_BIND_INFO_LOADING:
+            return {...state, bBindInfoLoading: true};
         case GET_ID_CARD_INFO:
             return {...state, bindInfo: action.payload, user:{...state.user, id_card: action.payload}};
         case LOGOUT_USER:

@@ -9,15 +9,15 @@ import {Images, Constants,Styles, Color} from '@common';
 
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
-import {Actions} from "react-native-router-flux";
 import RNPickerSelect from 'react-native-picker-select';
-import {getAreaLists} from "@actions";
-
+import {submitTabaoAccount,getAreaLists} from "@actions";
 
 class BindTabaoAccount extends Component {
 
     constructor(props){
         super(props);
+
+        console.log('tabao',props);
 
         this.setProvinceCode = this.setProvinceCode.bind(this);
 
@@ -27,17 +27,20 @@ class BindTabaoAccount extends Component {
             id_card_back_photo: null,
             id_card_hand_held1: null,
             id_card_hand_held2: null,
-            username: props.user.id_card.UserRName || 'none',
-            id_card: props.user.id_card.Idcard || 'none',
-            best_game: '',
-            tabao_name: '',
-            contact_phone: '',
-            age: undefined,
+            username: props.user.id_card.UserRName,
+            id_card: props.user.id_card.Idcard,
+            PlatAccount: 'test123456',
+            ConsigneeName: 'csdfas',
+            ConsigneeCall: '2342353456436',
+            Age: undefined,
             OrderNo: '123143245253646',
             Gender: undefined,
             ProvinceCode: undefined,
+            ProvinceName: '',
             CityCode: undefined,
+            CityName: '',
             DistrictCode: undefined,
+            DistrictName: '',
             TaobaoValue: '1000',
             CreditRating: '2',
             genders:[
@@ -49,7 +52,14 @@ class BindTabaoAccount extends Component {
                     label:'性别: 女',
                     value: '女'
                 }
-            ]
+            ],
+            CreditRatingImg: null,
+            UserInfoImg: null,
+            UserCenterImg: null,
+            TaobaoValueImg: null,
+            AccountLevelImg: null,
+            VerifiedImg: null,
+            BorrowingImg: null,
         };
     }
 
@@ -60,6 +70,24 @@ class BindTabaoAccount extends Component {
     componentWillReceiveProps(nextProps){
         console.log(nextProps);
     }
+
+    submitTabaoBindInfo = () => {
+
+        if(this.props.user && this.props.user.bindInfo) {
+            const {UserId, Token} = this.props.user;
+            let PlatId = this.props.PlatId;
+            const {ProvinceCode, CityCode, DistrictCode, ConsigneeCall, ConsigneeName, PlatAccount} = this.state;
+            const {ProvinceName, CityName, DistrictName, Gender, Age, TaobaoValue} = this.state;
+            let address = `${ProvinceName}${CityName}${DistrictName}`;
+
+            this.props.submitTabaoAccount(UserId, Token, PlatId,
+                ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                Gender, Age, TaobaoValue
+                )
+
+        }
+
+    };
 
     selectPhotoTapped(id) {
         const options = {
@@ -127,36 +155,32 @@ class BindTabaoAccount extends Component {
     componentWillUpdate(){
     }
 
-    submitIdCard = () => {
-        const {UserId, Token} = this.state.user;
-        const {username,id_card, id_card_front_photo,id_card_back_photo, id_card_hand_held1} = this.state;
-
-        if(username==='') {
-            Toast.show({
-                text: `Please enter user name`, buttonText: "是", type: "danger"
-            });
-            return;
-        }
-
-        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo.uri, id_card_back_photo.uri, id_card_hand_held1.uri);
-    };
-
-    setProvinceCode = (value)=>{
+    setProvinceCode = (value, index)=>{
         this.setState({
             ProvinceCode: value,
+            ProvinceName: this.props.provinces[index]['label'],
         });
 
         this.props.getAreaLists('City', value);
+        console.log(this.state);
 
     };
 
-    setCityCode = (value) => {
+    setCityCode = (value, index) => {
         this.setState({
             CityCode: value,
+            CityName: this.props.cities[index]['label'],
         });
 
         this.props.getAreaLists('District', value);
     };
+
+    setDistrictCode(value, index) {
+        this.setState({
+            DistrictCode: value,
+            DistrictName: this.props.districts[index]['label'],
+        });
+    }
 
 
     render() {
@@ -184,24 +208,24 @@ class BindTabaoAccount extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="最爱打法"
-                                value = {this.state.best_game}
-                                onChangeText={(value)=>this.setState({best_game: value})}
+                                value = {this.state.PlatAccount}
+                                onChangeText={(value)=>this.setState({PlatAccount: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="收货人姓名"
-                                value = {this.state.tabao_name}
-                                onChangeText={(value)=>this.setState({tabao_name: value})}
+                                value = {this.state.ConsigneeName}
+                                onChangeText={(value)=>this.setState({ConsigneeName: value})}
                             />
                         </Item>
                         <Item regular style={styles.itemStyle}>
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="联系电话"
-                                value = {this.state.contact_phone}
-                                onChangeText={(value)=>this.setState({contact_phone: value})}
+                                value = {this.state.ConsigneeCall}
+                                onChangeText={(value)=>this.setState({ConsigneeCall: value})}
                             />
                         </Item>
                         {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
@@ -222,7 +246,7 @@ class BindTabaoAccount extends Component {
                                     value: null,
                                 }}
                                 items={this.props.provinces}
-                                onValueChange={(value) => { this.setProvinceCode(value)}}
+                                onValueChange={(value, index) => { this.setProvinceCode(value, index)}}
                                 style={{ ...pickerSelectStyles }}
                                 value={this.state.ProvinceCode}
                             />
@@ -234,7 +258,7 @@ class BindTabaoAccount extends Component {
                                     value: null,
                                 }}
                                 items={this.props.cities}
-                                onValueChange={(value) => { this.setCityCode(value)}}
+                                onValueChange={(value, index) => { this.setCityCode(value, index)}}
                                 style={{ ...pickerSelectStyles }}
                                 value={this.state.CityCode}
                             />
@@ -246,8 +270,8 @@ class BindTabaoAccount extends Component {
                                     value: null,
                                 }}
                                 items={this.props.districts}
-                                onValueChange={(value) => {
-                                    this.setState({DistrictCode: value})
+                                onValueChange={(value, index) => {
+                                    this.setDistrictCode(value, index)
                                 }}
                                 style={{ ...pickerSelectStyles }}
                                 value={this.state.DistrictCode}
@@ -288,8 +312,8 @@ class BindTabaoAccount extends Component {
                             <Input
                                 placeholderTextColor='#ccc'
                                 placeholder="年龄"
-                                value = {this.state.age}
-                                onChangeText={(value)=>this.setState({age: value})}
+                                value = {this.state.Age}
+                                onChangeText={(value)=>this.setState({Age: value})}
                             />
                         </Item>
                         <TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>
@@ -385,7 +409,7 @@ class BindTabaoAccount extends Component {
                     </View>
 
                     <View style={{paddingBottom: 15}}>
-                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
+                        <Button block style={styles.buttonStyle} onPress = {()=>this.submitTabaoBindInfo()}>
                             <Text style={{fontSize: Styles.fontLarge}}>提交审核</Text>
                         </Button>
                     </View>
@@ -429,7 +453,8 @@ const pickerSelectStyles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
     const {user, provinces, cities, districts} = state.loginForm;
-    return {user, provinces, cities, districts};
+    const {tabaoObj, tabaoMsg,tabaoLoading} = state.platformReducer;
+    return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading};
 };
-export default connect(mapStateToProps, {getAreaLists})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists,submitTabaoAccount})(BindTabaoAccount);
 

@@ -9,3 +9,4 @@ export * from './UserActions';
 export * from './LotoActions';
 export * from './MemberActions';
 export * from './TaskActions';
+export * from './PlatformActions';

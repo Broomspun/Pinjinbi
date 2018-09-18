@@ -22,8 +22,8 @@ class VerifyPassport extends Component {
             id_card_back_photo: null,
             id_card_hand_held1: null,
             id_card_hand_held2: null,
-            username: props.user.id_card.UserRName || 'none',
-            id_card: props.user.id_card.Idcard || 'none'
+            username: props.user.id_card.UserRName,
+            id_card: props.user.id_card.Idcard
         };
     }
 

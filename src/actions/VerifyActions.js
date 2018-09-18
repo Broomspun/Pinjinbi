@@ -1,12 +1,15 @@
 import {requestPOST_API} from './../Services'
 
 import {
-    GET_BIND_INFO, QQ_SUBMIT_SUCCESS,ID_CARD_SUBMIT_SUCCESS,BANK_INFO_SUBMIT_SUCCESS
+    GET_BIND_INFO, GET_BIND_INFO_LOADING, QQ_SUBMIT_SUCCESS,ID_CARD_SUBMIT_SUCCESS,BANK_INFO_SUBMIT_SUCCESS
 } from "./types";
 
 export const get_bindInfo = (UserId, Token) => {
     return (dispatch) => {
         let bindInfo = null;
+
+        dispatch({type: GET_BIND_INFO_LOADING});
+
         (async ()=>{
             bindInfo = await requestPOST_API('Member/GetBindPageData',
                 {UserId: UserId, Token: Token});

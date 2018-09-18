@@ -39,6 +39,7 @@ export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code
 
 //BindInfo Action Constant
 export const GET_BIND_INFO = 'get_bind_info';
+export const GET_BIND_INFO_LOADING = 'get_bind_info_loading';
 export const QQ_SUBMIT_SUCCESS = 'qq_submit_success';
 export const ID_CARD_SUBMIT_SUCCESS = 'id_card_submit_success';
 export const GET_ID_CARD_INFO = 'get_id_card_info';
@@ -133,4 +134,15 @@ export const GET_MY_ORDERS_SUMMARY_SUCCESS = 'get_my_orders_summary_success';
 export const GET_MY_ORDERS_SUMMARY_FAILURE = 'get_my_orders_summary_failure';
 export const GET_MY_ORDERS_SUMMARY_LOADING = 'get_my_orders_summary_loading';
 
+//Platform
+export const SUBMIT_TABAO_ACCOUNT_SUCCESS = 'sumbit_tabao_account_success';
+export const SUBMIT_TABAO_ACCOUNT_FAILURE = 'sumbit_tabao_account_failure';
+export const SUBMIT_TABAO_ACCOUNT_LOADING = 'sumbit_tabao_account_loading';
 
+export const GET_PLATFORM_INFO_SUCCESS = 'get_platform_info_success';
+export const GET_PLATFORM_INFO_FAILURE = 'get_platform_info_failure';
+export const GET_PLATFORM_INFO_LOADING = 'get_platform_info_loading';
+
+export const GET_PLATFORM_LISTS_SUCCESS = 'get_platform_lists_success';
+export const GET_PLATFORM_LISTS_FAILURE = 'get_platform_lists_failure';
+export const GET_PLATFORM_LISTS_LOADING = 'get_platform_lists_loading';

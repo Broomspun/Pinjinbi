@@ -113,7 +113,14 @@ const Images = {
     beautiful_icon: require('./../assets/img/platforms/beautiful_icon.png'),
     beginners_back: require('./../assets/img/user-center/beginners_back.png'),
     empty_messages_icon: require('./../assets/img/empty_messages.png'),
-
+    p01: require('./../assets/img/platforms/1.png'),
+    p02: require('./../assets/img/platforms/2.png'),
+    p03: require('./../assets/img/platforms/3.png'),
+    p04: require('./../assets/img/platforms/4.png'),
+    p05: require('./../assets/img/platforms/5.png'),
+    p06: require('./../assets/img/platforms/6.png'),
+    p07: require('./../assets/img/platforms/7.png'),
+    p08: require('./../assets/img/platforms/8.png')
 
 };
 

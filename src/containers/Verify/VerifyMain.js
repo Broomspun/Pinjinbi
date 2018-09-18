@@ -4,8 +4,8 @@ import {connect} from 'react-redux';
 import {Actions} from "react-native-router-flux";
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {get_bindInfo, get_idcardInfo} from './../../actions'
-
+import {get_bindInfo, get_idcardInfo, getPlatformLists} from './../../actions'
+import {Spinner1} from "@components";
 
 class VerifyMain extends Component {
 
@@ -22,6 +22,7 @@ class VerifyMain extends Component {
         (async ()=>{
             await this.props.get_bindInfo(UserId, Token);  //API 5.4
             await this.props.get_idcardInfo(UserId, Token);
+            await this.props.getPlatformLists();
         })();
 
         // this.props.get_bindInfo(UserId, Token);
@@ -35,6 +36,107 @@ class VerifyMain extends Component {
     componentWillReceiveProps(nextProps) {
         console.log('user', nextProps);
     }
+
+    _renderOldPlatform = ()=>{
+        return (
+            <View>
+                <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain()} >
+                    <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                        <Image source={Images.mission_01} style={{width:26, height:26, marginRight:10}}/>
+                        <Text style={{color: Color.textNormal}}>绑定淘宝账号</Text>
+                    </View>
+                    <View style={{flex:1,}}>
+                        <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8}>
+                            <Text style={{color: Color.LightBlue}}>随便</Text>
+                            <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.JingDongMain()} >
+                    <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                        <Image source={Images.icon_jd} style={{width:26, height:26, marginRight:10}}/>
+                        <Text style={{color: Color.textNormal}}>绑定京东账号</Text>
+                    </View>
+                    <View style={{flex:1,}}>
+                        <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                            <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                            <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.PinDuoDuoMain()}>
+                    <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                        <Image source={Images.mission_02} style={{width:26, height:26, marginRight:10}}/>
+                        <Text style={{color: Color.textNormal}}>绑定拼多多账号</Text>
+                    </View>
+                    <View style={{flex:1,}}>
+                        <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                            <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                            <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.MushroomStreetMain()}>
+                    <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                        <Image source={Images.mission_06} style={{width:26, height:26, marginRight:10}}/>
+                        <Text style={{color: Color.textNormal}}>绑定蘑菇街账号</Text>
+                    </View>
+                    <View style={{flex:1,}}>
+                        <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                            <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                            <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.BeautifulMain()}>
+                    <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                        <Image source={Images.mission_07} style={{width:26, height:26, marginRight:10}}/>
+                        <Text style={{color: Color.textNormal}}>绑定美丽说账号</Text>
+                    </View>
+                    <View style={{flex:1,}}>
+                        <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                            <Text style={{color: Color.LightBlue}}>未绑定</Text>
+                            <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        )
+    };
+
+    _renderPlatform = () => {
+      if(this.props.user && this.props.user.bindInfo && this.props.platformLists ) {
+          const {MemberAccount} = this.props.user.bindInfo;
+          const {platformLists} = this.props;
+
+          let images = [Images.p01, Images.p02, Images.p03, Images.p04, Images.p05, Images.p06, Images.p07, Images.p08];
+
+          let platforms = MemberAccount.map((platform, index)=>{
+
+             return (
+                 <TouchableOpacity key={platform.Id} style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain({PlatId: index+1, PlatName: platformLists[index]['PlatName']})} >
+                     <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
+                         <Image source={images[index]} style={{width:26, height:26, marginRight:10}}/>
+                         {/*<Image source={{uri: platform.Logo}} style={{width:26, height:26, marginRight:10}}/>*/}
+                         <Text style={{color: Color.textNormal}}>{platform.PlatName}</Text>
+                     </View>
+                     <View style={{flex:1,}}>
+                         <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
+                             <Text style={{color: Color.LightBlue}}>{platform.IsBindText}</Text>
+                             <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                         </View>
+                     </View>
+                 </TouchableOpacity>
+             )
+          });
+
+          return (
+              <View>
+                  {platforms}
+              </View>
+          )
+      }
+    };
 
     render() {
         return(
@@ -80,77 +182,21 @@ class VerifyMain extends Component {
                         </View>
 
                         <Text style={{marginVertical: 15, paddingHorizontal: 15, color: Color.redColor}}>账号信息(任意绑定一个号并通过审核即可完成新手任务)</Text>
+                        {this._renderPlatform()}
 
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain()} >
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Image source={Images.mission_01} style={{width:26, height:26, marginRight:10}}/>
-                                <Text style={{color: Color.textNormal}}>绑定淘宝账号</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.LightBlue}}>随便</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.JingDongMain()} >
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Image source={Images.icon_jd} style={{width:26, height:26, marginRight:10}}/>
-                                <Text style={{color: Color.textNormal}}>绑定京东账号</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.PinDuoDuoMain()}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Image source={Images.mission_02} style={{width:26, height:26, marginRight:10}}/>
-                                <Text style={{color: Color.textNormal}}>绑定拼多多账号</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.MushroomStreetMain()}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Image source={Images.mission_06} style={{width:26, height:26, marginRight:10}}/>
-                                <Text style={{color: Color.textNormal}}>绑定蘑菇街账号</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.BeautifulMain()}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Image source={Images.mission_07} style={{width:26, height:26, marginRight:10}}/>
-                                <Text style={{color: Color.textNormal}}>绑定美丽说账号</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} >
-                                    <Text style={{color: Color.LightBlue}}>未绑定</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
+
                     </View>
 
                 </Content>
+                {this.props.bBindInfoLoading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
 
         );
     }
 }
  const mapStateToProps = (state) => {
-     const {user, bindInfo} = state.loginForm;
-     return {user, bindInfo};
+     const {user, bindInfo, bBindInfoLoading} = state.loginForm;
+     const {platformLists,platformListsMsg,bPlatformListsLoading} = state.platformReducer;
+     return {user, bindInfo, bBindInfoLoading,platformLists,platformListsMsg,bPlatformListsLoading};
  };
-export default connect(mapStateToProps, {get_bindInfo, get_idcardInfo})(VerifyMain);
+export default connect(mapStateToProps, {get_bindInfo, get_idcardInfo, getPlatformLists})(VerifyMain);

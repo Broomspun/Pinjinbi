@@ -8,12 +8,16 @@ import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
 import {Actions} from "react-native-router-flux";
 import { Button, Container, Content, Text, Footer } from 'native-base';
-
+import {getMemberPlatformInfo} from "@actions";
 
 class JingDongMain extends Component {
 
     constructor(props){
         super(props);
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+            this.props.getMemberPlatformInfo(UserId, Token, this.props.PlatId);
+        }
     }
 
     componentWillReceiveProps(nextProps){
@@ -55,7 +59,7 @@ class JingDongMain extends Component {
                 <Footer>
                     <View style={{flex:1}}>
                         <View style={{...Styles.ColumnCenter, flex: 1}}>
-                        <Button full style={{backgroundColor: 'white', height: 60}} onPress = {()=>Actions.bindJingDongAccount()}>
+                        <Button full style={{backgroundColor: 'white', height: 60}} onPress = {()=>Actions.bindJingDongAccount({PlatId: this.props.PlatId})}>
                             <Text style={{color: Color.LightBlue1, fontSize: Styles.fontLarge}}>+ 新增一个淘宝账户</Text>
                         </Button>
                         </View>
@@ -85,9 +89,9 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {id_res} = state.bindInfoData;
     const {user} = state.loginForm;
-    return {id_res, user};
+    const {platObj} = state.platformReducer;
+    return {user, platObj};
 };
-export default connect(mapStateToProps, {})(JingDongMain);
+export default connect(mapStateToProps, {getMemberPlatformInfo})(JingDongMain);
 
