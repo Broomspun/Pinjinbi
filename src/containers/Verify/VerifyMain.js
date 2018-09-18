@@ -114,9 +114,9 @@ class VerifyMain extends Component {
           let platforms = MemberAccount.map((platform, index)=>{
 
              return (
-                 <TouchableOpacity key={platform.Id} style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain({PlatId: index+1, PlatName: platformLists[index]['PlatName']})} >
+                 <TouchableOpacity key={index} style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain({PlatId: platform.Id, PlatName: platformLists[platform.Id-1]['PlatName']})} >
                      <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                         <Image source={images[index]} style={{width:26, height:26, marginRight:10}}/>
+                         <Image source={images[platform.Id-1]} style={{width:26, height:26, marginRight:10}}/>
                          {/*<Image source={{uri: platform.Logo}} style={{width:26, height:26, marginRight:10}}/>*/}
                          <Text style={{color: Color.textNormal}}>{platform.PlatName}</Text>
                      </View>

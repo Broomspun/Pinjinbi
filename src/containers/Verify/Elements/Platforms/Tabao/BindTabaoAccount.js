@@ -17,8 +17,6 @@ class BindTabaoAccount extends Component {
     constructor(props){
         super(props);
 
-        console.log('tabao',props);
-
         this.setProvinceCode = this.setProvinceCode.bind(this);
 
         this.state = {
@@ -29,9 +27,9 @@ class BindTabaoAccount extends Component {
             id_card_hand_held2: null,
             username: props.user.id_card.UserRName,
             id_card: props.user.id_card.Idcard,
-            PlatAccount: 'test123456',
-            ConsigneeName: 'csdfas',
-            ConsigneeCall: '2342353456436',
+            PlatAccount: '',
+            ConsigneeName: '',
+            ConsigneeCall: '',
             Age: undefined,
             OrderNo: '123143245253646',
             Gender: undefined,
@@ -60,11 +58,13 @@ class BindTabaoAccount extends Component {
             AccountLevelImg: null,
             VerifiedImg: null,
             BorrowingImg: null,
+            validationForm: true
         };
     }
 
     componentDidMount(){
-        this.props.getAreaLists('Province');
+        if(this.props.provinces===null)
+            this.props.getAreaLists('Province');
     }
 
     componentWillReceiveProps(nextProps){
@@ -76,17 +76,82 @@ class BindTabaoAccount extends Component {
         if(this.props.user && this.props.user.bindInfo) {
             const {UserId, Token} = this.props.user;
             let PlatId = this.props.PlatId;
+
             const {ProvinceCode, CityCode, DistrictCode, ConsigneeCall, ConsigneeName, PlatAccount} = this.state;
             const {ProvinceName, CityName, DistrictName, Gender, Age, TaobaoValue} = this.state;
             let address = `${ProvinceName}${CityName}${DistrictName}`;
 
+
+            if(ProvinceCode ===undefined) {
+                Toast.show({
+                    text: 'Please choose Province!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(CityCode ===undefined) {
+                Toast.show({
+                    text: 'Please choose City!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(DistrictCode ===undefined) {
+                Toast.show({
+                    text: 'Please choose District!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(ConsigneeCall ==='') {
+                Toast.show({
+                    text: 'Please enter contact phone!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(ConsigneeName ==='') {
+                Toast.show({
+                    text: 'Please enter contact name!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(Gender ===undefined) {
+                Toast.show({
+                    text: 'Please enter gender!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+
+            if(PlatAccount ==='') {
+                Toast.show({
+                    text: 'Please enter platform account name!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
+            if(Age ==='') {
+                Toast.show({
+                    text: 'Please enter platform account name!', buttonText: "是", type: "danger",
+                    duration: 3000
+                });
+                return;
+            }
+
             this.props.submitTabaoAccount(UserId, Token, PlatId,
                 ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
                 Gender, Age, TaobaoValue
-                )
-
+            )
         }
-
     };
 
     selectPhotoTapped(id) {
@@ -229,15 +294,15 @@ class BindTabaoAccount extends Component {
                             />
                         </Item>
                         {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
-                            {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
-                                {/*<Text style={{color: Color.textLight}}>请选择城市</Text>*/}
-                            {/*</View>*/}
-                            {/*<View style={{flex:1,}}>*/}
-                                {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
-                                    {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
-                                    {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
-                                {/*</View>*/}
-                            {/*</View>*/}
+                        {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
+                        {/*<Text style={{color: Color.textLight}}>请选择城市</Text>*/}
+                        {/*</View>*/}
+                        {/*<View style={{flex:1,}}>*/}
+                        {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
+                        {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
+                        {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
+                        {/*</View>*/}
+                        {/*</View>*/}
                         {/*</TouchableOpacity>*/}
                         {this.props.provinces && (
                             <RNPickerSelect
@@ -282,17 +347,6 @@ class BindTabaoAccount extends Component {
                     <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 15, ...Styles.shadowStyle}}>
                         <Text style={{color:Color.textNormal, marginTop: 25}}>账号属性（与实名认证的身份证信息一致）</Text>
 
-                        {/*<TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>*/}
-                        {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
-                        {/*<Text style={{color: Color.textNormal}}>性别</Text>*/}
-                        {/*</View>*/}
-                        {/*<View style={{flex:1,}}>*/}
-                        {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
-                        {/*<Text style={{color: Color.textNormal}}>男</Text>*/}
-                        {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
-                        {/*</View>*/}
-                        {/*</View>*/}
-                        {/*</TouchableOpacity>*/}
                         <RNPickerSelect
                             placeholder={{
                                 label: '请选择性别',
