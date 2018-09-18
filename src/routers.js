@@ -99,7 +99,7 @@ const RouterComponent = () => {
                     </stack>
 
                     <stack back key="vipstack" backButtonImage={Images.backButtonImg}>
-                        <Scene key="vipMain" component ={VIPMain} title="加入VIP" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
+                        <Scene key="vipMain" component ={VIPMain} title="加入VIP" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => {}} />
                     </stack>
 
                     <stack back key="beginnerstack" backButtonImage={Images.backButtonImg}>

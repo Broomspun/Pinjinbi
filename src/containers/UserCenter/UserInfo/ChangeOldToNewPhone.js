@@ -3,13 +3,13 @@
  * Component to change Mobile Number
  */
 import React, {Component} from 'react'
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Alert, AsyncStorage} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner1} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import { Button, Container, Content, Form, Icon, Input, Item, Text, Toast } from 'native-base';
 
-import {getVerifySMSCode_mc,changeMobileNumber} from './../../../actions'
+import {getVerifySMSCode_mc, changeMobileNumber, logout} from './../../../actions'
 import {generatorCaptchaCode} from "../../../Helper";
 
 class ChangeOldToNewPhone extends Component {
@@ -84,25 +84,24 @@ class ChangeOldToNewPhone extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.error) {
-            Toast.show({
-                text: `${nextProps.error}`,
-                buttonText: "是",
-                type: "danger"
-            })
-        }
-
-        if(nextProps.user) {
-            Toast.show({
-                text: `${nextProps.msg}`,
-                buttonText: "是",
-                type: "success",
-                duration: 100
-            })
+        if(nextProps.bChangedMC){
+            Alert.alert(
+                'Success',
+                'Your phone number was changed, Please login again!',
+                [
+                    {text: 'OK', onPress: () => this.props.logout()},
+                ],
+                { cancelable: false }
+            )
         }
     }
 
     componentWillUpdate(){
+    }
+
+
+    componentWillUnmount(){
+        AsyncStorage.removeItem('pjinbi_auth_user');
     }
 
     renderError() {
@@ -225,7 +224,8 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {user,mc_msg1,bChangedMC} = state.loginForm;
-    return {user, mc_msg1,bChangedMC};
+    const {user,} = state.loginForm;
+    const {bChangedMC} = state.userInfoReducer;
+    return {user, bChangedMC};
 };
-export default connect(mapStateToProps, {getVerifySMSCode_mc, changeMobileNumber})(ChangeOldToNewPhone);
+export default connect(mapStateToProps, {getVerifySMSCode_mc, changeMobileNumber, logout})(ChangeOldToNewPhone);

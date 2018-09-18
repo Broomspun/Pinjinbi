@@ -88,7 +88,7 @@ export const homeLoading = (UserId, Token, user)=> {
     }
 };
 
-export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
+export const commissionList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
             // let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
@@ -105,7 +105,7 @@ export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMo
     }
 };
 
-export const walletList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
+export const walletList = (user, UserId, Token, WalletType=0,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
             let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);

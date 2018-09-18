@@ -112,3 +112,5 @@ export const GET_MEMBER_INVITE_LOADING = 'get_member_invite_loading';
 export const IS_NOVICE_TASK_COMPLETED_SUCCESS = 'is_novice_task_completed_success';
 export const IS_NOVICE_TASK_COMPLETED_FAIL = 'is_novice_task_completed_fail';
 export const IS_NOVICE_TASK_COMPLETED_LOADING = 'is_novice_task_completed_loading';
+
+export const CHANGED_WALLET_TYPE = 'changed_wallet_type';

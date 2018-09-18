@@ -1,8 +1,4 @@
-import {generatorCaptchaCode} from './../Helper'
 import {
-    AVATAR_SUCCESS,
-    AVATAR_SUBMIT,
-    AVATAR_CHANGED,
     OLD_PHONE_VERIFY_SMS_SUCCESS, NEW_PHONE_VERIFY_SMS_SUCCESS,
     OLD_PHONE_VERIFY_SMS_FAILURE, NEW_PHONE_VERIFY_SMS_FAILURE,
     LOGOUT_USER,
@@ -12,7 +8,6 @@ import {
 
 const INITIAL_STATE = {
     submitting: false,
-    userAvatar: null,
     bSMS6: undefined,
     bSMS7: undefined,
     bVerify6: undefined,
@@ -30,13 +25,6 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case AVATAR_SUBMIT:
-            return {...state, submitting: true};
-        case AVATAR_CHANGED:
-            return {...state, userAvatar: action.payload};
-        case AVATAR_SUCCESS:
-            return {...state, submitting: false, userAvatar: action.payload};
-
         case OLD_PHONE_VERIFY_SMS_SUCCESS:
         case OLD_PHONE_VERIFY_SMS_FAILURE:
             return {...state, mc_sms_old_verify: action.payload.msg, bSMS6: action.payload.status};

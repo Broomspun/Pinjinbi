@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity, PixelRatio} from 'react-native'
-import {Container, Content, Button, Icon, Item, Input, ListItem, CheckBox, Body, Form} from 'native-base';
-import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
-import {commissionList} from './../../../actions'
 
+import {connect} from 'react-redux';
+import {Platform, UIManager,Image, View, Text} from 'react-native'
+import {Container, Content, Button, Icon, Item, Input, Form} from 'native-base';
+import {Images, Constants, Color, Styles} from '@common';
 
 class Withdrawal extends Component {
 
@@ -29,10 +28,19 @@ class Withdrawal extends Component {
 
     }
     componentDidUpdate() {
+        console.log('1',this.props);
 
     }
 
     componentWillReceiveProps(nextProps){
+        if(nextProps.wallettype===2)
+            Actions.refresh({title: '本金提现'});
+        else
+            Actions.refresh({title: '佣金提现'})
+
+    }
+    componentDidMount(){
+        Actions.refresh({title: '本金提现'});
     }
 
     _renderButton = ()=> {
@@ -43,11 +51,12 @@ class Withdrawal extends Component {
             backColor1 = Color.LightBlue;
             backColor2 = 'white';
             color1 = 'white';
-            color2 = Color.textNormal
+            color2 = Color.textNormal;
+
         } else {
             backColor1 = 'white';
             backColor2 = Color.LightBlue;
-            color1 = Color.textNormal
+            color1 = Color.textNormal;
             color2 = 'white';
         }
         return (
@@ -56,8 +65,8 @@ class Withdrawal extends Component {
                 <Button block rounded style={{backgroundColor: backColor2, paddingHorizontal: 30}}><Text style={{color: color2,  fontSize: Styles.fontLarge}} onPress={()=>this.setState({nChoiceButton: 2})}>本金提现</Text></Button>
             </View>
         )
-
-
+            // ;
+        // Actions.refresh({title: '本金提现'})
     };
 
 
@@ -115,6 +124,6 @@ class Withdrawal extends Component {
 }
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    return {user};
+    return {user, nChoiceButton: state.nChoiceButton};
 };
 export default connect(mapStateToProps, {})(Withdrawal);
