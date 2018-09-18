@@ -5,6 +5,7 @@ import {
     LOGIN_USER_FAIL,
     LOGOUT_USER,
     HOME_LOADING,
+    GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
     GET_BIND_INFO,
@@ -12,11 +13,16 @@ import {
     GET_PROVINCE_LISTS,
     GET_CITY_LISTS,
     GET_DISTRICT_LISTS,
-    GET_HOME_BANNERS,
     GET_INTEGRAL_GRADES,
     AVATAR_SUBMIT,
     AVATAR_CHANGED,
     AVATAR_SUCCESS,
+    GET_WITHRAWAL_OBJECT_SUCCESS,
+    GET_WITHRAWAL_OBJECT_FAILURE,
+    GET_WITHRAWAL_OBJECT_LOADING,
+    INITIALIZE_WITHDRAWAL_DATA,
+    SET_WALLET_TYPE,
+    INITIALIZE_WITHDRAWAL_MESSAGE
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -33,6 +39,7 @@ const INITIAL_STATE = {
     homeBanners: null,
     grades: null,
     userAvatar: null,
+    withdrawalObj: null, withdrawalMsg: '', bWithdrawalLoading: false, walletType: 1,
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -93,6 +100,18 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, userAvatar: action.payload};
         case AVATAR_SUCCESS:
             return {...state, submitting: false, user:{...state.user, Avatar:  action.payload.replace('http://pjb.wtvxin.com','')}, userAvatar: action.payload};
+        case GET_WITHRAWAL_OBJECT_SUCCESS:
+            return {...state, withdrawalObj: action.payload.value, bWithdrawalLoading: false};
+        case GET_WITHRAWAL_OBJECT_FAILURE:
+            return {...state,withdrawalObj: null, withdrawalMsg: action.payload.msg, bWithdrawalLoading: false};
+        case GET_WITHRAWAL_OBJECT_LOADING:
+            return {...state,bWithdrawalLoading: true};
+        case INITIALIZE_WITHDRAWAL_DATA:
+            return {...state,bWithdrawalLoading: false, withdrawalMsg: '',withdrawalObj: null };
+        case INITIALIZE_WITHDRAWAL_MESSAGE:
+            return {...state,bWithdrawalLoading: false, withdrawalMsg: ''};
+        case SET_WALLET_TYPE:
+            return {...state, walletType: action.payload};
         default:
             return state;
     }

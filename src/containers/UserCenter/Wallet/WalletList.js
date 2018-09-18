@@ -5,6 +5,7 @@ import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 
 import {walletList} from './../../../actions'
+import {Actions} from "react-native-router-flux";
 
 
 class WalletList extends Component {
@@ -20,6 +21,7 @@ class WalletList extends Component {
 
         this.props.walletList(this.props.user, UserId, Token);
     }
+
     componentDidUpdate() {
 
     }

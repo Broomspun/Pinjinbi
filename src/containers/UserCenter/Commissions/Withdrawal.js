@@ -2,9 +2,13 @@ import React, {Component} from 'react';
 import {Actions} from "react-native-router-flux/";
 
 import {connect} from 'react-redux';
-import {Platform, UIManager,Image, View, Text} from 'react-native'
+import {Platform, UIManager, Image, View, Text, Alert, AsyncStorage} from 'react-native'
 import {Container, Content, Button, Icon, Item, Input, Form} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
+
+import { getWithdrawalData, initializeWithdrawalData, setWalletType} from '@actions'
+import {Spinner1} from "@components";
+
 
 class Withdrawal extends Component {
 
@@ -17,31 +21,48 @@ class Withdrawal extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
-        console.log(props);
-
         this.state = {
-            nChoiceButton: props.wallettype,  //1: commission withdrawal, 2: principal withdrawal
+            nChoiceButton: props.wallettype,  //0: principal withdrawal, 1: commission withdrawal,
             withdrawalAmount: '',
             accountPassword: ''
         };
 
+        if(this.props.user) {
+            const {UserId, Token} = props.user;
+            this.props.getWithdrawalData(UserId,Token);
+        }
 
     }
     componentDidUpdate() {
-        console.log('1',this.props);
-
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.wallettype===2)
-            Actions.refresh({title: '本金提现'});
-        else
-            Actions.refresh({title: '佣金提现'})
 
+        if(nextProps.withdrawalMsg!==''){
+            Alert.alert(
+                '失败',
+                nextProps.withdrawalMsg,
+                [
+                    {text: 'OK', onPress: () => this.props.initializeWithdrawalData(true)},
+                ],
+                { cancelable: false }
+            )
+        }
     }
     componentDidMount(){
-        Actions.refresh({title: '本金提现'});
+
     }
+
+
+    componentWillUnmount(){
+        this.props.initializeWithdrawalData();
+    }
+
+    onChangeWalletType = (nChoiceButton, walletType, title)=> {
+        this.setState({nChoiceButton: nChoiceButton});
+        Actions.refresh({title: title});
+        this.props.setWalletType(walletType);
+    };
 
     _renderButton = ()=> {
         const {nChoiceButton} = this.state;
@@ -61,12 +82,10 @@ class Withdrawal extends Component {
         }
         return (
             <View style={{...Styles.RowCenterBetween, paddingHorizontal: 15, paddingVertical: 15}}>
-                <Button block rounded style={{backgroundColor: backColor1, paddingHorizontal: 30}}><Text style={{color: color1,  fontSize: Styles.fontLarge}} onPress={()=>this.setState({nChoiceButton: 1})}>佣金提现</Text></Button>
-                <Button block rounded style={{backgroundColor: backColor2, paddingHorizontal: 30}}><Text style={{color: color2,  fontSize: Styles.fontLarge}} onPress={()=>this.setState({nChoiceButton: 2})}>本金提现</Text></Button>
+                <Button block rounded style={{backgroundColor: backColor1, paddingHorizontal: 30}} onPress={()=>this.onChangeWalletType(1, 1, '佣金提现')}><Text style={{color: color1,  fontSize: Styles.fontLarge}}>佣金提现</Text></Button>
+                <Button block rounded style={{backgroundColor: backColor2, paddingHorizontal: 30}} onPress={()=>this.onChangeWalletType(2, 0, '本金提现')}><Text style={{color: color2,  fontSize: Styles.fontLarge}}>本金提现</Text></Button>
             </View>
         )
-            // ;
-        // Actions.refresh({title: '本金提现'})
     };
 
 
@@ -118,12 +137,13 @@ class Withdrawal extends Component {
                         </Button>
                     </Form>
                 </Content>
+                {this.props.bWithdrawalLoading ? <Spinner1 mode={'overlay'}/> : null}
             </Container>
         );
     }
 }
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user, nChoiceButton: state.nChoiceButton};
+    const {user,withdrawalObj, withdrawalMsg, bWithdrawalLoading} = state.loginForm;
+    return {user, withdrawalObj, withdrawalMsg, bWithdrawalLoading};
 };
-export default connect(mapStateToProps, {})(Withdrawal);
+export default connect(mapStateToProps, {getWithdrawalData, initializeWithdrawalData, setWalletType})(Withdrawal);

@@ -15,8 +15,15 @@ class WithdrawalList extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        console.log('withdrawalList', this.props);
     }
-    componentDidUpdate() {
+    componentDidMount() {
+        if(this.props.user && this.props.walletType===0) {
+            Actions.withdrawallist({title: '本金提现记录'});
+        }
+    }
+    componentWillMount(){
 
     }
 
@@ -64,7 +71,7 @@ class WithdrawalList extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user};
+    const {user, walletType} = state.loginForm;
+    return {user, walletType};
 };
 export default connect(mapStateToProps, {})(WithdrawalList);

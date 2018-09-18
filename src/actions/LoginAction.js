@@ -6,12 +6,27 @@ import Timer from 'react-timer-mixin';
 import {
     LOGIN_PARAMETER_UPDATED,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL,LOGOUT_USER,
+    LOGIN_USER_FAIL,
+    LOGOUT_USER,
     LOGIN_USER_ATTEMPTING,
-    HOME_LOADING, GET_COMMISSION_LIST, GET_WALLET_LIST, CHANGE_LOGIN_PASSWORD_SUCCESS,
-    GET_HOME_BANNERS,GET_INTEGRAL_GRADES,
+    HOME_LOADING,
+    GET_HOME_BANNERS,
+    GET_COMMISSION_LIST,
+    GET_WALLET_LIST,
+    CHANGE_LOGIN_PASSWORD_SUCCESS,
+    GET_INTEGRAL_GRADES,
     GET_ID_CARD_INFO,
-    GET_PROVINCE_LISTS,GET_CITY_LISTS, GET_DISTRICT_LISTS,
+    GET_PROVINCE_LISTS,
+    GET_CITY_LISTS,
+    GET_DISTRICT_LISTS,
+    GET_WITHRAWAL_OBJECT_SUCCESS,
+    GET_WITHRAWAL_OBJECT_FAILURE,
+    GET_WITHRAWAL_OBJECT_LOADING,
+    INITIALIZE_WITHDRAWAL_DATA,
+    SET_WALLET_TYPE,
+    MOBILE_CHANGE_SUCCESS,
+    MOBILE_CHANGE_FAILURE,
+    INITIALIZE_WITHDRAWAL_MESSAGE,
 } from "./types";
 
 import {getMemberInfo, getWalletLogList_API, requestPOST_API,requestGET_API} from "../Services";
@@ -94,7 +109,7 @@ export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMo
             // let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
             let res = await requestPOST_API('Money/GetWalletLogList',
                 {UserId:UserId, Token:Token, Page:Page, WalletType: WalletType,IsNewMonth:IsNewMonth, Type:Type, PageSize:PageSize}
-                );
+            );
             if(res.status===200) {
                 dispatch({
                     type: GET_COMMISSION_LIST,
@@ -214,4 +229,47 @@ export const getIntegralGrades = () => {
             }
         })();
     };
+};
+
+
+export const getWithdrawalData = (UserId, Token)=> {
+    return (dispatch) => {
+        dispatch({type: GET_WITHRAWAL_OBJECT_LOADING});
+
+        (async ()=>{
+            let res = await requestPOST_API('Withdraw/LoadingWithdrawPage',
+                {UserId: UserId, Token: Token}
+            );
+
+            if(res.status===200) {
+                dispatch({
+                    type: GET_WITHRAWAL_OBJECT_SUCCESS,
+                    payload: {msg: res.msg, value: res.data}
+                });
+            } else {
+                dispatch({
+                    type: GET_WITHRAWAL_OBJECT_FAILURE,
+                    payload: {msg: res.msg}
+                })
+            }
+        })();
+    };
+};
+export const initializeWithdrawalData = (bOnlyMessage=false) => {
+    if(bOnlyMessage)
+        return {
+            type: INITIALIZE_WITHDRAWAL_MESSAGE
+        };
+    else {
+        return {
+            type: INITIALIZE_WITHDRAWAL_DATA
+        }
+    }
+};
+
+export const setWalletType = (walletType)=> {
+    return {
+        type: SET_WALLET_TYPE,
+        payload: walletType
+    }
 };

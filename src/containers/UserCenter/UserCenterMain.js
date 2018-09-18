@@ -5,7 +5,8 @@ import { Container, Content, Button, Footer, FooterTab, Icon} from 'native-base'
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
 import Modal from "react-native-modal";
-import {logout} from './../../actions'
+
+import {logout, setWalletType} from './../../actions'
 class UserCenterMain extends Component {
     state = {
         bShowVersionInfo: false,
@@ -172,11 +173,11 @@ class UserCenterMain extends Component {
                     {this.props.user && (
                     <View style={{marginTop: -30, marginHorizontal: 15, ...Styles.cardStyleEmpty, borderRadius: 5, paddingVertical: 20}}>
                         <View style={{...Styles.RowCenter}}>
-                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>Actions.commissionlist()}>
+                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>{this.props.setWalletType(1);Actions.commissionlist()}}>
                                 <Text style={{color: Color.textNormal}}>佣金收益（金）</Text>
                                 <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Amount}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter}} onPress={()=>Actions.walletlist()}>
+                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter}} onPress={()=>{this.props.setWalletType(0);Actions.walletlist()}}>
                                 <Text style={{color: Color.textNormal}}>本金总计（元）</Text>
                                 <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Wallet}</Text>
                             </TouchableOpacity>
@@ -325,7 +326,7 @@ class UserCenterMain extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    const {user} = state.loginForm;
-    return {user};
+    const {user,walletType} = state.loginForm;
+    return {user,walletType};
 };
-export default connect(mapStateToProps, {logout})(UserCenterMain);
+export default connect(mapStateToProps, {logout, setWalletType})(UserCenterMain);

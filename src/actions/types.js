@@ -114,3 +114,11 @@ export const IS_NOVICE_TASK_COMPLETED_FAIL = 'is_novice_task_completed_fail';
 export const IS_NOVICE_TASK_COMPLETED_LOADING = 'is_novice_task_completed_loading';
 
 export const CHANGED_WALLET_TYPE = 'changed_wallet_type';
+
+//Withdrawal
+export const GET_WITHRAWAL_OBJECT_SUCCESS = 'get_withrawal_object_success';
+export const GET_WITHRAWAL_OBJECT_FAILURE = 'get_withrawal_object_failure';
+export const GET_WITHRAWAL_OBJECT_LOADING = 'get_withrawal_object_loading';
+export const INITIALIZE_WITHDRAWAL_DATA = 'initialize_withdrawal_data';
+export const INITIALIZE_WITHDRAWAL_MESSAGE = 'initialize_withdrawal_message';
+export const SET_WALLET_TYPE = 'set_wallet_type';
