@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
 
 import { Container, Content, Button, Footer, FooterTab} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
+import {getMyOrdersSummary, logout, setWalletType} from "../../../actions";
 
 
 class MyOrders extends Component {
@@ -21,32 +23,93 @@ class MyOrders extends Component {
 
     _renderContent(title, orderType) {
         //orderType: 1-Advanced, 2-Browse
-        return (
-            <View style={{marginTop: 10}}>
-                <View style={{backgroundColor: 'white', ...Styles.shadowStyle}}>
-                    <Text style={{backgroundColor: 'white', marginLeft: 15, paddingVertical: 10, paddingRight: 15, borderBottomWidth:1, borderColor: Color.LightBorder}}>{title}</Text>
-                    <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween,
-                        padding: 10, flexWrap: 'wrap'}}>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
-                            <Image source={Images.preorders_01}  style={{width: 50, height:50}}/>
-                            <Text style={{marginTop: 10, color: Color.textNormal}}>未完成</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
-                            <Image source={Images.preorders_02}  style={{width: 50, height:50}}/>
-                            <Text style={{marginTop: 10, color: Color.textNormal}}>已完成</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
-                            <Image source={Images.preorders_03}  style={{width: 50, height:50}}/>
-                            <Text style={{marginTop: 10, color: Color.textNormal}}>已撤销</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
-                            <Image source={Images.preorders_04}  style={{width: 50, height:50}}/>
-                            <Text style={{marginTop: 10, color: Color.textNormal}}>申诉中</Text>
-                        </TouchableOpacity>
+        if(this.props.user && this.props.taskSummaryObj ) {
+            const {AdvanceOrderDelivered, AdvanceOrderNotOperated, AdvanceOrderRefunds, AdvanceOrderRescinded} = this.props.taskSummaryObj;
+            const {BrowseOrderDelivered, BrowseOrderNotOperated, BrowseOrderRefunds, BrowseOrderRescinded} = this.props.taskSummaryObj;
+
+            let deliveried, unfinished, refunded, disputed;
+            if(orderType==1){
+                deliveried = AdvanceOrderDelivered;
+                unfinished = AdvanceOrderNotOperated;
+                refunded = AdvanceOrderRefunds;
+                disputed = AdvanceOrderRescinded;
+            } else {
+                deliveried = BrowseOrderDelivered;
+                unfinished = BrowseOrderNotOperated;
+                refunded = BrowseOrderRefunds;
+                disputed = BrowseOrderRescinded;
+            }
+            //
+            // deliveried=1;
+            // unfinished = 2;
+            // refunded = 3;
+            // disputed = 4;
+
+
+            return (
+                <View style={{marginTop: 10}}>
+                    <View style={{backgroundColor: 'white', ...Styles.shadowStyle}}>
+                        <Text style={{backgroundColor: 'white', marginLeft: 15, paddingVertical: 10, paddingRight: 15, borderBottomWidth:1, borderColor: Color.LightBorder}}>{title}</Text>
+                        <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween,
+                            padding: 10, flexWrap: 'wrap'}}>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                    <Image source={Images.preorders_01}  style={{width: 50, height:50}}/>
+                                    <Text style={{marginTop: 10, color: Color.textNormal}}>未完成</Text>
+                                </TouchableOpacity>
+                                {unfinished>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top: 0, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{unfinished}</Text>
+
+                                    </View>
+                                )}
+                            </View>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                    <Image source={Images.preorders_02}  style={{width: 50, height:50}}/>
+                                    <Text style={{marginTop: 10, color: Color.textNormal}}>已完成</Text>
+                                </TouchableOpacity>
+                                {deliveried>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top: 0, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{deliveried}</Text>
+
+                                    </View>
+                                )}
+                            </View>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                    <Image source={Images.preorders_03}  style={{width: 50, height:50}}/>
+                                    <Text style={{marginTop: 10, color: Color.textNormal}}>已撤销</Text>
+                                </TouchableOpacity>
+                                {refunded>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top: 0, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{refunded}</Text>
+
+                                    </View>
+                                )}
+                            </View>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                    <Image source={Images.preorders_04}  style={{width: 50, height:50}}/>
+                                    <Text style={{marginTop: 10, color: Color.textNormal}}>申诉中</Text>
+                                </TouchableOpacity>
+                                {disputed>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top: 0, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{disputed}</Text>
+
+                                    </View>
+                                )}
+                            </View>
+                        </View>
                     </View>
                 </View>
-            </View>
-        )
+            )
+
+        }
     }
 
     render() {
@@ -92,4 +155,10 @@ class MyOrders extends Component {
     }
 }
 
-export default MyOrders;
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {taskSummaryObj} = state.taskReducer;
+    return {user,taskSummaryObj};
+};
+export default connect(mapStateToProps, {logout})(MyOrders);
+

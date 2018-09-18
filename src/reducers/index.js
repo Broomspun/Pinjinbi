@@ -9,6 +9,7 @@ import bindInfoReducer from './BindinfoReducer';
 import userInfoReducer from './UserInfoReducer';
 import lotoReducer from './LotoRuducer';
 import memberReducer from './MemberReducer';
+import taskReducer from './TaskReducers';
 
 const allReducers= combineReducers({
     splash: splashReducer,
@@ -21,6 +22,7 @@ const allReducers= combineReducers({
     userInfoReducer: userInfoReducer,
     lotoReducer: lotoReducer,
     memberReducer: memberReducer,
+    taskReducer: taskReducer,
 });
 
 export default allReducers;

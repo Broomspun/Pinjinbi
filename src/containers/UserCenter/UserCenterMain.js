@@ -6,7 +6,7 @@ import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
 import Modal from "react-native-modal";
 
-import {logout, setWalletType} from './../../actions'
+import {logout, setWalletType, getMyOrdersSummary} from './../../actions'
 class UserCenterMain extends Component {
     state = {
         bShowVersionInfo: false,
@@ -18,6 +18,11 @@ class UserCenterMain extends Component {
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
+        }
+
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+            this.props.getMyOrdersSummary(UserId, Token);
         }
         console.log('user main info', props);
     }
@@ -42,28 +47,28 @@ class UserCenterMain extends Component {
     }
 
     _renderVersionInfo = () => {
-      return (
-          <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
-              <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
-                  <Text style={{color: 'white', fontSize: Styles.fontLarge}}>是否重新安装？</Text>
-              </View>
-              <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
-                  <View style={{paddingVertical: 30}}>
-                      <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>当前已经是最新版本</Text>
-                  </View>
-              </View>
-              <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
-                  <Button onPress={()=>this.setState({bShowVersionInfo: false})}
-                          style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
-                      <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
-                  </Button>
-                  <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onShowVersionInfo.bind(this)}>
-                      <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
-                  </Button>
-              </View>
-          </View>
+        return (
+            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+                <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                    <Text style={{color: 'white', fontSize: Styles.fontLarge}}>是否重新安装？</Text>
+                </View>
+                <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
+                    <View style={{paddingVertical: 30}}>
+                        <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>当前已经是最新版本</Text>
+                    </View>
+                </View>
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 30}}>
+                    <Button onPress={()=>this.setState({bShowVersionInfo: false})}
+                            style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                    </Button>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={this.onShowVersionInfo.bind(this)}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
 
-      )
+        )
     };
 
     _renderClearCache = () => {
@@ -132,6 +137,82 @@ class UserCenterMain extends Component {
         }
     };
 
+    _renderTasks = ()=> {
+        if(this.props.user && this.props.taskSummaryObj ) {
+            const {AdvanceOrderDelivered,AdvanceOrderNotOperated, AdvanceOrderRefunds, AdvanceOrderRescinded} = this.props.taskSummaryObj;
+            const {BrowseOrderDelivered,BrowseOrderNotOperated, BrowseOrderRefunds, BrowseOrderRescinded} = this.props.taskSummaryObj;
+            return (
+                <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
+                    <View style={{flexDirection: 'row',  paddingBottom: 10, alignItems: 'center'}}>
+                        <View style={{flex:1}}>
+                            <Text style={{fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>我的订单</Text>
+                        </View>
+                        <View style={{flex:1}}>
+                            <View style={{flexDirection:'row',alignItems:'center', alignSelf:'flex-end'}}>
+                                <Text style={{fontSize: Styles.fontSmall,color: Color.textLight}}>全部订单 </Text>
+                                <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{...Styles.RowCenter}}>
+                        <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity onPress={()=>Actions.myorders()}>
+                                    <Image source={Images.user_center_icon_02} style={{width: 24, height: 26}}></Image>
+                                </TouchableOpacity>
+                                {BrowseOrderNotOperated>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderNotOperated}</Text>
+
+                                    </View>
+                                )}
+                            </View>
+                            <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>未完成</Text>
+                        </View>
+                        <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            <Image source={Images.user_center_icon_01} style={{width: 25, height: 26}}></Image>
+                            {BrowseOrderDelivered>0 && (
+                                <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+
+                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderDelivered}</Text>
+
+                                </View>
+                            )}
+                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已完成</Text>
+                        </View>
+                        <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            <View style={{position: 'relative'}}>
+                                <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
+                                {BrowseOrderRefunds>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderRefunds}</Text>
+
+                                    </View>
+                                )}
+                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已撤销</Text>
+                            </View>
+                        </View>
+                        <View style={{flex:1, ...Styles.ColumnCenter}}>
+                            <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
+                            {BrowseOrderRescinded>0 && (
+                                <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+
+                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderRescinded}</Text>
+
+                                </View>
+                            )}
+                            <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>申诉中</Text>
+                        </View>
+                    </View>
+
+                </View>
+            )
+        }
+
+    };
+
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
@@ -171,63 +252,20 @@ class UserCenterMain extends Component {
                         </View>
                     </View>
                     {this.props.user && (
-                    <View style={{marginTop: -30, marginHorizontal: 15, ...Styles.cardStyleEmpty, borderRadius: 5, paddingVertical: 20}}>
-                        <View style={{...Styles.RowCenter}}>
-                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>{this.props.setWalletType(1);Actions.commissionlist()}}>
-                                <Text style={{color: Color.textNormal}}>佣金收益（金）</Text>
-                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Amount}</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter}} onPress={()=>{this.props.setWalletType(0);Actions.walletlist()}}>
-                                <Text style={{color: Color.textNormal}}>本金总计（元）</Text>
-                                <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Wallet}</Text>
-                            </TouchableOpacity>
+                        <View style={{marginTop: -30, marginHorizontal: 15, ...Styles.cardStyleEmpty, borderRadius: 5, paddingVertical: 20}}>
+                            <View style={{...Styles.RowCenter}}>
+                                <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter, borderRightWidth: 1/PixelRatio.get(), borderRightColor: Color.textLight}} onPress={()=>{this.props.setWalletType(1);Actions.commissionlist()}}>
+                                    <Text style={{color: Color.textNormal}}>佣金收益（金）</Text>
+                                    <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Amount}</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={{flex:1, ...Styles.ColumnCenter}} onPress={()=>{this.props.setWalletType(0);Actions.walletlist()}}>
+                                    <Text style={{color: Color.textNormal}}>本金总计（元）</Text>
+                                    <Text style={{fontSize: Styles.fontLarge, fontWeight: '600', color: Color.LightBlue1}}>{this.props.user.Wallet}</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
                     )}
-                    <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
-                        <View style={{flexDirection: 'row',  paddingBottom: 10, alignItems: 'center'}}>
-                            <View style={{flex:1}}>
-                                <Text style={{fontSize: Styles.fontSmall, alignSelf: 'flex-start'}}>我的订单</Text>
-                            </View>
-                            <View style={{flex:1}}>
-                                <View style={{flexDirection:'row',alignItems:'center', alignSelf:'flex-end'}}>
-                                    <Text style={{fontSize: Styles.fontSmall,color: Color.textLight}}>全部订单 </Text>
-                                    <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{...Styles.RowCenter}}>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <View style={{position: 'relative'}}>
-                                    <TouchableOpacity onPress={()=>Actions.myorders()}>
-                                        <Image source={Images.user_center_icon_02} style={{width: 24, height: 26}}></Image>
-                                    </TouchableOpacity>
-                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
-                                        <Text style={{color: 'white', fontSize: 12}}>5</Text>
-                                    </View>
-                                </View>
-                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>未完成</Text>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.user_center_icon_01} style={{width: 25, height: 26}}></Image>
-                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已完成</Text>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <View style={{position: 'relative'}}>
-                                    <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
-                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: 3, top:-6, borderRadius: 10}}>
-                                        <Text style={{color: 'white', fontSize: 12}}>2</Text>
-                                    </View>
-                                    <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已撤销</Text>
-                                </View>
-                            </View>
-                            <View style={{flex:1, ...Styles.ColumnCenter}}>
-                                <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
-                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>申诉中</Text>
-                            </View>
-                        </View>
-
-                    </View>
+                    {this._renderTasks()}
                     <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
                         <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.verifymain()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
@@ -327,6 +365,7 @@ class UserCenterMain extends Component {
 }
 const mapStateToProps = (state) => {
     const {user,walletType} = state.loginForm;
-    return {user,walletType};
+    const {taskSummaryObj} = state.taskReducer;
+    return {user,walletType, taskSummaryObj};
 };
-export default connect(mapStateToProps, {logout, setWalletType})(UserCenterMain);
+export default connect(mapStateToProps, {logout, setWalletType, getMyOrdersSummary})(UserCenterMain);

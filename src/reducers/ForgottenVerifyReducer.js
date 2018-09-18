@@ -6,7 +6,8 @@ import {
 } from "./../actions/types";
 
 const INITIAL_STATE = {
-    fv_phone: '18704153342',
+    // fv_phone: '18704153342',
+    fv_phone: '',
     fv_verifycode: '',
     fv_recaptchaCode: '',
     loading: false,

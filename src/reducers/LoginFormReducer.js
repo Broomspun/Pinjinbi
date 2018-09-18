@@ -17,9 +17,11 @@ import {
 } from './../actions/types';
 
 const INITIAL_STATE = {
+    // phone: '',
     phone: '18641568923',
     // phone: '18704153342',
     password: 'password123',
+    // password: '',
     // password: '123456',
     remember: true,
     loading: false,

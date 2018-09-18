@@ -128,3 +128,9 @@ export const GET_WITHRAWAL_LOGS_SUCCESS = 'get_withrawal_logs_success';
 export const GET_WITHRAWAL_LOGS_FAILURE = 'get_withrawal_logs_failure';
 export const GET_WITHRAWAL_LOGS_LOADING = 'get_withrawal_logs_loading';
 
+//Orders
+export const GET_MY_ORDERS_SUMMARY_SUCCESS = 'get_my_orders_summary_success';
+export const GET_MY_ORDERS_SUMMARY_FAILURE = 'get_my_orders_summary_failure';
+export const GET_MY_ORDERS_SUMMARY_LOADING = 'get_my_orders_summary_loading';
+
+

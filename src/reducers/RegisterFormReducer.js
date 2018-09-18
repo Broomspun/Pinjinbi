@@ -11,9 +11,11 @@ import {
 
 const INITIAL_STATE = {
     // rg_phone: '18641568923', //ksi
-    rg_phone: '18704153342',
+    rg_phone: '',
+    // rg_phone: '18704153342',
     // phone: '18741586976',
-    rg_password: 'password123',
+    rg_password: '',
+    // rg_password: 'password123',
     rg_captcha_match: '',
     rg_captcha_code: generatorCaptchaCode(4),
     rg_verify_code: '',
