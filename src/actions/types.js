@@ -122,3 +122,9 @@ export const GET_WITHRAWAL_OBJECT_LOADING = 'get_withrawal_object_loading';
 export const INITIALIZE_WITHDRAWAL_DATA = 'initialize_withdrawal_data';
 export const INITIALIZE_WITHDRAWAL_MESSAGE = 'initialize_withdrawal_message';
 export const SET_WALLET_TYPE = 'set_wallet_type';
+
+
+export const GET_WITHRAWAL_LOGS_SUCCESS = 'get_withrawal_logs_success';
+export const GET_WITHRAWAL_LOGS_FAILURE = 'get_withrawal_logs_failure';
+export const GET_WITHRAWAL_LOGS_LOADING = 'get_withrawal_logs_loading';
+

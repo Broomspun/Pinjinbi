@@ -4,32 +4,19 @@ import {AsyncStorage} from 'react-native'
 import Timer from 'react-timer-mixin';
 
 import {
-    LOGIN_PARAMETER_UPDATED,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER_FAIL,
-    LOGOUT_USER,
-    LOGIN_USER_ATTEMPTING,
-    HOME_LOADING,
-    GET_HOME_BANNERS,
-    GET_COMMISSION_LIST,
-    GET_WALLET_LIST,
-    CHANGE_LOGIN_PASSWORD_SUCCESS,
+    LOGIN_PARAMETER_UPDATED, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGOUT_USER, LOGIN_USER_ATTEMPTING,
+    HOME_LOADING, GET_HOME_BANNERS,
+    GET_COMMISSION_LIST, GET_WALLET_LIST,
     GET_INTEGRAL_GRADES,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,
     GET_CITY_LISTS,
     GET_DISTRICT_LISTS,
-    GET_WITHRAWAL_OBJECT_SUCCESS,
-    GET_WITHRAWAL_OBJECT_FAILURE,
-    GET_WITHRAWAL_OBJECT_LOADING,
-    INITIALIZE_WITHDRAWAL_DATA,
-    SET_WALLET_TYPE,
-    MOBILE_CHANGE_SUCCESS,
-    MOBILE_CHANGE_FAILURE,
-    INITIALIZE_WITHDRAWAL_MESSAGE,
+    GET_WITHRAWAL_OBJECT_SUCCESS, GET_WITHRAWAL_OBJECT_FAILURE, GET_WITHRAWAL_OBJECT_LOADING, INITIALIZE_WITHDRAWAL_DATA, SET_WALLET_TYPE,    INITIALIZE_WITHDRAWAL_MESSAGE,
+    GET_WITHRAWAL_LOGS_SUCCESS, GET_WITHRAWAL_LOGS_FAILURE, GET_WITHRAWAL_LOGS_LOADING,
 } from "./types";
 
-import {getMemberInfo, getWalletLogList_API, requestPOST_API,requestGET_API} from "../Services";
+import {getMemberInfo, requestPOST_API,requestGET_API} from "../Services";
 
 export const loginParameterUpdated = ({ prop, value }) => {
     return {
@@ -106,7 +93,6 @@ export const homeLoading = (UserId, Token, user)=> {
 export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
-            // let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
             let res = await requestPOST_API('Money/GetWalletLogList',
                 {UserId:UserId, Token:Token, Page:Page, WalletType: WalletType,IsNewMonth:IsNewMonth, Type:Type, PageSize:PageSize}
             );
@@ -123,7 +109,9 @@ export const commissionList = (user, UserId, Token, WalletType=0,Page=1, IsNewMo
 export const walletList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
     return (dispatch) =>{
         (async ()=>{
-            let res = await getWalletLogList_API(UserId, Token, Page, WalletType,IsNewMonth, Type, PageSize);
+            let res = await requestPOST_API('Money/GetWalletLogList',
+                {UserId:UserId, Token:Token, Page:Page, WalletType: WalletType,IsNewMonth:IsNewMonth, Type:Type, PageSize:PageSize}
+            );
             if(res.status===200) {
                 dispatch({
                     type: GET_WALLET_LIST,
@@ -272,4 +260,28 @@ export const setWalletType = (walletType)=> {
         type: SET_WALLET_TYPE,
         payload: walletType
     }
+};
+
+export const getWithdrawalLogs = (UserId, Token, WalletType=0, Page=1, PageSize=10) => {
+
+    return (dispatch) => {
+        dispatch({type: GET_WITHRAWAL_LOGS_LOADING});
+
+        (async ()=>{
+            let res = await requestPOST_API('Withdraw/GetWithdrawLogPage', //API 7.9
+                {UserId: UserId, Token: Token, Page: Page, PageSize: PageSize, WalletType: WalletType});
+            if(res.status===200) {
+                dispatch({
+                    type: GET_WITHRAWAL_LOGS_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            }
+            else {
+                dispatch({
+                    type: GET_WITHRAWAL_LOGS_FAILURE,
+                    payload: {value: null, msg: res.msg}
+                });
+            }
+        })();
+    };
 };

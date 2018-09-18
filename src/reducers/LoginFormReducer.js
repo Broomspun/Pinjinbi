@@ -1,11 +1,6 @@
 import {
-    LOGIN_PARAMETER_UPDATED,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER_ATTEMPTING,
-    LOGIN_USER_FAIL,
-    LOGOUT_USER,
-    HOME_LOADING,
-    GET_HOME_BANNERS,
+    LOGIN_PARAMETER_UPDATED, LOGIN_USER_SUCCESS, LOGIN_USER_ATTEMPTING, LOGIN_USER_FAIL, LOGOUT_USER,
+    HOME_LOADING, GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
     GET_BIND_INFO,
@@ -17,12 +12,8 @@ import {
     AVATAR_SUBMIT,
     AVATAR_CHANGED,
     AVATAR_SUCCESS,
-    GET_WITHRAWAL_OBJECT_SUCCESS,
-    GET_WITHRAWAL_OBJECT_FAILURE,
-    GET_WITHRAWAL_OBJECT_LOADING,
-    INITIALIZE_WITHDRAWAL_DATA,
-    SET_WALLET_TYPE,
-    INITIALIZE_WITHDRAWAL_MESSAGE
+    GET_WITHRAWAL_OBJECT_SUCCESS, GET_WITHRAWAL_OBJECT_FAILURE, GET_WITHRAWAL_OBJECT_LOADING, INITIALIZE_WITHDRAWAL_DATA, SET_WALLET_TYPE, INITIALIZE_WITHDRAWAL_MESSAGE,
+    GET_WITHRAWAL_LOGS_SUCCESS, GET_WITHRAWAL_LOGS_FAILURE, GET_WITHRAWAL_LOGS_LOADING,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -40,6 +31,7 @@ const INITIAL_STATE = {
     grades: null,
     userAvatar: null,
     withdrawalObj: null, withdrawalMsg: '', bWithdrawalLoading: false, walletType: 1,
+    withdrawalLogsObj: null,withdrawalLogsMsg:'', bWithdrawalLogs: false,
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -112,7 +104,19 @@ export default (state = INITIAL_STATE, action) => {
             return {...state,bWithdrawalLoading: false, withdrawalMsg: ''};
         case SET_WALLET_TYPE:
             return {...state, walletType: action.payload};
+
+        case GET_WITHRAWAL_LOGS_SUCCESS:
+            return {...state, withdrawalLogsObj: action.payload.value, bWithdrawalLogs: false};
+        case GET_WITHRAWAL_LOGS_FAILURE:
+            return {...state,withdrawalLogsObj: null, withdrawalLogsMsg: action.payload.msg, bWithdrawalLogs: false};
+        case GET_WITHRAWAL_LOGS_LOADING:
+            return {...state, bWithdrawalLogs: true};
+
+
         default:
             return state;
     }
 }
+
+//    withdrawalWalletLogsObj: null,withdrawalWalletLogsMsg:'', bWithdrawalWalletLogs: false,
+//     withdrawalCommissionLogsObj: null,withdrawalCommissionMsg:'', bWithdrawalCommissionLogs: false

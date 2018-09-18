@@ -80,13 +80,13 @@ export const getVerifySMSCode_mc = (phone, verifyType, captchaCode, uniqueVal) =
             if(res.status===200) {
                 dispatch({
                     type: type_s,
-                    payload: {msg: res.data.msg, status: true}
+                    payload: {msg: res.msg, status: true}
                 });
             }
             else {
                 dispatch({
                     type: type_f,
-                    payload: {mas: res.data.msg, status: false}
+                    payload: {msg: res.msg, status: false}
                 });
             }
         })();
