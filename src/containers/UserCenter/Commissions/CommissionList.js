@@ -38,7 +38,7 @@ class CommissionList extends Component {
                 <Text style={{color: Color.textLight, fontSize: Styles.fontSmall}}>{record.item.AddTime.substring(0,10)+' '+record.item.AddTime.substring(11,19)}</Text>
             </View>
             <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
-                <Text style={{color: record.item.Change>0 ? Color.LightBlue:Color.lightOrangeColor, fontSize: Styles.fontNormal}}>{record.item.Change.toFixed(2)}</Text>
+                <Text style={{color: record.item.Change>0 ? Color.LightBlue:Color.lightOrangeColor, fontSize: Styles.fontNormal}}>{record.item.Change>0?'+':''}{record.item.Change.toFixed(2)}</Text>
             </View>
         </View>
         )
@@ -80,7 +80,7 @@ class CommissionList extends Component {
                         <View style={{backgroundColor: Color.lightOrangeColor, paddingVertical: 10, marginVertical: 10, paddingHorizontal: 15}}>
                             <Text style={{color: 'white', fontSize: Styles.fontNormal}}>累计佣金（金）</Text>
                             <View style={{...Styles.RowCenterLeft}}>
-                                <Text style={{color: 'white',fontSize: Styles.fontNormal, fontWeight: '600'}}>{this.props.user.Amount || 0.00}</Text>
+                                <Text style={{color: 'white',fontSize: Styles.fontNormal, fontWeight: '600'}}>{parseFloat(this.props.user.Amount).toFixed(2) || 0.00}</Text>
                                 <Text style={{color: 'white',fontSize: Styles.fontNormal}}>金</Text>
                             </View>
                         </View>
