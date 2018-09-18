@@ -2,15 +2,15 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity,StyleSheet, PixelRatio} from 'react-native';
+import {View,Image,TouchableOpacity,StyleSheet, PixelRatio, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-
+import {Actions} from 'react-native-router-flux';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import RNPickerSelect from 'react-native-picker-select';
-import {submitTabaoAccount,getAreaLists} from "@actions";
+import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo} from "@actions";
 
 class BindTabaoAccount extends Component {
 
@@ -58,17 +58,45 @@ class BindTabaoAccount extends Component {
             AccountLevelImg: null,
             VerifiedImg: null,
             BorrowingImg: null,
-            validationForm: true
+            validationForm: true,
+            bPlatformBindSubmittedStatus: null
         };
     }
 
     componentDidMount(){
         if(this.props.provinces===null)
             this.props.getAreaLists('Province');
+
+        Actions.bindTabaoAccount({title: `绑定${this.props.PlatName}账号`});
     }
 
     componentWillReceiveProps(nextProps){
         console.log(nextProps);
+        if(nextProps.bPlatformBindSubmittedStatus!==null) {
+            if(nextProps.bPlatformBindSubmittedStatus) {
+                if(nextProps.user) {
+                    const {UserId, Token} = nextProps.user;
+                    this.props.getMemberPlatformInfo(UserId, Token, nextProps.PlatId);
+                }
+                Alert.alert(
+                    '成功',
+                    nextProps.tabaoMsg,
+                    [
+                        {text: 'OK', onPress: () => Actions.TabaoMain({PlatId: this.props.PlatId, PlatName: this.props.PlatName})},
+                    ],
+                    {cancelable: false}
+                )
+            } else {
+                Alert.alert(
+                    '失败',
+                    nextProps.tabaoMsg,
+                    [
+                        {text: 'OK', onPress: () =>console.log('pressed')},
+                    ],
+                    {cancelable: false}
+                )
+            }
+        }
     }
 
     submitTabaoBindInfo = () => {
@@ -213,10 +241,6 @@ class BindTabaoAccount extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps){
-
-    }
-
     componentWillUpdate(){
     }
 
@@ -293,17 +317,6 @@ class BindTabaoAccount extends Component {
                                 onChangeText={(value)=>this.setState({ConsigneeCall: value})}
                             />
                         </Item>
-                        {/*<TouchableOpacity style={{flex:1, flexDirection: 'row', alignItems: 'center',paddingVertical: 10, ...Styles.bottomBorderStyle}}>*/}
-                        {/*<View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>*/}
-                        {/*<Text style={{color: Color.textLight}}>请选择城市</Text>*/}
-                        {/*</View>*/}
-                        {/*<View style={{flex:1,}}>*/}
-                        {/*<View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>*/}
-                        {/*<Text style={{color: Color.textNormal}}>广东深圳宝安区</Text>*/}
-                        {/*<Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>*/}
-                        {/*</View>*/}
-                        {/*</View>*/}
-                        {/*</TouchableOpacity>*/}
                         {this.props.provinces && (
                             <RNPickerSelect
                                 placeholder={{
@@ -507,8 +520,8 @@ const pickerSelectStyles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
     const {user, provinces, cities, districts} = state.loginForm;
-    const {tabaoObj, tabaoMsg,tabaoLoading} = state.platformReducer;
-    return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading};
+    const {tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus} = state.platformReducer;
+    return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus};
 };
-export default connect(mapStateToProps, {getAreaLists,submitTabaoAccount})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount})(BindTabaoAccount);
 

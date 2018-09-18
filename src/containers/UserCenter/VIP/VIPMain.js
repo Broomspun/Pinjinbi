@@ -33,7 +33,7 @@ class VIPMain extends Component {
 
     _toggleVIPModal = () => {
         if(this.props.user && this.props.user.Level==='L0')
-            this.setState({bShowAlertModal: true})
+            this.setState({bShowAlertModal: true});
         else
             this.setState({bShowVIPModal: !this.state.bShowVIPModal});
     };

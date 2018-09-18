@@ -13,16 +13,17 @@ const INITIAL_STATE = {
     platLoading: false,
     platformLists: null,
     platformListsMsg: '',
-    bPlatformListsLoading: false
+    bPlatformListsLoading: false,
+    bPlatformBindSubmittedStatus: null
 };
 
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SUBMIT_TABAO_ACCOUNT_SUCCESS:
-            return {...state, tabaoObj: action.payload.value, tabaoLoading: false};
+            return {...state, tabaoObj: action.payload.value, tabaoLoading: false,bPlatformBindSubmittedStatus: true,tabaoMsg: action.payload.msg};
         case SUBMIT_TABAO_ACCOUNT_FAILURE:
-            return {...state, tabaoObj: null, tabaoMsg: action.payload.msg, tabaoLoading: false};
+            return {...state, tabaoObj: null, tabaoMsg: action.payload.msg, tabaoLoading: false, bPlatformBindSubmittedStatus: false};
         case SUBMIT_TABAO_ACCOUNT_LOADING:
             return {...state, tabaoLoading: true};
 
@@ -34,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, platLoading: true};
 
         case GET_PLATFORM_LISTS_SUCCESS:
-            return {...state, platformLists: action.payload.value, bPlatformListsLoading: false};
+            return {...state, platformLists: action.payload.value, bPlatformListsLoading: false, };
         case GET_PLATFORM_LISTS_FAILURE:
             return {...state, platformLists: null, platformListsMsg: action.payload.msg, bPlatformListsLoading: false};
         case GET_PLATFORM_LISTS_LOADING:

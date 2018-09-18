@@ -41,7 +41,7 @@ export const getPlatformLists = () => {
     return (dispatch) => {
         dispatch({type: GET_PLATFORM_LISTS_LOADING}); //for Spinner;
         (async ()=>{
-            let res = await requestGET_API('/Task/GetPlatList');
+            let res = await requestGET_API('Task/GetPlatList');
 
             if(res.status===200) {
                 dispatch({
@@ -75,6 +75,29 @@ export const getMemberPlatformInfo = (UserId, Token, PlatId) => {
             } else {
                 dispatch({
                     type: GET_PLATFORM_INFO_FAILURE,
+                    payload: {msg: res.msg}
+                });
+            }
+        })();
+    };
+};
+
+
+export const getAllShoppingCategories = () => {
+    return (dispatch) => {
+        dispatch({type: GET_PLATFORM_LISTS_LOADING}); //for Spinner;
+        (async ()=>{
+            let res = await requestGET_API('Member/GetALLShoppingCategory');
+
+            if(res.status===200) {
+                dispatch({
+                    type: GET_PLATFORM_LISTS_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            }
+            else {
+                dispatch({
+                    type: GET_PLATFORM_LISTS_FAILURE,
                     payload: {msg: res.msg}
                 });
             }
