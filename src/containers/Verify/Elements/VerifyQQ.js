@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image} from 'react-native';
+import {View,Image, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
@@ -11,7 +11,7 @@ import {Actions} from 'react-native-router-flux'
 import {
     Button, Card,Container, Content, Form, Icon, Input,  Item, Text
 } from 'native-base';
-import {submitQQInfo} from './../../../actions'
+import {submitQQInfo, initializeQQStatus} from './../../../actions'
 
 class VerifyQQ extends Component {
     state = {qq: ''};
@@ -21,7 +21,41 @@ class VerifyQQ extends Component {
         this.state = {user: this.props.user, qq: this.props.qq};
 
     }
+    componentWillReceiveProps(nextProps){
+        if(this.props.user && nextProps.bQqSubmitSuccess!==null) {
+            if(nextProps.bQqSubmitSuccess) {
+                Alert.alert(
+                    '成功',
+                    nextProps.qqMsg,
+                    [
+                        {text: 'OK', onPress: () => Actions.verifymain()},
+                    ],
+                    {cancelable: false}
+                )
+            }
+            else {
+                Alert.alert(
+                    '失败',
+                    nextProps.qqMsg,
+                    [
+                        {text: 'OK', onPress: () =>{nextProps.qqErrorCode=== 1 ? Actions.verifymain(): console.log('pressed')}},
+                    ],
+                    {cancelable: false}
+                )
+            }
+        }
+    }
 
+    componentWillUnmount() {
+        if(this.props.bQqSubmitSuccess) {
+            (async () => {
+                const {UserId, Token} = this.props.user;
+                await this.props.get_bindInfo(UserId, Token);  //API 5.4
+            })();
+        }
+
+        this.props.initializeQQStatus(true);
+    }
     componentDidUpdate(nextProps){
 
     }
@@ -89,7 +123,7 @@ const styles ={
 
 
 const mapStateToProps = (state) => {
-    const {qq_res} = state.bindInfoData;
-    return {qq_res};
+    const {qq_res,bQqSubmitSuccess, qqMsg, qqErrorCode} = state.bindInfoData;
+    return {qq_res,bQqSubmitSuccess, qqMsg, qqErrorCode};
 };
-export default connect(mapStateToProps, {submitQQInfo})(VerifyQQ);
+export default connect(mapStateToProps, {submitQQInfo, initializeQQStatus})(VerifyQQ);

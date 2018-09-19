@@ -5,12 +5,22 @@ export const LOGIN_PARAMETER_UPDATED = 'login_parameter_updated';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
+export const INITIALIZE_LOGIN_DATA = 'initialize_login_data';
+export const INITIALIZE_LOGIN_STATUS = 'initialize_login_status';
+
+
 export const HOME_LOADING = 'home_loading';
 export const GET_HOME_BANNERS = 'get_home_banners';
 export const GET_INTEGRAL_GRADES = 'get_integral_grades';
 export const GET_COMMISSION_LIST = 'get_commission_list';
 export const GET_WALLET_LIST = 'get_wallet_list';
 export const LOGOUT_USER = 'logout_user';
+
+export const GET_POINT_LIST_SUCCESS = 'get_point_list_success';
+export const GET_POINT_LIST_FAILURE = 'get_point_list_failure';
+export const GET_POINT_LIST_LOADING = 'get_point_list_loading';
+
+
 
 export const GET_HELP_LISTS_SUCCESS = 'get_help_success';
 export const GET_HELP_LISTS_FAIL = 'get_help_fail';
@@ -41,6 +51,10 @@ export const REGISTER_REGENERATE_CAPTCHACODE = 'register_regenerate_captcha_code
 export const GET_BIND_INFO = 'get_bind_info';
 export const GET_BIND_INFO_LOADING = 'get_bind_info_loading';
 export const QQ_SUBMIT_SUCCESS = 'qq_submit_success';
+export const QQ_SUBMIT_FAILURE = 'qq_submit_failure';
+export const INITIALIZE_QQ_MESSAGE = 'initialize_qq_message';
+export const INITIALIZE_QQ_DATA = 'initialize_qq_data';
+
 export const ID_CARD_SUBMIT_SUCCESS = 'id_card_submit_success';
 export const GET_ID_CARD_INFO = 'get_id_card_info';
 export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';

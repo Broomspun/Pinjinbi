@@ -1,19 +1,36 @@
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 import {AsyncStorage} from 'react-native'
-import Timer from 'react-timer-mixin';
 
 import {
-    LOGIN_PARAMETER_UPDATED, LOGIN_USER_SUCCESS, LOGIN_USER_FAIL, LOGOUT_USER, LOGIN_USER_ATTEMPTING,
-    HOME_LOADING, GET_HOME_BANNERS,
-    GET_COMMISSION_LIST, GET_WALLET_LIST,
+    LOGIN_PARAMETER_UPDATED,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAIL,
+    LOGOUT_USER,
+    LOGIN_USER_ATTEMPTING,
+    INITIALIZE_LOGIN_DATA, INITIALIZE_LOGIN_STATUS,
+    HOME_LOADING,
+    GET_HOME_BANNERS,
+    GET_COMMISSION_LIST,
+    GET_WALLET_LIST,
     GET_INTEGRAL_GRADES,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,
     GET_CITY_LISTS,
     GET_DISTRICT_LISTS,
-    GET_WITHRAWAL_OBJECT_SUCCESS, GET_WITHRAWAL_OBJECT_FAILURE, GET_WITHRAWAL_OBJECT_LOADING, INITIALIZE_WITHDRAWAL_DATA, SET_WALLET_TYPE,    INITIALIZE_WITHDRAWAL_MESSAGE,
-    GET_WITHRAWAL_LOGS_SUCCESS, GET_WITHRAWAL_LOGS_FAILURE, GET_WITHRAWAL_LOGS_LOADING,
+    GET_WITHRAWAL_OBJECT_SUCCESS,
+    GET_WITHRAWAL_OBJECT_FAILURE,
+    GET_WITHRAWAL_OBJECT_LOADING,
+    INITIALIZE_WITHDRAWAL_DATA,
+    SET_WALLET_TYPE,
+    INITIALIZE_WITHDRAWAL_MESSAGE,
+    GET_WITHRAWAL_LOGS_SUCCESS,
+    GET_WITHRAWAL_LOGS_FAILURE,
+    GET_WITHRAWAL_LOGS_LOADING,
+    GET_POINT_LIST_SUCCESS,
+    GET_POINT_LIST_FAILURE,
+    GET_POINT_LIST_LOADING,
+
 } from "./types";
 
 import {getMemberInfo, requestPOST_API,requestGET_API} from "../Services";
@@ -68,12 +85,6 @@ const loginUserSuccess = async (dispatch, user, msg) => {
     });
 
     await _storeUserAuthenticationData(user);
-
-    if(user) {
-        Timer.setTimeout(() => {
-            Actions.main({user: user});
-        }, 500);
-    }
 };
 
 export const homeLoading = (UserId, Token, user)=> {
@@ -117,6 +128,30 @@ export const walletList = (user, UserId, Token, WalletType=1,Page=1, IsNewMonth=
                     type: GET_WALLET_LIST,
                     payload: {wallets: res.data, ...user}
                 });
+            }
+        })();
+    }
+};
+
+export const getPointList = (user, UserId, Token, WalletType=2,Page=1, IsNewMonth=0, Type=0, PageSize=20)=> {
+    return (dispatch) =>{
+        dispatch({type: GET_POINT_LIST_LOADING});
+        (async ()=>{
+            let res = await requestPOST_API('Money/GetWalletLogList',
+                {UserId:UserId, Token:Token, Page:Page, WalletType: WalletType,IsNewMonth:IsNewMonth, Type:Type, PageSize:PageSize}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: GET_POINT_LIST_SUCCESS,
+                    payload: {pointsObj: res.data, pointsMsg: res.msg, ...user}
+                });
+            }
+            else {
+                dispatch({
+                    type: GET_POINT_LIST_FAILURE,
+                    payload: {pointsObj: null, pointsMsg: res.msg, ...user}
+                });
+
             }
         })();
     }
@@ -283,5 +318,11 @@ export const getWithdrawalLogs = (UserId, Token, WalletType=0, Page=1, PageSize=
                 });
             }
         })();
+    };
+};
+
+export const initializeLoginStatus = () => {
+    return {
+        type: INITIALIZE_LOGIN_STATUS
     };
 };

@@ -2,12 +2,13 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
+import Timer from 'react-timer-mixin';
 import {View,Image} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import {Actions} from 'react-native-router-flux'
-import {loginParameterUpdated, loginUser} from './../../actions'
+import {loginParameterUpdated, loginUser, initializeLoginStatus} from './../../actions'
 import {
     Body,
     Button,
@@ -32,96 +33,104 @@ class Login extends Component {
         this.props.loginUser({phone, password});
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.error) {
+    componentWillReceiveProps(nextProps) {
+        console.log('login',nextProps);
+        if(nextProps.user && nextProps.bLoginSuccess!==null) {
+            if (nextProps.bLoginSuccess) {
+                Toast.show({
+                    text: `${nextProps.loginMessage}`,
+                    buttonText: "是",
+                    type: "success",
+                });
+                this.props.initializeLoginStatus();
+                Timer.setTimeout(() => {
+                    Actions.main();
+                }, 500);
+            }
+        }
+        else if(!nextProps.bLoginSuccess && nextProps.error!=='')
             Toast.show({
                 text: `${nextProps.error}`,
                 buttonText: "是",
-                type: "danger"
-            })
-        }
-        //
-        if(nextProps.bLoginSuccess) {
-            Toast.show({
-                text: `${nextProps.loginMessage}`,
-                buttonText: "是",
-                type: "success",
-            })
-        }
+                type: "danger",
+                duration: 1000
+            });
+}
+
+componentWillUnmount() {
+    this.props.initializeLoginStatus();
+}
+
+
+renderError() {
+
+}
+
+renderButton() {
+    if(this.props.loading) {
+        return <Spinner size="large" />
     }
 
-    componentWillUpdate(){
-    }
+    return (
+        <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ onPress = {this.onButtonPress.bind(this)} >
+            <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
+        </Button>
+    );
+}
 
-    renderError() {
-
-    }
-
-    renderButton() {
-        if(this.props.loading) {
-            return <Spinner size="large" />
-        }
-
-        return (
-            <Button block style={styles.buttonStyle} /*onPress = {()=> Actions.home({phone: this.props.phone})}*/ onPress = {this.onButtonPress.bind(this)} >
-                <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
-            </Button>
-        );
-    }
-
-    render() {
-        return (
-            <Container>
-                <Content padder style={{backgroundColor:'#f8f8f8'}}>
-                    <Form>
-                        <Item regular underline={false} style={styles.itemStyle}>
-                            <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="请输入手机号码"
-                                value = {this.props.phone}
-                                onChangeText = {value => this.props.loginParameterUpdated({prop: 'phone', value})}
-                            />
-                        </Item>
-                        <Item regular style={styles.itemStyle}>
-                            <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                secureTextEntry placeholder="请输入密码"
-                                value = {this.props.password}
-                                onChangeText = {value => this.props.loginParameterUpdated({prop: 'password', value})}
-                            />
-                        </Item>
-                        <ListItem style={{marginLeft:10}}>
-                            <CheckBox
-                                checked={this.props.remember}
-                                color="black"
-                                onPress = {value => this.props.loginParameterUpdated({prop: 'remember', value})}
-                            />
-                            <Body>
-                            <Text style={{fontSize: 14}}>记住密码</Text>
-                            </Body>
-                        </ListItem>
-                        {this.renderError()}
-                        { this.renderButton() }
-                    </Form>
-                    <Card transparent >
-                        <CardItem style={{backgroundColor: '#f8f8f8'}}>
-                            <View style={{flex: 1, ...Styles.RowCenter}}>
-                                <Button transparent onPress = {()=>{Actions.forgottenverify()}}>
-                                    <Text style={{color: '#000', fontSize: 16}}>忘记密码</Text>
-                                </Button>
-                                <Text style={{ color: '#000', fontSize: 16}}>还没有账号</Text>
-                                <Button transparent onPress={()=> {Actions.register()}}>
-                                    <Text style={{ color: 'red', fontSize: 16}}>立即注册</Text>
-                                </Button>
-                            </View>
-                        </CardItem>
-                    </Card>
-                </Content>
-            </Container>
-        );
-    }
+render() {
+    return (
+        <Container>
+            <Content padder style={{backgroundColor:'#f8f8f8'}}>
+                <Form>
+                    <Item regular underline={false} style={styles.itemStyle}>
+                        <Icon style={{color: '#ccc'}} active name='mobile' type="FontAwesome" />
+                        <Input
+                            placeholderTextColor='#ccc'
+                            placeholder="请输入手机号码"
+                            value = {this.props.phone}
+                            onChangeText = {value => this.props.loginParameterUpdated({prop: 'phone', value})}
+                        />
+                    </Item>
+                    <Item regular style={styles.itemStyle}>
+                        <Image style={{marginLeft: 10, width: 16, height: 16}} source={Images.lockIIcon}/>
+                        <Input
+                            placeholderTextColor='#ccc'
+                            secureTextEntry placeholder="请输入密码"
+                            value = {this.props.password}
+                            onChangeText = {value => this.props.loginParameterUpdated({prop: 'password', value})}
+                        />
+                    </Item>
+                    <ListItem style={{marginLeft:10}}>
+                        <CheckBox
+                            checked={this.props.remember}
+                            color="black"
+                            onPress = {value => this.props.loginParameterUpdated({prop: 'remember', value})}
+                        />
+                        <Body>
+                        <Text style={{fontSize: 14}}>记住密码</Text>
+                        </Body>
+                    </ListItem>
+                    {this.renderError()}
+                    { this.renderButton() }
+                </Form>
+                <Card transparent >
+                    <CardItem style={{backgroundColor: '#f8f8f8'}}>
+                        <View style={{flex: 1, ...Styles.RowCenter}}>
+                            <Button transparent onPress = {()=>{Actions.forgottenverify()}}>
+                                <Text style={{color: '#000', fontSize: 16}}>忘记密码</Text>
+                            </Button>
+                            <Text style={{ color: '#000', fontSize: 16}}>还没有账号</Text>
+                            <Button transparent onPress={()=> {Actions.register()}}>
+                                <Text style={{ color: 'red', fontSize: 16}}>立即注册</Text>
+                            </Button>
+                        </View>
+                    </CardItem>
+                </Card>
+            </Content>
+        </Container>
+    );
+}
 }
 
 const styles ={
@@ -146,4 +155,4 @@ const mapStateToProps = (state) => {
     const {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
     return {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage};
 };
-export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(Login);
+export default connect(mapStateToProps, {loginParameterUpdated, loginUser, initializeLoginStatus})(Login);

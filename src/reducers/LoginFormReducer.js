@@ -1,9 +1,15 @@
 import {
-    LOGIN_PARAMETER_UPDATED, LOGIN_USER_SUCCESS, LOGIN_USER_ATTEMPTING, LOGIN_USER_FAIL, LOGOUT_USER,
-    HOME_LOADING, GET_HOME_BANNERS,
+    LOGIN_PARAMETER_UPDATED,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_ATTEMPTING,
+    LOGIN_USER_FAIL,
+    LOGOUT_USER,
+    HOME_LOADING,
+    GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
     GET_WALLET_LIST,
-    GET_BIND_INFO,GET_BIND_INFO_LOADING,
+    GET_BIND_INFO,
+    GET_BIND_INFO_LOADING,
     GET_ID_CARD_INFO,
     GET_PROVINCE_LISTS,
     GET_CITY_LISTS,
@@ -12,8 +18,19 @@ import {
     AVATAR_SUBMIT,
     AVATAR_CHANGED,
     AVATAR_SUCCESS,
-    GET_WITHRAWAL_OBJECT_SUCCESS, GET_WITHRAWAL_OBJECT_FAILURE, GET_WITHRAWAL_OBJECT_LOADING, INITIALIZE_WITHDRAWAL_DATA, SET_WALLET_TYPE, INITIALIZE_WITHDRAWAL_MESSAGE,
-    GET_WITHRAWAL_LOGS_SUCCESS, GET_WITHRAWAL_LOGS_FAILURE, GET_WITHRAWAL_LOGS_LOADING,
+    GET_WITHRAWAL_OBJECT_SUCCESS,
+    GET_WITHRAWAL_OBJECT_FAILURE,
+    GET_WITHRAWAL_OBJECT_LOADING,
+    INITIALIZE_WITHDRAWAL_DATA,
+    SET_WALLET_TYPE,
+    INITIALIZE_WITHDRAWAL_MESSAGE,
+    GET_WITHRAWAL_LOGS_SUCCESS,
+    GET_WITHRAWAL_LOGS_FAILURE,
+    GET_WITHRAWAL_LOGS_LOADING,
+    GET_POINT_LIST_SUCCESS,
+    GET_POINT_LIST_FAILURE,
+    GET_POINT_LIST_LOADING,
+    INITIALIZE_LOGIN_STATUS
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -28,7 +45,7 @@ const INITIAL_STATE = {
     error: '',
     user: null,
     loginMessage: '',
-    bLoginSuccess: false,
+    bLoginSuccess: null,
     bindInfo: null,
     bBindInfoLoading: false,
     provinces: null, cities: null, districts: null,
@@ -37,6 +54,10 @@ const INITIAL_STATE = {
     userAvatar: null,
     withdrawalObj: null, withdrawalMsg: '', bWithdrawalLoading: false, walletType: 1,
     withdrawalLogsObj: null,withdrawalLogsMsg:'', bWithdrawalLogs: false,
+    pointsObj: null,
+    pointsMsg: '',
+    bPointsLoading: false,
+    bPointsSuccessed: false,
 };
 let remember_status = INITIAL_STATE.remember;
 
@@ -68,7 +89,13 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_SUCCESS:
             return {...state, ...INITIAL_STATE, user: action.payload.user,bLoginSuccess: true, loginMessage: action.payload.msg };
         case LOGIN_USER_FAIL:
-            return {...state, error: action.payload, loading: false, user: null};
+            return {...state, error: action.payload, loading: false, user: null, bLoginSuccess: false};
+        case INITIALIZE_LOGIN_STATUS:
+            return {...state, bLoginSuccess: null};
+        case LOGOUT_USER:
+            return {...INITIAL_STATE};
+
+
         case HOME_LOADING:
             return {...state, user: action.payload};
         case GET_COMMISSION_LIST:
@@ -81,8 +108,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, bBindInfoLoading: true};
         case GET_ID_CARD_INFO:
             return {...state, bindInfo: action.payload, user:{...state.user, id_card: action.payload}};
-        case LOGOUT_USER:
-            return {...INITIAL_STATE};
+
         case GET_PROVINCE_LISTS:
             return {...state, provinces: areas, cities: null, districts: null};
         case GET_CITY_LISTS:
@@ -119,11 +145,17 @@ export default (state = INITIAL_STATE, action) => {
         case GET_WITHRAWAL_LOGS_LOADING:
             return {...state, bWithdrawalLogs: true};
 
+        case GET_POINT_LIST_SUCCESS:
+            return {...state, pointsObj: action.payload.value, bWithdrawalLogs: false};
+        case GET_POINT_LIST_FAILURE:
+            return {...state,withdrawalLogsObj: null, withdrawalLogsMsg: action.payload.msg, bWithdrawalLogs: false};
+        case GET_POINT_LIST_LOADING:
+            return {...state, bWithdrawalLogs: true};
+
 
         default:
             return state;
     }
 }
 
-//    withdrawalWalletLogsObj: null,withdrawalWalletLogsMsg:'', bWithdrawalWalletLogs: false,
-//     withdrawalCommissionLogsObj: null,withdrawalCommissionMsg:'', bWithdrawalCommissionLogs: false
+

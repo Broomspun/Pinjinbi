@@ -6,7 +6,7 @@ import {View,Image,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {submitIdCardInfo} from './../../../actions'
+import {submitIdCardInfo, get_idcardInfo} from './../../../actions'
 
 import { Button, Card, Container, Content, Form, Input, Item, Text, Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
@@ -16,14 +16,22 @@ class VerifyPassport extends Component {
 
     constructor(props){
         super(props);
+
+        if(props.user && this.props.user.id_card.length===0) {
+            (async () => {
+                const {UserId, Token} = this.props.user;
+                await this.props.get_idcardInfo(UserId, Token);
+            })();
+        }
+
         this.state = {
             user: this.props.user,
             id_card_front_photo: null,
             id_card_back_photo: null,
             id_card_hand_held1: null,
             id_card_hand_held2: null,
-            username: props.user.id_card.UserRName,
-            id_card: props.user.id_card.Idcard
+            username: props.user.id_card ? props.user.id_card.UserRName:'',
+            id_card: props.user.id_card ? props.user.id_card.Idcard:''
         };
     }
 
@@ -79,7 +87,7 @@ class VerifyPassport extends Component {
                         this.setState({
                             id_card_hand_held2: source
                         });
-                         break;
+                        break;
                 }
 
             }
@@ -239,5 +247,5 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     return {id_res, user};
 };
-export default connect(mapStateToProps, {submitIdCardInfo})(VerifyPassport);
+export default connect(mapStateToProps, {submitIdCardInfo,get_idcardInfo})(VerifyPassport);
 

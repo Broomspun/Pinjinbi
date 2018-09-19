@@ -98,7 +98,7 @@ class UserAvatar extends Component {
 
         if(userAvatar==='') {
             Toast.show({
-                text: `Please Choose an Avartar`, buttonText: "是", type: "danger"
+                text: `Please Choose an Avatar`, buttonText: "是", type: "danger"
             });
             return;
         }
