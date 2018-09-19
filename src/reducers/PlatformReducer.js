@@ -1,7 +1,9 @@
 import {
     SUBMIT_TABAO_ACCOUNT_SUCCESS, SUBMIT_TABAO_ACCOUNT_FAILURE, SUBMIT_TABAO_ACCOUNT_LOADING,
     GET_PLATFORM_INFO_SUCCESS, GET_PLATFORM_INFO_FAILURE, GET_PLATFORM_INFO_LOADING, LOGOUT_USER,
-    GET_PLATFORM_LISTS_SUCCESS, GET_PLATFORM_LISTS_FAILURE, GET_PLATFORM_LISTS_LOADING
+    GET_PLATFORM_LISTS_SUCCESS, GET_PLATFORM_LISTS_FAILURE, GET_PLATFORM_LISTS_LOADING,
+    GET_SHOPPING_CATEGORIES_SUCCESS, GET_SHOPPING_CATEGORIES_FAILURE, GET_SHOPPING_CATEGORIES_LOADING,
+
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -14,7 +16,11 @@ const INITIAL_STATE = {
     platformLists: null,
     platformListsMsg: '',
     bPlatformListsLoading: false,
-    bPlatformBindSubmittedStatus: null
+    bPlatformBindSubmittedStatus: null,
+    shopCategoryObj: null,
+    shopCategoryMsg: '',
+    bShopCategoryLoading: false,
+
 };
 
 
@@ -40,6 +46,15 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, platformLists: null, platformListsMsg: action.payload.msg, bPlatformListsLoading: false};
         case GET_PLATFORM_LISTS_LOADING:
             return {...state, bPlatformListsLoading: true};
+
+
+        case GET_SHOPPING_CATEGORIES_SUCCESS:
+            return {...state, shopCategoryObj: action.payload.value, bShopCategoryLoading: false, };
+        case GET_SHOPPING_CATEGORIES_FAILURE:
+            return {...state, shopCategoryObj: null, shopCategoryMsg: action.payload.msg, bShopCategoryLoading: false};
+        case GET_SHOPPING_CATEGORIES_LOADING:
+            return {...state, bShopCategoryLoading: true};
+
 
         case LOGOUT_USER:
             return {...INITIAL_STATE};

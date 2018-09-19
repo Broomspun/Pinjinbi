@@ -27,6 +27,8 @@ const INITIAL_STATE = {
     loading: false,
     error: '',
     user: null,
+    loginMessage: '',
+    bLoginSuccess: false,
     bindInfo: null,
     bBindInfoLoading: false,
     provinces: null, cities: null, districts: null,
@@ -64,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_ATTEMPTING:
             return {...state, loading: true, error: ''};
         case LOGIN_USER_SUCCESS:
-            return {...state, ...INITIAL_STATE, user: action.payload.user, msg: action.payload.msg };
+            return {...state, ...INITIAL_STATE, user: action.payload.user,bLoginSuccess: true, loginMessage: action.payload.msg };
         case LOGIN_USER_FAIL:
             return {...state, error: action.payload, loading: false, user: null};
         case HOME_LOADING:

@@ -1,6 +1,3 @@
-/**
- * Created by Kim on 06/08/2018.
- */
 import React, {Component} from 'react'
 import {View,Image,TouchableOpacity,StyleSheet, PixelRatio, Alert} from 'react-native';
 import {connect} from 'react-redux';
@@ -10,7 +7,10 @@ import {Actions} from 'react-native-router-flux';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import RNPickerSelect from 'react-native-picker-select';
-import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo} from "@actions";
+import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCategories} from "@actions";
+import Modal from "react-native-modal";
+import { SelectMultipleButton, SelectMultipleGroupButton } from 'react-native-selectmultiple-button'
+
 
 class BindTabaoAccount extends Component {
 
@@ -59,8 +59,11 @@ class BindTabaoAccount extends Component {
             VerifiedImg: null,
             BorrowingImg: null,
             validationForm: true,
-            bPlatformBindSubmittedStatus: null
+            bPlatformBindSubmittedStatus: null,
+            bShowCategories: false
         };
+        if(!this.props.shopCategoryObj)
+            this.props.getAllShoppingCategories();
     }
 
     componentDidMount(){
@@ -241,8 +244,6 @@ class BindTabaoAccount extends Component {
         });
     }
 
-    componentWillUpdate(){
-    }
 
     setProvinceCode = (value, index)=>{
         this.setState({
@@ -271,12 +272,41 @@ class BindTabaoAccount extends Component {
         });
     }
 
+    _renderCategoryModal = () => {
+        return (
+            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+                <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                    <Text style={{color: 'white', fontSize: Styles.fontNormal}}>请选择经常购买的3-5个购物类目</Text>
+                </View>
+                <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 15,}}>
+                    <View style={{paddingVertical: 20}}>
+                        <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>清缓存后会重启应用，确认清缓存吗？</Text>
+                    </View>
+                </View>
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
+                    <Button onPress={()=>this.setState({bShowCategories: false})}
+                            style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                    </Button>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
+
+        )
+    }
+
+
 
     render() {
         const {IdcardInHand} = this.props.user.id_card;
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
                 <Content style={{paddingBottom: 20}}>
+                    <Modal  isVisible={this.state.bShowCategories} style={{...Styles.ColumnCenter}}>
+                        {this._renderCategoryModal()}
+                    </Modal>
                     <View style={{padding: 15, marginBottom: 20}}>
                         <View style={{marginBottom: 15}}>
                             <Text style={{fontSize: Styles.fontLarge, color: Color.textNormal}}>注意事项</Text>
@@ -414,7 +444,7 @@ class BindTabaoAccount extends Component {
                             />
                         </Item>
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, marginTop: 10}}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={()=> this.setState({bShowCategories: true})}>
                                 <Text style={{color: Color.textNormal, fontSize: Styles.fontNormal}}>购物类目</Text>
                             </TouchableOpacity>
                         </View>
@@ -520,8 +550,8 @@ const pickerSelectStyles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
     const {user, provinces, cities, districts} = state.loginForm;
-    const {tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus} = state.platformReducer;
-    return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus};
+    const {tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj} = state.platformReducer;
+    return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj};
 };
-export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount,getAllShoppingCategories})(BindTabaoAccount);
 

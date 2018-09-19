@@ -1,7 +1,8 @@
 import {
     SUBMIT_TABAO_ACCOUNT_SUCCESS, SUBMIT_TABAO_ACCOUNT_FAILURE, SUBMIT_TABAO_ACCOUNT_LOADING,
     GET_PLATFORM_INFO_SUCCESS, GET_PLATFORM_INFO_FAILURE, GET_PLATFORM_INFO_LOADING,
-    GET_PLATFORM_LISTS_SUCCESS, GET_PLATFORM_LISTS_FAILURE, GET_PLATFORM_LISTS_LOADING
+    GET_PLATFORM_LISTS_SUCCESS, GET_PLATFORM_LISTS_FAILURE, GET_PLATFORM_LISTS_LOADING,
+    GET_SHOPPING_CATEGORIES_SUCCESS, GET_SHOPPING_CATEGORIES_FAILURE, GET_SHOPPING_CATEGORIES_LOADING,
 } from "./types";
 
 
@@ -85,19 +86,19 @@ export const getMemberPlatformInfo = (UserId, Token, PlatId) => {
 
 export const getAllShoppingCategories = () => {
     return (dispatch) => {
-        dispatch({type: GET_PLATFORM_LISTS_LOADING}); //for Spinner;
+        dispatch({type: GET_SHOPPING_CATEGORIES_LOADING}); //for Spinner;
         (async ()=>{
             let res = await requestGET_API('Member/GetALLShoppingCategory');
 
             if(res.status===200) {
                 dispatch({
-                    type: GET_PLATFORM_LISTS_SUCCESS,
+                    type: GET_SHOPPING_CATEGORIES_SUCCESS,
                     payload: {value: res.data, msg: res.msg}
                 });
             }
             else {
                 dispatch({
-                    type: GET_PLATFORM_LISTS_FAILURE,
+                    type: GET_SHOPPING_CATEGORIES_FAILURE,
                     payload: {msg: res.msg}
                 });
             }

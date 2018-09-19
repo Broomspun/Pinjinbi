@@ -63,7 +63,8 @@ class Home extends Component {
                 }
             })();
 
-            this.props.isCompletedNoviceTask(UserId, Token);
+            if(!this.props.noviceObj)
+                this.props.isCompletedNoviceTask(UserId, Token);
         }
     }
 
@@ -107,9 +108,15 @@ class Home extends Component {
         </View>
     );
 
-    getUserBindStatus =  () => {
+    getUserBindStatus =  (taskType) => {
+        /**
+         *  taskType:  Task Type, 1- Advancement task, 2-Browse task
+         */
 
-        if(this.state.bindInfo.IsAUT===0){
+        if(this.props.user && this.props.noviceObj){
+            Actions.totalmissions({taskType: taskType});
+
+        } else {
             this.setState({bShowStartUserBindingModal: true});
         }
     };
@@ -183,13 +190,13 @@ class Home extends Component {
                         </View>
                     </View>
                     <View style={{...styles.secondViewStyle, height: 100, ...Styles.shadowStyle}}>
-                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this)}>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this,1)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
                             </View>
                             <Text style={{color: Color.textNormal}}>垫付任务</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this)}>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this,2)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
                                 <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
                             </View >

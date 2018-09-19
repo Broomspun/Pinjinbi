@@ -41,9 +41,9 @@ class Login extends Component {
             })
         }
         //
-        if(nextProps.user) {
+        if(nextProps.bLoginSuccess) {
             Toast.show({
-                text: `${nextProps.msg}`,
+                text: `${nextProps.loginMessage}`,
                 buttonText: "是",
                 type: "success",
             })
@@ -143,7 +143,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {phone, password, remember, loading, error, user, msg} = state.loginForm;
-    return {phone, password, remember, loading, error, user, msg};
+    const {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
+    return {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage};
 };
 export default connect(mapStateToProps, {loginParameterUpdated, loginUser})(Login);

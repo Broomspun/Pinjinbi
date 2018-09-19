@@ -1,22 +1,32 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
 
 import { Container, Content, Button, Footer, FooterTab} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
+import {getPlatformLists} from "../../actions";
 
 
 class TotalMissions extends Component {
-    state = {selectedTab: 1};
+
     constructor(props) {
         super(props);
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        if(!this.props.platformLists)
+            this.props.getPlatformLists();
+        console.log(props);
+
+        this.state = {selectedTab: props.taskType};
+
     }
     componentDidUpdate() {
         console.log('tab event',this.state);
+
     }
 
     _renderTabs = ()=>{
@@ -177,4 +187,11 @@ class TotalMissions extends Component {
     }
 }
 
-export default TotalMissions;
+
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {platformLists} = state.platformReducer;
+    return {user, platformLists};
+};
+export default connect(mapStateToProps, {getPlatformLists})(TotalMissions);
+

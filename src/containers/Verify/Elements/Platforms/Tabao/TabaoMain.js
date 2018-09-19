@@ -91,7 +91,7 @@ class TabaoMain extends Component {
                 <Content style={{...Styles.mt15}}>
                     {this._renderTabaoContent()}
                 </Content>
-                {this.props.user && this.props.platObj && this.props.platObj.AccountList.length===0 && (
+                {((this.props.user && this.props.platObj && this.props.platObj.AccountList.length===0) || !this.props.platObj )&& (
                 <Footer>
                     <View style={{flex:1}}>
                         <View style={{...Styles.ColumnCenter, flex: 1}}>

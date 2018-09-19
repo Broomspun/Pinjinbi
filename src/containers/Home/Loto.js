@@ -38,7 +38,7 @@ class Loto extends Component {
     }
 
     componentDidMount() {
-        console.log('height',  Dimensions.get('screen'));
+
     }
 
     componentDidUpdate() {
@@ -66,9 +66,6 @@ class Loto extends Component {
         </View>
     );
 
-    onButtonPress(){
-
-    }
 
     _onStartTrialLoto = ()=> {
         if(this.props.user && this.props.lotoObj.RemainingNum>0) {

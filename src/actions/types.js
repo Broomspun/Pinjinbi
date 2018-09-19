@@ -146,3 +146,8 @@ export const GET_PLATFORM_INFO_LOADING = 'get_platform_info_loading';
 export const GET_PLATFORM_LISTS_SUCCESS = 'get_platform_lists_success';
 export const GET_PLATFORM_LISTS_FAILURE = 'get_platform_lists_failure';
 export const GET_PLATFORM_LISTS_LOADING = 'get_platform_lists_loading';
+
+//Shop Categories
+export const GET_SHOPPING_CATEGORIES_SUCCESS = 'get_shopping_categories_success';
+export const GET_SHOPPING_CATEGORIES_FAILURE = 'get_shopping_categories_failure';
+export const GET_SHOPPING_CATEGORIES_LOADING = 'get_shopping_categories_loading';
