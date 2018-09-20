@@ -20,7 +20,7 @@ class VerifyPassport extends Component {
     constructor(props){
         super(props);
 
-        if(props.user && this.props.user.id_card.length===0) {
+        if(props.user && this.props.user.id_card && this.props.user.id_card.length===0) {
             (async () => {
                 const {UserId, Token} = this.props.user;
                 await this.props.get_idcardInfo(UserId, Token);
@@ -28,7 +28,6 @@ class VerifyPassport extends Component {
         }
 
         this.state = {
-            user: this.props.user,
             id_card_front_photo: null,
             id_card_back_photo: null,
             id_card_hand_held1: null,
@@ -163,8 +162,8 @@ class VerifyPassport extends Component {
     }
 
     submitIdCard = () => {
-        const {UserId, Token} = this.state.user;
-        const {username,id_card, id_card_front_photo,id_card_back_photo, id_card_hand_held1} = this.state;
+        const {UserId, Token} = this.props.user;
+        const {username, id_card_front_photo,id_card_back_photo, id_card_hand_held1,id_card} = this.state;
 
         if(username==='') {
             Toast.show({
@@ -179,13 +178,12 @@ class VerifyPassport extends Component {
             return;
         }
 
-
-        this.props.submitIdCardInfo(UserId, Token, username, id_card_front_photo.uri,
+        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo.uri,
             id_card_back_photo.uri, id_card_hand_held1.uri);
     };
 
     render() {
-        const {Idcard,IdcardInHand,IdcardNegative,IdcardPositive,IsAUT,IsAUTStr,UserRName} = this.props.user.id_card;
+        const {IdcardInHand,IdcardNegative,IdcardPositive} = this.props.user.id_card;
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
                 <Content >
@@ -314,5 +312,5 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     return {user, idObj,idMsg,bIdCardSubmitSuccess, idCardErrorCode};
 };
-export default connect(mapStateToProps, {submitIdCardInfo,get_idcardInfo, initializeStatus})(VerifyPassport);
+export default connect(mapStateToProps, {submitIdCardInfo, get_idcardInfo, initializeStatus})(VerifyPassport);
 
