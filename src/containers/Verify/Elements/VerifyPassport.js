@@ -172,10 +172,16 @@ class VerifyPassport extends Component {
             });
             return;
         }
+        if(!id_card_front_photo  || !id_card_back_photo || !id_card_hand_held1) {
+            Toast.show({
+                text: `Please choose image`, buttonText: "是", type: "danger"
+            });
+            return;
+        }
 
 
-        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo?id_card_front_photo.uri:null,
-            id_card_back_photo? id_card_back_photo.uri:null, id_card_hand_held1?id_card_hand_held1.uri:null);
+        this.props.submitIdCardInfo(UserId, Token, username, id_card_front_photo.uri,
+            id_card_back_photo.uri, id_card_hand_held1.uri);
     };
 
     render() {
