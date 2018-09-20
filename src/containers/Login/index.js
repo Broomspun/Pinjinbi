@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react'
 import Timer from 'react-timer-mixin';
-import {View,Image} from 'react-native';
+import {View, Image, Platform, UIManager} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
@@ -28,6 +28,18 @@ import {
 
 
 class Login extends Component {
+    constructor(props) {
+        super(props);
+
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
+        }
+
+        this.state = {remember: true}
+
+    }
+
+
     onButtonPress() {
         const {phone, password} = this.props;
         this.props.loginUser({phone, password});
@@ -103,9 +115,9 @@ render() {
                     </Item>
                     <ListItem style={{marginLeft:10}}>
                         <CheckBox
-                            checked={this.props.remember}
+                            checked={this.state.remember}
                             color="black"
-                            onPress = {value => this.props.loginParameterUpdated({prop: 'remember', value})}
+                            onPress = {() => this.setState({remember: !this.state.remember})}
                         />
                         <Body>
                         <Text style={{fontSize: 14}}>记住密码</Text>
@@ -152,7 +164,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
-    return {phone, password, remember, loading, error, user, bLoginSuccess, loginMessage};
+    const {phone, password, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
+    return {phone, password, loading, error, user, bLoginSuccess, loginMessage};
 };
 export default connect(mapStateToProps, {loginParameterUpdated, loginUser, initializeLoginStatus})(Login);

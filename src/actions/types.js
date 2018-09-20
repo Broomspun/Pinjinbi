@@ -8,6 +8,14 @@ export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
 export const INITIALIZE_LOGIN_DATA = 'initialize_login_data';
 export const INITIALIZE_LOGIN_STATUS = 'initialize_login_status';
 
+export const SUBMIT_RESET_LOGIN_PASSWORD_SUCCESS = 'submit_reset_login_password_success';
+export const SUBMIT_RESET_LOGIN_PASSWORD_FAILURE = 'submit_reset_login_password_failure';
+export const SUBMIT_RESET_LOGIN_PASSWORD_LOADING = 'submit_reset_login_password_loading';
+
+export const GET_VIP_LISTS_SUCCESS = 'get_vip_lists_success';
+export const GET_VIP_LISTS_FAILURE = 'get_vip_lists_failure';
+export const INITIALIZE_VIP_MESSAGE = 'initialize_vip_message';
+
 
 export const HOME_LOADING = 'home_loading';
 export const GET_HOME_BANNERS = 'get_home_banners';

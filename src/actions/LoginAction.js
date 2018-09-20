@@ -30,6 +30,8 @@ import {
     GET_POINT_LIST_SUCCESS,
     GET_POINT_LIST_FAILURE,
     GET_POINT_LIST_LOADING,
+    SUBMIT_RESET_LOGIN_PASSWORD_SUCCESS, SUBMIT_RESET_LOGIN_PASSWORD_FAILURE, SUBMIT_RESET_LOGIN_PASSWORD_LOADING,
+    GET_VIP_LISTS_SUCCESS, GET_VIP_LISTS_FAILURE,
 
 } from "./types";
 
@@ -71,6 +73,31 @@ export const loginUser = ({phone, password}) => {
     };
 };
 
+export const submitResetLoginPassword = (Mobile, NewLoginPwd) => {
+    return (dispatch) => {
+        dispatch ({type: SUBMIT_RESET_LOGIN_PASSWORD_LOADING});//For Spinner
+
+        (async ()=>{
+            let res = await requestPOST_API('Member/SubmitResetLoginPwd',
+                {Mobile: Mobile, NewLoginPwd: NewLoginPwd}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: SUBMIT_RESET_LOGIN_PASSWORD_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            }
+            else {
+                dispatch({
+                    type: SUBMIT_RESET_LOGIN_PASSWORD_FAILURE,
+                    payload: {value: null, msg: res.msg, errCode: res.status}
+                });
+            }
+        })();
+    };
+};
+
+
 const loginUserFail = (dispatch, msg)=>{
     dispatch({
         type: LOGIN_USER_FAIL,
@@ -86,6 +113,8 @@ const loginUserSuccess = async (dispatch, user, msg) => {
 
     await _storeUserAuthenticationData(user);
 };
+
+
 
 export const homeLoading = (UserId, Token, user)=> {
     return (dispatch) =>{
@@ -324,5 +353,28 @@ export const getWithdrawalLogs = (UserId, Token, WalletType=0, Page=1, PageSize=
 export const initializeLoginStatus = () => {
     return {
         type: INITIALIZE_LOGIN_STATUS
+    };
+};
+
+
+
+export const getVIPLists = () => {
+    return (dispatch) => {
+        (async ()=>{
+            let res = await requestGET_API('Money/GetVIPList');
+
+            if(res.status===200) {
+                dispatch({
+                    type: GET_VIP_LISTS_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_VIP_LISTS_FAILURE,
+                    payload: {value: null, msg: res.msg}
+                });
+
+            }
+        })();
     };
 };

@@ -1,9 +1,5 @@
 import {
-    LOGIN_PARAMETER_UPDATED,
-    LOGIN_USER_SUCCESS,
-    LOGIN_USER_ATTEMPTING,
-    LOGIN_USER_FAIL,
-    LOGOUT_USER,
+    LOGIN_PARAMETER_UPDATED, LOGIN_USER_SUCCESS, LOGIN_USER_ATTEMPTING, LOGIN_USER_FAIL, LOGOUT_USER,
     HOME_LOADING,
     GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
@@ -30,7 +26,8 @@ import {
     GET_POINT_LIST_SUCCESS,
     GET_POINT_LIST_FAILURE,
     GET_POINT_LIST_LOADING,
-    INITIALIZE_LOGIN_STATUS
+    INITIALIZE_LOGIN_STATUS,
+    GET_VIP_LISTS_SUCCESS, GET_VIP_LISTS_FAILURE, INITIALIZE_VIP_MESSAGE,
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -40,7 +37,6 @@ const INITIAL_STATE = {
     password: 'password123',
     // password: '',
     // password: '123456',
-    remember: true,
     loading: false,
     error: '',
     user: null,
@@ -58,8 +54,11 @@ const INITIAL_STATE = {
     pointsMsg: '',
     bPointsLoading: false,
     bPointsSuccessed: false,
+    vipObj: null,
+    vipMsg: '',
+    bVipSubmitStatus: null,
+    bVipLoading: false,
 };
-let remember_status = INITIAL_STATE.remember;
 
 const convertAreas =(areas) => {
   return areas.map(area=>{
@@ -78,11 +77,6 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
-            if(action.payload.prop==='remember') {
-                remember_status = !remember_status;
-                return {...state, [action.payload.prop]: remember_status};
-            }
-            // action.payload === {prop: 'name', value: 'jane' }
             return {...state, [action.payload.prop]: action.payload.value};
         case LOGIN_USER_ATTEMPTING:
             return {...state, loading: true, error: ''};
@@ -152,10 +146,14 @@ export default (state = INITIAL_STATE, action) => {
         case GET_POINT_LIST_LOADING:
             return {...state, bWithdrawalLogs: true};
 
-
+        case GET_VIP_LISTS_SUCCESS:
+            return {...state, vipObj: action.payload.value, bVipLoading: false, bVipSubmitStatus: true};
+        case GET_VIP_LISTS_FAILURE:
+            return {...state,vipObj: null, vipMsg: action.payload.msg, bVipLoading: false, bVipSubmitStatus: false};
+        case INITIALIZE_VIP_MESSAGE:
+            return {...state, bVipSubmitStatus: null};
         default:
             return state;
     }
 }
-
 

@@ -9,6 +9,8 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Actions} from "react-native-router-flux";
 import { Button, Container, Content, Text, Footer } from 'native-base';
 import Modal from "react-native-modal";
+import {INITIALIZE_VIP_MESSAGE} from "../../../actions/types";
+import {getVIPLists} from './../../../actions'
 
 
 class VIPMain extends Component {
@@ -25,7 +27,8 @@ class VIPMain extends Component {
             button6Select: true,
             buttonSelectBackColor: '#ff682d',
             buttonUnSelectBackColor: '#ffa800',
-        }
+        };
+        this.props.getVIPLists();
     }
 
     componentWillReceiveProps(nextProps){
@@ -37,7 +40,9 @@ class VIPMain extends Component {
         else
             this.setState({bShowVIPModal: !this.state.bShowVIPModal});
     };
-
+    componentWillUnmount() {
+        this.props.initializeStatus(INITIALIZE_VIP_MESSAGE);
+    }
 
     componentWillUpdate(){
     }
@@ -174,9 +179,8 @@ class VIPMain extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const {id_res} = state.bindInfoData;
     const {user} = state.loginForm;
-    return {id_res, user};
+    return {user};
 };
-export default connect(mapStateToProps, {})(VIPMain);
+export default connect(mapStateToProps, {getVIPLists})(VIPMain);
 
