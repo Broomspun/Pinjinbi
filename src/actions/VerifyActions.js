@@ -3,10 +3,9 @@ import {requestPOST_API} from './../Services'
 import {
     GET_BIND_INFO,
     GET_BIND_INFO_LOADING,
-    QQ_SUBMIT_SUCCESS,
-    ID_CARD_SUBMIT_SUCCESS,
+    QQ_SUBMIT_SUCCESS, QQ_SUBMIT_FAILURE,
     BANK_INFO_SUBMIT_SUCCESS,
-    QQ_SUBMIT_FAILURE, INITIALIZE_QQ_MESSAGE, INITIALIZE_QQ_DATA
+    INITIALIZE_ID_CARD_MESSAGE,ID_CARD_SUBMIT_SUCCESS, ID_CARD_SUBMIT_FAILURE
 } from "./types";
 
 export const get_bindInfo = (UserId, Token) => {
@@ -57,7 +56,7 @@ export const submitIdCardInfo = (UserId, Token,UserName,Idcard,IdCardImgOne,IdCa
                 {
                     UserId:UserId,Token:Token,UserRName:UserName,Idcard:Idcard, IdCardImgOne:IdCardImgOne,IdCardImgTwo:IdCardImgTwo,IdCardImgThree:IdCardImgThree
                 }
-                );
+            );
 
             console.log('id_res', res);
             if(res.status===200)
@@ -65,7 +64,6 @@ export const submitIdCardInfo = (UserId, Token,UserName,Idcard,IdCardImgOne,IdCa
                     type: ID_CARD_SUBMIT_SUCCESS,
                     payload: res.data
                 });
-                // IdCard_SubmitSuccess(dispatch, res.data);
         })();
     };
 };
@@ -88,14 +86,7 @@ export const submitBankInfo = (UserId, Token, BankName, BankCardNo, BankAddress,
     };
 };
 
-export const initializeQQStatus = (bOnlyMessage=false) => {
-    if(bOnlyMessage)
-        return {
-            type: INITIALIZE_QQ_MESSAGE
-        };
-    else {
-        return {
-            type: INITIALIZE_QQ_DATA
-        }
-    }
+
+export const initializeStatus = (type) => {
+    return {type: type}
 };

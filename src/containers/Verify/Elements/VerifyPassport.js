@@ -2,6 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
+import axios from 'axios';
 import {View,Image,TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
@@ -10,6 +11,7 @@ import {submitIdCardInfo, get_idcardInfo} from './../../../actions'
 
 import { Button, Card, Container, Content, Form, Input, Item, Text, Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
+import RNFetchBlob from 'rn-fetch-blob'
 
 
 class VerifyPassport extends Component {
@@ -33,6 +35,44 @@ class VerifyPassport extends Component {
             username: props.user.id_card ? props.user.id_card.UserRName:'',
             id_card: props.user.id_card ? props.user.id_card.Idcard:''
         };
+
+        if(this.props.user.id_card) {
+            const {IdcardInHand,IdcardNegative,IdcardPositive} = this.props.user.id_card;
+
+            let photos = [IdcardInHand, IdcardNegative, IdcardPositive];
+
+            photos.map((photo, index)=> {
+                if(photo){
+                    RNFetchBlob.fetch('GET', photo)
+                        .then((res) => {
+                            let status = res.info().status;
+
+                            if(status == 200) {
+                                // the conversion is done in native code
+                                let base64Str = res.base64();
+
+                                let type = res.respInfo.headers['Content-Type'];
+
+                                let source = { uri: `data:${type};base64,` + base64Str};
+                                console.log('index=',index, source);
+
+                                if(index===0) this.setState({id_card_hand_held1: source});
+                                if(index===1) this.setState({id_card_back_photo: source});
+                                if(index===2) this.setState({id_card_front_photo: source});
+
+                            } else {
+                                // handle other status codes
+                            }
+                        })
+                        // Something went wrong:
+                        .catch((errorMessage, statusCode) => {
+                            // error handling
+                        })
+                }
+            });
+        }
+
+
     }
 
     selectPhotoTapped(id) {
@@ -83,11 +123,6 @@ class VerifyPassport extends Component {
                             id_card_hand_held1: source
                         });
                         break;
-                    case 3:
-                        this.setState({
-                            id_card_hand_held2: source
-                        });
-                        break;
                 }
 
             }
@@ -112,7 +147,8 @@ class VerifyPassport extends Component {
             return;
         }
 
-        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo.uri, id_card_back_photo.uri, id_card_hand_held1.uri);
+        this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo?id_card_front_photo.uri:null,
+            id_card_back_photo? id_card_back_photo.uri:null, id_card_hand_held1?id_card_hand_held1.uri:null);
     };
 
     render() {
@@ -186,10 +222,8 @@ class VerifyPassport extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                        { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
-                                        }
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} >
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={Images.sample_card} />
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, marginLeft: 3, marginRight:3}}>
@@ -213,7 +247,7 @@ class VerifyPassport extends Component {
                         </View>
 
                         <Button block style={styles.buttonStyle} onPress = {()=>this.submitIdCard()}>
-                            <Text style={{fontSize: Styles.fontLarge}}>登录</Text>
+                            <Text style={{fontSize: Styles.fontLarge}}>提交</Text>
                         </Button>
                     </Form>
                     <Card transparent >

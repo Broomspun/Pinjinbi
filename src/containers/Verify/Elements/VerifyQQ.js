@@ -9,9 +9,13 @@ import {Images, Constants,Styles, Color} from '@common';
 import {Actions} from 'react-native-router-flux'
 
 import {
+    QQ_SUBMIT_SUCCESS,  QQ_SUBMIT_FAILURE, INITIALIZE_QQ_MESSAGE,
+} from "./../../../actions/types";
+
+import {
     Button, Card,Container, Content, Form, Icon, Input,  Item, Text
 } from 'native-base';
-import {submitQQInfo, initializeQQStatus} from './../../../actions'
+import {submitQQInfo, initializeQQStatus, initializeStatus} from './../../../actions'
 
 class VerifyQQ extends Component {
     state = {qq: ''};
@@ -54,7 +58,7 @@ class VerifyQQ extends Component {
             })();
         }
 
-        this.props.initializeQQStatus(true);
+        this.props.initializeStatus(INITIALIZE_QQ_MESSAGE);
     }
     componentDidUpdate(nextProps){
 
@@ -126,4 +130,4 @@ const mapStateToProps = (state) => {
     const {qq_res,bQqSubmitSuccess, qqMsg, qqErrorCode} = state.bindInfoData;
     return {qq_res,bQqSubmitSuccess, qqMsg, qqErrorCode};
 };
-export default connect(mapStateToProps, {submitQQInfo, initializeQQStatus})(VerifyQQ);
+export default connect(mapStateToProps, {submitQQInfo, initializeStatus})(VerifyQQ);

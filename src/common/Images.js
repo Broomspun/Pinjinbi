@@ -120,7 +120,8 @@ const Images = {
     p05: require('./../assets/img/platforms/5.png'),
     p06: require('./../assets/img/platforms/6.png'),
     p07: require('./../assets/img/platforms/7.png'),
-    p08: require('./../assets/img/platforms/8.png')
+    p08: require('./../assets/img/platforms/8.png'),
+    sample_card: require('./../assets/img/sample_card.png')
 
 };
 
