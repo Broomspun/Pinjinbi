@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity, AsyncStorage, PixelRatio} from 'react-native'
+import {Platform, UIManager,Image, View, Text, TouchableOpacity, PixelRatio} from 'react-native'
 import { Container, Content, Button, Footer, FooterTab, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
@@ -43,7 +43,6 @@ class UserCenterMain extends Component {
 
     componentWillUnmount(){
         this.setState({bShowLogoutModal: false});
-        AsyncStorage.removeItem('pjinbi_auth_user');
     }
 
     _renderVersionInfo = () => {

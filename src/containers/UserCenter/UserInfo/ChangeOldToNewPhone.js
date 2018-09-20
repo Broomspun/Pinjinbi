@@ -101,8 +101,7 @@ class ChangeOldToNewPhone extends Component {
 
 
     componentWillUnmount(){
-        AsyncStorage.removeItem('pjinbi_auth_user');
-    }
+   }
 
     renderError() {
 

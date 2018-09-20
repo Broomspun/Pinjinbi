@@ -6,6 +6,8 @@ import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {get_bindInfo, get_idcardInfo, getPlatformLists} from './../../actions'
 import {Spinner1} from "@components";
+import _ from 'lodash'
+
 
 class VerifyMain extends Component {
 

@@ -11,17 +11,7 @@ const instance = axios.create({
 });
 
 export const _retrieveUserData = async () => {
-    try {
-        let user = await AsyncStorage.getItem('pjinbi_auth_user');
-        if (user !== null) {
-            return await user;
-        } else {
-            console.log('none user');
-            Actions.auth();
-        }
-    } catch (error) {
-        console.log('error');
-    }
+
 };
 
 export const getBindingInfo1 = async (userId, Token)=>{

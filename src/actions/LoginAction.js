@@ -44,14 +44,6 @@ export const loginParameterUpdated = ({ prop, value }) => {
     }
 };
 
-export const _storeUserAuthenticationData = async (user) => {
-    try {
-        await AsyncStorage.setItem('pjinbi_auth_user', JSON.stringify(user));
-    } catch (error) {
-        console.log('error',error);
-    }
-};
-
 export const loginUser = ({phone, password}) => {
     return (dispatch) => {
         dispatch ({type: LOGIN_USER_ATTEMPTING});//For Spinner
@@ -111,7 +103,6 @@ const loginUserSuccess = async (dispatch, user, msg) => {
         payload: {user: user, msg: msg}
     });
 
-    await _storeUserAuthenticationData(user);
 };
 
 

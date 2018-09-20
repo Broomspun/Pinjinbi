@@ -27,7 +27,6 @@ class ChangeLoginPassword extends Component {
 
 
     componentWillUnmount(){
-        AsyncStorage.removeItem('pjinbi_auth_user');
     }
 
     submitChangePassword () {
