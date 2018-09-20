@@ -84,7 +84,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_ATTEMPTING:
             return {...state, loading: true, error: ''};
         case LOGIN_USER_SUCCESS:
-            return {...state, ...INITIAL_STATE, user: action.payload.user,bLoginSuccess: true, loginMessage: action.payload.msg };
+            return {...state, user: action.payload.user,bLoginSuccess: true, loginMessage: action.payload.msg };
         case LOGIN_USER_FAIL:
             return {...state, error: action.payload, loading: false, user: null, bLoginSuccess: false};
         case INITIALIZE_LOGIN_STATUS:

@@ -29,6 +29,8 @@ import {
 
 class Login extends Component {
     constructor(props) {
+
+        console.log('test');
         super(props);
 
         if (Platform.OS === 'android') {
@@ -46,9 +48,10 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('login123', nextProps);
         if(nextProps.user && this.state.remember){
-            AsyncStorage.setItem('pjinbi_auth_user_phone', nextProps.phone);
-            AsyncStorage.setItem('pjinbi_auth_user_password', nextProps.password);
+            AsyncStorage.setItem('pjinbi_auth_user_phone', this.props.phone);
+            AsyncStorage.setItem('pjinbi_auth_user_password', this.props.password);
         }else if(nextProps.user && !this.state.remember){
             AsyncStorage.removeItem('pjinbi_auth_user_phone');
             AsyncStorage.removeItem('pjinbi_auth_user_password');
@@ -76,6 +79,16 @@ class Login extends Component {
             });
             this.props.initializeLoginStatus();
         }
+
+        if(nextProps.user===null) {
+            (async () => {
+                let phone = await AsyncStorage.getItem('pjinbi_auth_user_phone');
+                let password = await AsyncStorage.getItem('pjinbi_auth_user_password');
+                this.props.loadFromStorage(phone, password);
+
+            })();
+
+        }
     }
 
     componentWillUnmount() {
@@ -83,8 +96,6 @@ class Login extends Component {
     }
 
     componentDidMount(){
-
-
         (async () => {
             let phone = await AsyncStorage.getItem('pjinbi_auth_user_phone');
             let password = await AsyncStorage.getItem('pjinbi_auth_user_password');
