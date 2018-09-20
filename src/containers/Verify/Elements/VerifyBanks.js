@@ -2,13 +2,17 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View,Image,TouchableOpacity,PixelRatio} from 'react-native';
+import {View, Image, TouchableOpacity, PixelRatio, StyleSheet, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {Button, Card,Container, Content, Form, Icon, Input,  Item, Text} from 'native-base';
+import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
+import RNPickerSelect from 'react-native-picker-select';
 
-import {submitBankInfo} from "../../../actions";
+import {submitBankInfo, getAreaLists, initializeStatus} from "../../../actions";
+import {INITIALIZE_BANK_INFO_STATUS} from "../../../actions/types";
+import {Actions} from "react-native-router-flux";
+
 
 class VerifyBanks extends Component {
 
@@ -25,7 +29,7 @@ class VerifyBanks extends Component {
 
     constructor(props){
         super(props);
-
+        this.setProvinceCode = this.setProvinceCode.bind(this);
         this.state = {
             user: this.props.user,
             bankSelectedStatus: false,
@@ -35,14 +39,56 @@ class VerifyBanks extends Component {
             cardName: '蓝色',
             cardNo: '6217001210024455220',
             city: '上海',
-            branch: '市建设银行分行'
+            branch: '市建设银行分行',
+            ProvinceCode: undefined,
+            ProvinceName: '',
+            CityCode: undefined,
+            CityName: '',
+            DistrictCode: undefined,
+            DistrictName: '',
         };
+    }
+
+    componentDidMount(){
+        if(this.props.provinces===null)
+            this.props.getAreaLists('Province');
     }
     componentDidUpdate(nextProps){
     }
 
     componentWillUpdate(){
     }
+    componentWillUnmount() {
+        this.props.initializeStatus(INITIALIZE_BANK_INFO_STATUS);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.user && nextProps.bBankSubmitSuccess!==null) {
+            if(nextProps.bBankSubmitSuccess) {
+                Alert.alert(
+                    '成功',
+                    nextProps.bankMsg,
+                    [
+                        {text: 'OK', onPress: () => Actions.verifymain()},
+                    ],
+                    {cancelable: false}
+                )
+            }
+            else {
+                Alert.alert(
+                    '失败',
+                    nextProps.bankMsg,
+                    [
+                        {text: 'OK', onPress: () =>{nextProps.bankErrorCode=== 2 ? Actions.verifymain(): this.initializeStatus(INITIALIZE_BANK_INFO_STATUS)}},
+                    ],
+                    {cancelable: false}
+                )
+            }
+        }
+    }
+    initializeStatus = ()=> {
+        this.props.initializeStatus(INITIALIZE_BANK_INFO_STATUS);
+    };
 
     banks = [
         {name:'中国工商银行',id:1,  image:Images.bank_01},
@@ -89,13 +135,83 @@ class VerifyBanks extends Component {
     };
 
     onSubmit() {
-        const {UserId, Token} = this.state.user;
-        const {bankName,cardName,cardNo,city, branch} = this.state;
+        const {UserId, Token} = this.props.user;
+        const {bankName,cardName,cardNo} = this.state;
+
+        const {ProvinceName, CityName, DistrictName} = this.state;
+        let address = `${ProvinceName}${CityName}${DistrictName}`;
+
+        if(bankName ==='') {
+            Toast.show({
+                text: 'Please enter bank name!', buttonText: "是", type: "danger",
+                duration: 3000
+            });
+            return;
+        }
+
+        if(cardName ==='') {
+            Toast.show({
+                text: 'Please enter Card Holder!', buttonText: "是", type: "danger",
+                duration: 3000
+            });
+            return;
+        }
+
+        if(cardNo ==='') {
+            Toast.show({
+                text: 'Please enter Card Number!', buttonText: "是", type: "danger",
+                duration: 3000
+            });
+            return;
+        }
+
+        if(ProvinceName ==='') {
+            Toast.show({
+                text: 'Please choose Province!', buttonText: "是", type: "danger",
+                duration: 3000
+            });
+            return;
+        }
+
+        if(CityName ==='') {
+            Toast.show({
+                text: 'Please choose City!', buttonText: "是", type: "danger",
+                duration: 3000
+            });
+            return;
+        }
 
         //Validation
 
-        let address = city+branch;
+        // let address = city+branch;
         this.props.submitBankInfo(UserId, Token, bankName, cardNo, address, cardName);
+    }
+
+    setProvinceCode = (value, index)=>{
+        this.setState({
+            ProvinceCode: value,
+            ProvinceName: this.props.provinces[index]['label'],
+        });
+
+        this.props.getAreaLists('City', value);
+        console.log(this.state);
+
+    };
+
+    setCityCode = (value, index) => {
+        this.setState({
+            CityCode: value,
+            CityName: this.props.cities[index]['label'],
+        });
+
+        this.props.getAreaLists('District', value);
+    };
+
+    setDistrictCode(value, index) {
+        this.setState({
+            DistrictCode: value,
+            DistrictName: this.props.districts[index]['label'],
+        });
     }
 
     render() {
@@ -131,24 +247,46 @@ class VerifyBanks extends Component {
                             <Icon name={this.state.icon} type='Entypo' style={{color: Color.textNormal}}/>
                         </TouchableOpacity>
                         {this._renderBankLists()}
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="请选择所在城市"  //City
-                                value={this.state.city}
-                                style={{fontSize: Styles.fontSmall}}
-                                onChangeText = {(value)=>this.setState({city: value})}
+                        <View style={{marginHorizontal: 15}}>
+                        {this.props.provinces && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '选择省份',
+                                    value: null,
+                                }}
+                                items={this.props.provinces}
+                                onValueChange={(value, index) => { this.setProvinceCode(value, index)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.ProvinceCode}
                             />
-                        </Item>
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                value={this.state.branch}
-                                placeholder="请选择入户支行" //district,  branch name: city+branch
-                                style={{fontSize: Styles.fontSmall}}
-                                onChangeText = {(value)=>this.setState({branch: value})}
+                        )}
+                        {this.props.cities && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择城市',
+                                    value: null,
+                                }}
+                                items={this.props.cities}
+                                onValueChange={(value, index) => { this.setCityCode(value, index)}}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.CityCode}
                             />
-                        </Item>
+                        )}
+                        {this.props.districts && (
+                            <RNPickerSelect
+                                placeholder={{
+                                    label: '请选择区',
+                                    value: null,
+                                }}
+                                items={this.props.districts}
+                                onValueChange={(value, index) => {
+                                    this.setDistrictCode(value, index)
+                                }}
+                                style={{ ...pickerSelectStyles }}
+                                value={this.state.DistrictCode}
+                            />
+                        )}
+                        </View>
 
                         <Button block style={styles.buttonStyle} onPress={()=>this.onSubmit()}>
                             <Text style={{fontSize: Styles.fontLarge}}>提交</Text>
@@ -161,6 +299,20 @@ class VerifyBanks extends Component {
         );
     }
 }
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: Styles.fontNormal,
+        paddingTop: 10,
+        paddingHorizontal: 10,
+        paddingBottom: 12,
+        borderWidth: 1/PixelRatio.get(),
+        borderColor: Color.Border,
+        borderRadius: 4,
+        backgroundColor: 'white',
+        color: Color.textNormal,
+        marginHorizontal: 15,
+    },
+});
 
 const styles ={
     contentStyle: {
@@ -181,8 +333,9 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {bank_res} = state.bindInfoData;
-    return {bank_res};
+    const {user, provinces, cities, districts} = state.loginForm;
+    const {bankObj, bBankSubmitSuccess, bankMsg,bankErrorCode} = state.bindInfoData;
+    return {user, provinces, cities, districts, bankObj, bBankSubmitSuccess, bankMsg,bankErrorCode};
 };
-export default connect(mapStateToProps, {submitBankInfo})(VerifyBanks);
+export default connect(mapStateToProps, {submitBankInfo, getAreaLists, initializeStatus})(VerifyBanks);
 

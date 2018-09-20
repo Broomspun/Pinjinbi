@@ -5,7 +5,7 @@ export const LOGIN_PARAMETER_UPDATED = 'login_parameter_updated';
 export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER_ATTEMPTING = 'login_user_attempting';
-export const INITIALIZE_LOGIN_DATA = 'initialize_login_data';
+export const LOAD_FROM_STORAGE = 'load_from_storage';
 export const INITIALIZE_LOGIN_STATUS = 'initialize_login_status';
 
 export const SUBMIT_RESET_LOGIN_PASSWORD_SUCCESS = 'submit_reset_login_password_success';
@@ -68,6 +68,8 @@ export const INITIALIZE_ID_CARD_MESSAGE = 'id_card_submit_loading';
 
 export const GET_ID_CARD_INFO = 'get_id_card_info';
 export const BANK_INFO_SUBMIT_SUCCESS = 'bank_info_submit_success';
+export const BANK_INFO_SUBMIT_FAILURE = 'bank_info_submit_failure';
+export const INITIALIZE_BANK_INFO_STATUS = 'initialize_bank_info_status';
 
 //System Messages List
 export const GET_SYSTEM_MESSAGES_SUCCESS = 'get_system_messages_success';
@@ -175,3 +177,12 @@ export const GET_PLATFORM_LISTS_LOADING = 'get_platform_lists_loading';
 export const GET_SHOPPING_CATEGORIES_SUCCESS = 'get_shopping_categories_success';
 export const GET_SHOPPING_CATEGORIES_FAILURE = 'get_shopping_categories_failure';
 export const GET_SHOPPING_CATEGORIES_LOADING = 'get_shopping_categories_loading';
+
+
+//Shop Categories
+export const GET_USER_BANK_INFO_SUCCESS = 'get_bank_user_info_success';
+export const GET_USER_BANK_INFO_FAILURE = 'get_bank_user_info_failure';
+export const GET_USER_BANK_INFO_LOADING = 'get_bank_user_info_loading';
+export const INITIALIZE_USER_BANK_STATUS = 'initialize_user_bank_status';
+
+export const INITIALIZE_TABAO_SUBMIT_STATUS = 'initialize_user_bank_status';

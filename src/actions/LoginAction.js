@@ -7,8 +7,8 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
     LOGOUT_USER,
-    LOGIN_USER_ATTEMPTING,
-    INITIALIZE_LOGIN_DATA, INITIALIZE_LOGIN_STATUS,
+    LOGIN_USER_ATTEMPTING,LOAD_FROM_STORAGE,
+    INITIALIZE_LOGIN_STATUS,
     HOME_LOADING,
     GET_HOME_BANNERS,
     GET_COMMISSION_LIST,
@@ -56,7 +56,8 @@ export const loginUser = ({phone, password}) => {
         )
             .then(user =>{
                 if(user.data.errcode ===0) {
-                    loginUserSuccess(dispatch, user.data.obj, user.data.msg)
+                    loginUserSuccess(dispatch, user.data.obj, user.data.msg);
+
                 } else {
                     loginUserFail(dispatch, user.data.msg);
                 }
@@ -102,8 +103,17 @@ const loginUserSuccess = async (dispatch, user, msg) => {
         type: LOGIN_USER_SUCCESS,
         payload: {user: user, msg: msg}
     });
-
 };
+
+export const loadFromStorage = (phone, password)=>{
+    return (
+        {
+            type: LOAD_FROM_STORAGE,
+            payload: {phone: phone, pass: password}
+        }
+    )
+}
+
 
 
 

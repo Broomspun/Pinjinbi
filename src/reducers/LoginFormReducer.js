@@ -27,16 +27,17 @@ import {
     GET_POINT_LIST_FAILURE,
     GET_POINT_LIST_LOADING,
     INITIALIZE_LOGIN_STATUS,
-    GET_VIP_LISTS_SUCCESS, GET_VIP_LISTS_FAILURE, INITIALIZE_VIP_MESSAGE,
+    GET_VIP_LISTS_SUCCESS, GET_VIP_LISTS_FAILURE, INITIALIZE_VIP_MESSAGE, LOAD_FROM_STORAGE,
+    GET_USER_BANK_INFO_SUCCESS,
 } from './../actions/types';
 
 const INITIAL_STATE = {
-    // phone: '',
-    phone: '18641568923',
+    phone: '',
+    // phone: '18641568923',
     // phone: '18704153342',
-    password: 'password123',
-    // password: '',
-    // password: '123456',
+    // password: 'password123',
+    password: '',
+
     loading: false,
     error: '',
     user: null,
@@ -58,12 +59,14 @@ const INITIAL_STATE = {
     vipMsg: '',
     bVipSubmitStatus: null,
     bVipLoading: false,
+    bankInfo: null
+
 };
 
 const convertAreas =(areas) => {
-  return areas.map(area=>{
-      return {label: area.Name, value: area.Code}
-  })
+    return areas.map(area=>{
+        return {label: area.Name, value: area.Code}
+    })
 };
 
 
@@ -86,6 +89,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, error: action.payload, loading: false, user: null, bLoginSuccess: false};
         case INITIALIZE_LOGIN_STATUS:
             return {...state, bLoginSuccess: null};
+        case LOAD_FROM_STORAGE:
+            return {...state, phone: action.payload.phone, password: action.payload.pass};
         case LOGOUT_USER:
             return {...INITIAL_STATE};
 
@@ -152,6 +157,9 @@ export default (state = INITIAL_STATE, action) => {
             return {...state,vipObj: null, vipMsg: action.payload.msg, bVipLoading: false, bVipSubmitStatus: false};
         case INITIALIZE_VIP_MESSAGE:
             return {...state, bVipSubmitStatus: null};
+
+        case GET_USER_BANK_INFO_SUCCESS:
+            return {...state, user: {...state.user, bankInfo: action.payload.value}};
         default:
             return state;
     }

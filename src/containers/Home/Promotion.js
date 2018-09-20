@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Platform, UIManager,Image, View, Linking, Text} from 'react-native'
+import {Platform, UIManager, Image, View, Text, Clipboard, PixelRatio} from 'react-native';
 
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {CardBlock} from '@components'
 import {getMemberByInvite} from "../../actions";
-
+import Modal from "react-native-modal";
 class Promotion extends Component {
 
     componentWillMount(){
     }
 
-
     constructor(props) {
         super(props);
-
+        this.state = {bClipboardShowAlertModal: false}
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
@@ -26,6 +25,11 @@ class Promotion extends Component {
             this.props.getMemberByInvite(UserId, Token);
         }
     }
+    writeToClipboard = async (shareURL) => {
+
+        await Clipboard.setString(shareURL);
+        this.setState({bClipboardShowAlertModal: true})
+    };
     render() {
         return(
             <Container>
@@ -35,7 +39,9 @@ class Promotion extends Component {
                     <CardBlock cardTitle="推广总数" cardTitleColor={Color.textNormal} cardValue='0' cardValueColor={Color.textInfoOrange}>
                         <Text style={{alignSelf:'flex-end', color: Color.textNormal}}>个</Text>
                     </CardBlock>
-
+                    <Modal  isVisible={this.state.bClipboardShowAlertModal} style={{...Styles.ColumnCenter}}>
+                        {this._renderClipboardShowAlertModal()}
+                    </Modal>
                     <View style={Styles.cardStyleColumn}>
                         <View style={cardStyle_1}>
                             <Text style={{color: Color.textNormal, marginRight:20}}>徒弟</Text>
@@ -58,7 +64,7 @@ class Promotion extends Component {
                     </CardBlock>
                     <Image source={Images.promotion} style={{height: 180, width: null, flex: 1}}/>
                     <View style={{paddingHorizontal: 15, marginTop: 10, marginBottom: 20}}>
-                        <Button block style={Styles.buttonStyle} onPress = {()=>this.props.inviteObj?Linking.openURL(this.props.inviteObj.ShareUrl):null}>
+                        <Button block style={Styles.buttonStyle} onPress = {()=>this.props.inviteObj?this.writeToClipboard(this.props.inviteObj.ShareUrl):null}>
                             <Text style={{fontSize: Styles.fontLarge, color:'white'}}>立即分享</Text>
                         </Button>
                     </View>
@@ -66,6 +72,23 @@ class Promotion extends Component {
             </Container>
         );
     }
+    _renderClipboardShowAlertModal = () => (
+        <View style={{flex:1,width: null, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+            <View style={{flex: 1,borderTopLeftRadius:10, borderTopRightRadius: 10, width: null,...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                <Text style={{color: 'white', fontSize: Styles.fontLarge}}>Clip Board Copy</Text>
+            </View>
+            <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
+                <View style={{borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.textNormal, paddingVertical: 20}}>
+                    <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>Success Copied</Text>
+                </View>
+                <View style={{ ...Styles.ColumnCenter, alignItems: 'center', marginTop: 30}}>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue1}} onPress={()=>this.setState({bClipboardShowAlertModal: false})}>
+                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    </Button>
+                </View>
+            </View>
+        </View>
+    );
 }
 
 const styles = {
@@ -90,4 +113,3 @@ const mapStateToProps = (state) => {
     return {user, inviteObj}
 };
 export default connect(mapStateToProps, {getMemberByInvite})(Promotion);
-

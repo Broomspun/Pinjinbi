@@ -7,10 +7,11 @@ import {Actions} from 'react-native-router-flux';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import RNPickerSelect from 'react-native-picker-select';
-import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCategories} from "@actions";
+import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCategories,initializeStatus} from "@actions";
 import Modal from "react-native-modal";
-import { SelectMultipleButton, SelectMultipleGroupButton } from 'react-native-selectmultiple-button'
-
+import { SelectMultipleButton } from 'react-native-selectmultiple-button'
+import _ from 'lodash'
+import {INITIALIZE_QQ_MESSAGE, INITIALIZE_TABAO_SUBMIT_STATUS} from "../../../../../actions/types";
 
 class BindTabaoAccount extends Component {
 
@@ -60,7 +61,8 @@ class BindTabaoAccount extends Component {
             BorrowingImg: null,
             validationForm: true,
             bPlatformBindSubmittedStatus: null,
-            bShowCategories: false
+            bShowCategories: false,
+            multipleSelectedDataLimited: []
         };
         if(!this.props.shopCategoryObj)
             this.props.getAllShoppingCategories();
@@ -81,6 +83,7 @@ class BindTabaoAccount extends Component {
                     const {UserId, Token} = nextProps.user;
                     this.props.getMemberPlatformInfo(UserId, Token, nextProps.PlatId);
                 }
+                this.props.initializeStatus(INITIALIZE_TABAO_SUBMIT_STATUS);
                 Alert.alert(
                     '成功',
                     nextProps.tabaoMsg,
@@ -272,15 +275,71 @@ class BindTabaoAccount extends Component {
         });
     }
 
+    _singleTapMultipleSelectedButtons_limited(interest) {
+        if (this.state.multipleSelectedDataLimited.includes(interest)) {
+            _.remove(this.state.multipleSelectedDataLimited, ele => {
+                return ele === interest;
+            });
+        } else {
+            if (this.state.multipleSelectedDataLimited.length < 5)
+                this.state.multipleSelectedDataLimited.push(interest);
+        }
+
+        this.setState({
+            multipleSelectedDataLimited: this.state.multipleSelectedDataLimited
+        });
+    }
+
     _renderCategoryModal = () => {
+        const {shopCategoryObj}  = this.props;
+        let shopCategories, categories =null;
+        if(shopCategoryObj && shopCategoryObj.length>0) {
+            categories = shopCategoryObj.map(category=>{
+                return category.Name;
+                }
+            );
+        }
+
+        // categories = ["running", "riding", "reading", "coding", "Niuer"];
+
         return (
             <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
                 <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
                     <Text style={{color: 'white', fontSize: Styles.fontNormal}}>请选择经常购买的3-5个购物类目</Text>
                 </View>
                 <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 15,}}>
-                    <View style={{paddingVertical: 20}}>
-                        <Text style={{alignSelf: 'center',color:Color.textNormal, fontSize: Styles.fontNormal}}>清缓存后会重启应用，确认清缓存吗？</Text>
+                    <View
+                        style={{
+                            flexWrap: "wrap",
+                            flexDirection: "row",
+                            justifyContent: "center"
+                        }}
+                    >
+                        {categories && categories.map(interest=> (
+                                <SelectMultipleButton
+                                    key={interest}
+                                    buttonViewStyle={{
+                                        borderRadius: 10,
+                                        height: 40
+                                    }}
+                                    textStyle={{
+                                        fontSize: 15
+                                    }}
+                                    highLightStyle={{
+                                        borderColor: "gray",
+                                        backgroundColor: "transparent",
+                                        textColor: Color.textNormal,
+                                        borderTintColor: Color.LightBlue,
+                                        backgroundTintColor: Color.LightBlue,
+                                        textTintColor: "white"
+                                    }}
+                                    value={interest}
+                                    selected={this.state.multipleSelectedDataLimited.includes(interest)}
+                                    singleTap={valueTap =>
+                                        this._singleTapMultipleSelectedButtons_limited(interest)
+                                    }
+                                />
+                            ))}
                     </View>
                 </View>
                 <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
@@ -288,7 +347,7 @@ class BindTabaoAccount extends Component {
                             style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
                         <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
                     </Button>
-                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}}>
+                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={()=>this.setState({bShowCategories: false})}>
                         <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
                     </Button>
                 </View>
@@ -553,5 +612,5 @@ const mapStateToProps = (state) => {
     const {tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj} = state.platformReducer;
     return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj};
 };
-export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount,getAllShoppingCategories})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount,getAllShoppingCategories,initializeStatus})(BindTabaoAccount);
 

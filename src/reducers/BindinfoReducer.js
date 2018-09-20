@@ -1,6 +1,6 @@
 import {
     ID_CARD_SUBMIT_SUCCESS,ID_CARD_SUBMIT_FAILURE, INITIALIZE_ID_CARD_MESSAGE,
-    BANK_INFO_SUBMIT_SUCCESS,
+    BANK_INFO_SUBMIT_SUCCESS,INITIALIZE_BANK_INFO_STATUS, BANK_INFO_SUBMIT_FAILURE,
     QQ_SUBMIT_SUCCESS, QQ_SUBMIT_FAILURE, INITIALIZE_QQ_MESSAGE,
     LOGOUT_USER
 } from './../actions/types';
@@ -13,7 +13,10 @@ const INITIAL_STATE = {
     qq_res: null,
     bQqSubmitSuccess: null,
     qqMsg: '',
-    qqErrorCode: null,
+    bankObj: null,
+    bBankSubmitSuccess: null,
+    bankMsg: '',
+    bankErrorCode: null,
 };
 
 
@@ -33,8 +36,15 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, idObj: null, idMsg: action.payload.msg, bIdCardSubmitSuccess: false, idCardErrorCode: action.payload.errCode};
         case INITIALIZE_ID_CARD_MESSAGE:
             return {...state, bIdCardSubmitSuccess: null};
-        // case BANK_INFO_SUBMIT_SUCCESS:
-        //     return {...state, bank_res: action.payload};
+
+        case BANK_INFO_SUBMIT_SUCCESS:
+            return {...state, bankObj: action.payload.value, bBankSubmitSuccess: true, bankMsg: action.payload.msg};
+        case BANK_INFO_SUBMIT_FAILURE:
+            return {...state, bankObj: null, bankMsg: action.payload.msg, bBankSubmitSuccess: false, bankErrorCode: action.payload.errCode};
+        case INITIALIZE_BANK_INFO_STATUS:
+            return {...state, bBankSubmitSuccess: null};
+
+
         case LOGOUT_USER:
             return {...INITIAL_STATE};
         default:

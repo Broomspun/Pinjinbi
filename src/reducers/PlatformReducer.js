@@ -2,7 +2,7 @@ import {
     SUBMIT_TABAO_ACCOUNT_SUCCESS, SUBMIT_TABAO_ACCOUNT_FAILURE, SUBMIT_TABAO_ACCOUNT_LOADING,
     GET_PLATFORM_INFO_SUCCESS, GET_PLATFORM_INFO_FAILURE, GET_PLATFORM_INFO_LOADING, LOGOUT_USER,
     GET_PLATFORM_LISTS_SUCCESS, GET_PLATFORM_LISTS_FAILURE, GET_PLATFORM_LISTS_LOADING,
-    GET_SHOPPING_CATEGORIES_SUCCESS, GET_SHOPPING_CATEGORIES_FAILURE, GET_SHOPPING_CATEGORIES_LOADING,
+    GET_SHOPPING_CATEGORIES_SUCCESS, GET_SHOPPING_CATEGORIES_FAILURE, GET_SHOPPING_CATEGORIES_LOADING,INITIALIZE_TABAO_SUBMIT_STATUS
 
 } from './../actions/types';
 
@@ -32,6 +32,8 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, tabaoObj: null, tabaoMsg: action.payload.msg, tabaoLoading: false, bPlatformBindSubmittedStatus: false};
         case SUBMIT_TABAO_ACCOUNT_LOADING:
             return {...state, tabaoLoading: true};
+        case INITIALIZE_TABAO_SUBMIT_STATUS:
+            return {...state, bPlatformBindSubmittedStatus: null};
 
         case GET_PLATFORM_INFO_SUCCESS:
             return {...state, platObj: action.payload.value, platLoading: false};

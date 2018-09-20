@@ -3,9 +3,15 @@ import {requestPOST_API} from './../Services'
 import {
     GET_BIND_INFO,
     GET_BIND_INFO_LOADING,
-    QQ_SUBMIT_SUCCESS, QQ_SUBMIT_FAILURE,
+    QQ_SUBMIT_SUCCESS,
+    QQ_SUBMIT_FAILURE,
     BANK_INFO_SUBMIT_SUCCESS,
-    INITIALIZE_ID_CARD_MESSAGE,ID_CARD_SUBMIT_SUCCESS, ID_CARD_SUBMIT_FAILURE
+    BANK_INFO_SUBMIT_FAILURE,
+    ID_CARD_SUBMIT_SUCCESS,
+    ID_CARD_SUBMIT_FAILURE,
+    GET_USER_BANK_INFO_FAILURE,
+    GET_USER_BANK_INFO_SUCCESS,
+    GET_USER_BANK_INFO_LOADING
 } from "./types";
 
 export const get_bindInfo = (UserId, Token) => {
@@ -27,6 +33,30 @@ export const get_bindInfo = (UserId, Token) => {
     };
 };
 
+export const getBankInfo = (UserId, Token) => {
+    return (dispatch) => {
+        let res = null;
+
+        dispatch({type: GET_USER_BANK_INFO_LOADING});
+
+        (async ()=>{
+            res = await requestPOST_API('Member/GetUserBankInfo',
+                {UserId: UserId, Token: Token});
+
+            if(res.status===200)
+                dispatch({
+                    type: GET_USER_BANK_INFO_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            else {
+                dispatch({
+                    type: GET_USER_BANK_INFO_FAILURE,
+                    payload: {value: null, msg: res.msg, errCode: res.status}
+                })
+            }
+        })();
+    };
+};
 
 export const submitQQInfo = (UserId, Token, UserQQ) => {
     return (dispatch) => {
@@ -86,8 +116,14 @@ export const submitBankInfo = (UserId, Token, BankName, BankCardNo, BankAddress,
             if(res.status===200)
                 dispatch({
                     type: BANK_INFO_SUBMIT_SUCCESS,
-                    payload: res.data
-                })
+                    payload: {value: res.data, msg: res.msg}
+                });
+            else
+                dispatch({
+                    type: BANK_INFO_SUBMIT_FAILURE,
+                    payload: {value: res.data, msg: res.msg, errCode: res.status}
+                });
+
         })();
     };
 };

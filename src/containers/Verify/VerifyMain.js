@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {Actions} from "react-native-router-flux";
 import { Container, Content, Button, Icon} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {get_bindInfo, get_idcardInfo, getPlatformLists} from './../../actions'
+import {get_bindInfo, get_idcardInfo, getPlatformLists, getBankInfo} from './../../actions'
 import {Spinner1} from "@components";
 import _ from 'lodash'
 
@@ -25,6 +25,7 @@ class VerifyMain extends Component {
             await this.props.get_bindInfo(UserId, Token);  //API 5.4
             await this.props.get_idcardInfo(UserId, Token);
             await this.props.getPlatformLists();
+            await this.props.getBankInfo(UserId, Token);
         })();
 
         // this.props.get_bindInfo(UserId, Token);
@@ -110,10 +111,11 @@ class VerifyMain extends Component {
       if(this.props.user && this.props.user.bindInfo && this.props.platformLists ) {
           const {MemberAccount} = this.props.user.bindInfo;
           const {platformLists} = this.props;
+          let temp = _.sortedUniqBy(MemberAccount,"Id");
 
           let images = [Images.p01, Images.p02, Images.p03, Images.p04, Images.p05, Images.p06, Images.p07, Images.p08];
 
-          let platforms = MemberAccount.map((platform, index)=>{
+          let platforms = temp.map((platform, index)=>{
 
              return (
                  <TouchableOpacity key={index} style={{flex:1, flexDirection: 'row', alignItems: 'center',...Styles.basicNoMarginStyle, ...Styles.bottomBorderStyle}} onPress={()=>Actions.TabaoMain({PlatId: platform.Id, PlatName: platformLists[platform.Id-1]['PlatName']})} >
@@ -164,7 +166,7 @@ class VerifyMain extends Component {
                                 <Text style={{color: Color.textNormal}}>绑定银行卡</Text>
                             </View>
                             <View style={{flex:1,}}>
-                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifybanks({user: this.props.user})}>
+                                <TouchableOpacity style={{...Styles.RowCenterRight,flexDirection:'row'}} activeOpacity={0.8} onPress={()=>Actions.verifybanks()}>
                                     <Text style={{color: Color.LightBlue}}>{this.props.user.bindInfo ? this.props.user.bindInfo.BankStr: ''}</Text>
                                     <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
                                 </TouchableOpacity>
@@ -201,4 +203,4 @@ class VerifyMain extends Component {
      const {platformLists,platformListsMsg,bPlatformListsLoading} = state.platformReducer;
      return {user, bindInfo, bBindInfoLoading,platformLists,platformListsMsg,bPlatformListsLoading};
  };
-export default connect(mapStateToProps, {get_bindInfo, get_idcardInfo, getPlatformLists})(VerifyMain);
+export default connect(mapStateToProps, {get_bindInfo, get_idcardInfo, getPlatformLists, getBankInfo})(VerifyMain);

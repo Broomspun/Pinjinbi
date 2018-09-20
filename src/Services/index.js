@@ -731,6 +731,7 @@ export const requestPOST_API = async (url, data)=>{
             return  await {status: res.data.errcode, msg: res.data.msg};
         }
     } catch (error) {
+        console.log('api result failure:', res);
         return await {status: 404, data: null, msg: 'failed'};
     }
 };
@@ -739,12 +740,6 @@ export const requestPOST_API = async (url, data)=>{
 export const requestGET_API = async (url)=>{
 
     url = `${Constants.BASE_API_URL}/${url}`;
-
-    const options = {
-        method: 'GET',
-        headers: { 'content-type': 'application/json' },
-        url,
-    };
 
     let res = await axios.get(url);
     try {
