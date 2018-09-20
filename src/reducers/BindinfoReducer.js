@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     idObj: null,
     idMsg: '',
     bIdCardSubmitSuccess: null,
-    bIdCardErrorCode: null,
+    idCardErrorCode: null,
     qq_res: null,
     bQqSubmitSuccess: null,
     qqMsg: '',
@@ -18,6 +18,7 @@ const INITIAL_STATE = {
 
 
 export default (state = INITIAL_STATE, action) => {
+
     switch (action.type) {
         case QQ_SUBMIT_SUCCESS:
             return {...state, qq_res: action.payload.value, bQqSubmitSuccess: true, qqMsg: action.payload.msg};
@@ -25,8 +26,13 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, qq_res: action.payload.value, bQqSubmitSuccess: false, qqMsg: action.payload.msg, qqErrorCode: action.payload.errCode};
         case INITIALIZE_QQ_MESSAGE:
             return {...state, bQqSubmitSuccess: null};
-        // case ID_CARD_SUBMIT_SUCCESS:
-        //     return {...state, id_res: action.payload};
+
+        case ID_CARD_SUBMIT_SUCCESS:
+             return {...state, idObj: action.payload.value, bIdCardSubmitSuccess: true, idMsg: action.payload.msg};
+        case ID_CARD_SUBMIT_FAILURE:
+            return {...state, idObj: null, idMsg: action.payload.msg, bIdCardSubmitSuccess: false, idCardErrorCode: action.payload.errCode};
+        case INITIALIZE_ID_CARD_MESSAGE:
+            return {...state, bIdCardSubmitSuccess: null};
         // case BANK_INFO_SUBMIT_SUCCESS:
         //     return {...state, bank_res: action.payload};
         case LOGOUT_USER:

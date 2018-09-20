@@ -62,8 +62,14 @@ export const submitIdCardInfo = (UserId, Token,UserName,Idcard,IdCardImgOne,IdCa
             if(res.status===200)
                 dispatch({
                     type: ID_CARD_SUBMIT_SUCCESS,
-                    payload: res.data
+                    payload: {value: res.data, msg: res.msg}
                 });
+            else {
+                dispatch({
+                    type: ID_CARD_SUBMIT_FAILURE,
+                    payload: {value: null, msg: res.msg, errCode: res.status}
+                });
+            }
         })();
     };
 };

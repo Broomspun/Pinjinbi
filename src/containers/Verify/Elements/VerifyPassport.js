@@ -2,16 +2,17 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import axios from 'axios';
-import {View,Image,TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants,Styles, Color} from '@common';
-import {submitIdCardInfo, get_idcardInfo} from './../../../actions'
+import {submitIdCardInfo, get_idcardInfo, initializeStatus} from './../../../actions'
 
 import { Button, Card, Container, Content, Form, Input, Item, Text, Toast } from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import RNFetchBlob from 'rn-fetch-blob'
+import {INITIALIZE_ID_CARD_MESSAGE} from "../../../actions/types";
+import {Actions} from "react-native-router-flux";
 
 
 class VerifyPassport extends Component {
@@ -130,10 +131,35 @@ class VerifyPassport extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-
+        if(this.props.user && nextProps.bIdCardSubmitSuccess!==null) {
+            if(nextProps.bIdCardSubmitSuccess) {
+                Alert.alert(
+                    '成功',
+                    nextProps.idMsg,
+                    [
+                        {text: 'OK', onPress: () => Actions.verifymain()},
+                    ],
+                    {cancelable: false}
+                )
+            }
+            else {
+                Alert.alert(
+                    '失败',
+                    nextProps.idMsg,
+                    [
+                        {text: 'OK', onPress: () =>{nextProps.idCardErrorCode=== 1 ? Actions.verifymain(): console.log('pressed')}},
+                    ],
+                    {cancelable: false}
+                )
+            }
+        }
     }
 
     componentWillUpdate(){
+    }
+
+    componentWillUnmount() {
+        this.props.initializeStatus(INITIALIZE_ID_CARD_MESSAGE);
     }
 
     submitIdCard = () => {
@@ -146,6 +172,7 @@ class VerifyPassport extends Component {
             });
             return;
         }
+
 
         this.props.submitIdCardInfo(UserId, Token, username, id_card, id_card_front_photo?id_card_front_photo.uri:null,
             id_card_back_photo? id_card_back_photo.uri:null, id_card_hand_held1?id_card_hand_held1.uri:null);
@@ -277,9 +304,9 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {id_res} = state.bindInfoData;
+    const {idObj,idMsg,bIdCardSubmitSuccess, idCardErrorCode} = state.bindInfoData;
     const {user} = state.loginForm;
-    return {id_res, user};
+    return {user, idObj,idMsg,bIdCardSubmitSuccess, idCardErrorCode};
 };
-export default connect(mapStateToProps, {submitIdCardInfo,get_idcardInfo})(VerifyPassport);
+export default connect(mapStateToProps, {submitIdCardInfo,get_idcardInfo, initializeStatus})(VerifyPassport);
 
