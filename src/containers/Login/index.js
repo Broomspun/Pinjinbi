@@ -48,7 +48,6 @@ class Login extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('login123', nextProps);
         if(nextProps.user && this.state.remember){
             AsyncStorage.setItem('pjinbi_auth_user_phone', this.props.phone);
             AsyncStorage.setItem('pjinbi_auth_user_password', this.props.password);
@@ -80,14 +79,13 @@ class Login extends Component {
             this.props.initializeLoginStatus();
         }
 
-        if(nextProps.user===null) {
+        if(!nextProps.bType && nextProps.user===null) {
             (async () => {
                 let phone = await AsyncStorage.getItem('pjinbi_auth_user_phone');
                 let password = await AsyncStorage.getItem('pjinbi_auth_user_password');
                 this.props.loadFromStorage(phone, password);
 
             })();
-
         }
     }
 
@@ -196,7 +194,7 @@ const styles ={
 } ;
 
 const mapStateToProps = (state) => {
-    const {phone, password, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
-    return {phone, password, loading, error, user, bLoginSuccess, loginMessage};
+    const {bType,phone, password, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
+    return {bType, phone, password, loading, error, user, bLoginSuccess, loginMessage};
 };
 export default connect(mapStateToProps, {loginParameterUpdated, loginUser, initializeLoginStatus, loadFromStorage})(Login);

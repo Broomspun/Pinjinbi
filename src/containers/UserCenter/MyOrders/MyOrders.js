@@ -16,6 +16,12 @@ class MyOrders extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+            if(this.props.taskSummaryObj===null)
+                this.props.getMyOrdersSummary(UserId, Token);
+        }
     }
     componentDidUpdate() {
         console.log('tab event',this.state);
@@ -129,7 +135,7 @@ class MyOrders extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions({taskType: 1})}>
                                 <Image source={Images.taskIcon} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color: Color.textNormal}}>全部任务</Text>
                             </TouchableOpacity>
@@ -160,5 +166,5 @@ const mapStateToProps = (state) => {
     const {taskSummaryObj} = state.taskReducer;
     return {user,taskSummaryObj};
 };
-export default connect(mapStateToProps, {logout})(MyOrders);
+export default connect(mapStateToProps, {logout, getMyOrdersSummary})(MyOrders);
 

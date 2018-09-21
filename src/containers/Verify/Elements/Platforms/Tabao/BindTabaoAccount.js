@@ -11,7 +11,8 @@ import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCat
 import Modal from "react-native-modal";
 import { SelectMultipleButton } from 'react-native-selectmultiple-button'
 import _ from 'lodash'
-import {INITIALIZE_QQ_MESSAGE, INITIALIZE_TABAO_SUBMIT_STATUS} from "../../../../../actions/types";
+
+import {INITIALIZE_TABAO_SUBMIT_STATUS} from "../../../../../actions/types";
 
 class BindTabaoAccount extends Component {
 
@@ -40,6 +41,7 @@ class BindTabaoAccount extends Component {
             CityName: '',
             DistrictCode: undefined,
             DistrictName: '',
+            address:'',
             TaobaoValue: '1000',
             CreditRating: '2',
             genders:[
@@ -113,7 +115,7 @@ class BindTabaoAccount extends Component {
 
             const {ProvinceCode, CityCode, DistrictCode, ConsigneeCall, ConsigneeName, PlatAccount} = this.state;
             const {ProvinceName, CityName, DistrictName, Gender, Age, TaobaoValue} = this.state;
-            let address = `${ProvinceName}${CityName}${DistrictName}`;
+            let address = `${ProvinceName}${CityName}${DistrictName}${this.state.address}`;
 
 
             if(ProvinceCode ===undefined) {
@@ -221,24 +223,39 @@ class BindTabaoAccount extends Component {
                 let source = { uri: `data:${response.type};base64,` + response.data };
 
                 switch (id) {
-                    case 0:
-                        this.setState({
-                            id_card_front_photo: source
-                        });
-                        break;
                     case 1:
                         this.setState({
-                            id_card_back_photo: source
+                            CreditRatingImg: source
                         });
                         break;
                     case 2:
                         this.setState({
-                            id_card_hand_held1: source
+                            UserInfoImg: source
                         });
                         break;
                     case 3:
                         this.setState({
-                            id_card_hand_held2: source
+                            UserCenterImg: source
+                        });
+                        break;
+                    case 4:
+                        this.setState({
+                            TaobaoValueImg: source
+                        });
+                        break;
+                    case 5:
+                        this.setState({
+                            AccountLevelImg: source
+                        });
+                        break;
+                    case 6:
+                        this.setState({
+                            VerifiedImg: source
+                        });
+                        break;
+                    case 7:
+                        this.setState({
+                            BorrowingImg: source
                         });
                         break;
                 }
@@ -292,10 +309,10 @@ class BindTabaoAccount extends Component {
 
     _renderCategoryModal = () => {
         const {shopCategoryObj}  = this.props;
-        let shopCategories, categories =null;
+        let shopCategories= null;
         if(shopCategoryObj && shopCategoryObj.length>0) {
-            categories = shopCategoryObj.map(category=>{
-                return category.Name;
+            shopCategories = shopCategoryObj.map(category=>{
+                    return category.Name;
                 }
             );
         }
@@ -303,8 +320,8 @@ class BindTabaoAccount extends Component {
         // categories = ["running", "riding", "reading", "coding", "Niuer"];
 
         return (
-            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
-                <View style={{borderTopLeftRadius:10, height: 60,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+            <View style={{width: '100%',marginHorizontal: 15, maxHeight: 270, borderRadius: 10, backgroundColor:'white', paddingBottom: 30 }}>
+                <View style={{borderTopLeftRadius:10, height: 40,borderTopRightRadius: 10, ...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
                     <Text style={{color: 'white', fontSize: Styles.fontNormal}}>请选择经常购买的3-5个购物类目</Text>
                 </View>
                 <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 15,}}>
@@ -315,51 +332,52 @@ class BindTabaoAccount extends Component {
                             justifyContent: "center"
                         }}
                     >
-                        {categories && categories.map(interest=> (
-                                <SelectMultipleButton
-                                    key={interest}
-                                    buttonViewStyle={{
-                                        borderRadius: 10,
-                                        height: 40
-                                    }}
-                                    textStyle={{
-                                        fontSize: 15
-                                    }}
-                                    highLightStyle={{
-                                        borderColor: "gray",
-                                        backgroundColor: "transparent",
-                                        textColor: Color.textNormal,
-                                        borderTintColor: Color.LightBlue,
-                                        backgroundTintColor: Color.LightBlue,
-                                        textTintColor: "white"
-                                    }}
-                                    value={interest}
-                                    selected={this.state.multipleSelectedDataLimited.includes(interest)}
-                                    singleTap={valueTap =>
-                                        this._singleTapMultipleSelectedButtons_limited(interest)
-                                    }
-                                />
-                            ))}
+
+                        {shopCategories && shopCategories.map(interest=> (
+                            <SelectMultipleButton
+                                key={interest}
+                                buttonViewStyle={{
+                                    borderRadius: 10,
+                                    height: 30
+                                }}
+                                textStyle={{
+                                    fontSize: Styles.fontNormal, color: Color.textNormal
+                                }}
+                                highLightStyle={{
+                                    borderColor: "gray",
+                                    backgroundColor: "transparent",
+                                    textColor: Color.textNormal,
+                                    borderTintColor: Color.LightBlue,
+                                    backgroundTintColor: Color.LightBlue,
+                                    textTintColor: "white"
+                                }}
+                                value={interest}
+                                selected={this.state.multipleSelectedDataLimited.includes(interest)}
+                                singleTap={valueTap =>
+                                    this._singleTapMultipleSelectedButtons_limited(interest)
+                                }
+                            />
+                        ))}
                     </View>
                 </View>
-                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-                    <Button onPress={()=>this.setState({bShowCategories: false})}
+                <View style={{ flexDirection:'row',justifyContent: 'center', alignItems: 'center', marginTop: 10, marginBottom: 10}}>
+                    <Button small onPress={()=>this.setState({bShowCategories: false})}
                             style={{paddingHorizontal: 20, marginRight: 20, backgroundColor:'#ededed', borderColor: Color.LightBorder, borderWidth: 1/PixelRatio.get()}}>
-                        <Text style={{fontSize: Styles.fontLarge,color: Color.textNormal}}>取消</Text>
+                        <Text style={{fontSize: Styles.fontNormal,color: Color.textNormal}}>取消</Text>
                     </Button>
-                    <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={()=>this.setState({bShowCategories: false})}>
-                        <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                    <Button small style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue}} onPress={()=>this.setState({bShowCategories: false})}>
+                        <Text style={{fontSize: Styles.fontNormal,color: 'white'}}>确认</Text>
                     </Button>
                 </View>
             </View>
 
         )
-    }
+    };
 
 
 
     render() {
-        const {IdcardInHand} = this.props.user.id_card;
+        const {PlatId} = this.props;
         return (
             <Container style={{backgroundColor:Color.LightGrayColor}}>
                 <Content style={{paddingBottom: 20}}>
@@ -444,7 +462,14 @@ class BindTabaoAccount extends Component {
                                 value={this.state.DistrictCode}
                             />
                         )}
-
+                        <Item regular style={styles.itemStyle}>
+                            <Input
+                                placeholderTextColor='#ccc'
+                                placeholder="地址"
+                                value = {this.state.address}
+                                onChangeText={(value)=>this.setState({address: value})}
+                            />
+                        </Item>
                     </View>
                     <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 15, ...Styles.shadowStyle}}>
                         <Text style={{color:Color.textNormal, marginTop: 25}}>账号属性（与实名认证的身份证信息一致）</Text>
@@ -502,11 +527,14 @@ class BindTabaoAccount extends Component {
                                 onChangeText={(value)=>this.setState({OrderNo: value})}
                             />
                         </Item>
-                        <View style={{...Styles.RowCenterLeft, paddingVertical: 10, marginTop: 10}}>
-                            <TouchableOpacity onPress={()=> this.setState({bShowCategories: true})}>
-                                <Text style={{color: Color.textNormal, fontSize: Styles.fontNormal}}>购物类目</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {this.props.PlatId===1 && (
+                            <View style={{...Styles.RowCenterLeft, paddingVertical: 10, marginTop: 10}}>
+                                <TouchableOpacity onPress={()=> {this.setState({bShowCategories: true})}}>
+                                    <Text style={{color: Color.textNormal, fontSize: Styles.fontNormal}}>购物类目</Text>
+                                </TouchableOpacity>
+                                <View><Text>{this.state.multipleSelectedDataLimited.toString()}</Text></View>
+                            </View>
+                        )}
                     </View>
                     <View style={{paddingHorizontal: 15, marginTop: 15, paddingVertical: 20, backgroundColor: 'white', ...Styles.shadowStyle}}>
                         <View style={{...Styles.RowCenterBetween}}>
@@ -514,49 +542,105 @@ class BindTabaoAccount extends Component {
                                 点击上传图片（上传后，长按看大图，点击可更换图片）
                                 <Text style={{color: Color.redColor, marginLeft: 20}}>截图示列</Text>
                             </Text>
-
                         </View>
                         <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
-                            <View style={{flex:1,marginRight: 6}}>
+                            {(PlatId===1 || PlatId===5) && (
+                                <View style={{flex:1,marginRight: 6}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(1)}>
+                                        { this.state.CreditRatingImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.CreditRatingImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>信用等级</Text>
+                                    </View>
+                                </View>
+                            )}
+                            {(PlatId===6 || PlatId===7) && (
+                            <View style={{flex:1, marginRight:3}}>
                                 <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
-                                    { this.state.id_card_hand_held1 === null && IdcardInHand==='' ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held1?this.state.id_card_hand_held1:{uri: IdcardInHand}} />
+                                    { this.state.UserInfoImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserInfoImg} />
                                     }
                                 </TouchableOpacity>
                                 <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>信誉等级</Text>
+                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>个人信息</Text>
                                 </View>
                             </View>
+                            )}
+                            {(PlatId===3 || PlatId===5) && (
                             <View style={{flex:1, marginRight:3}}>
                                 <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                    { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
+                                    { this.state.UserCenterImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserCenterImg} />
                                     }
                                 </TouchableOpacity>
                                 <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>信誉等级</Text>
+                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>会员中心</Text>
                                 </View>
                             </View>
+                            )}
+                            {PlatId===1 && (
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(4)}>
+                                        { this.state.TaobaoValueImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.TaobaoValueImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>淘气值</Text>
+                                    </View>
+                                </View>
+                            )}
+                            {(PlatId===1 || PlatId===3) && (
                             <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                    { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
+                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(5)}>
+                                    { this.state.AccountLevelImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.AccountLevelImg} />
                                     }
                                 </TouchableOpacity>
                                 <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>信誉等级</Text>
+                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>帐户等级</Text>
                                 </View>
                             </View>
+                            )}
+                            {PlatId===3 && (
                             <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                    { this.state.id_card_hand_held2 === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.id_card_hand_held2} />
+                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(6)}>
+                                    { this.state.VerifiedImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.VerifiedImg} />
                                     }
                                 </TouchableOpacity>
                                 <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>信誉等级</Text>
+                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>实名认证</Text>
                                 </View>
                             </View>
+                            )}
+                            {(PlatId===1 || PlatId===3) && (
+                            <View style={{flex:1, marginRight:3}}>
+                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(7)}>
+                                    { this.state.BorrowingImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.BorrowingImg} />
+                                    }
+                                </TouchableOpacity>
+                                <View style={{...Styles.ColumnCenter}}>
+                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>花呗图片</Text>
+                                </View>
+                            </View>
+                            )}
+
+                            {(PlatId===5 || PlatId===6 || PlatId===7) && (
+                                <View style={{flex:1, marginRight:3}}></View>
+                            )}
+
+                            {(PlatId===5 || PlatId===6 || PlatId===7) && (
+                                <View style={{flex:1, marginRight:3}}></View>
+                            )}
+                            {(PlatId===6 || PlatId===7) && (
+                                <View style={{flex:1, marginRight:3}}></View>
+                            )}
+
+
                         </View>
                     </View>
 

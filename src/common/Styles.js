@@ -40,6 +40,18 @@ export default Styles ={
         backgroundColor: 'white'
     },
 
+    cardStyleRowEmpty: {
+        flexDirection:'row',
+        paddingHorizontal: 15,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        elevation: 1,
+        marginBottom: 10,
+        backgroundColor: 'white'
+    },
+
+
     cardStyleColumn1: {
         flexDirection:'column',
         backgroundColor: 'white',
@@ -62,6 +74,14 @@ export default Styles ={
         marginTop: 10, borderRadius: 5, backgroundColor: '#5c91f0'
     },
 
+    borderBottomStyle: {
+        borderBottomWidth: 1/PixelRatio.get(),
+        borderBottomColor: Color.Border
+    },
+    normalTextStyle:{
+        fontSize: 16,
+        color: Color.textNormal
+    },
     fontLarger: 22,
     fontLarge: 20,
     fontNormal: 16,

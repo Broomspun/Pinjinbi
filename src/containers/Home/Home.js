@@ -190,13 +190,13 @@ class Home extends Component {
                         </View>
                     </View>
                     <View style={{...styles.secondViewStyle, height: 100, ...Styles.shadowStyle}}>
-                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this,1)}>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={()=>this.getUserBindStatus(1)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#44c362'}}>
                                 <Icon type="FontAwesome" name="check" style={{color: 'white'}}/>
                             </View>
                             <Text style={{color: Color.textNormal}}>垫付任务</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={this.getUserBindStatus.bind(this,2)}>
+                        <TouchableOpacity activeOpacity={.9} style={{flexDirection: 'column', alignItems: 'center'}} onPress={()=>this.getUserBindStatus(2)}>
                             <View style={{...styles.iconWrapper, backgroundColor: '#7a88f1'}}>
                                 <Icon type="FontAwesome" name="eye" style={{color: 'white'}}/>
                             </View >
@@ -286,7 +286,7 @@ class Home extends Component {
                             <Text style={{fontSize:14, color:Color.LightBlue1}}>首页</Text>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions({taskType: 1})}>
                                 <Image source={Images.taskIcon} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color: Color.textNormal}}>全部任务</Text>
                             </TouchableOpacity>

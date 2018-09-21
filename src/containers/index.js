@@ -152,3 +152,9 @@ export const BeginnersMain = _BeginnersMain;
 
 import _Details from './UserCenter/Beginners/Details';
 export const Details = _Details;
+
+import _PlatformBrowseTaskStart from './Missions/PlatformBrowseTaskStart';
+export const PlatformBrowseTaskStart = _PlatformBrowseTaskStart;
+
+import _PlatformAdvancedTaskStart from './Missions/PlatformAdvancedTaskStart';
+export const PlatformAdvancedTaskStart = _PlatformAdvancedTaskStart;

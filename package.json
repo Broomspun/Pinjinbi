@@ -26,6 +26,7 @@
     "react-native-picker-select": "^4.3.0",
     "react-native-router-flux": "^4.0.1",
     "react-native-selectmultiple-button": "^0.1.105",
+    "react-native-snap-slider": "^0.3.0",
     "react-native-switch-pro": "^1.0.1-beta",
     "react-native-timer-mixin": "^0.11.0",
     "react-navigation": "^2.14.0",

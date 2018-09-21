@@ -22,7 +22,9 @@ class UserCenterMain extends Component {
 
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
-            this.props.getMyOrdersSummary(UserId, Token);
+
+            if(this.props.taskSummaryObj===null)
+                this.props.getMyOrdersSummary(UserId, Token);
         }
         console.log('user main info', props);
     }
@@ -339,7 +341,7 @@ class UserCenterMain extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.totalmissions({taskType: 1})}>
                                 <Image source={Images.taskIcon} style={{width: 26, height: 26}}/>
                                 <Text style={{fontSize:14, color: Color.textNormal}}>全部任务</Text>
                             </TouchableOpacity>

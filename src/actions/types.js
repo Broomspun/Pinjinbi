@@ -186,3 +186,23 @@ export const GET_USER_BANK_INFO_LOADING = 'get_bank_user_info_loading';
 export const INITIALIZE_USER_BANK_STATUS = 'initialize_user_bank_status';
 
 export const INITIALIZE_TABAO_SUBMIT_STATUS = 'initialize_user_bank_status';
+
+//Get Point page loading
+
+export const GET_LOADSIGNINPAGE_SUCCESS = 'get_load_signin_page_success';
+export const GET_LOADSIGNINPAGE_FAILURE = 'get_load_signin_page_failure';
+export const GET_LOADSIGNINPAGE_LOADING = 'get_load_signin_page_loading';
+export const GET_LOADSIGNINPAGE_RELOGIN = 'get_load_signin_page_relogin';
+export const GET_LOADSIGNINPAGE_SYSTEMERROR = 'get_load_signin_page_systemerror';
+
+//GetMemberCanReceiveAccount
+export const GET_MEMBER_CAN_RECEIVE_ACCOUNT_SUCCESS = 'get_member_can_receive_account_success';
+export const GET_MEMBER_CAN_RECEIVE_ACCOUNT_LOADING = 'get_member_can_receive_account_loading';
+export const GET_MEMBER_CAN_RECEIVE_ACCOUNT_FAILURE = 'get_member_can_receive_account_failure';
+export const INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT = 'initialize_get_member_can_receive_account';
+
+//GetTaskList
+export const GET_TASK_LIST_SUCCESS = 'get_task_list_success';
+export const GET_TASK_LIST_LOADING = 'get_task_list_loading';
+export const GET_TASK_LIST_FAILURE = 'get_task_list_failure';
+export const GET_TASK_LIST_INITIAL = 'get_task_list_initial';

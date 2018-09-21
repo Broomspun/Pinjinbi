@@ -40,6 +40,7 @@ const INITIAL_STATE = {
 
     loading: false,
     error: '',
+    bType: false,
     user: null,
     loginMessage: '',
     bLoginSuccess: null,
@@ -80,7 +81,7 @@ export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
         case LOGIN_PARAMETER_UPDATED:
-            return {...state, [action.payload.prop]: action.payload.value};
+            return {...state, [action.payload.prop]: action.payload.value, bType: true};
         case LOGIN_USER_ATTEMPTING:
             return {...state, loading: true, error: ''};
         case LOGIN_USER_SUCCESS:

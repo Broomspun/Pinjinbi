@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
-
+import SnapSlider from 'react-native-snap-slider';
 import { Container, Content, Button, Footer, FooterTab} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
@@ -19,7 +19,6 @@ class TotalMissions extends Component {
 
         if(!this.props.platformLists)
             this.props.getPlatformLists();
-        console.log(props);
 
         this.state = {selectedTab: props.taskType};
 
@@ -29,9 +28,10 @@ class TotalMissions extends Component {
 
     }
 
+
     _renderTabs = ()=>{
         const {selectedTab} = this.state;
-        if(selectedTab==1) {
+        if(selectedTab===1) {
             return (
                 <View style={{flex: 1, ...Styles.RowCenterBetween, paddingHorizontal:15}}>
                     <Button
@@ -68,44 +68,53 @@ class TotalMissions extends Component {
 
     };
 
+    _onStartTask = (PlatId, PlatName,)=> {
+        if(this.state.selectedTab===1)
+            Actions.platformAdvancedTaskStart({PlatId: PlatId, PlatName: PlatName})
+        else
+            Actions.platformBrowseTaskStart({PlatId: PlatId, PlatName: PlatName})
+    };
+
     _renderContent() {
         const {selectedTab} = this.state;
-        if(selectedTab==1) {
+
+        let renderPlatforms;
+
+        let images = [Images.mission_01,null, Images.mission_03, null,Images.mission_02,Images.mission_07, Images.mission_06,null]
+        if(this.props.platformLists) {
+            const {platformLists} = this.props;
+            renderPlatforms = platformLists.map((platform, index)=>{
+                if(images[index]){
+                    return (
+                        <TouchableOpacity key={platform.Id} activeOpacity={.6} style={{flex: 1,flexDirection: 'column', alignItems: 'center'}}
+                                          onPress={() => this._onStartTask(platform.Id, platform.PlatName)}>
+                            <Image source={images[index]}  style={{width: 60, height: 60}}/>
+                            <Text style={{color: Color.textNormal}}>{platform.PlatName}</Text>
+                        </TouchableOpacity>
+                    )
+                }
+            })
+        }
+
+        if(selectedTab===1) {
             return (
                 <View>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween, marginTop: 10,
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
-                            <Image source={Images.mission_01}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>淘宝任务</Text>
-                        </TouchableOpacity>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_02}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>拼多多</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_03}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>京东任务</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_04}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>活动任务</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_05}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>预售任务</Text>
-                        </View>
+                        {renderPlatforms}
+
                     </View>
+
                     <View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start', alignItems: 'flex-start',
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_06}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>美丽说</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_07}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>蘑菇街</Text>
-                        </View>
+                        <TouchableOpacity style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
+                            <Image source={Images.mission_04}  style={{width: 60, height:60}}/>
+                            <Text style={{color: Color.textNormal}}>活动任务</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
+                            <Image source={Images.mission_05}  style={{width: 60, height:60}}/>
+                            <Text style={{color: Color.textNormal}}>预售任务</Text>
+                        </TouchableOpacity>
                         <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}></View>
                         <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}></View>
                         <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}></View>
@@ -118,26 +127,7 @@ class TotalMissions extends Component {
                 <View>
                     <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween, marginTop: 10,
                         backgroundColor: 'white', padding: 10, flexWrap: 'wrap'}}>
-                        <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> Actions.browsetask()}>
-                            <Image source={Images.mission_01}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>淘宝任务</Text>
-                        </TouchableOpacity>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_02}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>拼多多</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_03}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>京东任务</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_06}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>美丽说</Text>
-                        </View>
-                        <View style={{flex:1, flexDirection: 'column', alignItems: 'center'}}>
-                            <Image source={Images.mission_07}  style={{width: 60, height:60}}/>
-                            <Text style={{color: Color.textNormal}}>蘑菇街</Text>
-                        </View>
+                        {renderPlatforms}
                     </View>
                 </View>
             )

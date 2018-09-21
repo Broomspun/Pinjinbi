@@ -24,7 +24,7 @@ class VerifyMain extends Component {
         (async ()=>{
             await this.props.get_bindInfo(UserId, Token);  //API 5.4
             await this.props.get_idcardInfo(UserId, Token);
-            await this.props.getPlatformLists();
+            if(!this.props.platformLists) await this.props.getPlatformLists();
             await this.props.getBankInfo(UserId, Token);
         })();
 
