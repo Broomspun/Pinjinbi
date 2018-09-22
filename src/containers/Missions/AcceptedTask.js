@@ -132,33 +132,38 @@ class AcceptedTask extends Component {
                         <Text style={{paddingTop: 10, color: '#e00000', fontSize: Styles.fontSmall}}>提示：请尽快完成任务</Text>
                         <View style={{paddingVertical: 15}}>
                             <View style={{...Styles.RowCenterBetween}}>
-                                {taskLists.map(task => (
-                                    <SelectMultipleButton
-                                        key={task}
-                                        value={task}
-                                        buttonViewStyle={{
-                                            borderRadius: 20,
-                                            height: 32,
-                                            paddingHorizontal: 15
+                                <View style={{flex: 1}}>
+                                    <Button small
+                                        style={{
+                                            borderRadius: 30,
+                                            backgroundColor: Color.DarkLightBlue,
+                                            alignSelf: 'flex-start',
                                         }}
-                                        highLightStyle={{
-                                            borderColor: "gray",
-                                            backgroundColor: "transparent",
-                                            textColor: Color.textNormal,
-                                            borderTintColor: Color.LightBlue,
-                                            backgroundTintColor: Color.LightBlue,
-                                            textTintColor: "white"
+                                    >
+                                        <Text style={{color: 'white'}}>操作任务</Text>
+                                    </Button>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <Button disabled small
+                                        style={{
+                                            borderRadius: 30,
+                                            alignSelf: 'center',
                                         }}
-                                        textStyle={{
-                                            fontSize: Styles.fontSmall,
-
+                                    >
+                                        <Text style={{color: 'white'}}>申诉任务</Text>
+                                    </Button>
+                                </View>
+                                <View style={{flex: 1}}>
+                                    <Button small
+                                        style={{
+                                            borderRadius: 30,
+                                            backgroundColor: Color.DarkLightBlue,
+                                            alignSelf: 'flex-end',
                                         }}
-                                        selected={this.state.taskType === task}
-                                        singleTap={valueTap =>
-                                            this._onSelectTask(valueTap, task)
-                                        }
-                                    />
-                                ))}
+                                    >
+                                        <Text style={{color: 'white'}}>取消任务</Text>
+                                    </Button>
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -194,7 +199,7 @@ class AcceptedTask extends Component {
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>商品金额</Text></View>
-                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{taskObj.Commission}元</Text></View>
+                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{taskObj.Amount}元</Text></View>
                                     </View>
                                 </View>
                             </View>
