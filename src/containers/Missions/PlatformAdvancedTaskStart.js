@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View, Image, Platform, UIManager, AsyncStorage, StyleSheet, PixelRatio} from 'react-native';
+import {View, Image, Platform, UIManager, AsyncStorage, StyleSheet, PixelRatio, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
@@ -36,10 +36,6 @@ class PlatformAdvancedTaskStart extends Component {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
-        if(this.props.user) {
-            const {UserId, Token}  = this.props.user;
-            this.props.getMemberCanReceiveAccount(UserId, Token, this.props.PlatId, 2); //2-BrowseTask
-        }
     }
 
     slidingComplete(itemSelected) {
@@ -71,6 +67,29 @@ class PlatformAdvancedTaskStart extends Component {
             radioSeletedRefundType: refundType
         });
     }
+
+    onGotoListPage= () => {
+        if(this.state.selectedAccount===null) {
+            Alert.alert(
+                '失败',
+                `Please choose ${this.props.PlatName} account`,
+                [
+                    {
+                        text: 'OK', onPress: () => console.log('pressed')
+                    },
+                ],
+                {cancelable: false}
+            )
+        } else {
+            Actions.advancedTaskList(
+                {
+                    AccountId: this.state.selectedAccount,
+                    PlatId: this.props.PlatId,
+                    MaxAdvancePayMoney: this.props.maxPrice
+                }
+            )
+        }
+    };
 
     render() {
         let platAccounts = null;
@@ -190,7 +209,7 @@ class PlatformAdvancedTaskStart extends Component {
                 )}
                 <Footer >
                     <View style={{flex: 1, backgroundColor:'#f8f8f8', paddingHorizontal: 15,height: 60, paddingBottom: 15}}>
-                        <Button block style={styles.buttonStyle}  >
+                        <Button block style={styles.buttonStyle}  onPress={()=>this.onGotoListPage()} >
                             <Text style={{fontSize: Styles.fontLarge, color: 'white'}}>确认</Text>
                         </Button>
                     </View>

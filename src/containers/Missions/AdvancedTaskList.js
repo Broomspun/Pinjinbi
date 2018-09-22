@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, Dimensions} from 'react-native'
-
+import {connect} from 'react-redux';
 import { Container, Content} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {MissionBlock} from '@components'
+import {getTaskList, initializeStatus} from "../../actions";
+import {INITIALIZE_TASK_LIST_STATUS} from "../../actions/types";
 
-class BrowseTask extends Component {
+class AdvancedTaskList extends Component {
     state = {};
     constructor(props) {
         super(props);
@@ -13,9 +15,22 @@ class BrowseTask extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+
+        if(this.props.user) {
+            const {AccountId, PlatId, MaxAdvancePayMoney} = this.props;
+            const {UserId, Token}  = this.props.user;
+            this.props.getTaskList(UserId, Token, AccountId, PlatId, MaxAdvancePayMoney, 1);
+        }
     }
     componentDidUpdate() {
+    }
 
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
+
+    componentWillUnmount() {
+        this.props.initializeStatus(INITIALIZE_TASK_LIST_STATUS);
     }
 
     render() {
@@ -33,5 +48,11 @@ class BrowseTask extends Component {
         );
     }
 }
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {taskListsObj,taskListsObjMsg,taskListsObjSuccessed} = state.taskReducer;
+    return {user,taskListsObj,taskListsObjMsg,taskListsObjSuccessed};
+};
 
-export default BrowseTask;
+export default connect(mapStateToProps, {getTaskList, initializeStatus})(AdvancedTaskList);
+

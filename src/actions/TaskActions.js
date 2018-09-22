@@ -1,13 +1,14 @@
 import {
     GET_MY_ORDERS_SUMMARY_SUCCESS, GET_MY_ORDERS_SUMMARY_FAILURE, GET_MY_ORDERS_SUMMARY_LOADING,
+
     GET_MEMBER_CAN_RECEIVE_ACCOUNT_SUCCESS,
     GET_MEMBER_CAN_RECEIVE_ACCOUNT_LOADING,
     GET_MEMBER_CAN_RECEIVE_ACCOUNT_FAILURE,
-    GET_MEMBER_CAN_RECEIVE_ACCOUNT_INITIAL,
+
     GET_TASK_LIST_SUCCESS,
     GET_TASK_LIST_LOADING,
     GET_TASK_LIST_FAILURE,
-    GET_TASK_LIST_INITIAL,
+
 
 } from "./types";
 
@@ -72,7 +73,19 @@ export const getMemberCanReceiveAccount = (UserId, Token,PlatId, TaskType)=>{
     };
 };
 
-export const getTaskList = (UserId, Token,Page,PageSize,AccountId,PlatId,MaxAdvandcePayMoney, TaskType)=>{
+/**
+ *
+ * @param UserId
+ * @param Token
+ * @param AccountId
+ * @param PlatId
+ * @param MaxAdvandcePayMoney
+ * @param TaskType 1: Advanced Task, 2: Browse Task
+ * @param Page = 1 (default)
+ * @param PageSize = 10 (default)
+ * @returns {Function}
+ */
+export const getTaskList = (UserId, Token, AccountId, PlatId, MaxAdvandcePayMoney, TaskType,Page=1,PageSize=10)=>{
     return (dispatch) =>{
         (async ()=> {
             dispatch({type: GET_TASK_LIST_LOADING}); //for Spinner;
@@ -87,9 +100,9 @@ export const getTaskList = (UserId, Token,Page,PageSize,AccountId,PlatId,MaxAdva
             } else {
                 dispatch({
                     type: GET_TASK_LIST_FAILURE,
-                    payload: {value:null, msg: res.msg,errCode: res.status}
+                    payload: {value:null, msg: res.msg, errCode: res.status}
                 });
             }
         })();
     };
-}
+};

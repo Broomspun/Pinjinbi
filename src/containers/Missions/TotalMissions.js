@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
-import SnapSlider from 'react-native-snap-slider';
-import { Container, Content, Button, Footer, FooterTab} from 'native-base';
+import {Container, Content, Button, Footer, FooterTab, Toast} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
-import {getPlatformLists} from "../../actions";
+import {getMemberCanReceiveAccount, getPlatformLists, initializeStatus} from "../../actions";
+import {INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT} from "../../actions/types";
 
 
 class TotalMissions extends Component {
@@ -20,12 +20,30 @@ class TotalMissions extends Component {
         if(!this.props.platformLists)
             this.props.getPlatformLists();
 
-        this.state = {selectedTab: props.taskType};
+        this.state = {selectedTab: props.taskType, selectedPlatId: 1, selectedPlatName: ''};
 
     }
     componentDidUpdate() {
-        console.log('tab event',this.state);
+    }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.browseTaskObj) {
+            if(this.state.selectedTab===1) {
+                Actions.platformAdvancedTaskStart({PlatId: this.state.selectedPlatId, PlatName: this.state.selectedPlatName})
+            }
+            else {
+                Actions.platformBrowseTaskStart({PlatId: this.state.selectedPlatId, PlatName: this.state.selectedPlatName})
+            }
+        }
+        if(nextProps.browseTaskObjSuccessed!==null && !nextProps.browseTaskObjSuccessed) {
+            Toast.show({
+                text: nextProps.browseTaskObjMsg,
+                buttonText: "是",
+                type: "danger",
+                duration: 2000
+            });
+            this.props.initializeStatus(INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT);
+        }
     }
 
 
@@ -68,11 +86,21 @@ class TotalMissions extends Component {
 
     };
 
+
     _onStartTask = (PlatId, PlatName,)=> {
-        if(this.state.selectedTab===1)
-            Actions.platformAdvancedTaskStart({PlatId: PlatId, PlatName: PlatName})
-        else
-            Actions.platformBrowseTaskStart({PlatId: PlatId, PlatName: PlatName})
+        this.setState({selectedPlatId: PlatId});
+        this.setState({selectedPlatName: PlatName});
+
+        if(this.state.selectedTab===1) {
+            if(this.props.user) {
+                const {UserId, Token}  = this.props.user;
+                this.props.getMemberCanReceiveAccount(UserId, Token, PlatId, 1);
+            }
+        }
+        else {
+            const {UserId, Token}  = this.props.user;
+            this.props.getMemberCanReceiveAccount(UserId, Token, PlatId, 2);
+        }
     };
 
     _renderContent() {
@@ -181,7 +209,8 @@ class TotalMissions extends Component {
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {platformLists} = state.platformReducer;
-    return {user, platformLists};
+    const {browseTaskObj, browseTaskObjMsg, browseTaskObjLoading,browseTaskObjSuccessed} = state.taskReducer;
+    return {user, platformLists, browseTaskObj, browseTaskObjMsg, browseTaskObjLoading,browseTaskObjSuccessed};
 };
-export default connect(mapStateToProps, {getPlatformLists})(TotalMissions);
+export default connect(mapStateToProps, {getPlatformLists, getMemberCanReceiveAccount, initializeStatus})(TotalMissions);
 

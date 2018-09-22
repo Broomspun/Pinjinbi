@@ -51,8 +51,11 @@ export const LotoWinningHistory = _LotoWinningHistory;
 import _TotalMissions from './Missions/TotalMissions';
 export const TotalMissions = _TotalMissions;
 
-import _BrowseTask from './Missions/BrowseTask';
-export const BrowseTask = _BrowseTask;
+import _BrowseTaskList from './Missions/BrowseTaskList';
+export const BrowseTaskList = _BrowseTaskList;
+
+import _AdvancedTaskList from './Missions/AdvancedTaskList';
+export const AdvancedTaskList = _AdvancedTaskList;
 
 import _VerifyMain from './Verify/VerifyMain';
 export const VerifyMain = _VerifyMain;

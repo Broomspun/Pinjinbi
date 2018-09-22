@@ -205,4 +205,4 @@ export const INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT = 'initialize_get_member_
 export const GET_TASK_LIST_SUCCESS = 'get_task_list_success';
 export const GET_TASK_LIST_LOADING = 'get_task_list_loading';
 export const GET_TASK_LIST_FAILURE = 'get_task_list_failure';
-export const GET_TASK_LIST_INITIAL = 'get_task_list_initial';
+export const INITIALIZE_TASK_LIST_STATUS = 'initialize_task_list_status';

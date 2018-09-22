@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View, Image, Platform, UIManager, StyleSheet, PixelRatio} from 'react-native';
+import {View, Platform, UIManager, StyleSheet, PixelRatio, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Images, Constants, Styles, Color} from '@common';
 import RNPickerSelect from 'react-native-picker-select';
@@ -28,15 +28,15 @@ class PlatformBrowseTaskStart extends Component {
     constructor(props) {
         super(props);
         this.slidingComplete = this.slidingComplete.bind(this);
-        this.state={selectedAccount: null, radioSelectedDevice: '手机', radioSeletedRefundType:'平台返款', defaultItem: 1, maxPrice: 1000};
+        this.state={
+            selectedAccount: null,
+            radioSelectedDevice: '手机',
+            radioSeletedRefundType:'平台返款',
+            defaultItem: 1,
+            maxPrice: 1000};
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
-        }
-
-        if(this.props.user) {
-            const {UserId, Token}  = this.props.user;
-            this.props.getMemberCanReceiveAccount(UserId, Token, this.props.PlatId, 2); //2-BrowseTask
         }
     }
 
@@ -68,6 +68,29 @@ class PlatformBrowseTaskStart extends Component {
             radioSeletedRefundType: refundType
         });
     }
+
+    onGotoListPage= () => {
+        if(this.state.selectedAccount===null) {
+            Alert.alert(
+                '失败',
+                `Please choose ${this.props.PlatName} account`,
+                [
+                    {
+                        text: 'OK', onPress: () => console.log('pressed')
+                    },
+                ],
+                {cancelable: false}
+            )
+        } else {
+            Actions.browseTaskList(
+                {
+                    AccountId: this.state.selectedAccount,
+                    PlatId: this.props.PlatId,
+                    MaxAdvancePayMoney: this.props.maxPrice
+                }
+            )
+        }
+    };
 
     render() {
         let platAccounts = null;
@@ -165,7 +188,7 @@ class PlatformBrowseTaskStart extends Component {
                 )}
                 <Footer >
                     <View style={{flex: 1, backgroundColor:'#f8f8f8', paddingHorizontal: 15,height: 60, paddingBottom: 15}}>
-                        <Button block style={styles.buttonStyle}  >
+                        <Button block style={styles.buttonStyle}  onPress={()=>this.onGotoListPage()}>
                             <Text style={{fontSize: Styles.fontLarge, color: 'white'}}>确认</Text>
                         </Button>
                     </View>
