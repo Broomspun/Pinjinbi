@@ -27,6 +27,7 @@ class AdvancedTaskList extends Component {
         if(this.props.user) {
             const {AccountId, PlatId, MaxAdvancePayMoney} = this.props;
             const {UserId, Token}  = this.props.user;
+            // this.props.getTaskList(UserId, Token, 11, PlatId, MaxAdvancePayMoney, 1);
             this.props.getTaskList(UserId, Token, AccountId, PlatId, MaxAdvancePayMoney, 1);
         }
     }
@@ -90,10 +91,10 @@ class AdvancedTaskList extends Component {
         if(nextProps.selectedTaskNo)
             this.setState({isVisibleTaskContentModal: true});
 
-        if(nextProps.systemTaksObjStatus===false) {
+        if(nextProps.systemTaskObjStatus===false) {
             Alert.alert(
                 '失败',
-                nextProps.systemTaksObjMsg,
+                nextProps.systemTaskObjMsg,
                 [
                     {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_SYSTEM_SEND_TASK_STATUS)},
                 ],
@@ -129,7 +130,7 @@ class AdvancedTaskList extends Component {
                         {this._renderTaskContentModal()}
                     </Modal>
                 </Content>
-                {this.props.systemTaksObjLoading && (
+                {this.props.systemTaskObjLoading && (
                     <Spinner1 mode={'overlay'}/>
                 )}
                 <View style={{height: 60}}>
@@ -167,7 +168,7 @@ class AdvancedTaskList extends Component {
                         <TouchableOpacity  activeOpacity={.8}
                                            onPress={()=>this.onRunSystemSendTask()}
                                            style={{backgroundColor: Color.LightBlue, width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{fontSize:Styles.fontSmall,color: 'white'}}>派单中</Text>
+                            <Text style={{fontSize:Styles.fontSmall,color: 'white'}}>接单</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -201,10 +202,10 @@ const styles = {
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaksObjStatus,systemTaksObjMsg
+        systemTaskObjStatus,systemTaskObjMsg
     } = state.taskReducer;
     return {user,taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaksObjStatus,systemTaksObjMsg};
+        systemTaskObjStatus,systemTaskObjMsg};
 };
 
 export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus})(AdvancedTaskList);

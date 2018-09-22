@@ -10,9 +10,32 @@ import {
     GET_TASK_LIST_SUCCESS,
     GET_TASK_LIST_LOADING,
     GET_TASK_LIST_FAILURE,
-    USER_DETERMINE_TASK_LOADING, USER_DETERMINE_TASK_SUCCESS, USER_DETERMINE_TASK_FAILURE,
-    SYSTEM_SEND_TASK_FAILURE, SYSTEM_SEND_TASK_SUCCESS, SYSTEM_SEND_TASK_LOADING,
+    USER_DETERMINE_TASK_LOADING,
+    USER_DETERMINE_TASK_SUCCESS,
+    USER_DETERMINE_TASK_FAILURE,
+    SYSTEM_SEND_TASK_FAILURE,
+    SYSTEM_SEND_TASK_SUCCESS,
+    SYSTEM_SEND_TASK_LOADING,
 
+    LOAD_OPERATIONAL_SUCCESS,
+    LOAD_OPERATIONAL_LOADING,
+    LOAD_OPERATIONAL_FAILURE,
+
+    GET_MEMBER_TASK_ACCEPT_LOADING,
+    GET_MEMBER_TASK_ACCEPT_SUCCESS,
+    GET_MEMBER_TASK_ACCEPT_FAILURE,
+
+    //API 6.5
+    VERIFY_SHOP_NAME_SUCCESS,
+    VERIFY_SHOP_NAME_LOADING,
+    VERIFY_SHOP_NAME_FAILURE,
+    INITIALIZE_VERIFY_SHOP_NAME_STATUS,
+
+    //API 6.6
+    SUBMIT_TASK_SUCCESS,
+    SUBMIT_TASK_LOADING,
+    SUBMIT_TASK_FAILURE,
+    INITIALIZE_SUBMIT_TASK_STATUS,
 
 } from "./types";
 
@@ -157,7 +180,7 @@ export const UserDetermineTask = (UserId, Token, AccountId, TaskListNo) => {
     return (dispatch) =>{
         (async ()=> {
             dispatch({type: USER_DETERMINE_TASK_LOADING}); //for Spinner;
-            let res = await requestPOST_API('Task/GetTaskList',
+            let res = await requestPOST_API('Task/UserDetermineTask',
                 {UserId: UserId, Token: Token, AccountId: AccountId, TaskListNo: TaskListNo}
             );
             if(res.status===200) {
@@ -174,3 +197,131 @@ export const UserDetermineTask = (UserId, Token, AccountId, TaskListNo) => {
         })();
     };
 };
+
+
+/**
+ * API 6.3
+ *        http://pjbapi.wtvxin.com/api/Task/GetMemberTaskAccept
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @returns {Function}
+ */
+export const getMemberTaskAccept = (UserId, Token,TaskAcceptNo)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: GET_MEMBER_TASK_ACCEPT_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/GetMemberTaskAccept',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: GET_MEMBER_TASK_ACCEPT_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_MEMBER_TASK_ACCEPT_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 6.4, http://pjbapi.wtvxin.com/api/Task/LoadOperationalTask
+ *        Operational tasks page data load
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @returns {Function}
+ */
+export const loadOperationTask = (UserId, Token,TaskAcceptNo)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: LOAD_OPERATIONAL_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/LoadOperationalTask',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: LOAD_OPERATIONAL_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: LOAD_OPERATIONAL_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+};
+
+
+/**
+ * API 6.5
+ * http://pjbapi.wtvxin.com/api/Task/VerifyShopName
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @param ShopName
+ * @returns {Function}
+ */
+export const verifyShopName = (UserId, Token,TaskAcceptNo,ShopName)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: VERIFY_SHOP_NAME_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/VerifyShopName',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,ShopName:ShopName}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: VERIFY_SHOP_NAME_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: VERIFY_SHOP_NAME_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+
+/**
+ * API 6.6
+ * http://pjbapi.wtvxin.com/api/Task/SubmitTask
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @param ImgJson
+ * @param PlatOrderNo
+ * @returns {Function}
+ */
+export const submitTask = (UserId, Token,TaskAcceptNo,ImgJson,PlatOrderNo)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: SUBMIT_TASK_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/SubmitTask',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,ImgJson:ImgJson,PlatOrderNo:PlatOrderNo}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: SUBMIT_TASK_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: SUBMIT_TASK_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}

@@ -29,6 +29,20 @@ import {
     INITIALIZE_LOGIN_STATUS,
     GET_VIP_LISTS_SUCCESS, GET_VIP_LISTS_FAILURE, INITIALIZE_VIP_MESSAGE, LOAD_FROM_STORAGE,
     GET_USER_BANK_INFO_SUCCESS,
+    GET_LOADSIGNINPAGE_SUCCESS,
+    GET_LOADSIGNINPAGE_FAILURE,
+    GET_LOADSIGNINPAGE_LOADING,
+    GET_LOADSIGNINPAGE_RELOGIN,
+    GET_LOADSIGNINPAGE_SIGNED,
+    GET_LOADSIGNINPAGE_SYSTEMERROR,
+
+    SIGN_IN_GET_POINTS_SUCCESS,
+    SIGN_IN_GET_POINTS_FAILURE,
+    SIGN_IN_GET_POINTS_LOADING,
+    SIGN_IN_GET_POINTS_SYSTEMERROR,
+    SIGN_IN_GET_POINTS_RELOGIN,
+    SIGN_IN_GET_POINTS_INITIAL,
+    SIGN_IN_GET_POINTS_SIGNED
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -56,12 +70,15 @@ const INITIAL_STATE = {
     pointsMsg: '',
     bPointsLoading: false,
     bPointsSuccessed: false,
-    vipObj: null,
-    vipMsg: '',
-    bVipSubmitStatus: null,
-    bVipLoading: false,
-    bankInfo: null
-
+    vipListsObj: null,
+    vipListsMsg: '',
+    bVipListsStatus: null,
+    bVipListsLoading: false,
+    bankInfo: null,
+    logObj: null,
+    logObjMsg: '',
+    signPoints: null,
+    signPointsMsg: ''
 };
 
 const convertAreas =(areas) => {
@@ -153,14 +170,41 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, bWithdrawalLogs: true};
 
         case GET_VIP_LISTS_SUCCESS:
-            return {...state, vipObj: action.payload.value, bVipLoading: false, bVipSubmitStatus: true};
+            return {...state, vipListsObj: action.payload.value, bVipListsLoading: false, bVipListsStatus: true};
         case GET_VIP_LISTS_FAILURE:
-            return {...state,vipObj: null, vipMsg: action.payload.msg, bVipLoading: false, bVipSubmitStatus: false};
+            return {...state,vipListsObj: null, vipListsMsg: action.payload.msg, bVipListsLoading: false, bVipListsStatus: false};
         case INITIALIZE_VIP_MESSAGE:
-            return {...state, bVipSubmitStatus: null};
+            return {...state, bVipListsStatus: null};
 
         case GET_USER_BANK_INFO_SUCCESS:
             return {...state, user: {...state.user, bankInfo: action.payload.value}};
+
+        case SIGN_IN_GET_POINTS_SUCCESS:
+            return {...state, signPoints:action.payload.value};
+        case SIGN_IN_GET_POINTS_FAILURE:
+            return {...state,signPoints:null,signPointsMsg: action.payload.msg};
+        case SIGN_IN_GET_POINTS_LOADING:
+            return {...state,signPoints:action.payload};
+        case SIGN_IN_GET_POINTS_RELOGIN:
+            return {...state,signPoints:action.payload};
+        case SIGN_IN_GET_POINTS_SYSTEMERROR:
+            return {...state, signPoints:action.payload};
+        case SIGN_IN_GET_POINTS_SIGNED:
+            return {...state, signPoints:action.payload};
+
+        case GET_LOADSIGNINPAGE_SUCCESS:
+            return {...state, logObj: action.payload.value};
+        case GET_LOADSIGNINPAGE_FAILURE:
+            return {...state,logObj: null, logObjMsg: action.payload.msg};
+        case GET_LOADSIGNINPAGE_LOADING:
+            return {...state,logObj: action.payload};
+        case GET_LOADSIGNINPAGE_RELOGIN:
+            return {...state,logObj: action.payload};
+        case GET_LOADSIGNINPAGE_SIGNED:
+            return {...state,logObj: action.payload};
+        case GET_LOADSIGNINPAGE_SYSTEMERROR:
+            return {...state,logObj: action.payload};
+
         default:
             return state;
     }

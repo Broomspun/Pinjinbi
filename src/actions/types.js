@@ -189,11 +189,12 @@ export const INITIALIZE_TABAO_SUBMIT_STATUS = 'initialize_user_bank_status';
 
 //Get Point page loading
 
-export const GET_LOADSIGNINPAGE_SUCCESS = 'get_load_signin_page_success';
-export const GET_LOADSIGNINPAGE_FAILURE = 'get_load_signin_page_failure';
-export const GET_LOADSIGNINPAGE_LOADING = 'get_load_signin_page_loading';
-export const GET_LOADSIGNINPAGE_RELOGIN = 'get_load_signin_page_relogin';
-export const GET_LOADSIGNINPAGE_SYSTEMERROR = 'get_load_signin_page_systemerror';
+export const GET_LOADSIGNINPAGE_SUCCESS = 'get_loadsigninpage_success';
+export const GET_LOADSIGNINPAGE_FAILURE = 'get_loadsigninpage_failure';
+export const GET_LOADSIGNINPAGE_LOADING = 'get_loadsigninpage_loading';
+export const GET_LOADSIGNINPAGE_SIGNED = 'get_loadsigninpage_signed';
+export const GET_LOADSIGNINPAGE_RELOGIN = 'get_loadsigninpage_relogin';
+export const GET_LOADSIGNINPAGE_SYSTEMERROR = 'get_loadsigninpage_systemerror';
 
 //GetMemberCanReceiveAccount
 export const GET_MEMBER_CAN_RECEIVE_ACCOUNT_SUCCESS = 'get_member_can_receive_account_success';
@@ -222,3 +223,53 @@ export const INITIALIZE_SYSTEM_SEND_TASK_STATUS = 'initialize_system_send_taskst
 
 
 export const SELECTED_TASK_NO = 'selected_task_no'
+
+
+//Member sign get point
+
+export const SIGN_IN_GET_POINTS_SUCCESS = 'sign_in_get_points_success';
+export const SIGN_IN_GET_POINTS_LOADING = 'sign_in_get_points_loading';
+export const SIGN_IN_GET_POINTS_FAILURE = 'sign_in_get_points_failure';
+export const SIGN_IN_GET_POINTS_INITIAL = 'sign_in_get_points_initial';
+export const SIGN_IN_GET_POINTS_RELOGIN = 'sign_in_get_points_relogin';
+export const SIGN_IN_GET_POINTS_SIGNED = 'sign_in_get_points_signed';
+export const SIGN_IN_GET_POINTS_SYSTEMERROR = 'sign_in_get_points_systemerror';
+
+//API 4.3 User Buy VIP
+export const USER_BUY_VIP_SUCCESS = 'user_buy_vip_success';
+export const USER_BUY_VIP_LOADING = 'user_buy_vip_loading';
+export const USER_BUY_VIP_FAILURE = 'user_buy_vip_failure';
+export const INITIALIZE_USER_BUY_VIP_STATUS = 'initialize_user_buy_vip_status';
+
+// API 6.3 GetMemberTaskAccept
+export const GET_MEMBER_TASK_ACCEPT_SUCCESS = 'get_member_task_accept_success';
+export const GET_MEMBER_TASK_ACCEPT_LOADING = 'get_member_task_accept_loading';
+export const GET_MEMBER_TASK_ACCEPT_FAILURE = 'get_member_task_accept_failure';
+export const INITIALIZE_GET_MEMBER_TASK_ACCEPT_STATUS = 'initialize_get_member_task_accept_status';
+
+//task page data load
+//API 6.4 http://pjbapi.wtvxin.com/api/Task/LoadOperationalTask
+export const LOAD_OPERATIONAL_SUCCESS = 'load_operational_task_success';
+export const LOAD_OPERATIONAL_LOADING = 'load_operational_task_loading';
+export const LOAD_OPERATIONAL_FAILURE = 'load_operational_task_failure';
+export const INITIALIZE_LOAD_OPERATIONAL_STATUS = 'initialize_load_operational_task_status';
+
+
+//Verify name of Shop business platform
+//API 6.5
+//http://pjbapi.wtvxin.com/api/Task/VerifyShopName
+
+
+export const VERIFY_SHOP_NAME_SUCCESS = 'verify_shop_name_success';
+export const VERIFY_SHOP_NAME_LOADING = 'verify_shop_name_loading';
+export const VERIFY_SHOP_NAME_FAILURE = 'verify_shop_name_failure';
+export const INITIALIZE_VERIFY_SHOP_NAME_STATUS = 'initialize_verify_shop_name_status';
+
+
+//Submit Task
+//API 6.6
+//http://pjbapi.wtvxin.com/api/Task/SubmitTask
+export const SUBMIT_TASK_SUCCESS = 'submit_task_success';
+export const SUBMIT_TASK_LOADING = 'submit_task_loading';
+export const SUBMIT_TASK_FAILURE = 'submit_task_failure';
+export const INITIALIZE_SUBMIT_TASK_STATUS = 'initialize_submit_task_status';

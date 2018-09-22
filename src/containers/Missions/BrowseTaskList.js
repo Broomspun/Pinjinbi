@@ -4,11 +4,11 @@ import {connect} from 'react-redux';
 import {Button, Container, Content, FooterTab, Text} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import MissionBlock from '../../components/MissionBlock'
-import {getTaskList, systemSendTask, initializeStatus} from "../../actions";
+import {getTaskList, systemSendTask, initializeStatus, UserDetermineTask} from "../../actions";
 import {
     INITIALIZE_SELECTED_TASK_NO,
     INITIALIZE_SYSTEM_SEND_TASK_STATUS,
-    INITIALIZE_TASK_LIST_STATUS
+    INITIALIZE_TASK_LIST_STATUS, INITIALIZE_USER_DETERMINE_TASK_STATUS
 } from "../../actions/types";
 import {Actions} from "react-native-router-flux";
 import Modal from "react-native-modal";
@@ -33,16 +33,22 @@ class BrowseTaskList extends Component {
 
     _initializeModalStatus = ()=>{
         this.setState({isVisibleTaskContentModal: false});
-        this.props.initializeStatus(INITIALIZE_SELECTED_TASK_NO)
+        this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS);
+        Actions.acceptedTask();
     };
 
     _renderTaskContentModal = () => {
-        const fakeTasklist = {
+        const taskObj1 = {
             PlatType: "淘宝任务",
             TaskAcceptNo: "jd18082411471110988855",
             CommissionAvailable: 10,
             OperationCountdown: 120
         };
+
+        if(!this.props.taskObj)
+            return (<View></View>);
+
+        const {taskObj} = this.props;
 
         return (
             <View style={{flex:1,width: '90%', maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 15 }}>
@@ -52,19 +58,19 @@ class BrowseTaskList extends Component {
                 <View style={{flex:1,paddingHorizontal: 10, marginTop: 10}}>
                     <View style={{flexDirection: 'row',  justifyContent: 'space-between', borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>任务类型</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{fakeTasklist.PlatType}</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{taskObj.PlatType}</Text>
                     </View>
                 </View>
                 <View style={{flex:1, paddingHorizontal: 10}}>
                     <View style={{...Styles.RowCenterBetween, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>任务佣金</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{(fakeTasklist.CommissionAvailable).toFixed(2)}金币</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{taskObj.TaskCommission}金币</Text>
                     </View>
                 </View>
                 <View style={{flex:1, paddingHorizontal: 10}}>
                     <View style={{...Styles.RowCenterBetween, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>时间限制</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{fakeTasklist.CommissionAvailable}分钟</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{taskObj.OperationCountdown}分钟</Text>
                     </View>
                 </View>
 
@@ -80,18 +86,21 @@ class BrowseTaskList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.selectedTaskNo)
-            this.setState({isVisibleTaskContentModal: true});
+        console.log('browseList', nextProps);
 
-        if(nextProps.systemTaksObjStatus===false) {
+        if(nextProps.systemTaskObjStatus===false) {
             Alert.alert(
                 '失败',
-                nextProps.systemTaksObjMsg,
+                nextProps.systemTaskObjMsg,
                 [
                     {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_SYSTEM_SEND_TASK_STATUS)},
                 ],
                 {cancelable: false}
             )
+        }
+
+        if(nextProps.taskObjStatus!==null && nextProps.taskObjStatus) {
+            this.setState({isVisibleTaskContentModal: true});
         }
     }
 
@@ -106,23 +115,28 @@ class BrowseTaskList extends Component {
             this.props.systemSendTask(UserId, Token, AccountId, PlatId, 0, 2);
         }
     };
+    _onGetTaskDetail = (taskNo)=>{ //(UserId, Token, AccountId, TaskListNo)
+        const {UserId, Token}  = this.props.user;
+
+        this.props.UserDetermineTask(UserId, Token, this.props.AccountId, taskNo)
+    };
 
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
+                    {this.props.taskListsObj && this.props.taskListsObj.TaskList.map(task=>{
+                        return (
+                            <MissionBlock onPress={()=>Actions.acceptedTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
+                        )
+                    })}
                     <MissionBlock point={21.35} goldValue={16.35} id={435354789230457432735} taskType={2} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={2} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={2} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={2} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={2} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={2} completed={false}/>
 
                     <Modal  isVisible={this.state.isVisibleTaskContentModal} style={{...Styles.ColumnCenter}}>
                         {this._renderTaskContentModal()}
                     </Modal>
                 </Content>
-                {this.props.systemTaksObjLoading && (
+                {this.props.systemTaskObjLoading && (
                     <Spinner1 mode={'overlay'}/>
                 )}
                 <View style={{height: 60}}>
@@ -160,7 +174,7 @@ class BrowseTaskList extends Component {
                         <TouchableOpacity  activeOpacity={.8}
                                            onPress={()=>this.onRunSystemSendTask()}
                                            style={{backgroundColor: Color.LightBlue, width: 50, height: 50, borderRadius: 25, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{fontSize:Styles.fontSmall,color: 'white'}}>派单中</Text>
+                            <Text style={{fontSize:Styles.fontSmall,color: 'white'}}>接单</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -194,11 +208,15 @@ const styles = {
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaksObjStatus,systemTaksObjMsg
+        systemTaskObjStatus,systemTaskObjMsg,
+        taskObjStatus, taskObj,
     } = state.taskReducer;
+
     return {user,taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaksObjStatus,systemTaksObjMsg};
+        systemTaskObjStatus,systemTaskObjMsg,
+        taskObjStatus, taskObj
+    };
 };
 
-export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus})(BrowseTaskList);
+export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus, UserDetermineTask})(BrowseTaskList);
 

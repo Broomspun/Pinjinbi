@@ -10,7 +10,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
     SystemMessagesList, SystemMessageDetail,
     Promotion, PromotionAward, Prize,
     Loto, LotoWinningHistory,
-    TotalMissions, PlatformBrowseTaskStart, PlatformAdvancedTaskStart, BrowseTaskList, AdvancedTaskList,
+    TotalMissions, PlatformBrowseTaskStart, PlatformAdvancedTaskStart, BrowseTaskList, AdvancedTaskList,AcceptedTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
@@ -80,6 +80,7 @@ const RouterComponent = () => {
                         <Scene key="advancedTaskList" component ={AdvancedTaskList} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="打法师" onRight={() => {}} />
                         <Scene key="platformBrowseTaskStart" component ={PlatformBrowseTaskStart} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                         <Scene key="platformAdvancedTaskStart" component ={PlatformAdvancedTaskStart} title="接单任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
+                        <Scene key="acceptedTask" component ={AcceptedTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                     </Stack>
 
                     <Stack back key="myordersstack" backButtonImage={Images.backButtonImg}>

@@ -16,15 +16,22 @@ import {
     MOBILE_CHANGE_SUCCESS,
     MOBILE_CHANGE_FAILURE,
     CHANGE_LOGIN_PASSWORD_SUCCESS,
-    CHANGE_LOGIN_PASSWORD_FAILURE,
-    REGISTER_VERIFY_FAIL,
+
     NEW_PHONE_VERIFY_FAILURE,
     OLD_PHONE_VERIFY_FAILURE,
+
     GET_LOADSIGNINPAGE_SUCCESS,
     GET_LOADSIGNINPAGE_FAILURE,
-    GET_LOADSIGNINPAGE_LOADING,
+    GET_LOADSIGNINPAGE_SYSTEMERROR,
     GET_LOADSIGNINPAGE_RELOGIN,
-    GET_LOADSIGNINPAGE_SYSTEMERROR
+    GET_LOADSIGNINPAGE_SIGNED,
+
+    SIGN_IN_GET_POINTS_SUCCESS,
+    SIGN_IN_GET_POINTS_FAILURE,
+    SIGN_IN_GET_POINTS_LOADING,
+    SIGN_IN_GET_POINTS_SYSTEMERROR,
+    SIGN_IN_GET_POINTS_RELOGIN,
+    SIGN_IN_GET_POINTS_SIGNED, GET_LOADSIGNINPAGE_LOADING
 } from "./types";
 
 import {Actions} from 'react-native-router-flux';
@@ -189,32 +196,94 @@ export const changePassword = (UserId, Token, OldLoginPwd, NewLoginPwd)=> {
     };
 };
 
+/**
+ * API 4.4
+ *      http://pjbapi.wtvxin.com/api/Integral/LoadSignInPage
+ * @param UserId
+ * @param Token
+ * @returns {Function}
+ */
 export const loadSignInPage =(UserId, Token)=>{
     return (dispatch) =>{
         (async ()=>{
+            dispatch({type: GET_LOADSIGNINPAGE_LOADING});
             let res = await requestPOST_API('Integral/LoadSignInPage',
                 {UserId: UserId,Token: Token}
             );
             if (res.status===200){
                 dispatch({
                     type: GET_LOADSIGNINPAGE_SUCCESS,
-                    data: res.data
+                    payload: {value:res.data, msg: res.msg}
                 });
             }else if(res.status ===1){
                 dispatch({
                     type: GET_LOADSIGNINPAGE_FAILURE,
-                    data: res.data
+                    payload: {value:null, msg: res.msg,errCode: res.status}
                 });
             }else if(res.status === 2){
                 dispatch({
                     type: GET_LOADSIGNINPAGE_RELOGIN,
-                    data: res.data
+                    payload: {value:res.data, msg: res.msg,errCode:res.status}
                 });
-            }else {
+            }else if (res.status ===3){
+                dispatch({
+                    type: GET_LOADSIGNINPAGE_SIGNED,
+                    payload: {value:res.data, msg: res.msg, errCode:res.status}
+                });
+            }
+            else {
                 dispatch({
                     type: GET_LOADSIGNINPAGE_SYSTEMERROR,
+                    payload: {value:res, msg: res.msg, errCode:res.status}
+                });
+            }
+        })();
+    }
+};
+
+/**
+ * API 4.5
+ * http://pjbapi.wtvxin.com/api/Integral/SignInGetPoints
+ * @param UserId
+ * @param Token
+ * @returns {Function}
+ */
+export const signInGetPoints =(UserId, Token)=>{
+    return (dispatch) =>{
+        (async ()=>{
+            dispatch({type: SIGN_IN_GET_POINTS_LOADING});
+            let res = await requestPOST_API('Integral/SignInGetPoints',
+                {UserId: UserId,Token: Token}
+            );
+            dispatch({payload:res,type:"test_signingetpoints"});
+            if (res.status===200){
+                dispatch({
+                    type: SIGN_IN_GET_POINTS_SUCCESS,
+                    payload: {value:res.data, msg: res.msg,errCode: res.status}
+                });
+            }else if(res.status ===1){
+                dispatch({
+                    type: SIGN_IN_GET_POINTS_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }else if (res.status===2){
+                dispatch({
+                    type: SIGN_IN_GET_POINTS_RELOGIN,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }else if (res.status ==3){
+                dispatch({
+                    type: SIGN_IN_GET_POINTS_SIGNED,
+                    payload: {value:res.data, msg: res.msg,errCode: res.status}
+                });
+            }
+            else {
+                dispatch({
+                    type: SIGN_IN_GET_POINTS_SYSTEMERROR,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
                 });
             }
         })();
     }
 }
+

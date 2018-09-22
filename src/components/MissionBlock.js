@@ -82,8 +82,9 @@ class MissionBlock extends Component {
                                     alignSelf: 'flex-end',
                                     paddingHorizontal: 15
                                 }}
-                                onPress={() => {
-                                    !completed ? this.props.selectOrderId(SELECTED_TASK_NO, id) : {}}}
+                                onPress={this.props.onPress}
+                                // onPress={() => {
+                                //     !completed ? this.props.selectOrderId(SELECTED_TASK_NO, id) : {}}}
 
                             >
                                 <Text style={{color: 'white'}}>立即接单</Text>

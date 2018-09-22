@@ -1,7 +1,8 @@
 import {
     GET_LOTO_ACTIVITIES_SUCCESS, GET_LOTO_ACTIVITIES_FAIL, GET_LOTO_ACTIVITIES_LOADING,
     TRIAL_LOTO_SUCCESS, TRIAL_LOTO_FAIL, TRIAL_LOTO_LOADING,
-    LOTO_HISTORY_SUCCESS, LOTO_HISTORY_FAIL, LOTO_HISTORY_LOADING, INITIALIZE_LOTO
+    LOTO_HISTORY_SUCCESS, LOTO_HISTORY_FAIL, LOTO_HISTORY_LOADING, INITIALIZE_LOTO,
+    USER_BUY_VIP_SUCCESS,USER_BUY_VIP_LOADING,USER_BUY_VIP_FAILURE,INITIALIZE_USER_BUY_VIP_STATUS
 } from './../actions/types';
 
 const INITIAL_STATE = {
@@ -12,7 +13,11 @@ const INITIAL_STATE = {
     trialLotoMsg: '',
     lotoHistoryObj: null,
     lotoHistoryMsg: '',
-    bLotoHistoryLoading: false
+    bLotoHistoryLoading: false,
+    vipObj:null,
+    vipObjMsg:'',
+    vipObjStatus:null,
+    vipObjLoading:false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,6 +43,16 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, lotoHistoryObj : null, bLotoHistoryLoading: false, lotoHistoryMsg: action.payload};
         case LOTO_HISTORY_LOADING:
             return {...state, bLotoHistoryLoading : true};
+
+
+        case USER_BUY_VIP_SUCCESS:
+            return {...state, vipObj:action.payload.value, vipObjStatus: true, vipObjLoading: false};
+        case USER_BUY_VIP_FAILURE:
+            return {...state, vipObj:null,vipObjMsg:action.payload.msg,vipObjStatus: false, vipObjLoading: false};
+        case INITIALIZE_USER_BUY_VIP_STATUS:
+            return {...state, vipObjStatus: null};
+        case USER_BUY_VIP_LOADING:
+            return {...state, vipObjLoading: true};
         default:
             return state;
     }

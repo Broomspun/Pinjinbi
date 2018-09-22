@@ -358,7 +358,10 @@ export const initializeLoginStatus = () => {
 };
 
 
-
+/**
+ * API 4.2,  http://pjbapi.wtvxin.com/api/Money/GetVIPList
+ * @returns {Function}
+ */
 export const getVIPLists = () => {
     return (dispatch) => {
         (async ()=>{
