@@ -3,7 +3,6 @@ import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRat
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import { SelectMultipleButton } from 'react-native-selectmultiple-button'
 import {getMemberTaskAccept, initializeStatus} from "../../actions";
 
 import {
@@ -17,7 +16,6 @@ import Modal from "react-native-modal";
 import Spinner1 from "@components";
 import {RowLeftRightBlock} from "../../components";
 
-const taskLists = ["操作任务", "申诉任务", "取消任务"];
 class AcceptedTask extends Component {
     state = {isVisibleTaskContentModal: false};
     constructor(props) {
@@ -26,13 +24,12 @@ class AcceptedTask extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
-        this.state = {taskType: '操作任务'}
 
-        // if(this.props.user && this.props.taskObj) {
-        //     const {taskObj} = this.props;
-        //     const {UserId, Token}  = this.props.user;
-        //     this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
-        // }
+        if(this.props.user && this.props.taskObj) {
+            const {taskObj} = this.props;
+            const {UserId, Token}  = this.props.user;
+            this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+        }
     }
 
     componentDidUpdate() {
@@ -43,14 +40,8 @@ class AcceptedTask extends Component {
     }
 
     componentWillUnmount() {
-        // this.props.initializeStatus(INITIALIZE_TASK_LIST_STATUS);
+        this.props.initializeStatus(INITIALIZE_TASK_LIST_STATUS);
     }
-
-    _onSelectTask = (valueTap, taskType)=>{
-        this.setState({
-            taskType: taskType
-        });
-    };
 
 
     renderConnect() {
@@ -58,7 +49,7 @@ class AcceptedTask extends Component {
     }
 
     render() {
-        const taskObj = {
+        const taskObj1 = {
             AcceptTaskStatus: 0,
             AcceptTaskStatusText: "待操作",
             AccountName: "发发发",
@@ -85,14 +76,26 @@ class AcceptedTask extends Component {
             TaskType: 2,
         };
 
+        const {taskObj} = this.props;
+
+        if(taskObj===null){
+            return (
+                <Container style={{backgroundColor: Color.LightGrayColor}}>
+                    <Content style={{marginBottom: 10}}>
+                    </Content>
+                </Container>
+            )
+        }
+
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
+
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{paddingBottom: 10}}>
                             <View style={{flexDirection:'row', ...Styles.RowCenterLeft}}>
                                 <Image source={Images.prendig_review} style={{width: 20, height: 20, marginRight: 10}} />
-                                <Text style={{...Styles.normalTextStyle}}>{taskObj.ShopName}</Text>
+                                <Text style={{...Styles.normalTextStyle}}>{taskObj.ProductName}</Text>
                             </View>
                         </View>
                         <View style={{flex:1, ...Styles.RowCenterLeft, paddingVertical: 10}}>
@@ -103,7 +106,7 @@ class AcceptedTask extends Component {
                                 <View>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>商品成交价格</Text>
-                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall,marginLeft: 10}}>{taskObj.Amount}元</Text>
+                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall,marginLeft: 10}}>{taskObj.ProductPrice}元</Text>
                                     </View>
                                 </View>
                                 <View>
@@ -133,7 +136,7 @@ class AcceptedTask extends Component {
                         <View style={{paddingVertical: 15}}>
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
-                                    <Button small
+                                    <Button small onPress={()=>Actions.loadOperationalTask()}
                                         style={{
                                             borderRadius: 30,
                                             backgroundColor: Color.DarkLightBlue,
@@ -262,7 +265,6 @@ class AcceptedTask extends Component {
                     </View>
 
                 </Content>
-
             </Container>
         );
     }

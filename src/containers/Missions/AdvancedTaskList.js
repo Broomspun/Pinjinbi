@@ -27,7 +27,7 @@ class AdvancedTaskList extends Component {
         if(this.props.user) {
             const {AccountId, PlatId, MaxAdvancePayMoney} = this.props;
             const {UserId, Token}  = this.props.user;
-            // this.props.getTaskList(UserId, Token, 11, PlatId, MaxAdvancePayMoney, 1);
+
             this.props.getTaskList(UserId, Token, AccountId, PlatId, MaxAdvancePayMoney, 1);
         }
     }

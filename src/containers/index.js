@@ -60,6 +60,9 @@ export const AdvancedTaskList = _AdvancedTaskList;
 import _AcceptedTask from './Missions/AcceptedTask';
 export const AcceptedTask = _AcceptedTask;
 
+import _LoadOperationalTask from './Missions/LoadOperationalTask';
+export const LoadOperationalTask = _LoadOperationalTask;
+
 import _VerifyMain from './Verify/VerifyMain';
 export const VerifyMain = _VerifyMain;
 
