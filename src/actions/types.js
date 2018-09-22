@@ -206,3 +206,19 @@ export const GET_TASK_LIST_SUCCESS = 'get_task_list_success';
 export const GET_TASK_LIST_LOADING = 'get_task_list_loading';
 export const GET_TASK_LIST_FAILURE = 'get_task_list_failure';
 export const INITIALIZE_TASK_LIST_STATUS = 'initialize_task_list_status';
+export const INITIALIZE_SELECTED_TASK_NO = 'initialize_selected_task_no';
+
+//User Determine Task
+export const USER_DETERMINE_TASK_SUCCESS = 'user_determine_task_success';
+export const USER_DETERMINE_TASK_LOADING = 'user_determine_task_loading';
+export const USER_DETERMINE_TASK_FAILURE = 'user_determine_task_failure';
+export const INITIALIZE_USER_DETERMINE_TASK_STATUS = 'initialize_user_determin_task_status';
+
+//System Send Task
+export const SYSTEM_SEND_TASK_SUCCESS = 'system_send_task_success';
+export const SYSTEM_SEND_TASK_LOADING = 'system_send_task_loading';
+export const SYSTEM_SEND_TASK_FAILURE = 'system_send_task_failure';
+export const INITIALIZE_SYSTEM_SEND_TASK_STATUS = 'initialize_system_send_taskstatus';
+
+
+export const SELECTED_TASK_NO = 'selected_task_no'

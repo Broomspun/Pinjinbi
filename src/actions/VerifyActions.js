@@ -132,3 +132,7 @@ export const submitBankInfo = (UserId, Token, BankName, BankCardNo, BankAddress,
 export const initializeStatus = (type) => {
     return {type: type}
 };
+
+export const selectOrderId = (type, orderId) => {
+    return {type: type, payload: orderId}
+};

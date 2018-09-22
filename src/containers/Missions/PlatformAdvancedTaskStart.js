@@ -85,7 +85,7 @@ class PlatformAdvancedTaskStart extends Component {
                 {
                     AccountId: this.state.selectedAccount,
                     PlatId: this.props.PlatId,
-                    MaxAdvancePayMoney: this.props.maxPrice
+                    MaxAdvancePayMoney: this.state.maxPrice
                 }
             )
         }
