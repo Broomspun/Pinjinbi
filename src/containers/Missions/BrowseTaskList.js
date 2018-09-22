@@ -127,7 +127,7 @@ class BrowseTaskList extends Component {
                 <Content style={{marginBottom: 10}}>
                     {this.props.taskListsObj && this.props.taskListsObj.TaskList.map(task=>{
                         return (
-                            <MissionBlock onPress={()=>Actions.loadOperationalTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
+                            <MissionBlock onPress={()=>Actions.loadOperationalBrowseTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
                         )
                     })}
                     <MissionBlock point={21.35} goldValue={16.35} id={435354789230457432735} taskType={2} completed={false}/>

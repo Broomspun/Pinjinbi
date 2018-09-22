@@ -30,20 +30,20 @@ class MyOrders extends Component {
     _renderContent(title, orderType) {
         //orderType: 1-Advanced, 2-Browse
         if(this.props.user && this.props.taskSummaryObj ) {
-            const {AdvanceOrderDelivered, AdvanceOrderNotOperated, AdvanceOrderRefunds, AdvanceOrderRescinded} = this.props.taskSummaryObj;
-            const {BrowseOrderDelivered, BrowseOrderNotOperated, BrowseOrderRefunds, BrowseOrderRescinded} = this.props.taskSummaryObj;
+            const {AdvanceCompleted, AdvanceUndone, AdvanceRevoked, AdvanceAppeal} = this.props.taskSummaryObj;
+            const {BrowseCompleted, BrowseUndone, BrowseRevoked, BrowseAppeal} = this.props.taskSummaryObj;
 
             let deliveried, unfinished, refunded, disputed;
             if(orderType==1){
-                deliveried = AdvanceOrderDelivered;
-                unfinished = AdvanceOrderNotOperated;
-                refunded = AdvanceOrderRefunds;
-                disputed = AdvanceOrderRescinded;
+                deliveried = AdvanceCompleted;
+                unfinished = AdvanceUndone;
+                refunded = AdvanceRevoked;
+                disputed = AdvanceAppeal;
             } else {
-                deliveried = BrowseOrderDelivered;
-                unfinished = BrowseOrderNotOperated;
-                refunded = BrowseOrderRefunds;
-                disputed = BrowseOrderRescinded;
+                deliveried = BrowseCompleted;
+                unfinished = BrowseUndone;
+                refunded = BrowseRevoked;
+                disputed = BrowseAppeal;
             }
             //
             // deliveried=1;

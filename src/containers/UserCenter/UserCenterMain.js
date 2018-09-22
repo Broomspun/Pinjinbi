@@ -140,8 +140,8 @@ class UserCenterMain extends Component {
 
     _renderTasks = ()=> {
         if(this.props.user && this.props.taskSummaryObj ) {
-            const {AdvanceOrderDelivered,AdvanceOrderNotOperated, AdvanceOrderRefunds, AdvanceOrderRescinded} = this.props.taskSummaryObj;
-            const {BrowseOrderDelivered,BrowseOrderNotOperated, BrowseOrderRefunds, BrowseOrderRescinded} = this.props.taskSummaryObj;
+            const {AdvanceCompleted,AdvanceUndone, AdvanceRevoked, AdvanceAppeal} = this.props.taskSummaryObj;
+            const {BrowseCompleted,BrowseUndone, BrowseRevoked, BrowseAppeal} = this.props.taskSummaryObj;
             return (
                 <View style={{...Styles.cardStyleEmpty, paddingVertical: 10}}>
                     <View style={{flexDirection: 'row',  paddingBottom: 10, alignItems: 'center'}}>
@@ -161,10 +161,10 @@ class UserCenterMain extends Component {
                                 <TouchableOpacity onPress={()=>Actions.myorders()}>
                                     <Image source={Images.user_center_icon_02} style={{width: 24, height: 26}}></Image>
                                 </TouchableOpacity>
-                                {BrowseOrderNotOperated>0 && (
+                                {BrowseUndone>0 && (
                                     <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
 
-                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderNotOperated}</Text>
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseUndone}</Text>
 
                                     </View>
                                 )}
@@ -173,10 +173,10 @@ class UserCenterMain extends Component {
                         </View>
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
                             <Image source={Images.user_center_icon_01} style={{width: 25, height: 26}}></Image>
-                            {BrowseOrderDelivered>0 && (
+                            {BrowseCompleted>0 && (
                                 <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
 
-                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderDelivered}</Text>
+                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseCompleted}</Text>
 
                                 </View>
                             )}
@@ -185,10 +185,10 @@ class UserCenterMain extends Component {
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
                             <View style={{position: 'relative'}}>
                                 <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
-                                {BrowseOrderRefunds>0 && (
+                                {BrowseRevoked>0 && (
                                     <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
 
-                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderRefunds}</Text>
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseRevoked}</Text>
 
                                     </View>
                                 )}
@@ -197,10 +197,10 @@ class UserCenterMain extends Component {
                         </View>
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
                             <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
-                            {BrowseOrderRescinded>0 && (
+                            {BrowseAppeal>0 && (
                                 <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
 
-                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseOrderRescinded}</Text>
+                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseAppeal}</Text>
 
                                 </View>
                             )}

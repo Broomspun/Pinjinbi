@@ -38,6 +38,81 @@ import {
     SUBMIT_TASK_FAILURE,
     INITIALIZE_SUBMIT_TASK_STATUS,
 
+    //API 6.7
+    REMINDING_REFUNDS_SUCCESS,
+    REMINDING_REFUNDS_LOADING,
+    REMINDING_REFUNDS_FAILURE,
+    INITIALIZE_REMINDING_REFUNDS_STATUS,
+
+    //API 6.8
+    COMPLETE_TASK_SUCCESS,
+    COMPLETE_TASK_LOADING,
+    COMPLETE_TASK_FAILURE,
+    INITIALIZE_COMPLETE_TASK_STATUS,
+
+    //API 6.9
+    CANCEL_TASK_SUCCESS,
+    CANCEL_TASK_LOADING,
+    CANCEL_TASK_FAILURE,
+    INITIALIZE_CANCEL_TASK_STATUS,
+
+    //API 7.0
+    GET_APPLY_STATEMENT_TYPE_SUCCESS,
+    GET_APPLY_STATEMENT_TYPE_LOADING,
+    GET_APPLY_STATEMENT_TYPE_FAILURE,
+    INITIALIZE_GET_APPLY_STATEMENT_TYPE_STATUS,
+
+    //API 7.1
+    INITIATE_APPEAL_SUCCESS,
+    INITIATE_APPEAL_LOADING,
+    INITIATE_APPEAL_FAILURE,
+    INITIALIZE_INITIATE_APPEAL_STATUS,
+
+    //API 7.2
+    GET_MEMBER_TASK_LIST_SUCCESS,
+    GET_MEMBER_TASK_LIST_LOADING,
+    GET_MEMBER_TASK_LIST_FAILURE,
+    INITIALIZE_GET_MEMBER_TASK_LIST_STATUS,
+
+    //API 7.3
+    GET_APPEAL_LIST_PAGE_SUCCESS,
+    GET_APPEAL_LIST_PAGE_LOADING,
+    GET_APPEAL_LIST_PAGE_FAILURE,
+    INITIALIZE_GET_APPEAL_LIST_PAGE_STATUS,
+
+    //API 7.4
+    GET_APPEAL_INFO_SUCCESS,
+    GET_APPEAL_INFO_LOADING,
+    GET_APPEAL_INFO_FAILURE,
+    INITIALIZE_GET_APPEAL_INFO_STATUS,
+
+    //API 7.5
+    INITIATE_PLATEFORM_INVOLVEMENT_SUCCESS,
+    INITIATE_PLATEFORM_INVOLVEMENT_LOADING,
+    INITIATE_PLATEFORM_INVOLVEMENT_FAILURE,
+    INITIALIZE_INITIATE_PLATEFORM_INVOLVEMENT_STATUS,
+
+    //API 7.6
+    LOADING_WITHDRAW_PAGE_SUCCESS,
+    LOADING_WITHDRAW_PAGE_SUCCESS,
+    LOADING_WITHDRAW_PAGE_LOADING,
+    LOADING_WITHDRAW_PAGE_FAILURE,
+    INITIALIZE_LOADING_WITHDRAW_PAGE_STATUS,
+
+
+    //API 7.7
+    COMM_COMMISSION_WITHDRAWAL_SUCCESS,
+    COMM_COMMISSION_WITHDRAWAL_LOADING,
+    COMM_COMMISSION_WITHDRAWAL_FAILURE,
+    INITIALIZE_COMM_COMMISSION_WITHDRAWAL_STATUS,
+
+    //API 7.8
+    PRINCIPAL_WITHDRAWL_SUCCESS,
+    PRINCIPAL_WITHDRAWL_LOADING,
+    PRINCIPAL_WITHDRAWL_FAILURE,
+    INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS,
+
+
 } from "./../actions/types";
 import {
     GET_TASK_LIST_FAILURE,
@@ -102,6 +177,91 @@ const INITIAL_STATE = {
     submitTaskStatus:null,
     submitTaskLoading:false,
     submitTaskMsg:'',
+
+    //API 6.7
+    //RemindingRefunds
+    remindingRefundsObj:null,
+    remindingRefundsStatus:null,
+    remindingRefundsLoading:false,
+    remindingRefundsMsg:'',
+
+    //API 6.8
+    //Complate Task
+    complateTaskObj: null,
+    complateTaskStatus: null,
+    complateTaskLoading: false,
+    complateTaskMsg:'',
+
+    //API 6.9
+    //Cancel Task
+    cancelTaskObj: null,
+    cancelTaskStatus: null,
+    cancelTaskLoading: false,
+    cancelTaskMsg:'',
+
+    //API 7.0
+    //Get all appeal types
+    getApplyStatementTypeObj: null,
+    getApplyStatementTypeStatus: null,
+    getApplyStatementTypeLoading: false,
+    getApplyStatementTypeMsg:'',
+
+    //API 7.1
+    //Member application for appeal
+    initiateAppealObj: null,
+    initialteAppealStatus: null,
+    initialteApplealLoading: false,
+    initialteApplealMsg:'',
+
+    //API 7.2
+    //Obtain the member's order list according to different status values
+    getMemberTaskListObj: null,
+    getMemberTaskListStatus: null,
+    getMemberTaskListLoading: false,
+    getMemberTaskListMsg: '',
+
+    //API 7.3
+    //Obtain a list of data according to different complainants
+    getAppealListPageObj: null,
+    getAppealListPageStatus: null,
+    getAppealListPageLoading:false,
+    getAppealListPageMsg:'',
+
+    //API 7.4
+    //View grievance details
+    getAppealInfoObj: null,
+    getAppealInfoStatus: null,
+    getAppealInfoLoading: false,
+    getAppealInfoMsg:'',
+
+
+    //API 7.5
+    //Initiating platform involvement
+    initiatePlateformInvolvementObj: null,
+    initiatePlateformInvolvementStatus: null,
+    initiatePlateformInvolvementLoading: false,
+    initiatePlateformInvolvementMsg:'',
+
+    //API 7.6
+    //Cashing page binding data loading
+    loadingWithdrawPageObj: null,
+    loadingWithdrawPageStatus: null,
+    loadingWithdrawPageLoading: false,
+    loadingWithdrawPageMsg:'',
+
+    //API 7.7
+    //Commission withdrawal
+    commCommissionWithdrawalObj: null,
+    commCommissionWithdrawalStatus: null,
+    commCommissionWithdrawalLoading: false,
+    commCommissionWithdrawalMsg: '',
+
+    //API 7.8
+    //Cash withdrawal
+    principalWithdrawlObj:null,
+    principalWithdrawlStatus: null,
+    principalWithdrawlLoading: false,
+    principalWithdrawlMsg: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -191,6 +351,120 @@ export default (state = INITIAL_STATE, action) => {
             return {...state,submitTaskObj:null, submitTaskStatus:false,submitTaskLoading:true};
         case INITIALIZE_SUBMIT_TASK_STATUS:
             return {...state,submitTaskObj:null, submitTaskStatus:null,submitTaskLoading:false};
+
+        case REMINDING_REFUNDS_SUCCESS:
+            return {...state , remindingRefundsObj:action.payload.value,remindingRefundsStatus:true,remindingRefundsLoading:false};
+        case REMINDING_REFUNDS_FAILURE:
+            return {...state,remindingRefundsObj:null, remindingRefundsStatus:false,remindingRefundsMsg:action.payload.msg,remindingRefundsLoading:false};
+        case REMINDING_REFUNDS_LOADING:
+            return {...state,remindingRefundsObj:null, remindingRefundsStatus:false,remindingRefundsLoading:true};
+        case INITIALIZE_REMINDING_REFUNDS_STATUS:
+            return {...state,remindingRefundsObj:null, remindingRefundsStatus:null,remindingRefundsLoading:false};
+
+
+        case COMPLETE_TASK_SUCCESS:
+            return {...state , complateTaskObj:action.payload.value,complateTaskStatus:true,complateTaskLoading:false};
+        case COMPLETE_TASK_FAILURE:
+            return {...state,complateTaskObj:null, complateTaskStatus:false,complateTaskMsg:action.payload.msg,complateTaskLoading:false};
+        case COMPLETE_TASK_LOADING:
+            return {...state,complateTaskObj:null, complateTaskStatus:false,complateTaskLoading:true};
+        case INITIALIZE_COMPLETE_TASK_STATUS:
+            return {...state,complateTaskObj:null, complateTaskStatus:null,complateTaskLoading:false};
+
+
+        case CANCEL_TASK_SUCCESS:
+            return {...state , cancelTaskObj:action.payload.value,cancelTaskStatus:true,cancelTaskLoading:false};
+        case CANCEL_TASK_FAILURE:
+            return {...state,cancelTaskObj:null, cancelTaskStatus:false,cancelTaskMsg:action.payload.msg,cancelTaskLoading:false};
+        case CANCEL_TASK_LOADING:
+            return {...state,cancelTaskObj:null, cancelTaskStatus:false,cancelTaskLoading:true};
+        case INITIALIZE_CANCEL_TASK_STATUS:
+            return {...state,cancelTaskObj:null, cancelTaskStatus:null,cancelTaskLoading:false};
+
+        case GET_APPLY_STATEMENT_TYPE_SUCCESS:
+            return {...state , getApplyStatementTypeObj:action.payload.value,getApplyStatementTypeStatus:true,getApplyStatementTypeLoading:false};
+        case GET_APPLY_STATEMENT_TYPE_FAILURE:
+            return {...state,getApplyStatementTypeObj:null, getApplyStatementTypeStatus:false,getApplyStatementTypeMsg:action.payload.msg,getApplyStatementTypeLoading:false};
+        case GET_APPLY_STATEMENT_TYPE_LOADING:
+            return {...state,getApplyStatementTypeObj:null, getApplyStatementTypeStatus:false,getApplyStatementTypeLoading:true};
+        case INITIALIZE_GET_APPLY_STATEMENT_TYPE_STATUS:
+            return {...state,getApplyStatementTypeObj:null, getApplyStatementTypeStatus:null,getApplyStatementTypeLoading:false};
+
+        case INITIATE_APPEAL_SUCCESS:
+            return {...state , initiateAppealObj:action.payload.value,initialteAppealStatus:true,initialteApplealLoading:false};
+        case INITIATE_APPEAL_FAILURE:
+            return {...state,initiateAppealObj:null, initialteAppealStatus:false,initialteApplealMsg:action.payload.msg,initialteApplealLoading:false};
+        case INITIATE_APPEAL_LOADING:
+            return {...state,initiateAppealObj:null, initialteAppealStatus:false,initialteApplealLoading:true};
+        case INITIALIZE_INITIATE_APPEAL_STATUS:
+            return {...state,initiateAppealObj:null, initialteAppealStatus:null,initialteApplealLoading:false};
+
+        case GET_MEMBER_TASK_LIST_SUCCESS:
+            return {...state , getMemberTaskListObj:action.payload.value,getMemberTaskListStatus:true,getMemberTaskListLoading:false};
+        case GET_MEMBER_TASK_LIST_FAILURE:
+            return {...state,getMemberTaskListObj:null, getMemberTaskListStatus:false,getMemberTaskListMsg:action.payload.msg,getMemberTaskListLoading:false};
+        case GET_MEMBER_TASK_LIST_LOADING:
+            return {...state,getMemberTaskListObj:null, getMemberTaskListStatus:false,getMemberTaskListLoading:true};
+        case INITIALIZE_GET_MEMBER_TASK_LIST_STATUS:
+            return {...state,getMemberTaskListObj:null, getMemberTaskListStatus:null,getMemberTaskListLoading:false};
+
+
+        case GET_APPEAL_LIST_PAGE_SUCCESS:
+            return {...state , getAppealListPageObj:action.payload.value,getAppealListPageStatus:true,getAppealListPageLoading:false};
+        case GET_APPEAL_LIST_PAGE_FAILURE:
+            return {...state,getAppealListPageObj:null, getAppealListPageStatus:false,getAppealListPageMsg:action.payload.msg,getAppealListPageLoading:false};
+        case GET_APPEAL_LIST_PAGE_LOADING:
+            return {...state,getAppealListPageObj:null, getAppealListPageStatus:false,getAppealListPageLoading:true};
+        case INITIALIZE_GET_APPEAL_LIST_PAGE_STATUS:
+            return {...state,getAppealListPageObj:null, getAppealListPageStatus:null,getAppealListPageLoading:false};
+
+
+        case GET_APPEAL_INFO_SUCCESS:
+            return {...state , getAppealInfoObj:action.payload.value,getAppealInfoStatus:true,getAppealInfoLoading:false};
+        case GET_APPEAL_INFO_FAILURE:
+            return {...state,getAppealInfoObj:null, getAppealInfoStatus:false,getAppealInfoMsg:action.payload.msg,getAppealInfoLoading:false};
+        case GET_APPEAL_INFO_LOADING:
+            return {...state,getAppealInfoObj:null, getAppealInfoStatus:false,getAppealInfoLoading:true};
+        case INITIALIZE_GET_APPEAL_INFO_STATUS:
+            return {...state,getAppealInfoObj:null, getAppealInfoStatus:null,getAppealInfoLoading:false};
+
+
+        case INITIATE_PLATEFORM_INVOLVEMENT_SUCCESS:
+            return {...state , initiatePlateformInvolvementObj:action.payload.value,initiatePlateformInvolvementStatus:true,initiatePlateformInvolvementLoading:false};
+        case INITIATE_PLATEFORM_INVOLVEMENT_FAILURE:
+            return {...state,initiatePlateformInvolvementObj:null, initiatePlateformInvolvementStatus:false,initiatePlateformInvolvementMsg:action.payload.msg,initiatePlateformInvolvementLoading:false};
+        case INITIATE_PLATEFORM_INVOLVEMENT_LOADING:
+            return {...state,initiatePlateformInvolvementObj:null, initiatePlateformInvolvementStatus:false,initiatePlateformInvolvementLoading:true};
+        case INITIALIZE_INITIATE_PLATEFORM_INVOLVEMENT_STATUS:
+            return {...state,initiatePlateformInvolvementObj:null, initiatePlateformInvolvementStatus:null,initiatePlateformInvolvementLoading:false};
+
+        case LOADING_WITHDRAW_PAGE_SUCCESS:
+            return {...state , loadingWithdrawPageObj:action.payload.value,loadingWithdrawPageStatus:true,loadingWithdrawPageLoading:false};
+        case LOADING_WITHDRAW_PAGE_FAILURE:
+            return {...state,loadingWithdrawPageObj:null, loadingWithdrawPageStatus:false,loadingWithdrawPageMsg:action.payload.msg,loadingWithdrawPageLoading:false};
+        case LOADING_WITHDRAW_PAGE_LOADING:
+            return {...state,loadingWithdrawPageObj:null, loadingWithdrawPageStatus:false,loadingWithdrawPageLoading:true};
+        case INITIALIZE_LOADING_WITHDRAW_PAGE_STATUS:
+            return {...state,loadingWithdrawPageObj:null, loadingWithdrawPageStatus:null,loadingWithdrawPageLoading:false};
+
+        case COMM_COMMISSION_WITHDRAWAL_SUCCESS:
+            return {...state , commCommissionWithdrawalObj:action.payload.value,commCommissionWithdrawalStatus:true,commCommissionWithdrawalLoading:false};
+        case COMM_COMMISSION_WITHDRAWAL_FAILURE:
+            return {...state,commCommissionWithdrawalObj:null, commCommissionWithdrawalStatus:false,commCommissionWithdrawalMsg:action.payload.msg,commCommissionWithdrawalLoading:false};
+        case COMM_COMMISSION_WITHDRAWAL_LOADING:
+            return {...state,commCommissionWithdrawalObj:null, commCommissionWithdrawalStatus:false,commCommissionWithdrawalLoading:true};
+        case INITIALIZE_COMM_COMMISSION_WITHDRAWAL_STATUS:
+            return {...state,commCommissionWithdrawalObj:null, commCommissionWithdrawalStatus:null,commCommissionWithdrawalLoading:false};
+
+        case PRINCIPAL_WITHDRAWL_SUCCESS:
+            return {...state , principalWithdrawlObj:action.payload.value,principalWithdrawlStatus:true,principalWithdrawlLoading:false};
+        case PRINCIPAL_WITHDRAWL_FAILURE:
+            return {...state,principalWithdrawlObj:null, principalWithdrawlStatus:false,principalWithdrawlMsg:action.payload.msg,principalWithdrawlLoading:false};
+        case PRINCIPAL_WITHDRAWL_LOADING:
+            return {...state,principalWithdrawlObj:null, principalWithdrawlStatus:false,principalWithdrawlLoading:true};
+        case INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS:
+            return {...state,principalWithdrawlObj:null, principalWithdrawlStatus:null,principalWithdrawlLoading:false};
+
 
         case LOGOUT_USER:
             return {...INITIAL_STATE};

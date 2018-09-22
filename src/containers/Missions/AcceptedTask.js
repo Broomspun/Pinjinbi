@@ -136,7 +136,7 @@ class AcceptedTask extends Component {
                         <View style={{paddingVertical: 15}}>
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
-                                    <Button small onPress={()=>Actions.loadOperationalTask()}
+                                    <Button small onPress={()=>this.props.taskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): ''}
                                         style={{
                                             borderRadius: 30,
                                             backgroundColor: Color.DarkLightBlue,

@@ -29,13 +29,76 @@ import {
     VERIFY_SHOP_NAME_SUCCESS,
     VERIFY_SHOP_NAME_LOADING,
     VERIFY_SHOP_NAME_FAILURE,
-    INITIALIZE_VERIFY_SHOP_NAME_STATUS,
 
     //API 6.6
     SUBMIT_TASK_SUCCESS,
     SUBMIT_TASK_LOADING,
     SUBMIT_TASK_FAILURE,
-    INITIALIZE_SUBMIT_TASK_STATUS,
+
+    //API 6.7
+    REMINDING_REFUNDS_SUCCESS,
+    REMINDING_REFUNDS_LOADING,
+    REMINDING_REFUNDS_FAILURE,
+
+
+    //API 6.8
+    COMPLETE_TASK_SUCCESS,
+    COMPLETE_TASK_LOADING,
+    COMPLETE_TASK_FAILURE,
+
+    //API 6.9
+    CANCEL_TASK_SUCCESS,
+    CANCEL_TASK_LOADING,
+    CANCEL_TASK_FAILURE,
+
+    //API 7.0
+    GET_APPLY_STATEMENT_TYPE_SUCCESS,
+    GET_APPLY_STATEMENT_TYPE_LOADING,
+    GET_APPLY_STATEMENT_TYPE_FAILURE,
+
+    //API 7.1
+    INITIATE_APPEAL_SUCCESS,
+    INITIATE_APPEAL_LOADING,
+    INITIATE_APPEAL_FAILURE,
+
+    //API 7.2
+    GET_MEMBER_TASK_LIST_SUCCESS,
+    GET_MEMBER_TASK_LIST_LOADING,
+    GET_MEMBER_TASK_LIST_FAILURE,
+
+    //API 7.3
+    GET_APPEAL_LIST_PAGE_SUCCESS,
+    GET_APPEAL_LIST_PAGE_LOADING,
+    GET_APPEAL_LIST_PAGE_FAILURE,
+
+    //API 7.4
+    GET_APPEAL_INFO_SUCCESS,
+    GET_APPEAL_INFO_LOADING,
+    GET_APPEAL_INFO_FAILURE,
+
+    //API 7.5
+    INITIATE_PLATEFORM_INVOLVEMENT_SUCCESS,
+    INITIATE_PLATEFORM_INVOLVEMENT_LOADING,
+    INITIATE_PLATEFORM_INVOLVEMENT_FAILURE,
+    INITIALIZE_INITIATE_PLATEFORM_INVOLVEMENT_STATUS,
+
+    //API 7.6
+    LOADING_WITHDRAW_PAGE_SUCCESS,
+    LOADING_WITHDRAW_PAGE_LOADING,
+    LOADING_WITHDRAW_PAGE_FAILURE,
+    INITIALIZE_LOADING_WITHDRAW_PAGE_STATUS,
+
+    //API 7.7
+    COMM_COMMISSION_WITHDRAWAL_SUCCESS,
+    COMM_COMMISSION_WITHDRAWAL_LOADING,
+    COMM_COMMISSION_WITHDRAWAL_FAILURE,
+    INITIALIZE_COMM_COMMISSION_WITHDRAWAL_STATUS,
+
+    //API 7.8
+    PRINCIPAL_WITHDRAWL_SUCCESS,
+    PRINCIPAL_WITHDRAWL_LOADING,
+    PRINCIPAL_WITHDRAWL_FAILURE,
+    INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS,
 
 } from "./types";
 
@@ -325,3 +388,380 @@ export const submitTask = (UserId, Token,TaskAcceptNo,ImgJson,PlatOrderNo)=>{
         })();
     };
 }
+
+
+/**
+ * API 6.7
+ * http://pjbapi.wtvxin.com/api/Task/RemindingRefunds
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @returns {Function}
+ */
+export const remindingrefunds = (UserId, Token,TaskAcceptNo)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: REMINDING_REFUNDS_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/RemindingRefunds',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: REMINDING_REFUNDS_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: REMINDING_REFUNDS_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 6.8
+ * http://pjbapi.wtvxin.com/api/Task/CompleteTask
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @param OkImgJson
+ * @returns {Function}
+ */
+export const completeTask = (UserId, Token,TaskAcceptNo,OkImgJson)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: COMPLETE_TASK_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/CompleteTask',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,OkImgJson:OkImgJson}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: COMPLETE_TASK_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: COMPLETE_TASK_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+/**
+ * API 6.9
+ * http://pjbapi.wtvxin.com/api/Task/CancelTask
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @param TaskCancelReasons
+ * @returns {Function}
+ */
+
+export const cancelTask = (UserId, Token,TaskAcceptNo,TaskCancelReasons)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: CANCEL_TASK_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/CancelTask',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,TaskCancelReasons:TaskCancelReasons}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: CANCEL_TASK_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: CANCEL_TASK_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+/**
+ * API 7.0
+ * http://pjbapi.wtvxin.com/api/Task/GetApplyStatementType
+ * @returns {Function}
+ */
+export const getApplyStatementType = ()=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: GET_APPLY_STATEMENT_TYPE_LOADING}); //for Spinner;
+            let res = await requestGET_API('Task/GetApplyStatementType');
+            if(res.status===200) {
+                dispatch({
+                    type: GET_APPLY_STATEMENT_TYPE_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_APPLY_STATEMENT_TYPE_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 7.1
+ * http://pjbapi.wtvxin.com/api/Task/InitiateAppeal
+ * @param UserId
+ * @param Token
+ * @param TaskAcceptNo
+ * @param AppealTypeId
+ * @param AppealMsg
+ * @param QuestionImgF
+ * @param QuestionImgS
+ * @param QuestionImgT
+ * @returns {Function}
+ */
+export const initiateAppeal = (UserId, Token,TaskAcceptNo,AppealTypeId,AppealMsg,QuestionImgF,QuestionImgS,QuestionImgT)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: INITIATE_APPEAL_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/InitiateAppeal',
+                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,AppealTypeId:AppealTypeId,AppealMsg:AppealMsg,QuestionImgF:QuestionImgF,QuestionImgS:QuestionImgS,QuestionImgT:QuestionImgT}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: INITIATE_APPEAL_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: INITIATE_APPEAL_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+/**
+ * API 7.2
+ * http://pjbapi.wtvxin.com/api/Task/GetMemberTaskList
+ * @param UserId
+ * @param Token
+ * @param Page
+ * @param PageSize
+ * @param MemberAcceptTaskStatus
+ * @param TaskType
+ * @returns {Function}
+ */
+export const getMemberTaskList = (UserId, Token,Page,PageSize,MemberAcceptTaskStatus,TaskType)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: GET_MEMBER_TASK_LIST_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Task/GetMemberTaskList',
+                {UserId: UserId, Token: Token,Page: Page,PageSize:PageSize,MemberAcceptTaskStatus:MemberAcceptTaskStatus,TaskType:TaskType}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: GET_MEMBER_TASK_LIST_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_MEMBER_TASK_LIST_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+/**
+ * API 7.3
+ * http://pjbapi.wtvxin.com/api/Appeal/GetAppealListPage
+ * @param UserId
+ * @param Token
+ * @param Page
+ * @param PageSize
+ * @param Complainant
+ * @returns {Function}
+ */
+export const getAppealListPage = (UserId, Token,Page,PageSize,Complainant)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: GET_APPEAL_LIST_PAGE_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Appeal/GetAppealListPage',
+                {UserId: UserId, Token: Token,Page: Page,PageSize:PageSize,Complainant:Complainant}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: GET_APPEAL_LIST_PAGE_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_APPEAL_LIST_PAGE_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 7.4
+ * http://pjbapi.wtvxin.com/api/Appeal/GetAppealInfo
+ * @param UserId
+ * @param Token
+ * @param AppealId
+ * @returns {Function}
+ */
+export const getAppealInfo = (UserId, Token,AppealId)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: GET_APPEAL_INFO_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Appeal/GetAppealInfo',
+                {UserId: UserId, Token: Token,AppealId: AppealId}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: GET_APPEAL_INFO_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: GET_APPEAL_INFO_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+
+/**
+ * API 7.5
+ * http://pjbapi.wtvxin.com/api/Appeal/InitiatePlatformInvolvement
+ * @param UserId
+ * @param Token
+ * @param AppealId
+ * @returns {Function}
+ */
+export const initiatePlateformInvolvement = (UserId, Token,AppealId)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: INITIATE_PLATEFORM_INVOLVEMENT_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Appeal/InitiatePlatformInvolvement',
+                {UserId: UserId, Token: Token,AppealId: AppealId}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: INITIATE_PLATEFORM_INVOLVEMENT_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: INITIATE_PLATEFORM_INVOLVEMENT_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 7.6
+ * http://pjbapi.wtvxin.com/api/Withdraw/LoadingWithdrawPage
+ * @param UserId
+ * @param Token
+ * @returns {Function}
+ */
+export const loadingWithdrawPage = (UserId, Token)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: LOADING_WITHDRAW_PAGE_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Withdraw/LoadingWithdrawPage',
+                {UserId: UserId, Token: Token}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: LOADING_WITHDRAW_PAGE_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: LOADING_WITHDRAW_PAGE_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+
+/**
+ * API 7.7
+ * http://pjbapi.wtvxin.com/api/Withdraw/CommCommissionWithdrawal
+ * @param UserId
+ * @param Token
+ * @param WithdrawalAmount
+ * @param LoginPassWord
+ * @returns {Function}
+ */
+export const commCommissionWithdrawal = (UserId, Token,WithdrawalAmount,LoginPassWord)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: COMM_COMMISSION_WITHDRAWAL_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Withdraw/CommCommissionWithdrawal',
+                {UserId: UserId, Token: Token,WithdrawalAmount:WithdrawalAmount,LoginPassWord:LoginPassWord}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: COMM_COMMISSION_WITHDRAWAL_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: COMM_COMMISSION_WITHDRAWAL_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}
+
+/**
+ * API 7.8
+ * http://pjbapi.wtvxin.com/api/Withdraw/PrincipalWithdrawal
+ * @param UserId
+ * @param Token
+ * @param WithdrawalAmount
+ * @param LoginPassWord
+ * @returns {Function}
+ */
+export const principalWithdrawal = (UserId, Token,WithdrawalAmount,LoginPassWord)=> {
+    return (dispatch) => {
+        (async () => {
+            dispatch({type: PRINCIPAL_WITHDRAWL_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Withdraw/PrincipalWithdrawal',
+                {UserId: UserId, Token: Token, WithdrawalAmount: WithdrawalAmount, LoginPassWord: LoginPassWord}
+            );
+            if (res.status === 200) {
+                dispatch({
+                    type: PRINCIPAL_WITHDRAWL_SUCCESS,
+                    payload: {value: res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: PRINCIPAL_WITHDRAWL_FAILURE,
+                    payload: {value: null, msg: res.msg, errCode: res.status}
+                });
+            }
+        })();
+    }
+};

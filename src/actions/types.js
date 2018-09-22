@@ -273,3 +273,102 @@ export const SUBMIT_TASK_SUCCESS = 'submit_task_success';
 export const SUBMIT_TASK_LOADING = 'submit_task_loading';
 export const SUBMIT_TASK_FAILURE = 'submit_task_failure';
 export const INITIALIZE_SUBMIT_TASK_STATUS = 'initialize_submit_task_status';
+
+//Members reminder ( reminders ) rebate
+//API 6.7
+//http://pjbapi.wtvxin.com/api/Task/RemindingRefunds
+export const REMINDING_REFUNDS_SUCCESS = 'reminding_refunds_success';
+export const REMINDING_REFUNDS_LOADING = 'reminding_refunds_loading';
+export const REMINDING_REFUNDS_FAILURE = 'reminding_refunds_failure';
+export const INITIALIZE_REMINDING_REFUNDS_STATUS = 'initialize_reminding_refunds_status';
+
+//Member acknowledges receipt, to complete the task
+//API 6.8
+//http://pjbapi.wtvxin.com/api/Task/CompleteTask
+export const COMPLETE_TASK_SUCCESS = 'complete_task_success';
+export const COMPLETE_TASK_LOADING = 'complete_task_loading';
+export const COMPLETE_TASK_FAILURE = 'complete_task_failure';
+export const INITIALIZE_COMPLETE_TASK_STATUS = 'initialize_complete_task_status';
+
+//Member cancel orders mission
+//API 6.9
+//http://pjbapi.wtvxin.com/api/Task/CancelTask
+export const CANCEL_TASK_SUCCESS = 'cancel_task_success';
+export const CANCEL_TASK_LOADING = 'cancel_task_loading';
+export const CANCEL_TASK_FAILURE = 'cancel_task_failure';
+export const INITIALIZE_CANCEL_TASK_STATUS = 'initialize_cancel_task_status';
+
+
+//Get all appeal types
+//API 7.0
+//http://pjbapi.wtvxin.com/api/Task/GetApplyStatementType
+export const GET_APPLY_STATEMENT_TYPE_SUCCESS = 'get_apply_statement_type_success';
+export const GET_APPLY_STATEMENT_TYPE_LOADING = 'get_apply_statement_type_loading';
+export const GET_APPLY_STATEMENT_TYPE_FAILURE = 'get_apply_statement_type_failure';
+export const INITIALIZE_GET_APPLY_STATEMENT_TYPE_STATUS = 'initialize_get_apply_statement_type_status';
+
+//Member application for appeal
+//API 7.1
+//http://pjbapi.wtvxin.com/api/Task/InitiateAppeal
+export const INITIATE_APPEAL_SUCCESS = 'initiate_appeal_success';
+export const INITIATE_APPEAL_LOADING = 'initiate_appeal_loading';
+export const INITIATE_APPEAL_FAILURE = 'initiate_appeal_failure';
+export const INITIALIZE_INITIATE_APPEAL_STATUS = 'initialize_initiate_appeal_status';
+
+//Obtain the member's order list according to different status values
+//API 7.2
+//http://pjbapi.wtvxin.com/api/Task/GetMemberTaskList
+export const GET_MEMBER_TASK_LIST_SUCCESS = 'get_member_tast_list_success';
+export const GET_MEMBER_TASK_LIST_LOADING = 'get_member_tast_list_loading';
+export const GET_MEMBER_TASK_LIST_FAILURE = 'get_member_tast_list_failure';
+export const INITIALIZE_GET_MEMBER_TASK_LIST_STATUS = 'initialize_get_member_tast_list_status';
+
+//Obtain a list of data according to different complainants
+//API 7.3
+//http://pjbapi.wtvxin.com/api/Appeal/GetAppealListPage
+export const GET_APPEAL_LIST_PAGE_SUCCESS = 'get_appeal_list_page_success';
+export const GET_APPEAL_LIST_PAGE_LOADING = 'get_appeal_list_page_loading';
+export const GET_APPEAL_LIST_PAGE_FAILURE = 'get_appeal_list_page_failure';
+export const INITIALIZE_GET_APPEAL_LIST_PAGE_STATUS = 'initialize_get_appeal_list_page_status';
+
+//View grievance details
+//API 7.4
+//http://pjbapi.wtvxin.com/api/Appeal/GetAppealInfo
+export const GET_APPEAL_INFO_SUCCESS = 'get_appeal_info_success';
+export const GET_APPEAL_INFO_LOADING = 'get_appeal_info_loading';
+export const GET_APPEAL_INFO_FAILURE = 'get_appeal_info_failure';
+export const INITIALIZE_GET_APPEAL_INFO_STATUS = 'initialize_get_appeal_info_status';
+
+
+//Initiating platform involvement
+//API 7.5
+//http://pjbapi.wtvxin.com/api/Appeal/InitiatePlatformInvolvement
+export const INITIATE_PLATEFORM_INVOLVEMENT_SUCCESS = 'initiate_plateform_involvement_success';
+export const INITIATE_PLATEFORM_INVOLVEMENT_LOADING = 'initiate_plateform_involvement_loading';
+export const INITIATE_PLATEFORM_INVOLVEMENT_FAILURE = 'initiate_plateform_involvement_failure';
+export const INITIALIZE_INITIATE_PLATEFORM_INVOLVEMENT_STATUS = 'initialize_initiate_plateform_involvement_status';
+
+//Cashing page binding data loading
+//API 7.6
+//http://pjbapi.wtvxin.com/api/Withdraw/LoadingWithdrawPage
+export const LOADING_WITHDRAW_PAGE_SUCCESS = 'loading_withdraw_page_success';
+export const LOADING_WITHDRAW_PAGE_LOADING = 'loading_withdraw_page_loading';
+export const LOADING_WITHDRAW_PAGE_FAILURE = 'loading_withdraw_page_failure';
+export const INITIALIZE_LOADING_WITHDRAW_PAGE_STATUS = 'initialize_loading_withdraw_page_status';
+
+//Commission withdrawal
+//API 7.7
+//http://pjbapi.wtvxin.com/api/Withdraw/CommCommissionWithdrawal
+export const COMM_COMMISSION_WITHDRAWAL_SUCCESS = 'comm_commission_withdrawal_success';
+export const COMM_COMMISSION_WITHDRAWAL_LOADING = 'comm_commission_withdrawal_loading';
+export const COMM_COMMISSION_WITHDRAWAL_FAILURE = 'comm_commission_withdrawal_failure';
+export const INITIALIZE_COMM_COMMISSION_WITHDRAWAL_STATUS = 'initialize_comm_commission_withdrawal_status';
+
+
+//Cash withdrawal
+//API 7.8
+//http://pjbapi.wtvxin.com/api/Withdraw/PrincipalWithdrawal
+export const PRINCIPAL_WITHDRAWL_SUCCESS = 'principal_withdrawl_success';
+export const PRINCIPAL_WITHDRAWL_LOADING = 'principal_withdrawl_loading';
+export const PRINCIPAL_WITHDRAWL_FAILURE = 'principal_withdrawl_failure';
+export const INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS = 'initialize_principal_withdrawl_status';

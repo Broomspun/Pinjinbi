@@ -18,7 +18,7 @@ import Modal from "react-native-modal";
 import Spinner1 from "@components";
 import {RowLeftRightBlock} from "../../components";
 
-class LoadOperationalTask extends Component {
+class LoadOperationalBrowseTask extends Component {
     state = {isVisibleTaskContentModal: false};
     constructor(props) {
         super(props);
@@ -263,7 +263,7 @@ class LoadOperationalTask extends Component {
                                     <View style={{flex: 1}}>
                                         <Button small light
                                                 style={{
-                                                    alignSelf: 'center',
+                                                    alignSelf: 'flex-end', marginRight: 15
                                                 }}
                                         >
                                             <Text style={{color: Color.textNormal}}>清除</Text>
@@ -272,7 +272,7 @@ class LoadOperationalTask extends Component {
                                     <View style={{flex: 1}}>
                                         <Button  small
                                                 style={{
-                                                    alignSelf: 'center', backgroundColor: Color.LightBlue
+                                                    alignSelf: 'flex-start', backgroundColor: Color.LightBlue, margintLeft: 15
                                                 }}
                                         >
                                             <Text style={{color: 'white'}}>核对</Text>
@@ -353,5 +353,5 @@ const mapStateToProps = (state) => {
     return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg};
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask})(LoadOperationalTask);
+export default connect(mapStateToProps, {initializeStatus, loadOperationTask})(LoadOperationalBrowseTask);
 
