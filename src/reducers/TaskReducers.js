@@ -94,7 +94,6 @@ import {
 
     //API 7.6
     LOADING_WITHDRAW_PAGE_SUCCESS,
-    LOADING_WITHDRAW_PAGE_SUCCESS,
     LOADING_WITHDRAW_PAGE_LOADING,
     LOADING_WITHDRAW_PAGE_FAILURE,
     INITIALIZE_LOADING_WITHDRAW_PAGE_STATUS,
@@ -112,7 +111,11 @@ import {
     PRINCIPAL_WITHDRAWL_FAILURE,
     INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS,
 
-
+    //API 8.8
+    SUBMIT_CONFIRM_SUCCESS,
+    SUBMIT_CONFIRM_LOADING,
+    SUBMIT_CONFIRM_FAILURE,
+    INITIALIZE_SUBMIT_CONFIRM_STATUS,
 } from "./../actions/types";
 import {
     GET_TASK_LIST_FAILURE,
@@ -262,6 +265,14 @@ const INITIAL_STATE = {
     principalWithdrawlStatus: null,
     principalWithdrawlLoading: false,
     principalWithdrawlMsg: '',
+
+
+    //API 8.8
+    //Entities with prizes, submit receipt of information
+    submitConfirmObj: null,
+    submitConfirmStatus: null,
+    submitConfirmLoading: false,
+    submitConfirmMsg: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -465,6 +476,14 @@ export default (state = INITIAL_STATE, action) => {
         case INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS:
             return {...state,principalWithdrawlObj:null, principalWithdrawlStatus:null,principalWithdrawlLoading:false};
 
+        case SUBMIT_CONFIRM_SUCCESS:
+            return {...state , submitConfirmObj:action.payload.value,submitConfirmStatus:true,submitConfirmLoading:false};
+        case SUBMIT_CONFIRM_FAILURE:
+            return {...state,submitConfirmObj:null, submitConfirmStatus:false,submitConfirmMsg:action.payload.msg,submitConfirmLoading:false};
+        case SUBMIT_CONFIRM_LOADING:
+            return {...state,submitConfirmObj:null, submitConfirmStatus:false,submitConfirmLoading:true};
+        case INITIALIZE_SUBMIT_CONFIRM_STATUS:
+            return {...state,submitConfirmObj:null, submitConfirmStatus:null,submitConfirmLoading:false};
 
         case LOGOUT_USER:
             return {...INITIAL_STATE};

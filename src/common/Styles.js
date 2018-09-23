@@ -87,6 +87,7 @@ export default Styles ={
     fontNormal: 16,
     fontSmall: 14,
     fontSmaller: 12,
+    fontTiny: 10,
 
     width: Dimensions.get('window').width,
     height: Platform.OS !== 'ios' ? _height : (_height - 50),

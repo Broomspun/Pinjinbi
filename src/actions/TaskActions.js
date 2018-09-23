@@ -100,6 +100,11 @@ import {
     PRINCIPAL_WITHDRAWL_FAILURE,
     INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS,
 
+    //API 8.8
+    SUBMIT_CONFIRM_SUCCESS,
+    SUBMIT_CONFIRM_LOADING,
+    SUBMIT_CONFIRM_FAILURE,
+    INITIALIZE_SUBMIT_CONFIRM_STATUS,
 } from "./types";
 
 
@@ -765,3 +770,39 @@ export const principalWithdrawal = (UserId, Token,WithdrawalAmount,LoginPassWord
         })();
     }
 };
+
+
+
+/**
+ * API 8.8
+ * http://pjbapi.wtvxin.com/api/Integral/SubmitConfirm
+ * @param UserId
+ * @param Token
+ * @param ActivitiesId
+ * @param WinningLogId
+ * @param ConsigneeName
+ * @param ConsigneeMobile
+ * @param AddressInfo
+ * @returns {Function}
+ */
+export const submitConfirm = (UserId, Token,ActivitiesId,WinningLogId,ConsigneeName,ConsigneeMobile,AddressInfo)=>{
+    return (dispatch) =>{
+        (async ()=> {
+            dispatch({type: SUBMIT_CONFIRM_LOADING}); //for Spinner;
+            let res = await requestPOST_API('Integral/SubmitConfirm',
+                {UserId: UserId, Token: Token,ActivitiesId:ActivitiesId,WinningLogId:WinningLogId,ConsigneeName:ConsigneeName,ConsigneeMobile:ConsigneeMobile,AddressInfo:AddressInfo}
+            );
+            if(res.status===200) {
+                dispatch({
+                    type: SUBMIT_CONFIRM_SUCCESS,
+                    payload: {value:res.data, msg: res.msg}
+                });
+            } else {
+                dispatch({
+                    type: SUBMIT_CONFIRM_FAILURE,
+                    payload: {value:null, msg: res.msg,errCode: res.status}
+                });
+            }
+        })();
+    };
+}

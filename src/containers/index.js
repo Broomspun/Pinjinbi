@@ -63,6 +63,9 @@ export const AcceptedTask = _AcceptedTask;
 import _LoadOperationalBrowseTask from './Missions/LoadOperationalBrowseTask';
 export const LoadOperationalBrowseTask = _LoadOperationalBrowseTask;
 
+import _LoadOperationalAdvancedTask from './Missions/LoadOperationalAdvancedTask';
+export const LoadOperationalAdvancedTask = _LoadOperationalAdvancedTask;
+
 import _VerifyMain from './Verify/VerifyMain';
 export const VerifyMain = _VerifyMain;
 

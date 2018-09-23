@@ -121,16 +121,18 @@ class BrowseTaskList extends Component {
         this.props.UserDetermineTask(UserId, Token, this.props.AccountId, taskNo)
     };
 
+    // <MissionBlock onPress={()=>this._onGetTaskDetail(task.TaskListNo)} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
+
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
                     {this.props.taskListsObj && this.props.taskListsObj.TaskList.map(task=>{
                         return (
-                            <MissionBlock onPress={()=>Actions.loadOperationalBrowseTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
+                            <MissionBlock onPress={()=>Actions.loadOperationalAdvancedTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
                         )
                     })}
-                    <MissionBlock point={21.35} goldValue={16.35} id={435354789230457432735} taskType={2} completed={false}/>
+
 
                     <Modal  isVisible={this.state.isVisibleTaskContentModal} style={{...Styles.ColumnCenter}}>
                         {this._renderTaskContentModal()}

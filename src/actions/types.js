@@ -372,3 +372,11 @@ export const PRINCIPAL_WITHDRAWL_SUCCESS = 'principal_withdrawl_success';
 export const PRINCIPAL_WITHDRAWL_LOADING = 'principal_withdrawl_loading';
 export const PRINCIPAL_WITHDRAWL_FAILURE = 'principal_withdrawl_failure';
 export const INITIALIZE_PRINCIPAL_WITHDRAWL_STATUS = 'initialize_principal_withdrawl_status';
+
+//Entities with prizes, submit receipt of information
+//API 8.8
+//http://pjbapi.wtvxin.com/api/Integral/SubmitConfirm
+export const SUBMIT_CONFIRM_SUCCESS = 'submit_confirm_success';
+export const SUBMIT_CONFIRM_LOADING = 'submit_confirm_loading';
+export const SUBMIT_CONFIRM_FAILURE = 'submit_confirm_failure';
+export const INITIALIZE_SUBMIT_CONFIRM_STATUS = 'initialize_submit_confirm_status';

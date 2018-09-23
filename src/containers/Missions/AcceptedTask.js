@@ -136,7 +136,7 @@ class AcceptedTask extends Component {
                         <View style={{paddingVertical: 15}}>
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
-                                    <Button small onPress={()=>this.props.taskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): ''}
+                                    <Button small onPress={()=>this.props.taskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
                                         style={{
                                             borderRadius: 30,
                                             backgroundColor: Color.DarkLightBlue,
@@ -190,7 +190,7 @@ class AcceptedTask extends Component {
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>任务编号</Text></View>
                                         <View style={{flex:6}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{taskObj.TaskAcceptNo}</Text></View>
-                                        <View style={{flex:2, ...Styles.RowCenterRight}}><TouchableOpacity><Text style={{color: Color.LightBlue, fontSize:Styles.fontSmal}}>复制</Text></TouchableOpacity></View>
+                                        <View style={{flex:2, ...Styles.RowCenterRight}}><TouchableOpacity><Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>复制</Text></TouchableOpacity></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
