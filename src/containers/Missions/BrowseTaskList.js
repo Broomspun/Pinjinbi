@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
 import {connect} from 'react-redux';
-import {Button, Container, Content, FooterTab, Text} from 'native-base';
+import {Button, Container, Content, FooterTab, Text, Toast} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import MissionBlock from '../../components/MissionBlock'
 import {getTaskList, systemSendTask, initializeStatus, UserDetermineTask} from "../../actions";
 import {
+    INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT,
     INITIALIZE_SELECTED_TASK_NO,
     INITIALIZE_SYSTEM_SEND_TASK_STATUS,
     INITIALIZE_TASK_LIST_STATUS, INITIALIZE_USER_DETERMINE_TASK_STATUS
@@ -38,12 +39,6 @@ class BrowseTaskList extends Component {
     };
 
     _renderTaskContentModal = () => {
-        const taskObj1 = {
-            PlatType: "淘宝任务",
-            TaskAcceptNo: "jd18082411471110988855",
-            CommissionAvailable: 10,
-            OperationCountdown: 120
-        };
 
         if(!this.props.taskObj)
             return (<View></View>);
@@ -88,7 +83,7 @@ class BrowseTaskList extends Component {
     componentWillReceiveProps(nextProps) {
         console.log('browseList', nextProps);
 
-        if(nextProps.systemTaskObjStatus===false) {
+        if(nextProps.systemTaskObjStatus!==null && nextProps.systemTaskObjStatus===false) {
             Alert.alert(
                 '失败',
                 nextProps.systemTaskObjMsg,
@@ -101,6 +96,16 @@ class BrowseTaskList extends Component {
 
         if(nextProps.taskObjStatus!==null && nextProps.taskObjStatus) {
             this.setState({isVisibleTaskContentModal: true});
+        }
+
+        if(nextProps.taskListsObjSuccessed && nextProps.taskListsObj.TaskList.length===0) {
+            Toast.show({
+                text: 'No task list at this moment',
+                buttonText: "是",
+                type: "success",
+                duration: 2000
+            });
+            this.props.initializeStatus(INITIALIZE_TASK_LIST_STATUS);
         }
     }
 
@@ -129,7 +134,7 @@ class BrowseTaskList extends Component {
                 <Content style={{marginBottom: 10}}>
                     {this.props.taskListsObj && this.props.taskListsObj.TaskList.map(task=>{
                         return (
-                            <MissionBlock onPress={()=>Actions.loadOperationalAdvancedTask()} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
+                            <MissionBlock onPress={()=>this._onGetTaskDetail(task.TaskListNo)} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
                         )
                     })}
 

@@ -27,7 +27,7 @@ class TotalMissions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.browseTaskObj) {
+        if(nextProps.browseTaskObjSuccessed!==null && nextProps.browseTaskObjSuccessed) {
             if(this.state.selectedTab===1) {
                 Actions.platformAdvancedTaskStart({PlatId: this.state.selectedPlatId, PlatName: this.state.selectedPlatName})
             }

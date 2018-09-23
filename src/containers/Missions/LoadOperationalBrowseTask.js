@@ -3,7 +3,7 @@ import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} f
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text, Textarea} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {loadOperationTask, initializeStatus} from "../../actions";
+import {loadOperationTask, initializeStatus, verifyShopName, submitTask} from "../../actions";
 import ImagePicker from "react-native-image-picker";
 
 import {
@@ -43,6 +43,7 @@ class LoadOperationalBrowseTask extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log('loadbrowse', nextProps);
         if(nextProps.loadTaskStatus!==null && nextProps.loadTaskStatus===false) {
             Alert.alert(
                 '失败',
@@ -112,7 +113,33 @@ class LoadOperationalBrowseTask extends Component {
         });
     }
 
+    onSubmitBrowseTask = () => {
+      if(this.props.user) {
+          const {UserId, Token} = this.props.user;
+          const {SearchPageImg, TargetProductTopImg, TargetProductBottomImg} = this.state;
 
+          if(!SearchPageImg || !TargetProductTopImg || !TargetProductBottomImg){
+              Alert.alert(
+                  '失败',
+                  'Choose 3 all images',
+                  [
+                      {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_LOAD_OPERATIONAL_STATUS)},
+                  ],
+                  {cancelable: false}
+              );
+              return;
+          }
+
+          console.log(SearchPageImg, TargetProductTopImg, TargetProductBottomImg);
+
+          let imgJson = {"SearchPageImg": SearchPageImg.uri,
+              "TargetProductTopImg": TargetProductTopImg.uri,
+              "TargetProductBottomImg": TargetProductBottomImg.uri
+          };
+        console.log(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.props.loadTaskObj.TaskType);
+        this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), 0, this.props.loadTaskObj.TaskType)
+      }
+    };
 
     render() {
         const loadTaskObj = {
@@ -329,7 +356,11 @@ class LoadOperationalBrowseTask extends Component {
                                 <TouchableOpacity activeOpacity={.7} style={{borderRadius: 3, flex:1, paddingVertical: 8, backgroundColor: Color.LightBlue}} block><Text style={{alignSelf: 'center', color: 'white', fontSize: Styles.fontNormal}}>一次选3张</Text></TouchableOpacity>
                             </View>
                             <View style={{paddingVertical: 15}}>
-                                <TouchableOpacity activeOpacity={.7} style={{borderRadius: 3, flex:1, paddingVertical: 8, backgroundColor: Color.LightBlue}} block><Text style={{alignSelf: 'center', color: 'white', fontSize: Styles.fontNormal}}>提交任务</Text></TouchableOpacity>
+                                <TouchableOpacity activeOpacity={.7}
+                                onPress={()=>this.onSubmitBrowseTask()}
+                                                  style={{borderRadius: 3, flex:1, paddingVertical: 8, backgroundColor: Color.LightBlue}} block>
+                                    <Text style={{alignSelf: 'center', color: 'white', fontSize: Styles.fontNormal}}>提交任务</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
@@ -348,5 +379,5 @@ const mapStateToProps = (state) => {
     return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg};
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask})(LoadOperationalBrowseTask);
+export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask})(LoadOperationalBrowseTask);
 

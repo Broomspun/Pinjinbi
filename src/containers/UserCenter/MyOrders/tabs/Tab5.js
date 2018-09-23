@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, View, Image} from 'react-native'
 import { Button, Text} from 'native-base';
-
+import {connect} from 'react-redux';
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
+import {getMemberCanReceiveAccount, getPlatformLists, initializeStatus} from "../../../../actions";
 
 class Tab5 extends Component{
     constructor(props) {
@@ -12,6 +13,8 @@ class Tab5 extends Component{
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+        const {UserId, Token} = this.props.user;
+        this.props.getMemberTaskList(UserId, Token, 1, 20, this.props.OrderStatusType, 2);
     }
     componentDidUpdate() {
     }
@@ -48,5 +51,9 @@ class Tab5 extends Component{
     }
 }
 
-export default Tab5;
-
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {OrderStatusType} = state.orderStatusReducer;
+    return {user,OrderStatusType };
+};
+export default connect(mapStateToProps, {getPlatformLists, getMemberCanReceiveAccount, initializeStatus})(Tab5);

@@ -380,3 +380,8 @@ export const SUBMIT_CONFIRM_SUCCESS = 'submit_confirm_success';
 export const SUBMIT_CONFIRM_LOADING = 'submit_confirm_loading';
 export const SUBMIT_CONFIRM_FAILURE = 'submit_confirm_failure';
 export const INITIALIZE_SUBMIT_CONFIRM_STATUS = 'initialize_submit_confirm_status';
+
+export const INCOMPLETE_TASK = 'incomplete_task';
+export const COMPLETED_TASK = 'completed_task';
+export const REVOKED_TASK = 'revoked_task';
+export const DISPUTED_TASK = 'dispunted_task';

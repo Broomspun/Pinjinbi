@@ -372,12 +372,16 @@ export const verifyShopName = (UserId, Token,TaskAcceptNo,ShopName)=>{
  * @param PlatOrderNo
  * @returns {Function}
  */
-export const submitTask = (UserId, Token,TaskAcceptNo,ImgJson,PlatOrderNo)=>{
+export const submitTask = (UserId, Token,TaskAcceptNo,ImgJson,PlatOrderNo, TaskType)=>{
+    let params = {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,ImgJson:ImgJson,PlatOrderNo:PlatOrderNo};
+    if(TaskType===2)
+        params = {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,ImgJson:ImgJson};
+
     return (dispatch) =>{
         (async ()=> {
             dispatch({type: SUBMIT_TASK_LOADING}); //for Spinner;
             let res = await requestPOST_API('Task/SubmitTask',
-                {UserId: UserId, Token: Token,TaskAcceptNo: TaskAcceptNo,ImgJson:ImgJson,PlatOrderNo:PlatOrderNo}
+                params
             );
             if(res.status===200) {
                 dispatch({

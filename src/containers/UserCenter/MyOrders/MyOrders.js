@@ -5,7 +5,8 @@ import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-nat
 import { Container, Content, Button, Footer, FooterTab} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
-import {getMyOrdersSummary, logout, setWalletType} from "../../../actions";
+import {getMyOrdersSummary, logout, sendOrderStausMessage} from "../../../actions";
+import {COMPLETED_TASK, DISPUTED_TASK, INCOMPLETE_TASK, REVOKED_TASK} from "../../../actions/types";
 
 
 class MyOrders extends Component {
@@ -27,6 +28,17 @@ class MyOrders extends Component {
         console.log('tab event',this.state);
     }
 
+    onSendAdvancedMessage = (type)=>{
+        this.props.sendOrderStausMessage(type)
+        Actions.advancedorders();
+    };
+
+    onSendBrowseMessage = (type)=>{
+
+        this.props.sendOrderStausMessage(type)
+        Actions.browseorders();
+    };
+
     _renderContent(title, orderType) {
         //orderType: 1-Advanced, 2-Browse
         if(this.props.user && this.props.taskSummaryObj ) {
@@ -45,12 +57,6 @@ class MyOrders extends Component {
                 refunded = BrowseRevoked;
                 disputed = BrowseAppeal;
             }
-            //
-            // deliveried=1;
-            // unfinished = 2;
-            // refunded = 3;
-            // disputed = 4;
-
 
             return (
                 <View style={{marginTop: 10}}>
@@ -59,20 +65,18 @@ class MyOrders extends Component {
                         <View style={{flex: 1, flexDirection:'row', ...Styles.RowCenterBetween,
                             padding: 10, flexWrap: 'wrap'}}>
                             <View style={{position: 'relative'}}>
-                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? this.onSendAdvancedMessage(INCOMPLETE_TASK): this.onSendBrowseMessage(INCOMPLETE_TASK)}>
                                     <Image source={Images.preorders_01}  style={{width: 50, height:50}}/>
                                     <Text style={{marginTop: 10, color: Color.textNormal}}>未完成</Text>
                                 </TouchableOpacity>
                                 {unfinished>0 && (
                                     <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top: 0, borderRadius: 10}}>
-
                                         <Text style={{color: 'white', fontSize: 12}}>{unfinished}</Text>
-
                                     </View>
                                 )}
                             </View>
                             <View style={{position: 'relative'}}>
-                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? this.onSendAdvancedMessage(COMPLETED_TASK): this.onSendBrowseMessage(COMPLETED_TASK)}>
                                     <Image source={Images.preorders_02}  style={{width: 50, height:50}}/>
                                     <Text style={{marginTop: 10, color: Color.textNormal}}>已完成</Text>
                                 </TouchableOpacity>
@@ -85,7 +89,7 @@ class MyOrders extends Component {
                                 )}
                             </View>
                             <View style={{position: 'relative'}}>
-                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? this.onSendAdvancedMessage(REVOKED_TASK):  this.onSendBrowseMessage(REVOKED_TASK)}>
                                     <Image source={Images.preorders_03}  style={{width: 50, height:50}}/>
                                     <Text style={{marginTop: 10, color: Color.textNormal}}>已撤销</Text>
                                 </TouchableOpacity>
@@ -98,7 +102,7 @@ class MyOrders extends Component {
                                 )}
                             </View>
                             <View style={{position: 'relative'}}>
-                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? Actions.advancedorders(): Actions.browseorders()}>
+                                <TouchableOpacity activeOpacity={.6} style={{flex:1, flexDirection: 'column', alignItems: 'center'}} onPress={()=> orderType===1? this.onSendAdvancedMessage(DISPUTED_TASK):  this.onSendBrowseMessage(DISPUTED_TASK)}>
                                     <Image source={Images.preorders_04}  style={{width: 50, height:50}}/>
                                     <Text style={{marginTop: 10, color: Color.textNormal}}>申诉中</Text>
                                 </TouchableOpacity>
@@ -166,5 +170,5 @@ const mapStateToProps = (state) => {
     const {taskSummaryObj} = state.taskReducer;
     return {user,taskSummaryObj};
 };
-export default connect(mapStateToProps, {logout, getMyOrdersSummary})(MyOrders);
+export default connect(mapStateToProps, {logout, getMyOrdersSummary, sendOrderStausMessage})(MyOrders);
 
