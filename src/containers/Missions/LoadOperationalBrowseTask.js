@@ -107,11 +107,6 @@ class LoadOperationalBrowseTask extends Component {
                             TargetProductBottomImg: source
                         });
                         break;
-                    case 4:
-                        this.setState({
-                            TaobaoValueImg: source
-                        });
-                        break;
                 }
             }
         });

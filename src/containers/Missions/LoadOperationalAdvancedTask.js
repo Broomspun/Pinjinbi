@@ -100,26 +100,46 @@ class LoadOperationalAdvancedTask extends Component {
                 let source = { uri: `data:${response.type};base64,` + response.data };
 
                 switch (id) {
-                    case 1:
+                    case 18:
                         this.setState({
                             SearchPageImg: source
                         });
                         break;
-                    case 2:
+                    case 19:
                         this.setState({
-                            TargetProductTopImg: source
+                            OtherShopProBottomImgA: source
                         });
                         break;
-                    case 3:
+                    case 20:
                         this.setState({
-                            TargetProductBottomImg: source
+                            OtherShopProBottomImgB: source
                         });
                         break;
-                    case 4:
-                        this.setState({
-                            TaobaoValueImg: source
-                        });
+                    case 24:
+                        this.setState({TargetProductTopImg: source});
                         break;
+                    case 25:
+                        this.setState({TargetProductBottomImg: source});
+                        break;
+                    case 26:
+                        this.setState({ShopProductBottomImgA: source});
+                        break;
+                    case 27:
+                        this.setState({ShopProductBottomImgB: source});
+                        break;
+                    case 28:
+                        this.setState({ShopCollectionImg: source});
+                        break;
+                    case 29:
+                        this.setState({ShoppingCartImg: source});
+                        break;
+                    case 31:
+                        this.setState({MerchantChatImg: source});
+                        break;
+                    case 32:
+                        this.setState({OrderDetailsImg: source});
+                        break;
+
                 }
             }
         });
@@ -336,7 +356,7 @@ class LoadOperationalAdvancedTask extends Component {
                         <View style={{paddingVertical: 20, ...Styles.borderBottomStyle}}>
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(1)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(18)}>
                                         { this.state.SearchPageImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.SearchPageImg} />
                                         }
@@ -346,7 +366,7 @@ class LoadOperationalAdvancedTask extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(19)}>
                                         { this.state.OtherShopProBottomImgA === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.OtherShopProBottomImgA} />
                                         }
@@ -357,7 +377,7 @@ class LoadOperationalAdvancedTask extends Component {
                                 </View>
 
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(20)}>
                                         { this.state.OtherShopProBottomImgB === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.OtherShopProBottomImgB} />
                                         }
@@ -414,7 +434,7 @@ class LoadOperationalAdvancedTask extends Component {
                         <View style={{paddingVertical: 20}}>
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(4)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(24)}>
                                         { this.state.TargetProductTopImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.TargetProductTopImg} />
                                         }
@@ -424,7 +444,7 @@ class LoadOperationalAdvancedTask extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(5)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(25)}>
                                         { this.state.TargetProductBottomImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.TargetProductBottomImg} />
                                         }
@@ -435,7 +455,7 @@ class LoadOperationalAdvancedTask extends Component {
                                 </View>
 
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(6)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(26)}>
                                         { this.state.ShopProductBottomImgA === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.ShopProductBottomImgA} />
                                         }
@@ -446,7 +466,7 @@ class LoadOperationalAdvancedTask extends Component {
                                 </View>
 
                                 <View style={{flex:1, marginRight:3}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(7)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(27)}>
                                         { this.state.ShopProductBottomImgB === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.ShopProductBottomImgB} />
                                         }
@@ -461,7 +481,7 @@ class LoadOperationalAdvancedTask extends Component {
                             </View>
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(8)}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(28)}>
                                         { this.state.ShopCollectionImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
                                             <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.ShopCollectionImg} />
                                         }
@@ -476,9 +496,9 @@ class LoadOperationalAdvancedTask extends Component {
                             </View>
                             <View style={{flex:1,flexDirection:'row', justifyContent: 'space-between', paddingTop: 10}}>
                                 <View style={{flex:1,marginRight: 6}}>
-                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(9)}>
-                                        { this.state.ShopCollectionImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.ShopCollectionImg} />
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(29)}>
+                                        { this.state.ShoppingCartImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.ShoppingCartImg} />
                                         }
                                     </TouchableOpacity>
                                 </View>
