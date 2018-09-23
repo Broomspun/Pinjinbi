@@ -145,7 +145,55 @@ class LoadOperationalAdvancedTask extends Component {
         });
     }
 
+    onSubmitAdvancedTask = () => {
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+            const {
+                SearchPageImg,
+                TargetProductTopImg,
+                TargetProductBottomImg,
+                OtherShopProBottomImgA,
+                OtherShopProBottomImgB,
+                ShopProductBottomImgA,
+                ShopProductBottomImgB,
+                ShopCollectionImg,
+                ShoppingCartImg,
+                MerchantChatImg,
+                OrderDetailsImg} = this.state;
 
+            if(!SearchPageImg || !TargetProductTopImg || !TargetProductBottomImg ||
+                !OtherShopProBottomImgA || !OtherShopProBottomImgB || !ShopProductBottomImgA ||
+                !ShopProductBottomImgB || !ShopCollectionImg || !ShoppingCartImg ||
+                !MerchantChatImg || !OrderDetailsImg){
+                Alert.alert(
+                    '失败',
+                    'Choose all images',
+                    [
+                        {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_LOAD_OPERATIONAL_STATUS)},
+                    ],
+                    {cancelable: false}
+                );
+                return;
+            }
+
+
+            let imgJson = {
+                "SearchPageImg": SearchPageImg.uri,
+                "TargetProductTopImg": TargetProductTopImg.uri,
+                "TargetProductBottomImg": TargetProductBottomImg.uri,
+                "OtherShopProBottomImgA": OtherShopProBottomImgA.uri,
+                "OtherShopProBottomImgB": OtherShopProBottomImgB.uri,
+                "ShopProductBottomImgA": ShopProductBottomImgA.uri,
+                "ShopProductBottomImgB": ShopProductBottomImgB.uri,
+                "ShopCollectionImg": ShopCollectionImg.uri,
+                "ShoppingCartImg": ShoppingCartImg.uri,
+                "MerchantChatImg": MerchantChatImg.uri,
+                "OrderDetailsImg": OrderDetailsImg.uri,
+            };
+            this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.props.loadTaskObj.PlatOrderNo, this.props.loadTaskObj.TaskType)
+        }
+
+    };
 
     render() {
         const loadTaskObj = {
@@ -584,6 +632,7 @@ class LoadOperationalAdvancedTask extends Component {
                             </Item>
                             <View>
                                 <Button block style={styles.buttonStyle} >
+                                    onPress={()=>this.onSubmitAdvancedTask()}
                                     <Text style={{fontSize: Styles.fontNormal}}>提交审核</Text>
                                 </Button>
                             </View>

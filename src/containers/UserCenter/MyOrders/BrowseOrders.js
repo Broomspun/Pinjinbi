@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { Container, Content, Button, Tabs, Tab, ScrollableTab } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux/";
-import {Tab1, Tab2, Tab3, Tab4, Tab5} from "./tabs";
+import {BrowseTab1, BrowseTab3, BrowseTab2, BrowseTab4, Tab5} from "./tabs";
 import {getMemberTaskList, initializeStatus} from "../../../actions";
 
 class BrowseOrders extends Component {
@@ -18,29 +18,31 @@ class BrowseOrders extends Component {
 
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
-            this.props.getMemberTaskList(UserId, Token, 1, 10, this.props.taskStatus, 2);
+            console.log('OrderStatusType',this.props.OrderStatusType);
+            this.props.getMemberTaskList(UserId, Token, 1, 10, this.props.OrderStatusType, 2);
         }
     }
     componentDidUpdate() {
         console.log('tab event',this.state);
     }
 
+
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginTop: 10}}>
-                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>
+                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} initialPage={this.props.OrderStatusType-1}>
                         <Tab heading="未完成"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <BrowseTab1 />
                         </Tab>
                         <Tab heading="已完成" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <BrowseTab2 />
                         </Tab>
                         <Tab heading="已撤销"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <BrowseTab3 />
                         </Tab>
                         <Tab  heading="申诉中" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <BrowseTab4 />
                         </Tab>
                     </Tabs>
                 </Content>
@@ -69,8 +71,9 @@ const styles = {
 };
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg} = state.taskReducer;
-    return {user, getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg};
+    const {getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,} = state.taskReducer;
+    const { OrderStatusType} = state.orderStatusReducer;
+    return {user, getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,OrderStatusType};
 };
 export default connect(mapStateToProps, {getMemberTaskList, initializeStatus})(BrowseOrders);
 

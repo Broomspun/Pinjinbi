@@ -355,13 +355,13 @@ export default (state = INITIAL_STATE, action) => {
 
 
         case SUBMIT_TASK_SUCCESS:
-            return {...state , submitTaskObj:action.payload.value,submitTaskStatus:true,submitTaskLoading:false};
+            return {...state , submitTaskObj:action.payload.value, submitTaskStatus:true,submitTaskLoading:false, submitTaskMsg:action.payload.msg};
         case SUBMIT_TASK_FAILURE:
             return {...state,submitTaskObj:null, submitTaskStatus:false,submitTaskMsg:action.payload.msg, submitTaskLoading:false};
         case SUBMIT_TASK_LOADING:
-            return {...state,submitTaskObj:null, submitTaskLoading:true};
+            return {...state, submitTaskLoading:true};
         case INITIALIZE_SUBMIT_TASK_STATUS:
-            return {...state,submitTaskObj:null, submitTaskStatus:null,submitTaskLoading:false};
+            return {...state, submitTaskStatus:null};
 
         case REMINDING_REFUNDS_SUCCESS:
             return {...state , remindingRefundsObj:action.payload.value,remindingRefundsStatus:true,remindingRefundsLoading:false};
@@ -415,7 +415,7 @@ export default (state = INITIAL_STATE, action) => {
         case GET_MEMBER_TASK_LIST_FAILURE:
             return {...state,getMemberTaskListObj:null, getMemberTaskListStatus:false,getMemberTaskListMsg:action.payload.msg,getMemberTaskListLoading:false};
         case GET_MEMBER_TASK_LIST_LOADING:
-            return {...state,getMemberTaskListObj:null, getMemberTaskListLoading:true};
+            return {...state, getMemberTaskListLoading:true};
         case INITIALIZE_GET_MEMBER_TASK_LIST_STATUS:
             return {...state,getMemberTaskListStatus:null};
 

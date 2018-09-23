@@ -4,7 +4,7 @@ import { Button, Text} from 'native-base';
 import {connect} from 'react-redux';
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
-import {getMemberCanReceiveAccount, getPlatformLists, initializeStatus} from "../../../../actions";
+import {getMemberTaskList, getPlatformLists, initializeStatus} from "../../../../actions";
 
 class Tab5 extends Component{
     constructor(props) {
@@ -14,7 +14,8 @@ class Tab5 extends Component{
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
         const {UserId, Token} = this.props.user;
-        this.props.getMemberTaskList(UserId, Token, 1, 20, this.props.OrderStatusType, 2);
+        console.log('tab5', props);
+        // this.props.getMemberTaskList(UserId, Token, 1, 20, props.OrderStatusType, 2);
     }
     componentDidUpdate() {
     }
@@ -56,4 +57,4 @@ const mapStateToProps = (state) => {
     const {OrderStatusType} = state.orderStatusReducer;
     return {user,OrderStatusType };
 };
-export default connect(mapStateToProps, {getPlatformLists, getMemberCanReceiveAccount, initializeStatus})(Tab5);
+export default connect(mapStateToProps, {getPlatformLists, getMemberTaskList, initializeStatus})(Tab5);
