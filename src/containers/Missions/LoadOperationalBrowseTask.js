@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
+import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native';
+import Timer from 'react-timer-mixin';
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text, Textarea} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {loadOperationTask, initializeStatus, verifyShopName, submitTask} from "../../actions";
+import {loadOperationTask, initializeStatus, verifyShopName, submitTask, getMemberTaskAccept} from "../../actions";
 import ImagePicker from "react-native-image-picker";
 
 import {
@@ -141,7 +142,7 @@ class LoadOperationalBrowseTask extends Component {
               "TargetProductTopImg": TargetProductTopImg.uri,
               "TargetProductBottomImg": TargetProductBottomImg.uri
           };
-        console.log(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.props.loadTaskObj.TaskType);
+
         this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), 0, this.props.loadTaskObj.TaskType)
       }
     };
@@ -149,6 +150,17 @@ class LoadOperationalBrowseTask extends Component {
     onTouchModalCloseButton = () => {
         this.setState({isVisibleSubmitModal: false});
         this.props.initializeStatus(INITIALIZE_SUBMIT_TASK_STATUS);
+
+        if(this.props.user && this.props.taskObj) {
+            const {taskObj} = this.props;
+            const {UserId, Token}  = this.props.user;
+            this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+        }
+
+        Timer.setTimeout(async () => {
+            Actions.acceptedTask();
+        }, 2000);
+
     };
 
 
@@ -413,10 +425,10 @@ const mapStateToProps = (state) => {
     const {taskObj,taskObjMsg,taskObjStatus,loadTaskObj, loadTaskStatus, loadTaskMsg,
         submitTaskMsg,submitTaskStatus,
     } = state.taskReducer;
-    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg
+    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus
 
     };
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask})(LoadOperationalBrowseTask);
+export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask, getMemberTaskAccept})(LoadOperationalBrowseTask);
 

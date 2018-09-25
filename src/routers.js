@@ -11,7 +11,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
     Promotion, PromotionAward, Prize,
     Loto, LotoWinningHistory,
     TotalMissions, PlatformBrowseTaskStart, PlatformAdvancedTaskStart, BrowseTaskList, AdvancedTaskList,AcceptedTask,
-    LoadOperationalBrowseTask,LoadOperationalAdvancedTask,
+    LoadOperationalBrowseTask,LoadOperationalAdvancedTask,AppealsTask,
     MyOrders, AdvancedOrders,BrowseOrders,
     VerifyMain, VerifyPassport,VerifyBanks,VerifyQQ,
     TabaoMain,BindTabaoAccount,JingDongMain,BindJingDongAccount,PinDuoDuoMain,BindPinDuoDuoAccount,
@@ -19,7 +19,7 @@ import {SplashScreen, Register, Login, Home, ForgottenVerify, ForgottenPassword,
     VIPMain,
     BeginnersMain,Details,
     UserCenterMain,UserInfo,UserAvatar,VerifyOldPhone,ChangeOldToNewPhone,ChangeLoginPassword,Rules,
-    CommissionList,WithdrawalList,Withdrawal,WalletList,
+    CommissionList,WithdrawalList,Withdrawal,WalletList,AppealsList,
     FaqMain, Faqs
 } from "@containers";
 
@@ -38,8 +38,8 @@ const RouterComponent = () => {
         <Router>
             <Lightbox>
                 <Stack key="root"  hideNavBar>
-                    {/*<Stack back key="missions123" backButtonImage={Images.backButtonImg}>*/}
-                    {/*<Scene key="integralrule123" component ={TabaoMain} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
+                    {/*<Stack back key="missions123">*/}
+                    {/*<Scene key="appealsTask" component ={AppealsTask} title="积分规则" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />*/}
                     {/*</Stack>*/}
                     <Stack back key="splash" hideNavBar>
                         <Scene key="splashscreen" component={SplashScreen}  hideNavBar />
@@ -84,6 +84,7 @@ const RouterComponent = () => {
                         <Scene key="acceptedTask" component ={AcceptedTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                         <Scene key="loadOperationalBrowseTask" component ={LoadOperationalBrowseTask} title="浏览任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                         <Scene key="loadOperationalAdvancedTask" component ={LoadOperationalAdvancedTask} title="操作任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="佣金" onRight={() => {}} />
+                        <Scene key="appealsTask" component ={AppealsTask} title="申诉任务" titleStyle={styles.navigationBarTitleStyle}  rightTitle="佣金" onRight={() => {}} />
                     </Stack>
 
                     <Stack back key="myordersstack" backButtonImage={Images.backButtonImg}>
@@ -103,6 +104,7 @@ const RouterComponent = () => {
                         <Scene key="withdrawallist" component ={WithdrawalList} title="佣金提现记录" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() => {}} />
                         <Scene key="withdrawal" component ={Withdrawal} title="佣金提现" titleStyle={styles.navigationBarTitleStyle}  rightTitle="查看明细" onRight={() => Actions.withdrawallist()} />
                         <Scene key="walletlist" component ={WalletList} title="本金总计" titleStyle={styles.navigationBarTitleStyle}  rightTitle="提现" onRight={() => Actions.withdrawal({wallettype: 2})} />
+                        <Scene key="appealsList" component ={AppealsList} title="申诉中心" titleStyle={styles.navigationBarTitleStyle}  rightTitle=" " onRight={() =>{}} />
                     </stack>
 
                     <stack back key="vipstack" backButtonImage={Images.backButtonImg}>

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
+import {Platform, UIManager} from 'react-native'
 import {connect} from 'react-redux';
-import { Container, Content, Button, Tabs, Tab, ScrollableTab } from 'native-base';
+import { Container, Content, Tabs, Tab } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {Actions} from "react-native-router-flux/";
-import {BrowseTab1, BrowseTab3, BrowseTab2, BrowseTab4, Tab5} from "./tabs";
+
+import {BrowseTab1, BrowseTab3, BrowseTab2, BrowseTab4} from "./tabs";
 import {getMemberTaskList, initializeStatus} from "../../../actions";
 
 class BrowseOrders extends Component {
@@ -31,7 +31,8 @@ class BrowseOrders extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginTop: 10}}>
-                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} initialPage={this.props.OrderStatusType-1}>
+                    {/*<Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} page={this.props.OrderStatusType-1}>*/}
+                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>
                         <Tab heading="未完成"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
                             <BrowseTab1 />
                         </Tab>

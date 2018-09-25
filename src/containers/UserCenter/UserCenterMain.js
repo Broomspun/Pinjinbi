@@ -286,7 +286,7 @@ class UserCenterMain extends Component {
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
                         </TouchableOpacity>
-                        <View style={{...Styles.RowCenterLeft, paddingBottom: 10}}>
+                        <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.appealsList()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_07} style={{width: 18, height: 18}} />
                                 <Text style={{fontSize: Styles.fontSmall, marginLeft: 10}}>申诉中心</Text>
@@ -294,7 +294,7 @@ class UserCenterMain extends Component {
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
                                 <Icon type='EvilIcons' name="chevron-right" style={{color: Color.textLight}} />
                             </View>
-                        </View>
+                        </TouchableOpacity>
                         <TouchableOpacity style={{...Styles.RowCenterLeft, paddingBottom: 10}} onPress={()=>Actions.BeginnersMain()}>
                             <View style={{flex:2, ...Styles.RowCenterLeft}}>
                                 <Image source={Images.user_center_icon_08} style={{width: 18, height: 18}} />

@@ -170,3 +170,9 @@ export const PlatformBrowseTaskStart = _PlatformBrowseTaskStart;
 
 import _PlatformAdvancedTaskStart from './Missions/PlatformAdvancedTaskStart';
 export const PlatformAdvancedTaskStart = _PlatformAdvancedTaskStart;
+
+import _AppealsTask from './Missions/AppealsTask';
+export const AppealsTask = _AppealsTask;
+
+import _AppealsList from './UserCenter/Appeals/AppealsList';
+export const AppealsList = _AppealsList;

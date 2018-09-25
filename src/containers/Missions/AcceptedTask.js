@@ -88,6 +88,18 @@ class AcceptedTask extends Component {
             )
         }
 
+        let firstButtonTitle ='操作任务';
+        if(this.props.acceptTaskObj.AcceptTaskStatus==1)
+            firstButtonTitle ='重新提交';
+        let bDisabledFirst = false;
+        let bDisabledThird = false;
+
+        if (this.props.acceptTaskObj.AcceptTaskStatus!==0 || this.props.acceptTaskObj.AcceptTaskStatus!==1)
+            bDisabledFirst = true;
+
+        if (this.props.acceptTaskObj.AcceptTaskStatus!==0 || this.props.acceptTaskObj.AcceptTaskStatus!==1)
+            bDisabledThird = true;
+
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
@@ -137,36 +149,79 @@ class AcceptedTask extends Component {
                         <View style={{paddingVertical: 15}}>
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
-                                    <Button small onPress={()=>this.props.acceptTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
-                                        style={{
-                                            borderRadius: 30,
-                                            backgroundColor: Color.DarkLightBlue,
-                                            alignSelf: 'flex-start',
-                                        }}
-                                    >
-                                        <Text style={{color: 'white'}}>操作任务</Text>
-                                    </Button>
+                                    {bDisabledFirst && (
+                                        <Button small disabled onPress={()=>this.props.acceptTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
+                                                style={{
+                                                    borderRadius: 30,
+                                                    backgroundColor: Color.DarkLightBlue,
+                                                    alignSelf: 'flex-start',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>{firstButtonTitle}</Text>
+                                        </Button>
+                                    )}
+                                    {!bDisabledFirst && (
+                                        <Button small onPress={()=>this.props.acceptTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
+                                                style={{
+                                                    borderRadius: 30,
+                                                    backgroundColor: Color.DarkLightBlue,
+                                                    alignSelf: 'flex-start',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>{firstButtonTitle}</Text>
+                                        </Button>
+                                    )}
+
+
                                 </View>
                                 <View style={{flex: 1}}>
-                                    <Button disabled small
-                                        style={{
-                                            borderRadius: 30,
-                                            alignSelf: 'center',
-                                        }}
-                                    >
-                                        <Text style={{color: 'white'}}>申诉任务</Text>
-                                    </Button>
+                                    {this.props.acceptTaskObj.AcceptTaskStatus!==4 && (
+                                        <Button disabled small
+                                                style={{
+                                                    borderRadius: 30,
+                                                    alignSelf: 'center',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>申诉任务</Text>
+                                        </Button>
+                                    )}
+
+                                    {this.props.acceptTaskObj.AcceptTaskStatus===4 && (
+                                        <Button small
+                                                style={{
+                                                    borderRadius: 30,
+                                                    alignSelf: 'center',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>申诉任务</Text>
+                                        </Button>
+                                    )}
+
                                 </View>
                                 <View style={{flex: 1}}>
-                                    <Button small
-                                        style={{
-                                            borderRadius: 30,
-                                            backgroundColor: Color.DarkLightBlue,
-                                            alignSelf: 'flex-end',
-                                        }}
-                                    >
-                                        <Text style={{color: 'white'}}>取消任务</Text>
-                                    </Button>
+                                    {bDisabledFirst && (
+                                        <Button small disabled
+                                                style={{
+                                                    borderRadius: 30,
+                                                    backgroundColor: Color.DarkLightBlue,
+                                                    alignSelf: 'flex-end',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>取消任务</Text>
+                                        </Button>
+                                    )}
+
+                                    {!bDisabledThird && (
+                                        <Button small onPress={()=>Actions.appealsTask()}
+                                                style={{
+                                                    borderRadius: 30,
+                                                    backgroundColor: Color.DarkLightBlue,
+                                                    alignSelf: 'flex-end',
+                                                }}
+                                        >
+                                            <Text style={{color: 'white'}}>取消任务</Text>
+                                        </Button>
+                                    )}
                                 </View>
                             </View>
                         </View>

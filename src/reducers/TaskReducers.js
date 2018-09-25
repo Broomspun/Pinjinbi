@@ -411,7 +411,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, initialteAppealStatus:null};
 
         case GET_MEMBER_TASK_LIST_SUCCESS:
-            return {...state , getMemberTaskListObj:action.payload.value,getMemberTaskListStatus:true,getMemberTaskListLoading:false};
+            return {...state , getMemberTaskListObj:action.payload.value,getMemberTaskListStatus:true,getMemberTaskListLoading:false, getMemberTaskListMsg:action.payload.msg};
         case GET_MEMBER_TASK_LIST_FAILURE:
             return {...state,getMemberTaskListObj:null, getMemberTaskListStatus:false,getMemberTaskListMsg:action.payload.msg,getMemberTaskListLoading:false};
         case GET_MEMBER_TASK_LIST_LOADING:

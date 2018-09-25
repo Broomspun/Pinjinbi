@@ -8,7 +8,7 @@ import ImagePicker from "react-native-image-picker";
 
 import {
     INITIALIZE_LOAD_OPERATIONAL_STATUS,
-    INITIALIZE_SELECTED_TASK_NO,
+    INITIALIZE_SELECTED_TASK_NO, INITIALIZE_SUBMIT_TASK_STATUS,
     INITIALIZE_SYSTEM_SEND_TASK_STATUS,
     INITIALIZE_TASK_LIST_STATUS
 } from "../../actions/types";
@@ -38,6 +38,7 @@ class LoadOperationalAdvancedTask extends Component {
             ShoppingCartImg: null,
             MerchantChatImg: null,
             OrderDetailsImg: null,
+            isVisibleSubmitModal: false,
         };
 
         if(this.props.user && this.props.taskObj) {
@@ -46,6 +47,12 @@ class LoadOperationalAdvancedTask extends Component {
             this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
         }
     }
+
+    onTouchModalCloseButton = () => {
+        this.setState({isVisibleSubmitModal: false});
+        this.props.initializeStatus(INITIALIZE_SUBMIT_TASK_STATUS);
+    };
+
 
     componentDidUpdate() {
     }
@@ -61,8 +68,33 @@ class LoadOperationalAdvancedTask extends Component {
                 {cancelable: false}
             )
         }
+
+        if(nextProps.submitTaskStatus!==null && nextProps.submitTaskStatus){
+            this.setState({isVisibleSubmitModal: true});
+        }
     }
 
+
+    _renderTaskSubmitModal = () => {
+
+        return (
+            <View style={{flex:1,width: '90%', maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 15 }}>
+                <View style={{borderTopLeftRadius:10, borderTopRightRadius: 10, paddingVertical: 10, width: null,...Styles.ColumnCenter, backgroundColor: Color.LightBlue1,paddingHorizontal: 30,}}>
+                    <Text style={{color: 'white', fontSize: Styles.fontNormal}}>系统提示</Text>
+                </View>
+                <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
+                    <View style={{borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.textNormal, paddingVertical: 30}}>
+                        <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>提交任务成功</Text>
+                    </View>
+                    <View style={{ ...Styles.ColumnCenter, alignItems: 'center', marginTop: 30}}>
+                        <Button style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue1}} onPress={()=>this.onTouchModalCloseButton()}>
+                            <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
+                        </Button>
+                    </View>
+                </View>
+            </View>
+        )
+    };
     componentWillUnmount() {
         this.props.initializeStatus(INITIALIZE_LOAD_OPERATIONAL_STATUS);
     }
@@ -243,6 +275,9 @@ class LoadOperationalAdvancedTask extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
+                    <Modal  isVisible={this.state.isVisibleSubmitModal} style={{...Styles.ColumnCenter}}>
+                        {this._renderTaskSubmitModal()}
+                    </Modal>
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{paddingBottom: 10}}>
                             <View style={{flexDirection:'row', ...Styles.RowCenterLeft}}>
@@ -665,8 +700,10 @@ const styles ={
 
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {taskObj,taskObjMsg,taskObjStatus,loadTaskObj, loadTaskStatus, loadTaskMsg} = state.taskReducer;
-    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg};
+    const {taskObj,taskObjMsg,taskObjStatus,loadTaskObj, loadTaskStatus, loadTaskMsg,
+        submitTaskMsg,submitTaskStatus,
+    } = state.taskReducer;
+    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus};
 };
 
 export default connect(mapStateToProps, {initializeStatus, loadOperationTask})(LoadOperationalAdvancedTask);
