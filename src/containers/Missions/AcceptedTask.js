@@ -6,8 +6,6 @@ import {Images, Constants, Color, Styles} from '@common';
 import {getMemberTaskAccept, initializeStatus} from "../../actions";
 
 import {
-    INITIALIZE_SELECTED_TASK_NO,
-    INITIALIZE_SYSTEM_SEND_TASK_STATUS,
     INITIALIZE_TASK_LIST_STATUS
 } from "../../actions/types";
 
@@ -50,33 +48,6 @@ class AcceptedTask extends Component {
     }
 
     render() {
-        const taskObj1 = {
-            AcceptTaskStatus: 0,
-            AcceptTaskStatusText: "待操作",
-            AccountName: "发发发",
-            Amount: 0,
-            Commission: 10.2,
-            CreateTime: "2018-09-22 20:12",
-            OperationCountdown: 15,
-            // ProductImg: "http://pjb.wtvxin.com/upload/20180902141220613_s0.jpg",
-            ProductImg: Images.product,
-            ProductImg1: "",
-            ProductImg2: "",
-            ProductName: "女装",
-            ProductName1: "",
-            ProductName2: "",
-            ProductNum: 0,
-            ProductNum1: 0,
-            ProductNum2: 0,
-            ProductPrice: 25,
-            ProductPrice1: 0,
-            ProductPrice2: 0,
-            ProductSpec: "",
-            ShopName: "****",
-            TaskAcceptNo: "jd18092220123008885387",
-            TaskType: 2,
-        };
-
         const {acceptTaskObj} = this.props;
 
         if(acceptTaskObj===null){
@@ -89,16 +60,16 @@ class AcceptedTask extends Component {
         }
 
         let firstButtonTitle ='操作任务';
-        if(this.props.acceptTaskObj.AcceptTaskStatus==1)
+        if(this.props.acceptTaskObj.AcceptTaskStatus===1)
             firstButtonTitle ='重新提交';
-        let bDisabledFirst = false;
-        let bDisabledThird = false;
+        let bDisabledFirst = true;
+        let bDisabledThird = true;
 
-        if (this.props.acceptTaskObj.AcceptTaskStatus!==0 || this.props.acceptTaskObj.AcceptTaskStatus!==1)
-            bDisabledFirst = true;
+        if (acceptTaskObj.AcceptTaskStatus===0 || acceptTaskObj.AcceptTaskStatus===1)
+            bDisabledFirst = false;
 
-        if (this.props.acceptTaskObj.AcceptTaskStatus!==0 || this.props.acceptTaskObj.AcceptTaskStatus!==1)
-            bDisabledThird = true;
+        if (acceptTaskObj.AcceptTaskStatus===0 || acceptTaskObj.AcceptTaskStatus===1)
+            bDisabledThird = false;
 
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
@@ -150,10 +121,9 @@ class AcceptedTask extends Component {
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
                                     {bDisabledFirst && (
-                                        <Button small disabled onPress={()=>this.props.acceptTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
+                                        <Button small disabled
                                                 style={{
                                                     borderRadius: 30,
-                                                    backgroundColor: Color.DarkLightBlue,
                                                     alignSelf: 'flex-start',
                                                 }}
                                         >
@@ -187,7 +157,7 @@ class AcceptedTask extends Component {
                                     )}
 
                                     {this.props.acceptTaskObj.AcceptTaskStatus===4 && (
-                                        <Button small
+                                        <Button small onPress={()=>Actions.appealsTask()}
                                                 style={{
                                                     borderRadius: 30,
                                                     alignSelf: 'center',
@@ -203,7 +173,6 @@ class AcceptedTask extends Component {
                                         <Button small disabled
                                                 style={{
                                                     borderRadius: 30,
-                                                    backgroundColor: Color.DarkLightBlue,
                                                     alignSelf: 'flex-end',
                                                 }}
                                         >
@@ -212,7 +181,7 @@ class AcceptedTask extends Component {
                                     )}
 
                                     {!bDisabledThird && (
-                                        <Button small onPress={()=>Actions.appealsTask()}
+                                        <Button small onPress={()=>Actions.cancelTask()}
                                                 style={{
                                                     borderRadius: 30,
                                                     backgroundColor: Color.DarkLightBlue,

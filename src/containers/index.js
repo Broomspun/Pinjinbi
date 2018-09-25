@@ -176,3 +176,6 @@ export const AppealsTask = _AppealsTask;
 
 import _AppealsList from './UserCenter/Appeals/AppealsList';
 export const AppealsList = _AppealsList;
+
+import _CancelTask from './Missions/CancelTask';
+export const CancelTask = _CancelTask;
