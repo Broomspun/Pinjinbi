@@ -182,12 +182,12 @@ export const getMemberCanReceiveAccount = (UserId, Token,PlatId, TaskType)=>{
  * @param PageSize = 10 (default)
  * @returns {Function}
  */
-export const getTaskList = (UserId, Token, AccountId, PlatId, MaxAdvandcePayMoney, TaskType, Page=1, PageSize=10)=>{
+export const getTaskList = (UserId, Token, AccountId, PlatId, MaxAdvancePayMoney, TaskType, Page=0, PageSize=12)=>{
     return (dispatch) =>{
         (async ()=> {
             dispatch({type: GET_TASK_LIST_LOADING}); //for Spinner;
             let res = await requestPOST_API('Task/GetTaskList',
-                {UserId: UserId, Token: Token, Page: Page,PageSize: PageSize,AccountId: AccountId,PlatId:PlatId,MaxAdvandcePayMoney:MaxAdvandcePayMoney,TaskType: TaskType}
+                {UserId: UserId, Token: Token, Page: Page,PageSize: PageSize,AccountId: AccountId,PlatId:PlatId,MaxAdvancePayMoney:MaxAdvancePayMoney,TaskType: TaskType}
             );
             if(res.status===200) {
                 dispatch({

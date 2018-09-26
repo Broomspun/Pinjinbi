@@ -41,7 +41,7 @@ class AppealsList extends Component {
             return (
                 <View style={{flex: 1, ...Styles.ColumnCenter, height: Styles.height - 100}}>
                     <View style={{...Styles.ColumnCenter}}>
-                        <Image source={Images.commision_empty_icon} style={{width: 60, height: 60}}/>
+                        <Image source={Images.dispute_icon} style={{width: 60, height: 60}}/>
                         <Text style={{marginTop: 15, alignSelf: 'center', color: Color.textLight}}>No files any dispute</Text>
                     </View>
                 </View>);

@@ -40,7 +40,7 @@ class UserCenterMain extends Component {
     }
 
     onClearCache() {
-
+        this.setState({bClearCache: false});
     }
 
     componentWillUnmount(){

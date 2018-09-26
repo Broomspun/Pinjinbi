@@ -10,7 +10,3 @@ export const generatorCaptchaCode = (length) => {
     return result.join('')
 };
 
-export const getProvinceLists = () => {
-
-};
-

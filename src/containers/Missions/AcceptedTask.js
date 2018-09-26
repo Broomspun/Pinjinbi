@@ -3,7 +3,7 @@ import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRat
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {getMemberTaskAccept, initializeStatus} from "../../actions";
+import {getMemberTaskAccept, initializeStatus,loadOperationTask} from "../../actions";
 
 import {
     INITIALIZE_TASK_LIST_STATUS
@@ -19,14 +19,23 @@ class AcceptedTask extends Component {
     constructor(props) {
         super(props);
 
+        console.log('accepted task', props);
+
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
 
-        if(this.props.user && this.props.taskObj) {
-            const {taskObj} = this.props;
+        if(this.props.user && (this.props.taskObj ||  this.props.loadTaskObj || props.TaskAcceptNo)) {
+            const {loadTaskObj, taskObj} = this.props;
             const {UserId, Token}  = this.props.user;
-            this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+
+            if(props.task_step===1)
+                // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+                this.props.loadOperationTask(UserId, Token, taskObj.TaskAcceptNo);
+            else {
+                // this.props.getMemberTaskAccept(UserId, Token, this.props.TaskAcceptNo);
+                this.props.loadOperationTask(UserId, Token, this.props.TaskAcceptNo);
+            }
         }
     }
 
@@ -44,13 +53,16 @@ class AcceptedTask extends Component {
 
 
     renderConnect() {
-        return (<View style={{flex:1, height: null, width: 2,alignSelf:'center', borderLeftWidth:4/PixelRatio.get(), borderColor: Color.textLight}}></View>);
+        return (<View style={{flex:1, height: null, width: 2,alignSelf:'center', borderLeftWidth:4/PixelRatio.get(), borderColor: Color.textNormal}}></View>);
+    }
+    renderConnect1() {
+        return (<View style={{flex:1, height: null, width: 2,alignSelf:'center', borderLeftWidth:4/PixelRatio.get(), borderColor: '#73cd6c'}}></View>);
     }
 
     render() {
-        const {acceptTaskObj} = this.props;
+        const {loadTaskObj} = this.props;
 
-        if(acceptTaskObj===null){
+        if(loadTaskObj===null){
             return (
                 <Container style={{backgroundColor: Color.LightGrayColor}}>
                     <Content style={{marginBottom: 10}}>
@@ -58,17 +70,21 @@ class AcceptedTask extends Component {
                 </Container>
             )
         }
+        let imgs = null;
+        if(loadTaskObj.ImgJson!=='')
+            imgs = JSON.parse(loadTaskObj.ImgJson);
+        console.log(imgs);
 
         let firstButtonTitle ='操作任务';
-        if(this.props.acceptTaskObj.AcceptTaskStatus===1)
+        if(this.props.loadTaskObj.AcceptTaskStatus===1)
             firstButtonTitle ='重新提交';
         let bDisabledFirst = true;
         let bDisabledThird = true;
 
-        if (acceptTaskObj.AcceptTaskStatus===0 || acceptTaskObj.AcceptTaskStatus===1)
+        if (loadTaskObj.AcceptTaskStatus===0 || loadTaskObj.AcceptTaskStatus===1)
             bDisabledFirst = false;
 
-        if (acceptTaskObj.AcceptTaskStatus===0 || acceptTaskObj.AcceptTaskStatus===1)
+        if (loadTaskObj.AcceptTaskStatus===0 || loadTaskObj.AcceptTaskStatus===1)
             bDisabledThird = false;
 
         return(
@@ -79,7 +95,7 @@ class AcceptedTask extends Component {
                         <View style={{paddingBottom: 10}}>
                             <View style={{flexDirection:'row', ...Styles.RowCenterLeft}}>
                                 <Image source={Images.prendig_review} style={{width: 20, height: 20, marginRight: 10}} />
-                                <Text style={{...Styles.normalTextStyle}}>{acceptTaskObj.ProductName}</Text>
+                                <Text style={{...Styles.normalTextStyle}}>{loadTaskObj.ProductName}</Text>
                             </View>
                         </View>
                         <View style={{flex:1, ...Styles.RowCenterLeft, paddingVertical: 10}}>
@@ -90,13 +106,13 @@ class AcceptedTask extends Component {
                                 <View>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>商品成交价格</Text>
-                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall,marginLeft: 10}}>{acceptTaskObj.ProductPrice}元</Text>
+                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall,marginLeft: 10}}>{loadTaskObj.ProductPrice}元</Text>
                                     </View>
                                 </View>
                                 <View>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>件数或规格 </Text>
-                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall, marginLeft: 10}}>{acceptTaskObj.ProductNum}件</Text>
+                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall, marginLeft: 10}}>{loadTaskObj.ProductNum}件</Text>
                                     </View>
                                 </View>
 
@@ -111,7 +127,7 @@ class AcceptedTask extends Component {
 
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{...Styles.borderBottomStyle, paddingBottom: 10}}>
-                            <RowLeftRightBlock leftTitle='任务状态' rightTitle={acceptTaskObj.AcceptTaskStatusText}
+                            <RowLeftRightBlock leftTitle='任务状态' rightTitle={loadTaskObj.AcceptTaskStatusText}
                                                l_style={{color: Color.textNormal, fontSize:Styles.fontSmall}}
                                                r_style={{color: Color.textInfoOrange, fontSize:Styles.fontSmall}}
                             />
@@ -131,7 +147,7 @@ class AcceptedTask extends Component {
                                         </Button>
                                     )}
                                     {!bDisabledFirst && (
-                                        <Button small onPress={()=>this.props.acceptTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
+                                        <Button small onPress={()=>this.props.loadTaskObj.TaskType===2 ? Actions.loadOperationalBrowseTask(): Actions.loadOperationalAdvancedTask()}
                                                 style={{
                                                     borderRadius: 30,
                                                     backgroundColor: Color.DarkLightBlue,
@@ -145,7 +161,7 @@ class AcceptedTask extends Component {
 
                                 </View>
                                 <View style={{flex: 1}}>
-                                    {this.props.acceptTaskObj.AcceptTaskStatus!==4 && (
+                                    {this.props.loadTaskObj.AcceptTaskStatus!==4 && (
                                         <Button disabled small
                                                 style={{
                                                     borderRadius: 30,
@@ -156,7 +172,7 @@ class AcceptedTask extends Component {
                                         </Button>
                                     )}
 
-                                    {this.props.acceptTaskObj.AcceptTaskStatus===4 && (
+                                    {this.props.loadTaskObj.AcceptTaskStatus===4 && (
                                         <Button small onPress={()=>Actions.appealsTask()}
                                                 style={{
                                                     borderRadius: 30,
@@ -202,32 +218,38 @@ class AcceptedTask extends Component {
                                 <View style={{marginBottom: 3, borderColor: '#73cd6c', borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24, alignSelf: 'center'}}>
                                     <Text style={{alignSelf: 'center',color:'#73cd6c'}}>1</Text>
                                 </View>
-                                {this.renderConnect()}
+                                {  !imgs &&
+                                    this.renderConnect()
+                                }
+                                {  imgs &&
+                                this.renderConnect1()
+                                }
+
                             </View>
                             <View style={{flex:9, paddingBottom: 30}}>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>接受任务</Text></View>
-                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{acceptTaskObj.CreateTime}</Text></View>
+                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.CreateTime}</Text></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>任务编号</Text></View>
-                                        <View style={{flex:6}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{acceptTaskObj.TaskAcceptNo}</Text></View>
+                                        <View style={{flex:6}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.TaskAcceptNo}</Text></View>
                                         <View style={{flex:2, ...Styles.RowCenterRight}}><TouchableOpacity><Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>复制</Text></TouchableOpacity></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>买号</Text></View>
-                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{acceptTaskObj.AccountName}</Text></View>
+                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.AccountName}</Text></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:2}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>商品金额</Text></View>
-                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{acceptTaskObj.Amount}元</Text></View>
+                                        <View style={{flex:8}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.Amount}元</Text></View>
                                     </View>
                                 </View>
                             </View>
@@ -235,10 +257,15 @@ class AcceptedTask extends Component {
 
                         <View style={{flexDirection: 'row'}}>
                             <View style={{flex:1, paddingBottom: 3}}>
-                                <View style={{marginBottom:3,borderColor: Color.textLight, borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24, alignSelf: 'center'}}>
-                                    <Text style={{ alignSelf: 'center', color:Color.textLight}}>2</Text>
+                                <View style={{marginBottom:3,borderColor: !imgs ? Color.textLight: '#73cd6c', borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24, alignSelf: 'center'}}>
+                                    <Text style={{ alignSelf: 'center', color: !imgs ? Color.textLight: '#73cd6c'}}>2</Text>
                                 </View>
-                                {this.renderConnect()}
+                                {  !imgs &&
+                                this.renderConnect()
+                                }
+                                {  imgs &&
+                                this.renderConnect1()
+                                }
                             </View>
                             <View style={{flex:9, paddingBottom: 30}}>
                                 <View style={{flex:1, paddingTop: 5}}>
@@ -254,12 +281,23 @@ class AcceptedTask extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
+                                    {imgs && (
                                     <View style={{...Styles.RowCenterLeft, padding: 5}}>
-                                        {/*<Image style={{width: 30, height: 30, marginRight: 10}} source={acceptTaskObj.ProductImg ? acceptTaskObj.ProductImg: Images.placeholder} />*/}
-                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.product} />
-                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={acceptTaskObj.ProductImg1 ? acceptTaskObj.ProductImg1: Images.placeholder} />
-                                        <Image style={{width: 30, height: 30, }} source={acceptTaskObj.ProductImg2 ? acceptTaskObj.ProductImg2: Images.placeholder} />
+                                        {/*<Image style={{width: 30, height: 30, marginRight: 10}} source={loadTaskObj.ProductImg ? loadTaskObj.ProductImg: Images.placeholder} />*/}
+                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.SearchPageImg ? imgs.SearchPageImg: Images.placeholder}} />
+                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri:imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
+                                        <Image style={{width: 30, height: 30, }} source={{uri: imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
                                     </View>
+                                    )}
+                                    {!imgs && (
+                                        <View style={{...Styles.RowCenterLeft, padding: 5}}>
+                                            {/*<Image style={{width: 30, height: 30, marginRight: 10}} source={loadTaskObj.ProductImg ? loadTaskObj.ProductImg: Images.placeholder} />*/}
+                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                        </View>
+                                    )}
+
                                 </View>
 
                             </View>
@@ -279,7 +317,7 @@ class AcceptedTask extends Component {
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
-                                        <RowLeftRightBlock leftTitle='获得佣金' rightTitle={`获得${acceptTaskObj.Commission}金`}
+                                        <RowLeftRightBlock leftTitle='获得佣金' rightTitle={`获得${loadTaskObj.Commission}金`}
                                                            l_style={{color: Color.textLight, fontSize:Styles.fontSmall}}
                                                            r_style={{color: Color.textLight, fontSize:Styles.fontSmall}}
                                         />
@@ -300,9 +338,9 @@ class AcceptedTask extends Component {
 
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
-    const {taskObj,taskObjMsg,taskObjStatus ,acceptTaskObj} = state.taskReducer;
-    return {user,taskObj,taskObjMsg,taskObjStatus, acceptTaskObj};
+    const {taskObj,taskObjMsg,taskObjStatus ,acceptTaskObj,loadTaskObj, loadTaskStatus, loadTaskMsg} = state.taskReducer;
+    return {user,taskObj,taskObjMsg,taskObjStatus, acceptTaskObj,loadTaskObj, loadTaskStatus, loadTaskMsg};
 };
 
-export default connect(mapStateToProps, {initializeStatus, getMemberTaskAccept})(AcceptedTask);
+export default connect(mapStateToProps, {initializeStatus, getMemberTaskAccept,loadOperationTask})(AcceptedTask);
 

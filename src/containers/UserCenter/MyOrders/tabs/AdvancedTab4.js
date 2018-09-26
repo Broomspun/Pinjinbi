@@ -1,31 +1,35 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, View, Image, TouchableOpacity} from 'react-native'
+import {Platform, UIManager, View, Image} from 'react-native'
 import { Button, Text} from 'native-base';
 import {connect} from 'react-redux';
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
 import {getMemberTaskList, getPlatformLists, initializeStatus} from "../../../../actions";
-import {Actions} from "react-native-router-flux";
 
-class BrowseTab1 extends Component{
+class AdvancedTab4 extends Component{
     constructor(props) {
         super(props);
-        this.state = {obj: null};
+
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+        this.state = {obj: null};
 
-        if(this.props.user) {
+        if(this.props.user && this.props.OrderStatusType===4) {
             const {UserId, Token} = this.props.user;
-            this.props.getMemberTaskList(UserId, Token, 1, 20, 1, 2);
+            this.props.getMemberTaskList(UserId, Token, 1, 20, 4, 1);
         }
     }
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.getMemberTaskListObj && this.state.obj===null) {
-            this.setState({obj: nextProps.getMemberTaskListObj})
+    componentDidUpdate() {
+        console.log('tab4 event',this.state);
 
-        }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.getMemberTaskListObj && this.state.obj===null)
+            this.setState({obj: nextProps.getMemberTaskListObj})
+    }
+
     _renderContent (){
         if(this.state.obj===null || (this.state.obj && this.state.obj.AcceptTaskList.length===0))
             return (
@@ -40,7 +44,7 @@ class BrowseTab1 extends Component{
         if(this.state.obj && this.state.obj.AcceptTaskList.length>0) {
             contents = this.state.obj.AcceptTaskList.map((order, index)=>{
                 return (
-                    <TouchableOpacity key={index} style={{backgroundColor: Color.LightGrayColor}} onPress={()=>Actions.acceptedTask({TaskAcceptNo: order.TaskAcceptNo, task_step: 2})}>
+                    <View key={index} style={{backgroundColor: Color.LightGrayColor}}>
                         <View style={{...Styles.basicStyle,marginBottom: 10, ...Styles.shadowStyle}}>
                             <View style={{ flexDirection: 'row', flex:1, justifyContent:'space-around', alignItems: 'center',borderBottomWidth:1, borderColor: Color.LightBorder, paddingBottom: 10}}>
                                 <View style={{flex:1, flexDirection:'row', ...Styles.RowCenterLeft}}>
@@ -56,7 +60,7 @@ class BrowseTab1 extends Component{
                                 </View>
                             </View>
                         </View>
-                    </TouchableOpacity>
+                    </View>
                 )
             })
             return contents;
@@ -79,4 +83,4 @@ const mapStateToProps = (state) => {
     const { OrderStatusType} = state.orderStatusReducer;
     return {user, getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,OrderStatusType};
 };
-export default connect(mapStateToProps, {getPlatformLists, getMemberTaskList, initializeStatus})(BrowseTab1);
+export default connect(mapStateToProps, {getPlatformLists, getMemberTaskList, initializeStatus})(AdvancedTab4);

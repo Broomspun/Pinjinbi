@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pinjinbi</string>
+    <string name="app_name">拼金币</string>
     <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true">ENABLE_IN_JS</string>
     <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true">ASK_JAVASCRIPT</string>
 </resources>

@@ -31,12 +31,12 @@ class BrowseOrders extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginTop: 10}}>
-                    {/*<Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} page={this.props.OrderStatusType-1}>*/}
-                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>
+                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} initialPage={this.props.OrderStatusType-1} page={this.props.OrderStatusType-1}>
+                    {/*<Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>*/}
                         <Tab heading="未完成"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
                             <BrowseTab1 />
                         </Tab>
-                        <Tab heading="已完成" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
+                        <Tab  heading="已完成" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
                             <BrowseTab2 />
                         </Tab>
                         <Tab heading="已撤销"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >

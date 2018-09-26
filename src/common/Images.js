@@ -123,7 +123,8 @@ const Images = {
     p08: require('./../assets/img/platforms/8.png'),
     sample_card: require('./../assets/img/sample_card.png'),
     shop_icon: require('./../assets/img/task/shop_icon.png'),
-    placeholder: require('./../assets/img/task/placeholder.png')
+    placeholder: require('./../assets/img/task/placeholder.png'),
+    dispute_icon: require('./../assets/img/user-center/dispute.png')
 
 };
 

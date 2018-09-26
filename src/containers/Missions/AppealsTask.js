@@ -50,9 +50,6 @@ class AppealsTask extends Component {
         const {UserId, Token} = this.props.user;
         const {AppealMsg,QuestionImgF,QuestionImgS,QuestionImgT} = this.state;
         this.props.initiateAppeal(UserId, Token,this.props.taskObj.TaskAcceptNo,index, AppealMsg, QuestionImgF, QuestionImgS, QuestionImgT);
-        // Timer.setTimeout(async () => {
-        //     this.props.initiateAppeal(UserId, Token,this.props.taskObj.TaskAcceptNo,index, AppealMsg, QuestionImgF, QuestionImgS, QuestionImgT);
-        // }, 2000);
     };
 
     showDisputeModal() {
@@ -177,7 +174,7 @@ class AppealsTask extends Component {
 
         if(this.state.QuestionImgF===null || this.state.QuestionImgS===null || this.state.QuestionImgT===null) {
             Alert.alert(
-                'Qeustion',
+                'Question',
                 'Will you file dispute without images',
                 [
                     {text: 'OK', onPress: () => {

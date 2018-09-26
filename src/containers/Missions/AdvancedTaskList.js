@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
 import {connect} from 'react-redux';
-import {Button, Container, Content, FooterTab, Text} from 'native-base';
+import {Button, Container, Content, FooterTab, Text, Toast} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import MissionBlock from '../../components/MissionBlock'
-import {getTaskList, systemSendTask, initializeStatus} from "../../actions";
+import {getTaskList, systemSendTask, initializeStatus, UserDetermineTask } from "../../actions";
 import {
-    INITIALIZE_SELECTED_TASK_NO,
     INITIALIZE_SYSTEM_SEND_TASK_STATUS,
-    INITIALIZE_TASK_LIST_STATUS
+    INITIALIZE_TASK_LIST_STATUS, INITIALIZE_USER_DETERMINE_TASK_STATUS
 } from "../../actions/types";
 import {Actions} from "react-native-router-flux";
 import Modal from "react-native-modal";
@@ -34,17 +33,16 @@ class AdvancedTaskList extends Component {
 
     _initializeModalStatus = ()=>{
         this.setState({isVisibleTaskContentModal: false});
-        this.props.initializeStatus(INITIALIZE_SELECTED_TASK_NO)
+        this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS);
+        Actions.advancedTaskList({task_step: 1});
     };
 
     _renderTaskContentModal = () => {
-        const fakeTasklist = {
-            PlatType: "淘宝任务",
-            TaskAcceptNo: "jd18082411471110988855",
-            AdvancePaymentMoney: 65,
-            CommissionAvailable: 10,
-            OperationCountdown: 120
-        };
+        if(!this.props.taskObj)
+            return (<View></View>);
+
+        const {taskObj} = this.props;
+
 
         return (
             <View style={{flex:1,width: '90%', maxHeight: 250, borderRadius: 10, backgroundColor:'white', paddingBottom: 15 }}>
@@ -54,25 +52,25 @@ class AdvancedTaskList extends Component {
                 <View style={{flex:1,paddingHorizontal: 10, marginTop: 10}}>
                     <View style={{flexDirection: 'row',  justifyContent: 'space-between', borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>任务类型</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{fakeTasklist.PlatType}</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{taskObj.PlatType}</Text>
                     </View>
                 </View>
                 <View style={{flex:1, paddingHorizontal: 10}}>
                     <View style={{...Styles.RowCenterBetween, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>任务佣金</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{(fakeTasklist.AdvancePaymentMoney).toFixed(2)}元</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{(taskObj.AdvancePaymentMoney).toFixed(2)}元</Text>
                     </View>
                 </View>
                 <View style={{flex:1, paddingHorizontal: 10}}>
                     <View style={{...Styles.RowCenterBetween, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>任务佣金</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{(fakeTasklist.CommissionAvailable).toFixed(2)}金币</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{(taskObj.TaskCommission).toFixed(2)}金币</Text>
                     </View>
                 </View>
                 <View style={{flex:1, paddingHorizontal: 10}}>
                     <View style={{...Styles.RowCenterBetween, borderBottomWidth: 1/PixelRatio.get(), borderColor: Color.Border, paddingVertical: 10}}>
                         <Text style={{color:Color.textNormal, fontSize: Styles.fontNormal}}>时间限制</Text>
-                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{fakeTasklist.CommissionAvailable}分钟</Text>
+                        <Text style={{color:Color.textInfoOrange, fontSize: Styles.fontNormal}}>{taskObj.OperationCountdown}分钟</Text>
                     </View>
                 </View>
 
@@ -88,10 +86,8 @@ class AdvancedTaskList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.selectedTaskNo)
-            this.setState({isVisibleTaskContentModal: true});
 
-        if(nextProps.systemTaskObjStatus===false) {
+        if(nextProps.systemTaskObjStatus!==null && nextProps.systemTaskObjStatus===false) {
             Alert.alert(
                 '失败',
                 nextProps.systemTaskObjMsg,
@@ -100,6 +96,31 @@ class AdvancedTaskList extends Component {
                 ],
                 {cancelable: false}
             )
+        }
+
+        if(nextProps.taskObjStatus!==null && nextProps.taskObjStatus) {
+            this.setState({isVisibleTaskContentModal: true});
+        }
+
+        if(nextProps.taskObjStatus!==null && nextProps.taskObjStatus===false) {
+            Alert.alert(
+                '失败',
+                nextProps.taskObjMsg,
+                [
+                    {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS)},
+                ],
+                {cancelable: false}
+            )
+        }
+
+        if(nextProps.taskListsObjSuccessed && nextProps.taskListsObj.TaskList.length===0) {
+            Toast.show({
+                text: 'No task list at this moment',
+                buttonText: "是",
+                type: "success",
+                duration: 2000
+            });
+            this.props.initializeStatus(INITIALIZE_TASK_LIST_STATUS);
         }
     }
 
@@ -114,18 +135,22 @@ class AdvancedTaskList extends Component {
             this.props.systemSendTask(UserId, Token, AccountId, PlatId, MaxAdvancePayMoney, 1);
         }
     };
+    _onGetAdvancedTaskDetail = (taskNo)=>{ //(UserId, Token, AccountId, TaskListNo)
+        const {UserId, Token}  = this.props.user;
+
+        this.props.UserDetermineTask(UserId, Token, this.props.AccountId, taskNo)
+    };
+
 
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
-                    <MissionBlock point={21.35} goldValue={16.35} id={435354789230457432735} taskType={1} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={1} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={1} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={1} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={1} completed={false}/>
-                    <MissionBlock point={22.35} goldValue={10.11} id={473894789230457012735} taskType={1} completed={false}/>
-
+                    {this.props.taskListsObj && this.props.taskListsObj.TaskList.map(task=>{
+                        return (
+                            <MissionBlock onPress={()=>this._onGetAdvancedTaskDetail(task.TaskListNo)} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={task.AdvancePaymentMoney} id={task.TaskListNo} taskType={2} completed={false}/>
+                        )
+                    })}
                     <Modal  isVisible={this.state.isVisibleTaskContentModal} style={{...Styles.ColumnCenter}}>
                         {this._renderTaskContentModal()}
                     </Modal>
@@ -208,5 +233,5 @@ const mapStateToProps = (state) => {
         systemTaskObjStatus,systemTaskObjMsg};
 };
 
-export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus})(AdvancedTaskList);
+export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus, UserDetermineTask })(AdvancedTaskList);
 

@@ -179,3 +179,6 @@ export const AppealsList = _AppealsList;
 
 import _CancelTask from './Missions/CancelTask';
 export const CancelTask = _CancelTask;
+
+import _AcceptedAdvancedTask from './Missions/AcceptedAdvancedTask';
+export const AcceptedAdvancedTask = _AcceptedAdvancedTask;

@@ -24,6 +24,13 @@ class SplashScreen extends Component {
         }, Constants.SplashScreen.Duration);
     }
 
+
+    componentWillUpdate() {
+        // console.log('fired splash');
+        // Timer.setTimeout(async () => {
+        //     Actions.auth();
+        // }, Constants.SplashScreen.Duration);
+    }
     render() {
         return (
             <View style={styles.viewWrapper}>

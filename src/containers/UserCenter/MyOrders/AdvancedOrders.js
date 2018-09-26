@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, UIManager,Image, View, Text, TouchableOpacity} from 'react-native'
+import {Platform, UIManager} from 'react-native'
 
-import { Container, Content, Button, Tabs, Tab, ScrollableTab } from 'native-base';
+import { Container, Content, Tabs, Tab } from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {Actions} from "react-native-router-flux/";
-import {Tab1, Tab2, Tab3, Tab4, Tab5} from "./tabs";
+
+import {AdvancedTab1, AdvancedTab2, AdvancedTab3, AdvancedTab4} from "./tabs";
+import {getMemberTaskList, initializeStatus} from "../../../actions";
+import connect from "react-redux/es/connect/connect";
 
 class AdvancedOrders extends Component {
     state = {selectedTab: 1};
@@ -13,6 +15,12 @@ class AdvancedOrders extends Component {
 
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
+        }
+
+        if(this.props.user) {
+            const {UserId, Token} = this.props.user;
+            console.log('OrderStatusType',this.props.OrderStatusType);
+            this.props.getMemberTaskList(UserId, Token, 1, 10, this.props.OrderStatusType, 1);
         }
     }
     componentDidUpdate() {
@@ -23,18 +31,18 @@ class AdvancedOrders extends Component {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginTop: 10}}>
-                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle}>
+                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderlineStyle} initialPage={this.props.OrderStatusType-1} page={this.props.OrderStatusType-1}>
                         <Tab heading="未完成"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <AdvancedTab1 />
                         </Tab>
                         <Tab heading="已完成" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <AdvancedTab2 />
                         </Tab>
                         <Tab heading="已撤销"  tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <AdvancedTab3 />
                         </Tab>
                         <Tab  heading="申诉中" tabStyle={styles.tabStyle} activeTabStyle={styles.activeTabStyle} activeTextStyle={styles.activeTextStyle} textStyle={styles.textStyle} >
-                            <Tab5 />
+                            <AdvancedTab4 />
                         </Tab>
                     </Tabs>
                 </Content>
@@ -61,5 +69,10 @@ const styles = {
         backgroundColor: Color.LightBlue
     }
 };
-
-export default AdvancedOrders;
+const mapStateToProps = (state) => {
+    const {user} = state.loginForm;
+    const {getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,} = state.taskReducer;
+    const { OrderStatusType} = state.orderStatusReducer;
+    return {user, getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,OrderStatusType};
+};
+export default connect(mapStateToProps, {getMemberTaskList, initializeStatus})(AdvancedOrders);

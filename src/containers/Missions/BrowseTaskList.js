@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
+import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
 import {connect} from 'react-redux';
 import {Button, Container, Content, FooterTab, Text, Toast} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import MissionBlock from '../../components/MissionBlock'
 import {getTaskList, systemSendTask, initializeStatus, UserDetermineTask} from "../../actions";
 import {
-    INITIALIZE_GET_MEMBER_CAN_RECEIVE_ACCOUNT,
-    INITIALIZE_SELECTED_TASK_NO,
     INITIALIZE_SYSTEM_SEND_TASK_STATUS,
     INITIALIZE_TASK_LIST_STATUS, INITIALIZE_USER_DETERMINE_TASK_STATUS
 } from "../../actions/types";
@@ -35,7 +33,7 @@ class BrowseTaskList extends Component {
     _initializeModalStatus = ()=>{
         this.setState({isVisibleTaskContentModal: false});
         this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS);
-        Actions.acceptedTask();
+        Actions.acceptedTask({task_step: 1});
     };
 
     _renderTaskContentModal = () => {
@@ -98,6 +96,18 @@ class BrowseTaskList extends Component {
             this.setState({isVisibleTaskContentModal: true});
         }
 
+
+        if(nextProps.taskObjStatus!==null && nextProps.taskObjStatus===false) {
+            Alert.alert(
+                '失败',
+                nextProps.taskObjMsg,
+                [
+                    {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS)},
+                ],
+                {cancelable: false}
+            )
+        }
+
         if(nextProps.taskListsObjSuccessed && nextProps.taskListsObj.TaskList.length===0) {
             Toast.show({
                 text: 'No task list at this moment',
@@ -126,8 +136,6 @@ class BrowseTaskList extends Component {
         this.props.UserDetermineTask(UserId, Token, this.props.AccountId, taskNo)
     };
 
-    // <MissionBlock onPress={()=>this._onGetTaskDetail(task.TaskListNo)} key={task.TaskListNo} point={task.CommissionAvailable} goldValue={0.00} id={task.TaskListNo} taskType={2} completed={false}/>
-
     render() {
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
@@ -138,8 +146,7 @@ class BrowseTaskList extends Component {
                         )
                     })}
 
-
-                    <Modal  isVisible={this.state.isVisibleTaskContentModal} style={{...Styles.ColumnCenter}}>
+                    <Modal isVisible={this.state.isVisibleTaskContentModal} style={{...Styles.ColumnCenter}}>
                         {this._renderTaskContentModal()}
                     </Modal>
                 </Content>
@@ -216,12 +223,12 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
         systemTaskObjStatus,systemTaskObjMsg,
-        taskObjStatus, taskObj,
+        taskObjStatus, taskObj,taskObjMsg,
     } = state.taskReducer;
 
     return {user,taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
         systemTaskObjStatus,systemTaskObjMsg,
-        taskObjStatus, taskObj
+        taskObjStatus, taskObj,taskObjMsg
     };
 };
 

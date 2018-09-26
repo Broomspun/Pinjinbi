@@ -7,7 +7,7 @@ import {RowLeftRightBlock} from '@components';
 import {getMemberTaskList, getPlatformLists, initializeStatus} from "../../../../actions";
 import {Actions} from "react-native-router-flux";
 
-class BrowseTab1 extends Component{
+class AdvancedTab1 extends Component{
     constructor(props) {
         super(props);
         this.state = {obj: null};
@@ -17,7 +17,7 @@ class BrowseTab1 extends Component{
 
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
-            this.props.getMemberTaskList(UserId, Token, 1, 20, 1, 2);
+            this.props.getMemberTaskList(UserId, Token, 1, 20, 1, 1);
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -40,7 +40,7 @@ class BrowseTab1 extends Component{
         if(this.state.obj && this.state.obj.AcceptTaskList.length>0) {
             contents = this.state.obj.AcceptTaskList.map((order, index)=>{
                 return (
-                    <TouchableOpacity key={index} style={{backgroundColor: Color.LightGrayColor}} onPress={()=>Actions.acceptedTask({TaskAcceptNo: order.TaskAcceptNo, task_step: 2})}>
+                    <TouchableOpacity key={index} style={{backgroundColor: Color.LightGrayColor}} onPress={()=>Actions.acceptedAdvancedTask({TaskAcceptNo: order.TaskAcceptNo})}>
                         <View style={{...Styles.basicStyle,marginBottom: 10, ...Styles.shadowStyle}}>
                             <View style={{ flexDirection: 'row', flex:1, justifyContent:'space-around', alignItems: 'center',borderBottomWidth:1, borderColor: Color.LightBorder, paddingBottom: 10}}>
                                 <View style={{flex:1, flexDirection:'row', ...Styles.RowCenterLeft}}>
@@ -79,4 +79,4 @@ const mapStateToProps = (state) => {
     const { OrderStatusType} = state.orderStatusReducer;
     return {user, getMemberTaskListObj, getMemberTaskListStatus, getMemberTaskListMsg,OrderStatusType};
 };
-export default connect(mapStateToProps, {getPlatformLists, getMemberTaskList, initializeStatus})(BrowseTab1);
+export default connect(mapStateToProps, {getPlatformLists, getMemberTaskList, initializeStatus})(AdvancedTab1);

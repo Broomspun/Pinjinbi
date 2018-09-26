@@ -38,7 +38,6 @@ class Login extends Component {
         }
 
         this.state = {remember: true}
-
     }
 
 
@@ -65,6 +64,7 @@ class Login extends Component {
                 });
                 this.props.initializeLoginStatus();
                 Timer.setTimeout(() => {
+
                     Actions.main();
                 }, 500);
             }
@@ -90,6 +90,8 @@ class Login extends Component {
     }
 
     componentWillUnmount() {
+        console.log('login unmount');
+
         this.props.initializeLoginStatus();
     }
 
