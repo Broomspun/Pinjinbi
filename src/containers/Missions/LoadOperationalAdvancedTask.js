@@ -1,22 +1,22 @@
 import React, {Component} from 'react';
 import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} from 'react-native'
 import {connect} from 'react-redux';
-import {Button, Container, Content, Text, Textarea, Input, Item, Icon, Form} from 'native-base';
+import {Button, Container, Content, Text, Textarea, Input, Item, Form} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {loadOperationTask, initializeStatus} from "../../actions";
+import {loadOperationTask, initializeStatus, verifyShopName, submitTask} from "../../actions";
 import ImagePicker from "react-native-image-picker";
+import _ from 'lodash';
 
 import {
     INITIALIZE_LOAD_OPERATIONAL_STATUS,
-    INITIALIZE_SELECTED_TASK_NO, INITIALIZE_SUBMIT_TASK_STATUS,
-    INITIALIZE_SYSTEM_SEND_TASK_STATUS,
-    INITIALIZE_TASK_LIST_STATUS
+    INITIALIZE_SUBMIT_TASK_STATUS,
+
 } from "../../actions/types";
 
-import {Actions} from "react-native-router-flux";
 import Modal from "react-native-modal";
-import Spinner1 from "@components";
 import {RowLeftRightBlock} from "../../components";
+import {Actions} from "react-native-router-flux";
+import Timer from 'react-timer-mixin';
 
 class LoadOperationalAdvancedTask extends Component {
 
@@ -39,18 +39,35 @@ class LoadOperationalAdvancedTask extends Component {
             MerchantChatImg: null,
             OrderDetailsImg: null,
             isVisibleSubmitModal: false,
+            PlatOrderNo: ''
         };
 
-        if(this.props.user && this.props.taskObj) {
+        if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
             const {taskObj} = this.props;
             const {UserId, Token}  = this.props.user;
-            this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
+            if(!this.props.loadTaskObj)
+                this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
         }
     }
 
     onTouchModalCloseButton = () => {
         this.setState({isVisibleSubmitModal: false});
         this.props.initializeStatus(INITIALIZE_SUBMIT_TASK_STATUS);
+
+        if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
+            const {taskObj, loadTaskObj} = this.props;
+            const {UserId, Token}  = this.props.user;
+
+            if(this.props.loadTaskObj)
+                this.props.loadOperationTask(UserId, Token,loadTaskObj.TaskAcceptNo);
+            // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+            else
+                this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
+        }
+
+        Timer.setTimeout(async () => {
+            Actions.acceptedAdvancedTask({task_step: 2});
+        }, 2000);
     };
 
 
@@ -180,6 +197,18 @@ class LoadOperationalAdvancedTask extends Component {
     onSubmitAdvancedTask = () => {
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
+
+            if(this.state.PlatOrderNo===''){
+                Alert.alert(
+                    'Warning',
+                    'Please put in platform order number',
+                    [
+                        {text: 'OK', onPress: () => console.log('pressed')},
+                    ],
+                    {cancelable: false}
+                );
+                return;
+            }
             const {
                 SearchPageImg,
                 TargetProductTopImg,
@@ -193,84 +222,52 @@ class LoadOperationalAdvancedTask extends Component {
                 MerchantChatImg,
                 OrderDetailsImg} = this.state;
 
-            if(!SearchPageImg || !TargetProductTopImg || !TargetProductBottomImg ||
-                !OtherShopProBottomImgA || !OtherShopProBottomImgB || !ShopProductBottomImgA ||
-                !ShopProductBottomImgB || !ShopCollectionImg || !ShoppingCartImg ||
-                !MerchantChatImg || !OrderDetailsImg){
+            let aImages = [SearchPageImg ? 1 : false, TargetProductTopImg ? 1 : false,  TargetProductBottomImg ? 1 : false, OtherShopProBottomImgA ? 1 : false,
+                OtherShopProBottomImgB ? 1 : false, ShopProductBottomImgA ? 1 : false, ShopProductBottomImgB ? 1 : false, ShopCollectionImg ? 1 : false, ShoppingCartImg ? 1 : false,
+                MerchantChatImg ? 1 : false, OrderDetailsImg ? 1 : false];
+
+            aImages = _.compact(aImages);
+
+
+            let imgJson = {
+                "SearchPageImg":  SearchPageImg ? SearchPageImg.uri: false,
+                "TargetProductTopImg": TargetProductTopImg ? TargetProductTopImg.uri: false,
+                "TargetProductBottomImg": TargetProductBottomImg ? TargetProductBottomImg.uri: false,
+                "OtherShopProBottomImgA": OtherShopProBottomImgA ? OtherShopProBottomImgA.uri: false,
+                "OtherShopProBottomImgB": OtherShopProBottomImgB ? OtherShopProBottomImgB.uri: false,
+                "ShopProductBottomImgA": ShopProductBottomImgA ? ShopProductBottomImgA.uri: false,
+                "ShopProductBottomImgB": ShopProductBottomImgB ? ShopProductBottomImgB.uri: false,
+                "ShopCollectionImg": ShopCollectionImg ? ShopCollectionImg.uri: false,
+                "ShoppingCartImg": ShoppingCartImg ? ShoppingCartImg.uri: false,
+                "MerchantChatImg": MerchantChatImg ? MerchantChatImg.uri: false,
+                "OrderDetailsImg": OrderDetailsImg ? OrderDetailsImg.uri: false,
+            };
+
+            imgJson = _.pickBy(imgJson, _.identity);
+            console.log('images',imgJson);
+
+            if(aImages.length<2){
                 Alert.alert(
                     '失败',
-                    'Choose all images',
+                    'You at least need to choose 2 images',
                     [
-                        {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_LOAD_OPERATIONAL_STATUS)},
+                        {text: 'OK', onPress: () => console.log('pressed')},
                     ],
                     {cancelable: false}
                 );
                 return;
             }
 
-
-            let imgJson = {
-                "SearchPageImg": SearchPageImg.uri,
-                "TargetProductTopImg": TargetProductTopImg.uri,
-                "TargetProductBottomImg": TargetProductBottomImg.uri,
-                "OtherShopProBottomImgA": OtherShopProBottomImgA.uri,
-                "OtherShopProBottomImgB": OtherShopProBottomImgB.uri,
-                "ShopProductBottomImgA": ShopProductBottomImgA.uri,
-                "ShopProductBottomImgB": ShopProductBottomImgB.uri,
-                "ShopCollectionImg": ShopCollectionImg.uri,
-                "ShoppingCartImg": ShoppingCartImg.uri,
-                "MerchantChatImg": MerchantChatImg.uri,
-                "OrderDetailsImg": OrderDetailsImg.uri,
-            };
-            this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.props.loadTaskObj.PlatOrderNo, this.props.loadTaskObj.TaskType)
+            this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.state.PlatOrderNo, this.props.loadTaskObj.TaskType)
         }
 
     };
 
     render() {
-        const loadTaskObj = {
-            AcceptTaskStatus: 0,
-            AcceptTaskStatusText: "待操作",
-            AccountName: "发发发",
-            Amount: 0,
-            Commission: 10.2,
-            CreateTime: "2018-09-23 00:14",
-            EndPrice: 26,
-            EvaluationImg: "",
-            EvaluationImg1: "",
-            EvaluationImg2: "",
-            EvaluationTitle: "浏览任务",
-            EvaluationVideo: "",
-            ImgJson: "",
-            KeyWord: "露背裙",
-            OkImgJson: "",
-            PayNumber: 350,
-            PlatOrderNo: "",
-            PlatType: "淘宝任务",
-            ProductAddress: "广州",
-            // ProductImg: "http://pjb.wtvxin.com/upload/20180902141220613_s0.jpg",
-            ProductImg: Images.product,
-            ProductImg1: "",
-            ProductImg2: "",
-            ProductName: "女装",
-            ProductName1: "",
-            ProductName2: "",
-            ProductNum: 0,
-            ProductNum1: 0,
-            ProductNum2: 0,
-            ProductPrice: 25,
-            ProductPrice1: 0,
-            ProductPrice2: 0,
-            ProductSpec: "",
-            SellerDenialReason: "",
-            SellerName: "张三",
-            ShopMessage: "三年级",
-            ShopName: "****",
-            SortBy: "销量",
-            StartPrice: 24,
-            TaskAcceptNo: "jd18092300145335458401",
-            TaskType: 2
-        };
+
+        if(this.props.loadTaskObj===null)
+            return (<View></View>);
+        const {loadTaskObj} = this.props;
 
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
@@ -293,7 +290,7 @@ class LoadOperationalAdvancedTask extends Component {
                                 <View style={{flex:1}}><Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>目标商品</Text></View>
                                 <View style={{flex:1, ...Styles.RowCenterRight}}>
                                     <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall, marginRight: 5}}>垫付总金额：</Text>
-                                    <Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall, marginRight: 5}}>{`${loadTaskObj.ProductPrice}元`}</Text>
+                                    <Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall, marginRight: 5}}>{`${loadTaskObj.Amount}元`}</Text>
                                 </View>
                             </View>
                         </View>
@@ -310,7 +307,7 @@ class LoadOperationalAdvancedTask extends Component {
                                 </View>
                                 <View>
                                     <View style={{...Styles.RowCenterLeft}}>
-                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>单件商品支付金额：{loadTaskObj.ProductPrice}元</Text>
+                                        <Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>单件商品支付金额：{loadTaskObj.Amount}元</Text>
                                     </View>
                                 </View>
                                 <View>
@@ -400,7 +397,6 @@ class LoadOperationalAdvancedTask extends Component {
                         </View>
                     </View>
 
-
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{...Styles.borderBottomStyle, paddingBottom: 10}}>
                             <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>注意事项</Text>
@@ -424,13 +420,13 @@ class LoadOperationalAdvancedTask extends Component {
                             <View style={{...Styles.RowCenterLeft}}>
                                 <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>第一步  货比三家</Text></View>
                                 <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                    <TouchableOpacity style={{paddingHorizontal: 3, paddingVertical: 2, borderColor: Color.Border, borderWidth: 2/PixelRatio.get(), borderRadius: 2}}>
+                                    <Button small light>
                                         <Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>点击查看示例</Text>
-                                    </TouchableOpacity>
+                                    </Button>
                                 </View>
                             </View>
                         </View>
-                        <View style={{paddingBottom: 10, ...Styles.borderBottomStyle}}>
+                        <View style={{paddingBottom: 10, paddingTop: 20, ...Styles.borderBottomStyle}}>
                             <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>1、请确认使用最爱打法师账号登录淘宝应用</Text>
                             <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>2、点击搜索框粘贴指定的关键词</Text>
                             <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>3、按要求设置筛选价格区间、所在地、类目等搜索条件缩小查询范围，对搜索结果页面截一张图</Text>
@@ -477,17 +473,18 @@ class LoadOperationalAdvancedTask extends Component {
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10}}>
                             <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>核对店铺及商品是否正确</Text></View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                <TouchableOpacity style={{paddingHorizontal: 3, paddingVertical: 2, borderColor: Color.Border, borderWidth: 2/PixelRatio.get(), borderRadius: 2}}>
+                                <Button small light >
                                     <Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>点击查看示例</Text>
-                                </TouchableOpacity>
+                                </Button>
                             </View>
                         </View>
                     </View>
+
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{flex:1, ...Styles.borderBottomStyle}}><Text style={{color: Color.textNormal, fontSize:Styles.fontSmall}}>商家店铺名称：可乐***店</Text></View>
                         <View style={{...Styles.RowCenterBetween, paddingVertical: 10}}>
                             <View style={{flex: 3}}>
-                                <Item regular underline={false} style={{ borderRadius: 5, backgroundColor: 'white', marginTop: 5, height: 32, marginLight: 5}}>
+                                <Item regular underline={false} style={{ borderRadius: 5, backgroundColor: 'white', marginTop: 5, height: 30, marginLight: 5}}>
                                     <Input
                                         placeholderTextColor='#ccc'
                                         placeholder="请在此粘贴商品链接"
@@ -502,9 +499,9 @@ class LoadOperationalAdvancedTask extends Component {
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, ...Styles.borderBottomStyle}}>
                             <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>第二步   浏览店铺</Text></View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                <TouchableOpacity style={{paddingHorizontal: 3, paddingVertical: 2, borderColor: Color.Border, borderWidth: 2/PixelRatio.get(), borderRadius: 2}}>
+                                <Button small light>
                                     <Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>点击查看示例</Text>
-                                </TouchableOpacity>
+                                </Button>
                             </View>
                         </View>
                         <View style={{paddingBottom: 10}}>
@@ -595,9 +592,9 @@ class LoadOperationalAdvancedTask extends Component {
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, ...Styles.borderBottomStyle}}>
                             <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>第三步   聊天下单支付</Text></View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                <TouchableOpacity style={{paddingHorizontal: 3, paddingVertical: 2, borderColor: Color.Border, borderWidth: 2/PixelRatio.get(), borderRadius: 2}}>
+                                <Button small light>
                                     <Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>点击查看示例</Text>
-                                </TouchableOpacity>
+                                </Button>
                             </View>
                         </View>
                         <View style={{paddingBottom: 10}}>
@@ -633,17 +630,17 @@ class LoadOperationalAdvancedTask extends Component {
 
                     <View style={{flex:1, ...Styles.cardStyleEmpty,...Styles.shadowStyle, paddingVertical: 10}}>
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, ...Styles.borderBottomStyle}}>
-                            <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>第四步   写实付金额</Text></View>
+                            <View style={{flex:1}}><Text style={{color: Color.orangeColor, fontSize:Styles.fontSmall}}>第四步 写实付金额</Text></View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                <TouchableOpacity style={{paddingHorizontal: 3, paddingVertical: 2, borderColor: Color.Border, borderWidth: 2/PixelRatio.get(), borderRadius: 2}}>
+                                <Button small light>
                                     <Text style={{color: Color.LightBlue, fontSize:Styles.fontSmall}}>点击查看示例</Text>
-                                </TouchableOpacity>
+                                </Button>
                             </View>
                         </View>
                         <View>
                             <View style={{...Styles.RowCenterLeft}}>
                                 <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>应垫付金额产考：</Text>
-                                <Text style={{fontSize: Styles.fontSmall, color: Color.orangeColor, marginLeft: 5}}>{loadTaskObj.ProductPrice}元</Text>
+                                <Text style={{fontSize: Styles.fontSmall, color: Color.orangeColor, marginLeft: 5}}>{loadTaskObj.Amount}元</Text>
                                 <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal,marginLeft: 5}}>请按实际垫付金额填写）</Text>
                             </View>
                         </View>
@@ -663,11 +660,12 @@ class LoadOperationalAdvancedTask extends Component {
                                     placeholderTextColor='#ccc'
                                     placeholder="请粘贴订单编号"
                                     style={{fontSize: Styles.fontSmall}}
+                                    value={this.state.PlatOrderNo}
+                                    onChangeText={(value)=>this.setState({PlatOrderNo: value})}
                                 />
                             </Item>
                             <View>
-                                <Button block style={styles.buttonStyle} >
-                                    onPress={()=>this.onSubmitAdvancedTask()}
+                                <Button small block style={styles.buttonStyle} onPress={()=>this.onSubmitAdvancedTask()} >
                                     <Text style={{fontSize: Styles.fontNormal}}>提交审核</Text>
                                 </Button>
                             </View>
@@ -689,7 +687,7 @@ const styles ={
         borderRadius: 5, backgroundColor: 'white', marginTop: 10, height: 37
     },
     buttonStyle: {
-        marginTop: 10, borderRadius: 5, backgroundColor: Color.LightBlue
+        marginTop: 10, borderRadius: 5, backgroundColor: Color.LightBlue, paddingVertical: 6
     },
     errorTextStyle: {
         fontSize: 20,
@@ -706,5 +704,5 @@ const mapStateToProps = (state) => {
     return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus};
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask})(LoadOperationalAdvancedTask);
+export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask})(LoadOperationalAdvancedTask);
 

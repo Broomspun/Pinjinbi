@@ -100,12 +100,12 @@ class CancelTask extends Component {
 
     showSubmitStatusModal = () => {
         return (
-            <View style={{flex:1,width: '90%', maxHeight: 100, borderRadius: 10, backgroundColor:'white', paddingBottom: 15 }}>
+            <View style={{flex:1,width: '90%', maxHeight: 130, borderRadius: 10, backgroundColor:'white', paddingBottom: 15 }}>
                 <View style={{...Styles.ColumnCenter, justifyContent: 'center', alignItems: 'center',paddingHorizontal: 30,}}>
                     <View style={{ ...Styles.RowCenterBetween, alignItems: 'center', marginTop: 30}}>
                         <Text>{this.props.cancelTaskMsg || 'Cancelled'}</Text>
                     </View>
-                    <View style={{...Styles.ColumnCenter}}>
+                    <View style={{...Styles.ColumnCenter, marginTop: 30}}>
                         <Button small style={{paddingHorizontal: 20, backgroundColor: Color.LightBlue1}} onPress={()=>{this.onGotoNextPage()}}>
                             <Text style={{fontSize: Styles.fontLarge,color: 'white'}}>确认</Text>
                         </Button>

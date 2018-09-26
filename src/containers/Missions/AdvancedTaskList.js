@@ -34,7 +34,7 @@ class AdvancedTaskList extends Component {
     _initializeModalStatus = ()=>{
         this.setState({isVisibleTaskContentModal: false});
         this.props.initializeStatus(INITIALIZE_USER_DETERMINE_TASK_STATUS);
-        Actions.advancedTaskList({task_step: 1});
+        Actions.acceptedAdvancedTask({task_step: 1});
     };
 
     _renderTaskContentModal = () => {
@@ -227,10 +227,10 @@ const styles = {
 const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaskObjStatus,systemTaskObjMsg
+        systemTaskObjStatus,systemTaskObjMsg,taskObjStatus, taskObj,taskObjMsg,
     } = state.taskReducer;
     return {user,taskListsObj,taskListsObjMsg,taskListsObjSuccessed, selectedTaskNo,
-        systemTaskObjStatus,systemTaskObjMsg};
+        systemTaskObjStatus,systemTaskObjMsg,taskObjStatus, taskObj,taskObjMsg,};
 };
 
 export default connect(mapStateToProps, {getTaskList, systemSendTask, initializeStatus, UserDetermineTask })(AdvancedTaskList);

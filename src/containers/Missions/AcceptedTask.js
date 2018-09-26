@@ -10,12 +10,9 @@ import {
 } from "../../actions/types";
 
 import {Actions} from "react-native-router-flux";
-import Modal from "react-native-modal";
-import Spinner1 from "@components";
 import {RowLeftRightBlock} from "../../components";
 
 class AcceptedTask extends Component {
-    state = {isVisibleTaskContentModal: false};
     constructor(props) {
         super(props);
 

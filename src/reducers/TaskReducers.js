@@ -364,7 +364,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, submitTaskStatus:null};
 
         case REMINDING_REFUNDS_SUCCESS:
-            return {...state , remindingRefundsObj:action.payload.value,remindingRefundsStatus:true,remindingRefundsLoading:false};
+            return {...state , remindingRefundsObj:action.payload.value,remindingRefundsStatus:true,remindingRefundsLoading:false,remindingRefundsMsg:action.payload.msg};
         case REMINDING_REFUNDS_FAILURE:
             return {...state,remindingRefundsObj:null, remindingRefundsStatus:false,remindingRefundsMsg:action.payload.msg,remindingRefundsLoading:false};
         case REMINDING_REFUNDS_LOADING:
@@ -374,7 +374,7 @@ export default (state = INITIAL_STATE, action) => {
 
 
         case COMPLETE_TASK_SUCCESS:
-            return {...state , complateTaskObj:action.payload.value,complateTaskStatus:true,complateTaskLoading:false};
+            return {...state , complateTaskObj:action.payload.value,complateTaskStatus:true,complateTaskLoading:false, complateTaskMsg:action.payload.msg};
         case COMPLETE_TASK_FAILURE:
             return {...state,complateTaskObj:null, complateTaskStatus:false,complateTaskMsg:action.payload.msg,complateTaskLoading:false};
         case COMPLETE_TASK_LOADING:

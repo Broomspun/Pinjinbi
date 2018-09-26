@@ -33,10 +33,11 @@ class LoadOperationalBrowseTask extends Component {
             shopName: '',
         };
 
-        if(this.props.user && this.props.taskObj) {
+        if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
             const {taskObj} = this.props;
             const {UserId, Token}  = this.props.user;
-            this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
+            if(!this.props.loadTaskObj)
+                this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
         }
     }
 
@@ -150,10 +151,15 @@ class LoadOperationalBrowseTask extends Component {
         this.setState({isVisibleSubmitModal: false});
         this.props.initializeStatus(INITIALIZE_SUBMIT_TASK_STATUS);
 
-        if(this.props.user && this.props.taskObj) {
-            const {taskObj} = this.props;
+        if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
+            const {taskObj, loadTaskObj} = this.props;
             const {UserId, Token}  = this.props.user;
-            this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+
+            if(this.props.loadTaskObj)
+                this.props.loadOperationTask(UserId, Token,loadTaskObj.TaskAcceptNo);
+            // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+            else
+                this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
         }
 
         Timer.setTimeout(async () => {
