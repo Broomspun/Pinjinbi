@@ -29,6 +29,7 @@ class AcceptedAdvancedTask extends Component {
             bShowSubmitCompleteModal: false
         };
 
+        console.log('xxx', props);
         if(this.props.user && (this.props.taskObj ||  this.props.loadTaskObj || props.TaskAcceptNo)) {
             const {taskObj} = this.props;
             const {UserId, Token}  = this.props.user;
@@ -37,8 +38,8 @@ class AcceptedAdvancedTask extends Component {
                 this.props.loadOperationTask(UserId, Token, taskObj.TaskAcceptNo);
             // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
             else {
-                if(!this.props.loadTaskObj)
-                    this.props.loadOperationTask(UserId, Token, this.props.TaskAcceptNo);
+                // if(!this.props.loadTaskObj)
+               this.props.loadOperationTask(UserId, Token, this.props.TaskAcceptNo);
             }
         }
     }
@@ -542,23 +543,24 @@ class AcceptedAdvancedTask extends Component {
                                 </View>
                             </View>
                         </View>
+
+
                         <View style={{flexDirection: 'row'}}>
                             <View style={{flex:1, paddingBottom: 3}}>
-                                <View style={{marginBottom:3, borderColor: !this.props.loadTaskObj.IsReminders ? Color.textLight: '#73cd6c', borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24,  alignSelf: 'center'}}>
-                                    <Text style={{ alignSelf: 'center', color: !this.props.loadTaskObj.IsReminders ? Color.textLight: '#73cd6c'}}>3</Text>
+                                <View style={{marginBottom:3, borderColor: loadTaskObj.IsReminders===0 ? Color.textLight : '#73cd6c', borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24,  alignSelf: 'center'}}>
+                                    <Text style={{ alignSelf: 'center', color: loadTaskObj.IsReminders===0 ? Color.textLight : '#73cd6c'}}>3</Text>
                                 </View>
-                                {!this.props.loadTaskObj.IsReminders &&
+                                { loadTaskObj.IsReminders===0 &&
                                 this.renderConnect()
                                 }
-                                {this.props.loadTaskObj.IsReminders &&
+                                { loadTaskObj.IsReminders===1 &&
                                 this.renderConnect1()
                                 }
                             </View>
                             <View style={{flex:9, paddingBottom: 30}}>
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
-                                        <View style={{flex:3}}><Text style={{color: Color.textLight, fontSize:Styles.fontNormal}}>商家确认订单</Text></View>
-                                        <View style={{flex:7}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}></Text></View>
+                                        <View><Text style={{color: Color.textLight, fontSize:Styles.fontNormal}}>商家确认订单</Text></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
@@ -576,7 +578,7 @@ class AcceptedAdvancedTask extends Component {
                                 <View style={{flex:1, paddingTop: 5}}>
                                     <View style={{...Styles.RowCenterLeft}}>
                                         <View style={{flex:3}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>返款账号</Text></View>
-                                        <View style={{flex:7}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.PlatOrderNo }</Text></View>
+                                        <View style={{flex:7}}><Text style={{color: Color.textLight, fontSize:Styles.fontSmall}}>{loadTaskObj.PlatOrderNo}</Text></View>
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
@@ -599,6 +601,9 @@ class AcceptedAdvancedTask extends Component {
                                 )}
                             </View>
                         </View>
+
+
+
                         <View style={{flex:1, flexDirection: 'row' }}>
                             <View style={{flex:1, paddingBottom:3}}>
                                 <View style={{marginBottom: 3, borderColor: this.props.loadTaskObj.EvaluationImg==='' ? Color.textLight: '#73cd6c', borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24, alignSelf: 'center'}}>
