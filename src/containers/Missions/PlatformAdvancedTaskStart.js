@@ -2,7 +2,7 @@
  * Created by Kim on 06/08/2018.
  */
 import React, {Component} from 'react'
-import {View, Image, Platform, UIManager, AsyncStorage, StyleSheet, PixelRatio, Alert} from 'react-native';
+import {View, Image, Platform, UIManager, StyleSheet, PixelRatio, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
@@ -35,7 +35,6 @@ class PlatformAdvancedTaskStart extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
-
     }
 
     slidingComplete(itemSelected) {
@@ -154,7 +153,7 @@ class PlatformAdvancedTaskStart extends Component {
                         <View style={{...Styles.ColumnCenterRight}}>
                             <View style={{...Styles.RowCenterRight}}>
                                 <Text style={{...Styles.normalTextStyle, marginRight: 10}}>选择范</Text>
-                                <Text style={{color: Color.textInfoOrange}}>500-{this.state.maxPrice}</Text>
+                                <Text style={{color: Color.textInfoOrange}}>{this.state.maxPrice===500?'0':500}-{this.state.maxPrice}</Text>
                             </View>
 
                         </View>

@@ -7,7 +7,8 @@ import {Actions} from 'react-native-router-flux';
 import Timer from 'react-timer-mixin';
 import {Images, Constants} from '@common';
 import {View, Text, Image, Platform, UIManager,AsyncStorage, BackHandler} from 'react-native';
-
+import {initializeStatus} from "../../actions";
+import {FIRE_LOGIN_FORM, UNFIRE_LOGIN_FORM} from "../../actions/types";
 
 class SplashScreen extends Component {
 
@@ -17,16 +18,30 @@ class SplashScreen extends Component {
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true); //enable Animation on Android
         }
+        if(this.props.user)
+            Actions.main();
+
+        console.log('fisadasdred splash1');
     }
     componentDidMount() {
         Timer.setTimeout(async () => {
-            Actions.auth();
+            this.props.initializeStatus(FIRE_LOGIN_FORM);
         }, Constants.SplashScreen.Duration);
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log('fired splash1', nextProps);
+        if(nextProps.fired_login_form){
+            this.props.initializeStatus(UNFIRE_LOGIN_FORM);
+            Actions.auth();
+        }
+    }
+    componentWillMount(){
+        console.log('fired splashqqq');
+    }
 
     componentWillUpdate() {
-        // console.log('fired splash');
+        console.log('fired splash');
         // Timer.setTimeout(async () => {
         //     Actions.auth();
         // }, Constants.SplashScreen.Duration);
@@ -84,8 +99,8 @@ const styles ={
 };
 
 const mapStoretoProps = (state) => {
-    const {user} = state.loginForm;
-    return { user };
+    const {user, fired_login_form} = state.loginForm;
+    return { user, fired_login_form };
 };
 
-export default connect(mapStoretoProps, {})(SplashScreen);
+export default connect(mapStoretoProps, {initializeStatus})(SplashScreen);

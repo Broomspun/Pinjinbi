@@ -345,7 +345,7 @@ export default (state = INITIAL_STATE, action) => {
             return {...state, loadTaskStatus:null};
 
         case VERIFY_SHOP_NAME_SUCCESS:
-            return {...state , verifyShopNameStatusObj:action.payload.value, verifyShopNameStatus:true,verifyShopNameStatusMsg:false};
+            return {...state , verifyShopNameStatusObj:action.payload.value, verifyShopNameStatus:true,verifyShopNameStatusMsg:action.payload.msg};
         case VERIFY_SHOP_NAME_FAILURE:
             return {...state,verifyShopNameStatusObj:null, verifyShopNameStatus:false,verifyShopNameStatusMsg:action.payload.msg,verifyShopNameStatusLoading:false};
         case VERIFY_SHOP_NAME_LOADING:

@@ -5,8 +5,9 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import Router from './routers'
-import {Actions} from "react-native-router-flux/";
+import { Actions} from "react-native-router-flux/";
 import { YellowBox, BackHandler } from 'react-native'
+import {FIRE_LOGIN_FORM} from "./actions/types";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
 export default class App extends Component{
@@ -19,8 +20,8 @@ export default class App extends Component{
     }
 
     onBackPress () {
-        console.log(Actions.state);
-        if (Actions.state.index === 0) {
+        console.log('current scene=',Actions.currentScene);
+        if (Actions.currentScene === 'home' || Actions.currentScene === 'splashscreen') {
             BackHandler.exitApp();
             return false;
         }
@@ -28,6 +29,7 @@ export default class App extends Component{
         Actions.pop();
         return true;
     }
+
     render(){
         const store = createStore(allReducers, {}, applyMiddleware(ReduxThunk));//{} ->Initial State
         return(

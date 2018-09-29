@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, UIManager, View, Image} from 'react-native'
+import {Platform, UIManager, View, Image, TouchableOpacity} from 'react-native'
 import { Button, Text} from 'native-base';
 import {connect} from 'react-redux';
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
 import {getMemberTaskList, getPlatformLists, initializeStatus} from "../../../../actions";
+import {Actions} from "react-native-router-flux";
+import {INITIALIZE_GET_MEMBER_TASK_LIST_STATUS} from "../../../../actions/types";
 
 class BrowseTab2 extends Component{
     constructor(props) {
@@ -21,8 +23,10 @@ class BrowseTab2 extends Component{
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.getMemberTaskListObj && this.state.obj===null)
+        if(nextProps.getMemberTaskListObj && nextProps.getMemberTaskListStatus && this.state.obj===null) {
             this.setState({obj: nextProps.getMemberTaskListObj})
+            this.props.initializeStatus(INITIALIZE_GET_MEMBER_TASK_LIST_STATUS);
+        }
     }
 
     _renderContent (){
@@ -39,7 +43,7 @@ class BrowseTab2 extends Component{
         if(this.state.obj && this.state.obj.AcceptTaskList.length>0) {
             contents = this.state.obj.AcceptTaskList.map((order, index)=>{
                 return (
-                    <View key={index} style={{backgroundColor: Color.LightGrayColor}}>
+                    <TouchableOpacity key={index} style={{backgroundColor: Color.LightGrayColor}} onPress={()=>Actions.acceptedTask({TaskAcceptNo: order.TaskAcceptNo, task_step: 2})}>
                         <View style={{...Styles.basicStyle,marginBottom: 10, ...Styles.shadowStyle}}>
                             <View style={{ flexDirection: 'row', flex:1, justifyContent:'space-around', alignItems: 'center',borderBottomWidth:1, borderColor: Color.LightBorder, paddingBottom: 10}}>
                                 <View style={{flex:1, flexDirection:'row', ...Styles.RowCenterLeft}}>
@@ -55,7 +59,7 @@ class BrowseTab2 extends Component{
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )
             })
             return contents;

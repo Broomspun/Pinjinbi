@@ -6,6 +6,7 @@ import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
 import {getMemberTaskList, getPlatformLists, initializeStatus} from "../../../../actions";
 import {Actions} from "react-native-router-flux";
+import {INITIALIZE_GET_MEMBER_TASK_LIST_STATUS} from "../../../../actions/types";
 
 class BrowseTab1 extends Component{
     constructor(props) {
@@ -21,8 +22,9 @@ class BrowseTab1 extends Component{
         }
     }
     componentWillReceiveProps(nextProps) {
-        if(nextProps.getMemberTaskListObj && this.state.obj===null) {
-            this.setState({obj: nextProps.getMemberTaskListObj})
+        if(nextProps.getMemberTaskListObj && nextProps.getMemberTaskListStatus && this.state.obj===null) {
+            this.setState({obj: nextProps.getMemberTaskListObj});
+            this.props.initializeStatus(INITIALIZE_GET_MEMBER_TASK_LIST_STATUS);
 
         }
     }

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {Images, Constants, Color, Styles} from '@common';
 import {RowLeftRightBlock} from '@components';
 import {getMemberTaskList, getPlatformLists, initializeStatus, sendOrderStausMessage} from "../../../../actions";
-import {INCOMPLETE_TASK, REVOKED_TASK} from "../../../../actions/types";
+import {INCOMPLETE_TASK, INITIALIZE_GET_MEMBER_TASK_LIST_STATUS, REVOKED_TASK} from "../../../../actions/types";
 
 class BrowseTab3 extends Component{
     constructor(props) {
@@ -21,13 +21,12 @@ class BrowseTab3 extends Component{
         }
     }
     componentWillReceiveProps(nextProps) {
-        if(nextProps.getMemberTaskListObj && this.state.obj===null)
-            this.setState({obj: nextProps.getMemberTaskListObj})
+        if(nextProps.getMemberTaskListObj && nextProps.getMemberTaskListStatus && this.state.obj===null) {
+            this.setState({obj: nextProps.getMemberTaskListObj});
+            this.props.initializeStatus(INITIALIZE_GET_MEMBER_TASK_LIST_STATUS);
+        }
     }
     componentDidUpdate() {
-        console.log('tab3 event',this.state);
-        if(this.props.getMemberTaskListObj && this.state.obj===null)
-            this.setState({obj: this.props.getMemberTaskListObj})
     }
 
     _renderContent (){
@@ -63,7 +62,6 @@ class BrowseTab3 extends Component{
                     </View>
                 )
             });
-            console.log(contents);
             return contents;
         }
     }

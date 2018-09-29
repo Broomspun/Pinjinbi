@@ -8,7 +8,13 @@ import {connect} from 'react-redux';
 import {Spinner} from '@components';
 import {Images, Constants, Styles, Color} from '@common';
 import {Actions} from 'react-native-router-flux';
-import {loginParameterUpdated, loginUser, initializeLoginStatus, loadFromStorage} from './../../actions';
+import {
+    loginParameterUpdated,
+    loginUser,
+    initializeLoginStatus,
+    loadFromStorage,
+    initializeStatus
+} from './../../actions';
 import {
     Body,
     Button,
@@ -25,12 +31,11 @@ import {
     Text,
     Toast
 } from 'native-base';
+import {FIRE_LOGIN_FORM} from "../../actions/types";
 
 
 class Login extends Component {
     constructor(props) {
-
-        console.log('test');
         super(props);
 
         if (Platform.OS === 'android') {
@@ -64,7 +69,6 @@ class Login extends Component {
                 });
                 this.props.initializeLoginStatus();
                 Timer.setTimeout(() => {
-
                     Actions.main();
                 }, 500);
             }
@@ -90,16 +94,17 @@ class Login extends Component {
     }
 
     componentWillUnmount() {
-        console.log('login unmount');
+        console.log('login unmount', this.props.user);
 
         this.props.initializeLoginStatus();
+        this.props.initializeStatus(FIRE_LOGIN_FORM);
     }
 
     componentDidMount(){
         (async () => {
             let phone = await AsyncStorage.getItem('pjinbi_auth_user_phone');
             let password = await AsyncStorage.getItem('pjinbi_auth_user_password');
-            console.log("test user data :"+JSON.stringify(phone)+","+password);
+
             this.props.loadFromStorage(phone, password);
 
         })();
@@ -199,4 +204,4 @@ const mapStateToProps = (state) => {
     const {bType,phone, password, loading, error, user, bLoginSuccess, loginMessage} = state.loginForm;
     return {bType, phone, password, loading, error, user, bLoginSuccess, loginMessage};
 };
-export default connect(mapStateToProps, {loginParameterUpdated, loginUser, initializeLoginStatus, loadFromStorage})(Login);
+export default connect(mapStateToProps, {loginParameterUpdated, loginUser, initializeLoginStatus, loadFromStorage, initializeStatus})(Login);

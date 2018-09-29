@@ -3,13 +3,13 @@ import {Platform, UIManager, View, Image, TouchableOpacity, PixelRatio, Alert} f
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text, Textarea, Input, Item, Form} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {loadOperationTask, initializeStatus, verifyShopName, submitTask} from "../../actions";
+import {loadOperationTask, initializeStatus, verifyShopName, submitTask,getMyOrdersSummary} from "../../actions";
 import ImagePicker from "react-native-image-picker";
 import _ from 'lodash';
 
 import {
     INITIALIZE_LOAD_OPERATIONAL_STATUS,
-    INITIALIZE_SUBMIT_TASK_STATUS,
+    INITIALIZE_SUBMIT_TASK_STATUS, INITIALIZE_VERIFY_SHOP_NAME_STATUS,
 
 } from "../../actions/types";
 
@@ -39,7 +39,9 @@ class LoadOperationalAdvancedTask extends Component {
             MerchantChatImg: null,
             OrderDetailsImg: null,
             isVisibleSubmitModal: false,
-            PlatOrderNo: ''
+            PlatOrderNo: '',
+            ShopName: '',
+            bVerifiedShopName: false
         };
 
         if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
@@ -63,6 +65,8 @@ class LoadOperationalAdvancedTask extends Component {
             // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
             else
                 this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
+
+            this.props.getMyOrdersSummary(UserId, Token);
         }
 
         Timer.setTimeout(async () => {
@@ -88,6 +92,21 @@ class LoadOperationalAdvancedTask extends Component {
 
         if(nextProps.submitTaskStatus!==null && nextProps.submitTaskStatus){
             this.setState({isVisibleSubmitModal: true});
+        }
+
+
+        if(nextProps.verifyShopNameStatus!==null) {
+            if(nextProps.verifyShopNameStatus)
+                this.setState({bVerifiedShopName: true});
+
+            Alert.alert(
+                'Verify Status',
+                nextProps.verifyShopNameStatusMsg,
+                [
+                    {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_VERIFY_SHOP_NAME_STATUS)},
+                ],
+                {cancelable: false}
+            )
         }
     }
 
@@ -209,6 +228,19 @@ class LoadOperationalAdvancedTask extends Component {
                 );
                 return;
             }
+            if(!this.state.bVerifiedShopName){
+                Alert.alert(
+                    'Warning',
+                    'Please verify shop name',
+                    [
+                        {text: 'OK', onPress: () => console.log('pressed')},
+                    ],
+                    {cancelable: false}
+                );
+                return;
+            }
+
+
             const {
                 SearchPageImg,
                 TargetProductTopImg,
@@ -261,6 +293,25 @@ class LoadOperationalAdvancedTask extends Component {
             this.props.submitTask(UserId, Token,this.props.loadTaskObj.TaskAcceptNo,  JSON.stringify(imgJson), this.state.PlatOrderNo, this.props.loadTaskObj.TaskType)
         }
 
+    };
+
+    onVerifyShopname = () => {
+
+        const {UserId, Token} = this.props.user;
+
+        if(this.state.ShopName===''){
+            Alert.alert(
+                'Warning',
+                'Please put in shop name',
+                [
+                    {text: 'OK', onPress: () => console.log('pressed')},
+                ],
+                {cancelable: false}
+            );
+            return;
+        }
+
+        this.props.verifyShopName(UserId, Token, this.props.loadTaskObj.TaskAcceptNo, this.state.ShopName);
     };
 
     render() {
@@ -487,13 +538,15 @@ class LoadOperationalAdvancedTask extends Component {
                                 <Item regular underline={false} style={{ borderRadius: 5, backgroundColor: 'white', marginTop: 5, height: 30, marginLight: 5}}>
                                     <Input
                                         placeholderTextColor='#ccc'
-                                        placeholder="请在此粘贴商品链接"
+                                        placeholder="请在此粘贴店铺名称"
                                         style={{fontSize: Styles.fontSmall}}
+                                        value={this.state.ShopName}
+                                        onChangeText = {()=>this.setState({ShopName: value})}
                                     />
                                 </Item>
                             </View>
                             <View style={{flex:1, ...Styles.RowCenterRight}}>
-                                <Button small style={{backgroundColor: Color.LightBlue}}><Text style={{color:'white'}}>核对</Text></Button>
+                                <Button small style={{backgroundColor: Color.LightBlue}} onPress={()=>this.onVerifyShopname()}><Text style={{color:'white'}}>核对</Text></Button>
                             </View>
                         </View>
                         <View style={{...Styles.RowCenterLeft, paddingVertical: 10, ...Styles.borderBottomStyle}}>
@@ -700,9 +753,12 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskObj,taskObjMsg,taskObjStatus,loadTaskObj, loadTaskStatus, loadTaskMsg,
         submitTaskMsg,submitTaskStatus,
+        verifyShopNameStatusObj,verifyShopNameStatusMsg,verifyShopNameStatus
     } = state.taskReducer;
-    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus};
+    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus,
+        verifyShopNameStatusObj,verifyShopNameStatusMsg,verifyShopNameStatus
+    };
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask})(LoadOperationalAdvancedTask);
+export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask,getMyOrdersSummary})(LoadOperationalAdvancedTask);
 

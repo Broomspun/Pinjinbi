@@ -63,7 +63,6 @@ class AdvancedTab3 extends Component{
                     </View>
                 )
             });
-            console.log(contents);
             return contents;
         }
     }

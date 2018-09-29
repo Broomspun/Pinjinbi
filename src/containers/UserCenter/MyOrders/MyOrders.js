@@ -34,7 +34,6 @@ class MyOrders extends Component {
     };
 
     onSendBrowseMessage = (type)=>{
-
         this.props.sendOrderStausMessage(type)
         Actions.browseorders();
     };
@@ -46,7 +45,7 @@ class MyOrders extends Component {
             const {BrowseCompleted, BrowseUndone, BrowseRevoked, BrowseAppeal} = this.props.taskSummaryObj;
 
             let deliveried, unfinished, refunded, disputed;
-            if(orderType==1){
+            if(orderType===1){
                 deliveried = AdvanceCompleted;
                 unfinished = AdvanceUndone;
                 refunded = AdvanceRevoked;
@@ -133,7 +132,7 @@ class MyOrders extends Component {
                 <Footer>
                     <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-around', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.home()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.main()}>
                                 <Image source={Images.homeIcon} style={{width: 26, height: 26}} />
                                 <Text style={{fontSize:14, color:Color.textNormal}}>首页</Text>
                             </TouchableOpacity>

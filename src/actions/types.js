@@ -385,3 +385,6 @@ export const INCOMPLETE_TASK = 1;
 export const COMPLETED_TASK =2;
 export const REVOKED_TASK = 3;
 export const DISPUTED_TASK = 4;
+
+export const FIRE_LOGIN_FORM = 'fire_login_form';
+export const UNFIRE_LOGIN_FORM = 'unfire_login_form';

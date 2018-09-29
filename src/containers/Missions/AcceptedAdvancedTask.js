@@ -429,17 +429,28 @@ class AcceptedAdvancedTask extends Component {
                                                 {imgs && !imgs.SearchPageImg && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
+
                                                 {imgs && imgs.OtherShopProBottomImgA && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.OtherShopProBottomImgA}} />
                                                 )}
                                                 {imgs && !imgs.OtherShopProBottomImgA && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
+
                                                 {imgs && imgs.OtherShopProBottomImgB && (
                                                     <Image style={{width: 30, height: 30}} source={{uri: imgs.OtherShopProBottomImgB}} />
                                                 )}
                                                 {imgs && !imgs.OtherShopProBottomImgB && (
                                                     <Image style={{width: 30, height: 30, }} source={Images.placeholder} />
+                                                )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
                                                 )}
                                             </View>
                                         </View>
@@ -457,10 +468,16 @@ class AcceptedAdvancedTask extends Component {
                                                 {imgs && !imgs.TargetProductTopImg && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
                                                 {imgs && imgs.TargetProductBottomImg && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.TargetProductBottomImg}} />
                                                 )}
                                                 {imgs && !imgs.TargetProductBottomImg && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
+                                                {!imgs && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
                                                 {imgs && imgs.ShopProductBottomImgA && (
@@ -469,10 +486,16 @@ class AcceptedAdvancedTask extends Component {
                                                 {imgs && !imgs.ShopProductBottomImgA && (
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
                                                 {imgs && imgs.ShopProductBottomImgB && (
                                                     <Image style={{width: 30, height: 30}} source={{uri: imgs.ShopProductBottomImgB}} />
                                                 )}
                                                 {imgs && !imgs.ShopProductBottomImgB && (
+                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                                )}
+                                                {!imgs && (
                                                     <Image style={{width: 30, height: 30}} source={Images.placeholder} />
                                                 )}
                                             </View>
@@ -491,6 +514,9 @@ class AcceptedAdvancedTask extends Component {
                                                 {imgs && !imgs.ShopCollectionImg && (
                                                     <Image style={{width: 30, height: 30}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                                )}
 
                                             </View>
                                         </View>
@@ -507,6 +533,9 @@ class AcceptedAdvancedTask extends Component {
                                                 {imgs && !imgs.ShoppingCartImg && (
                                                     <Image style={{width: 30, height: 30}} source={Images.placeholder} />
                                                 )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                                )}
                                             </View>
                                         </View>
                                     </View>
@@ -520,12 +549,18 @@ class AcceptedAdvancedTask extends Component {
                                                     <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.MerchantChatImg}} />
                                                 )}
                                                 {imgs && !imgs.MerchantChatImg && (
-                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                                )}
+                                                {!imgs && (
+                                                    <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
                                                 )}
                                                 {imgs && imgs.OrderDetailsImg && (
                                                     <Image style={{width: 30, height: 30}} source={{uri: imgs.OrderDetailsImg}} />
                                                 )}
                                                 {imgs && !imgs.OrderDetailsImg && (
+                                                    <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                                )}
+                                                {!imgs && (
                                                     <Image style={{width: 30, height: 30}} source={Images.placeholder} />
                                                 )}
                                             </View>

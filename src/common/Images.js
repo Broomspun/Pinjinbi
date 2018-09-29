@@ -5,13 +5,11 @@ const Images = {
     qqIcon_white: require('./../assets/img/qq_Icon_white.png'),
     imageIcon: require('./../assets/img/image_gray_icon.png'),
     verifyCodeIcon: require('./../assets/img/verifycode.png'),
-    captchBackground: require('./../assets/img/captcha_background-1.jpg'),
     smsIcon: require('./../assets/img/sms-1-icon.png'),
     lockIIcon: require('./../assets/img/lock-icon.png'),
     handIcon: require('./../assets/img/hand-icon.png'),
 
     /* Home */
-    homeBackTop: require('./../assets/img/home/home_top.png'),
     silcCardIcon: require('./../assets/img/home/silk_card.png'),
     jianzhiqianbao: require('./../assets/img/home/jianzhiqianbao.png'),
     flightLotIcon: require('./../assets/img/home/flignt-lot.png'),

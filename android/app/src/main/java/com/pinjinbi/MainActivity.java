@@ -38,6 +38,11 @@ public class MainActivity extends ReactActivity {
         super.onPause();
         unregisterManagers();
     }
+    @Override
+    public void invokeDefaultOnBackPressed() {
+        // do not call super. invokeDefaultOnBackPressed() as it will close the app.  Instead lets just put it in the background.
+        moveTaskToBack(true);
+    }
 
     @Override
     public void onDestroy() {
@@ -51,7 +56,7 @@ public class MainActivity extends ReactActivity {
 
     private void checkForUpdates() {
         // Remove this for store builds!
-        UpdateManager.register(this);
+//        UpdateManager.register(this);
     }
 
     private void unregisterManagers() {

@@ -3,14 +3,14 @@ import {Platform, UIManager, Dimensions, View, Image, TouchableOpacity, PixelRat
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
+import Lightbox from 'react-native-lightbox';
 import {getMemberTaskAccept, initializeStatus,loadOperationTask} from "../../actions";
-
+import {Actions} from "react-native-router-flux";
+import {RowLeftRightBlock} from "../../components";
 import {
     INITIALIZE_TASK_LIST_STATUS
 } from "../../actions/types";
 
-import {Actions} from "react-native-router-flux";
-import {RowLeftRightBlock} from "../../components";
 
 class AcceptedTask extends Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class AcceptedTask extends Component {
             const {UserId, Token}  = this.props.user;
 
             if(props.task_step===1)
-                // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
+            // this.props.getMemberTaskAccept(UserId, Token,taskObj.TaskAcceptNo);
                 this.props.loadOperationTask(UserId, Token, taskObj.TaskAcceptNo);
             else {
                 // this.props.getMemberTaskAccept(UserId, Token, this.props.TaskAcceptNo);
@@ -40,6 +40,7 @@ class AcceptedTask extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
         console.log('advanced', nextProps);
 
     }
@@ -84,6 +85,12 @@ class AcceptedTask extends Component {
         if (loadTaskObj.AcceptTaskStatus===0 || loadTaskObj.AcceptTaskStatus===1)
             bDisabledThird = false;
 
+        let SearchPageImg;
+        if(imgs && imgs.SearchPageImg) {
+            // SearchPageImg = Image.resolveAssetSource(imgs.SearchPageImg);
+            // console.log(SearchPageImg);
+        }
+
         return(
             <Container style={{backgroundColor: Color.LightGrayColor}}>
                 <Content style={{marginBottom: 10}}>
@@ -114,7 +121,7 @@ class AcceptedTask extends Component {
                                 </View>
 
                                 <View style={{marginTop: 10}}>
-                                    <Button small bordered info>
+                                    <Button small light>
                                         <Text style={{color: Color.LightBlue, fontSize: Styles.fontSmall}}>点击查看详情</Text>
                                     </Button>
                                 </View>
@@ -216,7 +223,7 @@ class AcceptedTask extends Component {
                                     <Text style={{alignSelf: 'center',color:'#73cd6c'}}>1</Text>
                                 </View>
                                 {  !imgs &&
-                                    this.renderConnect()
+                                this.renderConnect()
                                 }
                                 {  imgs &&
                                 this.renderConnect1()
@@ -278,31 +285,55 @@ class AcceptedTask extends Component {
                                     </View>
                                 </View>
                                 <View style={{flex:1, paddingTop: 5}}>
-                                    {imgs && (
+
                                     <View style={{...Styles.RowCenterLeft, padding: 5}}>
                                         {/*<Image style={{width: 30, height: 30, marginRight: 10}} source={loadTaskObj.ProductImg ? loadTaskObj.ProductImg: Images.placeholder} />*/}
-                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.SearchPageImg ? imgs.SearchPageImg: Images.placeholder}} />
-                                        <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri:imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
-                                        <Image style={{width: 30, height: 30, }} source={{uri: imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
-                                    </View>
-                                    )}
-                                    {!imgs && (
-                                        <View style={{...Styles.RowCenterLeft, padding: 5}}>
-                                            {/*<Image style={{width: 30, height: 30, marginRight: 10}} source={loadTaskObj.ProductImg ? loadTaskObj.ProductImg: Images.placeholder} />*/}
+                                        {imgs && imgs.SearchPageImg && (
+                                            <Lightbox underlayColor="white" activeProps={{flex: .5, width: undefined, height: undefined, resizeMode:'cover'}}>
+                                                <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri: imgs.SearchPageImg ? imgs.SearchPageImg: Images.placeholder}} />
+                                            </Lightbox>
+                                        )}
+                                        {imgs && !imgs.SearchPageImg && (
                                             <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                        )}
+                                        {!imgs && (
                                             <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
-                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
-                                        </View>
-                                    )}
+                                        )}
 
+
+                                        {imgs && imgs.TargetProductTopImg && (
+                                            <Lightbox underlayColor="white" activeProps={{flex: .5, width: undefined, height: undefined, resizeMode:'cover'}}>
+                                                <Image style={{width: 30, height: 30, marginRight: 10}} source={{uri:imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
+                                            </Lightbox>
+                                        )}
+                                        {imgs && !imgs.TargetProductTopImg && (
+                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                        )}
+                                        {!imgs && (
+                                            <Image style={{width: 30, height: 30, marginRight: 10}} source={Images.placeholder} />
+                                        )}
+
+
+                                        {imgs && imgs.TargetProductTopImg && (
+                                            <Lightbox underlayColor="white" activeProps={{flex: .5, width: undefined, height: undefined, resizeMode:'cover'}}>
+                                                <Image style={{width: 30, height: 30, }} source={{uri: imgs.TargetProductTopImg ? imgs.TargetProductTopImg: Images.placeholder}} />
+                                            </Lightbox>
+                                        )}
+                                        {imgs && !imgs.TargetProductTopImg && (
+                                            <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                        )}
+                                        {!imgs && (
+                                            <Image style={{width: 30, height: 30}} source={Images.placeholder} />
+                                        )}
+                                    </View>
                                 </View>
 
                             </View>
                         </View>
                         <View style={{flexDirection: 'row'}}>
                             <View style={{flex:1}}>
-                                <View style={{borderColor: Color.textLight, borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24,  alignSelf: 'center'}}>
-                                    <Text style={{ alignSelf: 'center', color:Color.textLight}}>3</Text>
+                                <View style={{borderColor:  loadTaskObj.AcceptTaskStatus===8 ? '#73cd6c' :Color.textLight , borderWidth:4/PixelRatio.get(),borderRadius: 20, width: 24, height: 24,  alignSelf: 'center'}}>
+                                    <Text style={{ alignSelf: 'center', color:loadTaskObj.AcceptTaskStatus===8 ? '#73cd6c' :Color.textLight}}>3</Text>
                                 </View>
                             </View>
                             <View style={{flex:9, paddingBottom: 30}}>

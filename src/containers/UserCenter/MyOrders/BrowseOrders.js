@@ -19,7 +19,7 @@ class BrowseOrders extends Component {
         if(this.props.user) {
             const {UserId, Token} = this.props.user;
             console.log('OrderStatusType',this.props.OrderStatusType);
-            this.props.getMemberTaskList(UserId, Token, 1, 10, this.props.OrderStatusType, 2);
+            // this.props.getMemberTaskList(UserId, Token, 1, 10, this.props.OrderStatusType, 2);
         }
     }
     componentDidUpdate() {

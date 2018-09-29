@@ -42,8 +42,10 @@ import {
     SIGN_IN_GET_POINTS_SYSTEMERROR,
     SIGN_IN_GET_POINTS_RELOGIN,
     SIGN_IN_GET_POINTS_INITIAL,
-    SIGN_IN_GET_POINTS_SIGNED
+    SIGN_IN_GET_POINTS_SIGNED,
+    FIRE_LOGIN_FORM,
 } from './../actions/types';
+import {UNFIRE_LOGIN_FORM} from "../actions/types";
 
 const INITIAL_STATE = {
     phone: '',
@@ -78,7 +80,8 @@ const INITIAL_STATE = {
     logObj: null,
     logObjMsg: '',
     signPoints: null,
-    signPointsMsg: ''
+    signPointsMsg: '',
+    fired_login_form: false,
 };
 
 const convertAreas =(areas) => {
@@ -106,7 +109,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_FAIL:
             return {...state, error: action.payload, loading: false, user: null, bLoginSuccess: false};
         case INITIALIZE_LOGIN_STATUS:
-            return {...state, bLoginSuccess: null};
+            return {...state, bLoginSuccess: null, loading: false};
         case LOAD_FROM_STORAGE:
             return {...state, phone: action.payload.phone, password: action.payload.pass};
         case LOGOUT_USER:
@@ -204,6 +207,10 @@ export default (state = INITIAL_STATE, action) => {
             return {...state,logObj: action.payload};
         case GET_LOADSIGNINPAGE_SYSTEMERROR:
             return {...state,logObj: action.payload};
+        case FIRE_LOGIN_FORM:
+            return {...state, fired_login_form: true};
+        case UNFIRE_LOGIN_FORM:
+            return {...state, fired_login_form: false};
 
         default:
             return state;

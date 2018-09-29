@@ -7,20 +7,37 @@ import {Actions} from 'react-native-router-flux';
 import {Button, Card, Container, Content, Form, Icon, Input, Item, Text, Toast} from 'native-base';
 import ImagePicker from "react-native-image-picker";
 import RNPickerSelect from 'react-native-picker-select';
-import {submitTabaoAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCategories,initializeStatus} from "@actions";
+import {submitPlatformAccount,getAreaLists, getMemberPlatformInfo,getAllShoppingCategories,initializeStatus,
+    submitTaobaoAccount,submitJinDongAccount,submitPinDuoDuoAccount,submitBeautifulAccount
+} from "@actions";
 import Modal from "react-native-modal";
 import { SelectMultipleButton } from 'react-native-selectmultiple-button'
 import _ from 'lodash'
-
+import SnapSlider from 'react-native-snap-slider';
 import {INITIALIZE_TABAO_SUBMIT_STATUS} from "../../../../../actions/types";
 
+/**
+ * PlatId: 1 - Taobao
+ * PlatId: 2 -
+ * PlatId: 3 - JinDong
+ * PlatId: 4 -
+ * PlatId: 5 - PinDuoDuo
+ * PlatId: 6 - Beautiful
+ * PlatId: 7 - MushRoom
+ */
 class BindTabaoAccount extends Component {
-
+    priceOptions = [
+        {value: 500, label: '500'},
+        {value: 1000, label: '1000'},
+        {value: 2000, label: '2000'},
+        {value: 3000, label: '3000'},
+        {value: 10000, label: '10000'}
+    ];
     constructor(props){
         super(props);
 
         this.setProvinceCode = this.setProvinceCode.bind(this);
-
+        this.slidingComplete1 = this.slidingComplete1.bind(this);
         this.state = {
             user: this.props.user,
             id_card_front_photo: null,
@@ -41,9 +58,10 @@ class BindTabaoAccount extends Component {
             CityName: '',
             DistrictCode: undefined,
             DistrictName: '',
-            address:'',
-            TaobaoValue: '1000',
-            CreditRating: '2',
+            TaobaoValue: 1000,
+            defaultItem: 1,
+            CreditRating: '',
+            AccountLevel: '',
             genders:[
                 {
                     label:'性别: 男',
@@ -64,7 +82,8 @@ class BindTabaoAccount extends Component {
             validationForm: true,
             bPlatformBindSubmittedStatus: null,
             bShowCategories: false,
-            multipleSelectedDataLimited: []
+            multipleSelectedDataLimited: [],
+            multipleSelectedDataLimited_index: []
         };
         if(!this.props.shopCategoryObj)
             this.props.getAllShoppingCategories();
@@ -112,6 +131,9 @@ class BindTabaoAccount extends Component {
         if(this.props.user && this.props.user.bindInfo) {
             const {UserId, Token} = this.props.user;
             let PlatId = this.props.PlatId;
+
+            let ConsumerCategoryList = this.state.multipleSelectedDataLimited_index.toString();
+            console.log(ConsumerCategoryList);
 
             const {ProvinceCode, CityCode, DistrictCode, ConsigneeCall, ConsigneeName, PlatAccount} = this.state;
             const {ProvinceName, CityName, DistrictName, Gender, Age, TaobaoValue} = this.state;
@@ -175,18 +197,140 @@ class BindTabaoAccount extends Component {
                 return;
             }
 
-            if(Age ==='') {
+            if(Age ===undefined) {
                 Toast.show({
-                    text: 'Please enter platform account name!', buttonText: "是", type: "danger",
+                    text: 'Please enter your age!', buttonText: "是", type: "danger",
                     duration: 3000
                 });
                 return;
             }
 
-            this.props.submitTabaoAccount(UserId, Token, PlatId,
-                ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
-                Gender, Age, TaobaoValue
-            )
+            if(PlatId===1){
+                if(ConsumerCategoryList==='') {
+                    Toast.show({
+                        text: 'Please choose product categories!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.CreditRating==='') {
+                    Toast.show({
+                        text: 'Please enter Credit Rating!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.CreditRatingImg===null) {
+                    Toast.show({
+                        text: 'Please choose credit rating image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.TaobaoValueImg===null) {
+                    Toast.show({
+                        text: 'Please choose Taobao Value Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.VerifiedImg===null) {
+                    Toast.show({
+                        text: 'Please choose Taobao Verified Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.BorrowingImg===null) {
+                    Toast.show({
+                        text: 'Please choose Taobao Borrowing Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+            }
+            if(PlatId===3){
+                if(this.state.AccountLevel==='') {
+                    Toast.show({
+                        text: 'Please enter Account Level!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.VerifiedImg===null) {
+                    Toast.show({
+                        text: 'Please choose JinDong Verified Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.BorrowingImg===null) {
+                    Toast.show({
+                        text: 'Please choose JinDong Borrowing Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.UserCenterImg===null) {
+                    Toast.show({
+                        text: 'Please choose JinDong user center Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+                if(this.props.AccountLevelImg===null) {
+                    Toast.show({
+                        text: 'Please choose JinDong Account level Image!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+            }
+
+            if(PlatId===1 || PlatId===5){
+                if(this.state.OrderNo==='') {
+                    Toast.show({
+                        text: 'Please enter order number!', buttonText: "是", type: "danger",
+                        duration: 3000
+                    });
+                    return;
+                }
+            }
+
+            if(PlatId===1) {
+                this.props.submitTaobaoAccount(UserId, Token, PlatId,
+                    ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                    Gender, Age, TaobaoValue, this.state.CreditRating, this.state.OrderNo,ConsumerCategoryList,
+                    this.state.CreditRatingImg.uri, this.state.TaobaoValueImg.uri, this.state.VerifiedImg.uri, this.state.BorrowingImg.uri
+                )
+            }
+
+            if(PlatId===3) {
+                this.props.submitJinDongAccount(UserId, Token, PlatId,
+                    ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                    Gender, Age, this.state.AccountLevel,
+                    this.state.UserCenterImg.uri, this.state.AccountLevelImg.uri, this.state.VerifiedImg.uri, this.state.BorrowingImg.uri
+                )
+            }
+            if(PlatId===5) {
+                this.props.submitPinDuoDuoAccount(UserId, Token, PlatId,
+                    ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                    Gender, Age, this.state.OrderNo,
+                    this.state.UserCenterImg.uri, this.state.CreditRatingImg.uri
+                )
+            }
+            if(PlatId===6 || PlatId===7) {
+                this.props.submitBeautifulAccount(UserId, Token, PlatId,
+                    ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                    Gender, Age, this.state.UserInfoImg.uri
+                )
+            }
+
+            if(PlatId===2 || PlatId===4 || PlatId===8)
+                this.props.submitPlatformAccount(UserId, Token, PlatId,
+                    ProvinceCode, CityCode, DistrictCode,ConsigneeCall, ConsigneeName, PlatAccount,address,
+                    Gender, Age
+                )
         }
     };
 
@@ -292,18 +436,28 @@ class BindTabaoAccount extends Component {
         });
     }
 
-    _singleTapMultipleSelectedButtons_limited(interest) {
+    slidingComplete1(itemSelected) {
+        console.log("item selected(from callback)" + itemSelected);
+        this.setState({TaobaoValue: this.priceOptions[this.refs.slider.state.item].value});
+    }
+
+    _singleTapMultipleSelectedButtons_limited(interest, index) {
         if (this.state.multipleSelectedDataLimited.includes(interest)) {
             _.remove(this.state.multipleSelectedDataLimited, ele => {
                 return ele === interest;
             });
+            _.remove(this.state.multipleSelectedDataLimited_index, ele => {
+                return ele === index;
+            });
         } else {
-            if (this.state.multipleSelectedDataLimited.length < 5)
+            if (this.state.multipleSelectedDataLimited.length < 3)
                 this.state.multipleSelectedDataLimited.push(interest);
+            this.state.multipleSelectedDataLimited_index.push(index);
         }
 
         this.setState({
-            multipleSelectedDataLimited: this.state.multipleSelectedDataLimited
+            multipleSelectedDataLimited: this.state.multipleSelectedDataLimited,
+            multipleSelectedDataLimited_index: this.state.multipleSelectedDataLimited_index,
         });
     }
 
@@ -333,7 +487,7 @@ class BindTabaoAccount extends Component {
                         }}
                     >
 
-                        {shopCategories && shopCategories.map(interest=> (
+                        {shopCategories && shopCategories.map((interest, index)=> (
                             <SelectMultipleButton
                                 key={interest}
                                 buttonViewStyle={{
@@ -354,7 +508,7 @@ class BindTabaoAccount extends Component {
                                 value={interest}
                                 selected={this.state.multipleSelectedDataLimited.includes(interest)}
                                 singleTap={valueTap =>
-                                    this._singleTapMultipleSelectedButtons_limited(interest)
+                                    this._singleTapMultipleSelectedButtons_limited(interest, index)
                                 }
                             />
                         ))}
@@ -373,8 +527,6 @@ class BindTabaoAccount extends Component {
 
         )
     };
-
-
 
     render() {
         const {PlatId} = this.props;
@@ -462,14 +614,6 @@ class BindTabaoAccount extends Component {
                                 value={this.state.DistrictCode}
                             />
                         )}
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="地址"
-                                value = {this.state.address}
-                                onChangeText={(value)=>this.setState({address: value})}
-                            />
-                        </Item>
                     </View>
                     <View style={{...Styles.shadowStyle, paddingHorizontal: 15, backgroundColor: 'white', paddingVertical: 15, ...Styles.shadowStyle}}>
                         <Text style={{color:Color.textNormal, marginTop: 25}}>账号属性（与实名认证的身份证信息一致）</Text>
@@ -497,42 +641,66 @@ class BindTabaoAccount extends Component {
                                 onChangeText={(value)=>this.setState({Age: value})}
                             />
                         </Item>
-                        <TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textNormal}}>信誉</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>{this.state.CreditRating}星</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
+                        {this.props.PlatId===1 && (
+                            <Item regular style={styles.itemStyle}>
+                                <Input
+                                    placeholderTextColor='#ccc'
+                                    placeholder="请选择等级"
+                                    value = {this.state.CreditRating}
+                                    onChangeText={(value)=>this.setState({CreditRating: value})}
+                                />
+                            </Item>
+                        )}
+                        {this.props.PlatId===3 && (
+                            <Item regular style={styles.itemStyle}>
+                                <Input
+                                    placeholderTextColor='#ccc'
+                                    placeholder="帐户级别"
+                                    value = {this.state.AccountLevel}
+                                    onChangeText={(value)=>this.setState({AccountLevel: value})}
+                                />
+                            </Item>
+                        )}
+                        {this.props.PlatId===1 && (
+                            <View style={{marginBottom: 10,...Styles.cardStyleEmpty, paddingVertical: 10, ...Styles.shadowStyle, ...Styles.borderBottomStyle}}>
+                                <Text style={{...Styles.normalTextStyle}}>选择垫付金额</Text>
+                                <View style={{...Styles.ColumnCenterRight}}>
+                                    <View style={{...Styles.RowCenterRight}}>
+                                        <Text style={{...Styles.normalTextStyle, marginRight: 10}}>淘气值</Text>
+                                        <Text style={{color: Color.textInfoOrange}}>{this.state.TaobaoValue===500? ``:'500-'}{this.state.TaobaoValue}</Text>
+                                    </View>
+
+                                </View>
+                                <View style={{flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    paddingTop: 20}}>
+                                    <SnapSlider ref="slider" containerStyle={styles.snapsliderContainer} style={styles.snapslider}
+                                                itemWrapperStyle={styles.snapsliderItemWrapper}
+                                                itemStyle={styles.snapsliderItem}
+                                                items={this.priceOptions}
+                                                labelPosition="bottom"
+                                                defaultItem={this.state.defaultItem}
+                                                onSlidingComplete={this.slidingComplete1} />
                                 </View>
                             </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={.9} style={{flex:1, flexDirection: 'row', alignItems: 'center', marginVertical: 10, ...Styles.bottomBorderStyle}}>
-                            <View style={{flex:1, flexDirection: 'row', alignItems:'center'}}>
-                                <Text style={{color: Color.textNormal}}>淘气值</Text>
-                            </View>
-                            <View style={{flex:1,}}>
-                                <View style={{...Styles.RowCenterRight}} activeOpacity={0.8}>
-                                    <Text style={{color: Color.textNormal}}>{this.state.TaobaoValue}以下</Text>
-                                    <Icon type='Entypo' name='chevron-thin-right' style={{marginLeft: 10, color:Color.textNormal, fontSize: Styles.fontNormal}}/>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                        <Item regular style={styles.itemStyle}>
-                            <Input
-                                placeholderTextColor='#ccc'
-                                placeholder="订单编号"
-                                value = {this.state.OrderNo}
-                                onChangeText={(value)=>this.setState({OrderNo: value})}
-                            />
-                        </Item>
+                        )}
+                        {(this.props.PlatId===1 || this.props.PlatId===5) && (
+                            <Item regular style={styles.itemStyle}>
+                                <Input
+                                    placeholderTextColor='#ccc'
+                                    placeholder="订单编号"
+                                    value = {this.state.OrderNo}
+                                    onChangeText={(value)=>this.setState({OrderNo: value})}
+                                />
+                            </Item>
+                        )}
                         {this.props.PlatId===1 && (
                             <View style={{...Styles.RowCenterLeft, paddingVertical: 10, marginTop: 10}}>
-                                <TouchableOpacity onPress={()=> {this.setState({bShowCategories: true})}}>
+                                <Button small light onPress={()=> {this.setState({bShowCategories: true})}}>
                                     <Text style={{color: Color.textNormal, fontSize: Styles.fontNormal}}>购物类目</Text>
-                                </TouchableOpacity>
-                                <View><Text>{this.state.multipleSelectedDataLimited.toString()}</Text></View>
+                                </Button>
+                                <View style={{marginLeft: 5, flexWrap: 'wrap'}}><Text>{this.state.multipleSelectedDataLimited.toString()}</Text></View>
                             </View>
                         )}
                     </View>
@@ -557,28 +725,28 @@ class BindTabaoAccount extends Component {
                                 </View>
                             )}
                             {(PlatId===6 || PlatId===7) && (
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
-                                    { this.state.UserInfoImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserInfoImg} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>个人信息</Text>
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(2)}>
+                                        { this.state.UserInfoImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserInfoImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>个人信息</Text>
+                                    </View>
                                 </View>
-                            </View>
                             )}
                             {(PlatId===3 || PlatId===5) && (
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
-                                    { this.state.UserCenterImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserCenterImg} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>会员中心</Text>
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(3)}>
+                                        { this.state.UserCenterImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.UserCenterImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>会员中心</Text>
+                                    </View>
                                 </View>
-                            </View>
                             )}
                             {PlatId===1 && (
                                 <View style={{flex:1, marginRight:3}}>
@@ -592,41 +760,41 @@ class BindTabaoAccount extends Component {
                                     </View>
                                 </View>
                             )}
-                            {(PlatId===1 || PlatId===3) && (
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(5)}>
-                                    { this.state.AccountLevelImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.AccountLevelImg} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>帐户等级</Text>
+                            {(PlatId===3) && (
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(5)}>
+                                        { this.state.AccountLevelImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.AccountLevelImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>帐户等级</Text>
+                                    </View>
                                 </View>
-                            </View>
-                            )}
-                            {PlatId===3 && (
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(6)}>
-                                    { this.state.VerifiedImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.VerifiedImg} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>实名认证</Text>
-                                </View>
-                            </View>
                             )}
                             {(PlatId===1 || PlatId===3) && (
-                            <View style={{flex:1, marginRight:3}}>
-                                <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(7)}>
-                                    { this.state.BorrowingImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
-                                        <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.BorrowingImg} />
-                                    }
-                                </TouchableOpacity>
-                                <View style={{...Styles.ColumnCenter}}>
-                                    <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>花呗图片</Text>
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(6)}>
+                                        { this.state.VerifiedImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.VerifiedImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>实名认证</Text>
+                                    </View>
                                 </View>
-                            </View>
+                            )}
+                            {(PlatId===1 || PlatId===3) && (
+                                <View style={{flex:1, marginRight:3}}>
+                                    <TouchableOpacity activeOpacity={.9} style={{...Styles.borderStyle}} onPress={()=>this.selectPhotoTapped(7)}>
+                                        { this.state.BorrowingImg === null ? <Text style={{fontFamily:'sans-serif-thin',fontSize: 72,color:Color.LightBlue}}>+</Text> :
+                                            <Image style={{flex:1, width: undefined, aspectRatio:1,}} resizeMode={'cover'} source={this.state.BorrowingImg} />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style={{...Styles.ColumnCenter}}>
+                                        <Text style={{fontSize: Styles.fontSmall, color: Color.textNormal}}>花呗图片</Text>
+                                    </View>
+                                </View>
                             )}
 
                             {(PlatId===5 || PlatId===6 || PlatId===7) && (
@@ -639,7 +807,6 @@ class BindTabaoAccount extends Component {
                             {(PlatId===6 || PlatId===7) && (
                                 <View style={{flex:1, marginRight:3}}></View>
                             )}
-
 
                         </View>
                     </View>
@@ -675,6 +842,26 @@ const styles ={
         fontSize: 20,
         alignSelf: 'center',
         color: 'red'
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF'
+    },
+
+    snapsliderContainer: {
+        borderWidth: 0,
+        backgroundColor: 'transparent'
+    },
+    snapslider: {
+        borderWidth: 0,
+    },
+    snapsliderItemWrapper: {
+        borderWidth: 0
+    },
+    snapsliderItem: {
+        borderWidth: 0,
     }
 } ;
 
@@ -696,5 +883,7 @@ const mapStateToProps = (state) => {
     const {tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj} = state.platformReducer;
     return {user, provinces, cities, districts, tabaoObj, tabaoMsg,tabaoLoading,bPlatformBindSubmittedStatus,shopCategoryObj};
 };
-export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitTabaoAccount,getAllShoppingCategories,initializeStatus})(BindTabaoAccount);
+export default connect(mapStateToProps, {getAreaLists,getMemberPlatformInfo, submitPlatformAccount,getAllShoppingCategories,initializeStatus,
+    submitTaobaoAccount,submitJinDongAccount,submitPinDuoDuoAccount,submitBeautifulAccount
+})(BindTabaoAccount);
 

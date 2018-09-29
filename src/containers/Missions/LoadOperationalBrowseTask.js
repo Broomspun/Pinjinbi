@@ -4,12 +4,12 @@ import Timer from 'react-timer-mixin';
 import {connect} from 'react-redux';
 import {Button, Container, Content, Text, Textarea} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
-import {loadOperationTask, initializeStatus, verifyShopName, submitTask, getMemberTaskAccept} from "../../actions";
+import {loadOperationTask, initializeStatus, verifyShopName, submitTask, getMemberTaskAccept,getMyOrdersSummary} from "../../actions";
 import ImagePicker from "react-native-image-picker";
 
 import {
     INITIALIZE_LOAD_OPERATIONAL_STATUS,
-    INITIALIZE_SUBMIT_TASK_STATUS,
+    INITIALIZE_SUBMIT_TASK_STATUS, INITIALIZE_VERIFY_SHOP_NAME_STATUS,
 } from "../../actions/types";
 
 import {Actions} from "react-native-router-flux";
@@ -30,7 +30,8 @@ class LoadOperationalBrowseTask extends Component {
             TargetProductTopImg: null,
             TargetProductBottomImg: null,
             isVisibleSubmitModal: false,
-            shopName: '',
+            ShopName: '',
+            bVerifiedShopName: false
         };
 
         if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
@@ -59,7 +60,19 @@ class LoadOperationalBrowseTask extends Component {
         if(nextProps.submitTaskStatus!==null && nextProps.submitTaskStatus){
             this.setState({isVisibleSubmitModal: true});
         }
+        if(nextProps.verifyShopNameStatus!==null) {
+            if(nextProps.verifyShopNameStatus)
+                this.setState({bVerifiedShopName: true});
 
+            Alert.alert(
+                'Verify Status',
+                nextProps.verifyShopNameStatusMsg,
+                [
+                    {text: 'OK', onPress: () => this.props.initializeStatus(INITIALIZE_VERIFY_SHOP_NAME_STATUS)},
+                ],
+                {cancelable: false}
+            )
+        }
     }
 
     componentWillUnmount() {
@@ -124,6 +137,18 @@ class LoadOperationalBrowseTask extends Component {
           const {UserId, Token} = this.props.user;
           const {SearchPageImg, TargetProductTopImg, TargetProductBottomImg} = this.state;
 
+          if(!this.state.bVerifiedShopName){
+              Alert.alert(
+                  'Warning',
+                  'Please verify shop name',
+                  [
+                      {text: 'OK', onPress: () => console.log('pressed')},
+                  ],
+                  {cancelable: false}
+              );
+              return;
+          }
+
           if(!SearchPageImg || !TargetProductTopImg || !TargetProductBottomImg){
               Alert.alert(
                   '失败',
@@ -147,13 +172,32 @@ class LoadOperationalBrowseTask extends Component {
       }
     };
 
+    onVerifyShopname = () => {
+
+        const {UserId, Token} = this.props.user;
+
+        if(this.state.ShopName===''){
+            Alert.alert(
+                'Warning',
+                'Please put in shop name',
+                [
+                    {text: 'OK', onPress: () => console.log('pressed')},
+                ],
+                {cancelable: false}
+            );
+            return;
+        }
+
+        this.props.verifyShopName(UserId, Token, this.props.loadTaskObj.TaskAcceptNo, this.state.ShopName);
+    };
+
     onTouchModalCloseButton = () => {
         this.setState({isVisibleSubmitModal: false});
         this.props.initializeStatus(INITIALIZE_SUBMIT_TASK_STATUS);
 
+        const {UserId, Token}  = this.props.user;
         if(this.props.user && (this.props.taskObj || this.props.loadTaskObj)) {
             const {taskObj, loadTaskObj} = this.props;
-            const {UserId, Token}  = this.props.user;
 
             if(this.props.loadTaskObj)
                 this.props.loadOperationTask(UserId, Token,loadTaskObj.TaskAcceptNo);
@@ -161,6 +205,7 @@ class LoadOperationalBrowseTask extends Component {
             else
                 this.props.loadOperationTask(UserId, Token,taskObj.TaskAcceptNo);
         }
+        this.props.getMyOrdersSummary(UserId, Token);
 
         Timer.setTimeout(async () => {
             Actions.acceptedTask({task_step: 2});
@@ -289,13 +334,14 @@ class LoadOperationalBrowseTask extends Component {
                     </View>
                     <View style={{paddingBottom: 10}}>
                             <Textarea rowSpan={3}
-                                      value={this.state.shopName}
-                                      onChangeText={(value)=>this.setState({shopName: value})}
-                                      bordered placeholder="如需核实，请在此粘贴商品链接" />
+                                      value={this.state.ShopName}
+                                      onChangeText={(value)=>this.setState({ShopName: value})}
+                                      bordered placeholder="如需核实，请在此粘贴店铺名称" />
                         <View style={{paddingTop: 15, paddingBottom: 5}}>
                             <View style={{...Styles.RowCenterBetween}}>
                                 <View style={{flex: 1}}>
                                     <Button small light
+                                            onPress={()=>this.setState({ShopName: ''})}
                                             style={{
                                                 alignSelf: 'flex-end', marginRight: 15
                                             }}
@@ -305,6 +351,7 @@ class LoadOperationalBrowseTask extends Component {
                                 </View>
                                 <View style={{flex: 1}}>
                                     <Button  small
+                                             onPress={()=>this.onVerifyShopname()}
                                              style={{
                                                  alignSelf: 'flex-start', backgroundColor: Color.LightBlue, margintLeft: 15
                                              }}
@@ -403,11 +450,12 @@ const mapStateToProps = (state) => {
     const {user} = state.loginForm;
     const {taskObj,taskObjMsg,taskObjStatus,loadTaskObj, loadTaskStatus, loadTaskMsg,
         submitTaskMsg,submitTaskStatus,
+        verifyShopNameStatusObj,verifyShopNameStatusMsg,verifyShopNameStatus
     } = state.taskReducer;
-    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus
-
+    return {user,taskObj,taskObjMsg,taskObjStatus, loadTaskObj, loadTaskStatus, loadTaskMsg, submitTaskMsg,submitTaskStatus,
+        verifyShopNameStatusObj,verifyShopNameStatusMsg,verifyShopNameStatus
     };
 };
 
-export default connect(mapStateToProps, {initializeStatus, loadOperationTask, verifyShopName, submitTask, getMemberTaskAccept})(LoadOperationalBrowseTask);
+export default connect(mapStateToProps, {initializeStatus, getMyOrdersSummary,loadOperationTask, verifyShopName, submitTask, getMemberTaskAccept})(LoadOperationalBrowseTask);
 

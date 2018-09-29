@@ -1,5 +1,3 @@
-import _Tab5 from './Tab5';
-export const Tab5 = _Tab5;
 
 import _BrowseTab1 from './BrowseTab1';
 export const BrowseTab1 = _BrowseTab1;

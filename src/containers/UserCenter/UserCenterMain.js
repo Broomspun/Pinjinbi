@@ -163,28 +163,30 @@ class UserCenterMain extends Component {
                                 </TouchableOpacity>
                                 {BrowseUndone>0 && (
                                     <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
-
                                         <Text style={{color: 'white', fontSize: 12}}>{BrowseUndone}</Text>
-
                                     </View>
                                 )}
                             </View>
                             <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>未完成</Text>
                         </View>
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
-                            <Image source={Images.user_center_icon_01} style={{width: 25, height: 26}}></Image>
-                            {BrowseCompleted>0 && (
-                                <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
-
-                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseCompleted}</Text>
-
-                                </View>
-                            )}
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity onPress={()=>Actions.myorders()}>
+                                    <Image source={Images.user_center_icon_01} style={{width: 25, height: 26}}></Image>
+                                </TouchableOpacity>
+                                {BrowseCompleted>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseCompleted}</Text>
+                                    </View>
+                                )}
                                 <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>已完成</Text>
+                            </View>
                         </View>
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
                             <View style={{position: 'relative'}}>
-                                <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
+                                <TouchableOpacity onPress={()=>Actions.myorders()}>
+                                    <Image source={Images.user_center_icon_04} style={{width: 26, height: 26}}></Image>
+                                </TouchableOpacity>
                                 {BrowseRevoked>0 && (
                                     <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
 
@@ -196,15 +198,17 @@ class UserCenterMain extends Component {
                             </View>
                         </View>
                         <View style={{flex:1, ...Styles.ColumnCenter}}>
-                            <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
-                            {BrowseAppeal>0 && (
-                                <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
-
-                                    <Text style={{color: 'white', fontSize: 12}}>{BrowseAppeal}</Text>
-
-                                </View>
-                            )}
-                            <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>申诉中</Text>
+                            <View style={{position: 'relative'}}>
+                                <TouchableOpacity onPress={()=>Actions.myorders()}>
+                                    <Image source={Images.user_center_icon_03} style={{width: 23, height: 26}}></Image>
+                                </TouchableOpacity>
+                                {BrowseAppeal>0 && (
+                                    <View style={{position: 'absolute', width: 16, height: 16, backgroundColor: Color.orangeColor, ...Styles.ColumnCenter, right: -6, top:-6, borderRadius: 10}}>
+                                        <Text style={{color: 'white', fontSize: 12}}>{BrowseAppeal}</Text>
+                                    </View>
+                                )}
+                                <Text style={{fontSize: Styles.fontSmaller, color: Color.textLight, marginTop: 5}}>申诉中</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -335,7 +339,7 @@ class UserCenterMain extends Component {
                 <Footer>
                     <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-around', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.home()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.main()}>
                                 <Image source={Images.homeIcon} style={{width: 26, height: 26}} />
                                 <Text style={{fontSize:14, color:Color.textNormal}}>首页</Text>
                             </TouchableOpacity>

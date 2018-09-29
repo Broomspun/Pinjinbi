@@ -11,7 +11,8 @@ import {Images, Constants, Color, Styles} from '@common';
 import {Actions} from "react-native-router-flux";
 
 import {getBindingInfo,requestInfo} from './../../Services'
-import {homeLoading, getHomeBanners, isCompletedNoviceTask} from "../../actions";
+import {homeLoading, getHomeBanners, isCompletedNoviceTask, initializeStatus} from "../../actions";
+import {FIRE_LOGIN_FORM, UNFIRE_LOGIN_FORM} from "../../actions/types";
 
 const BannerWidth = Dimensions.get('window').width;
 const BannerHeight = 200;
@@ -31,6 +32,7 @@ class Home extends Component {
         let date = parseInt(today.getDate());
         if(month<10)   month = '0'+ month;
         if(date<10)   date = '0'+ date;
+        console.log('hello');
 
         let today_1 = today.getFullYear()+'-'+month+'-'+date;
 
@@ -68,12 +70,13 @@ class Home extends Component {
         }
     }
 
-    componentWillMount() {
+    componentWillUnmount() {
+        console.log('exited home');
+        this.props.initializeStatus(UNFIRE_LOGIN_FORM);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(!nextProps.user)
-            Actions.auth();
+
     }
 
     componentDidUpdate() {
@@ -409,4 +412,4 @@ const mapStateToProps = (state) => {
     const {noviceObj, noviceMsg, bNoviceLoading} = state.memberReducer;
     return {user,homeBanners,noviceObj, noviceMsg, bNoviceLoading}
 };
-export default connect(mapStateToProps, {homeLoading, getHomeBanners,isCompletedNoviceTask})(Home);
+export default connect(mapStateToProps, {homeLoading, getHomeBanners,isCompletedNoviceTask,initializeStatus})(Home);

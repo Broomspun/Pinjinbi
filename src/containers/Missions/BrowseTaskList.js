@@ -156,7 +156,7 @@ class BrowseTaskList extends Component {
                 <View style={{height: 60}}>
                     <FooterTab  style={{flex: 1, flexDirection: 'row',backgroundColor: '#deedff', justifyContent: 'space-around', paddingLeft: 15, paddingRight: 15, alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
                         <View style={{alignItems: 'center', flex: 1}}>
-                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.home()}>
+                            <TouchableOpacity block style={{alignItems: 'center', paddingHorizontal: 0}} onPress={()=>Actions.main()}>
                                 <Image source={Images.homeIcon} style={{width: 26, height: 26}} />
                                 <Text style={{fontSize:14, color:Color.textNormal}}>首页</Text>
                             </TouchableOpacity>

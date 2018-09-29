@@ -132,30 +132,6 @@ export const TabaoMain = _TabaoMain;
 import _BindTabaoAccount from './Verify/Elements/Platforms/Tabao/BindTabaoAccount';
 export const BindTabaoAccount = _BindTabaoAccount;
 
-import _JingDongMain from './Verify/Elements/Platforms/JD/JingDongMain';
-export const JingDongMain = _JingDongMain;
-
-import _BindJingDongAccount from './Verify/Elements/Platforms/JD/BindJingDongAccount';
-export const BindJingDongAccount = _BindJingDongAccount;
-
-import _PinDuoDuoMain from './Verify/Elements/Platforms/PinDuoDuo/PinDuoDuoMain';
-export const PinDuoDuoMain = _PinDuoDuoMain;
-
-import _BindPinDuoDuoAccount from './Verify/Elements/Platforms/PinDuoDuo/BindPinDuoDuoAccount';
-export const BindPinDuoDuoAccount = _BindPinDuoDuoAccount;
-
-import _MushroomStreetMain from './Verify/Elements/Platforms/MushroomStreet/MushroomStreetMain';
-export const MushroomStreetMain = _MushroomStreetMain;
-
-import _BindMushroomStreetAccount from './Verify/Elements/Platforms/MushroomStreet/BindMushroomStreetAccount';
-export const BindMushroomStreetAccount = _BindMushroomStreetAccount;
-
-import _BeautifulMain from './Verify/Elements/Platforms/Beautiful/BeautifulMain';
-export const BeautifulMain = _BeautifulMain;
-
-import _BindBeautifulAccount from './Verify/Elements/Platforms/Beautiful/BindBeautifulAccount';
-export const BindBeautifulAccount = _BindBeautifulAccount;
-
 import _VIPMain from './UserCenter/VIP/VIPMain';
 export const VIPMain = _VIPMain;
 
