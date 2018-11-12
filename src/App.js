@@ -10,6 +10,7 @@ import { YellowBox, BackHandler } from 'react-native'
 import {FIRE_LOGIN_FORM} from "./actions/types";
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
 
+
 export default class App extends Component{
     componentDidMount () {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);

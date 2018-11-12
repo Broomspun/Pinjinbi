@@ -32,7 +32,6 @@ class Home extends Component {
         let date = parseInt(today.getDate());
         if(month<10)   month = '0'+ month;
         if(date<10)   date = '0'+ date;
-        console.log('hello');
 
         let today_1 = today.getFullYear()+'-'+month+'-'+date;
 

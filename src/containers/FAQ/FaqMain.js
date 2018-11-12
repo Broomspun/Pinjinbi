@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
-import {Platform, UIManager, Image, View, Text, PixelRatio, TouchableOpacity} from 'react-native'
+import {Platform, UIManager, Image, View, Text, PixelRatio, TouchableOpacity, NativeModules, Linking} from 'react-native'
 
 import { Container, Content, Button} from 'native-base';
 import {Images, Constants, Color, Styles} from '@common';
 import {CardBlock,Spinner1} from '@components'
 import {getHelpLists} from "../../actions";
-
 
 class FaqMain extends Component {
 
@@ -44,6 +43,15 @@ class FaqMain extends Component {
             )
     };
 
+    onOpenQQ = ()=>{
+        let url = `mqqwpa://im/chat?chat_type=wpa&uin=${this.props.qqConsult}`
+
+        Linking.openURL(url);
+        // NativeModules.ActivityStarter.navigateToQQ()}
+        // SendIntentAndroid.isAppInstalled('mqq://').then((res) => {console.log(res)});
+        // SendIntentAndroid.openMaps('Piccadilly Circus Station, London, United Kingdom');
+    };
+
     render() {
         return(
             <Container style={{backgroundColor: Color.mainBackground, marginTop: 10, marginBottom: 10}}>
@@ -66,7 +74,9 @@ class FaqMain extends Component {
                         </Text>
                     </View>
 
-                    <Button block style={{marginTop: 20, borderRadius: 5, backgroundColor: Color.LightBlue, marginLeft: 15, marginRight: 15}} >
+                    <Button block
+                    onPress = {()=>this.onOpenQQ()}
+                            style={{marginTop: 20, borderRadius: 5, backgroundColor: Color.LightBlue, marginLeft: 15, marginRight: 15}} >
                         <Text style={{color: 'white',fontSize: Styles.fontLarge}}>QQ咨询</Text>
                     </Button>
                 </Content>
